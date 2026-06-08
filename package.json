@@ -1,0 +1,40 @@
+{
+  "name": "sql-dojo",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "predev": "node scripts/sync-content.mjs",
+    "dev": "next dev --port 5176",
+    "prebuild": "node scripts/sync-content.mjs",
+    "build": "next build",
+    "start": "next start --port 5176",
+    "type-check": "tsc --noEmit",
+    "sync:content": "node scripts/sync-content.mjs",
+    "db:smoke": "node scripts/db-smoke.mjs"
+  },
+  "dependencies": {
+    "@codemirror/lang-sql": "^6.8.0",
+    "@codemirror/state": "^6.5.0",
+    "@codemirror/view": "^6.36.0",
+    "@electric-sql/pglite": "^0.3.0",
+    "@uiw/react-codemirror": "^4.23.6",
+    "clsx": "^2.1.1",
+    "next": "16.1.6",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "react-markdown": "^9.0.1",
+    "rehype-raw": "^7.0.0",
+    "remark-gfm": "^4.0.0",
+    "tailwind-merge": "^3.4.1",
+    "zod": "^4.3.6",
+    "zustand": "^5.0.11"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}
