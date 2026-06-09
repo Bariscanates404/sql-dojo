@@ -38,6 +38,7 @@ export default function SorularPage() {
   const [recent, setRecent] = useState<string[]>([]);
   const [nonce, setNonce] = useState(0);
   const [answered, setAnswered] = useState(0);
+  const [correct, setCorrect] = useState(0);
 
   const stats = useQuestionProgressStore((s) => s.stats);
   const record = useQuestionProgressStore((s) => s.record);
@@ -63,6 +64,7 @@ export default function SorularPage() {
     setRecent([next.id]);
     setNonce((n) => n + 1);
     setAnswered(0);
+    setCorrect(0);
     setPhase('active');
   }
 
@@ -79,7 +81,7 @@ export default function SorularPage() {
     return (
       <div className="flex flex-col gap-4">
         <div className="flex items-center justify-between">
-          <span className="text-sm text-muted">Bu oturumda yanıtlanan: {answered}</span>
+          <span className="text-sm text-muted">Bu oturumda: <strong className="text-foreground">{correct}</strong>/{answered} doğru</span>
           <Button size="sm" variant="ghost" onClick={() => setPhase('setup')}>← Filtrelere dön</Button>
         </div>
         {current ? (
@@ -90,6 +92,7 @@ export default function SorularPage() {
               onGraded={(r) => {
                 record(current.id, r);
                 setAnswered((a) => a + 1);
+                if (r.result === 'correct') setCorrect((c) => c + 1);
               }}
               onNext={next}
             />

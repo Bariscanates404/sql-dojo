@@ -26,6 +26,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <Link href="/sorular" className="hover:text-primary">
                 Sorular
               </Link>
+              <Link href="/ilerleme" className="hover:text-primary">
+                İlerleme
+              </Link>
               <Link href="/playground" className="hover:text-primary">
                 Deneme
               </Link>

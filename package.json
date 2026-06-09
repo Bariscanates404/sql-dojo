@@ -9,8 +9,14 @@
     "build": "next build",
     "start": "next start --port 5176",
     "type-check": "tsc --noEmit",
+    "lint": "eslint src",
     "sync:content": "node scripts/sync-content.mjs",
-    "db:smoke": "node scripts/db-smoke.mjs"
+    "db:smoke": "node scripts/db-smoke.mjs",
+    "qa:strip": "node scripts/strip-smoke.mjs",
+    "qa:bank": "node scripts/questions-smoke.mjs",
+    "qa:lessons": "node scripts/lesson-results-check.mjs",
+    "check": "npm run sync:content && npm run type-check && npm run lint && npm run db:smoke && npm run qa:strip && npm run qa:bank",
+    "prepare": "husky || true"
   },
   "dependencies": {
     "@codemirror/lang-sql": "^6.8.0",
@@ -34,7 +40,10 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "eslint": "^9.39.4",
+    "husky": "^9.1.7",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "typescript-eslint": "^8.61.0"
   }
 }
