@@ -10,6 +10,8 @@ const srcLessons = path.join(root, 'content', 'lessons');
 const srcSeed = path.join(root, 'content', 'seed');
 const outLessons = path.join(root, 'public', 'content', 'lessons');
 const outSeed = path.join(root, 'public', 'content', 'seed');
+const srcQuestions = path.join(root, 'content', 'questions');
+const outQuestions = path.join(root, 'public', 'content', 'questions');
 
 // Canonical curriculum order (ÜG güvenlik comes after Ü3 per curriculum).
 const ORDER = ['U0', 'U1', 'U2', 'U3', 'UG', 'U4', 'U5', 'U6', 'U7', 'U8', 'U9', 'U10', 'U11', 'U12', 'U13', 'U14'];
@@ -53,7 +55,22 @@ async function main() {
 
   await writeFile(path.join(outLessons, 'index.json'), JSON.stringify(index, null, 2));
 
-  console.log(`[sync-content] ${seedFiles.length} seed, ${lessonFiles.length} ders -> public/content`);
+  // Questions: merge all content/questions/*.json arrays into one bank.json
+  await mkdir(outQuestions, { recursive: true });
+  let bank = [];
+  try {
+    const qFiles = (await readdir(srcQuestions)).filter((f) => f.endsWith('.json'));
+    for (const f of qFiles) {
+      const arr = JSON.parse(await readFile(path.join(srcQuestions, f), 'utf8'));
+      if (!Array.isArray(arr)) throw new Error(`${f} bir dizi (array) olmalı`);
+      bank.push(...arr);
+    }
+  } catch (e) {
+    if (e.code !== 'ENOENT') throw e; // questions klasörü yoksa sorun değil
+  }
+  await writeFile(path.join(outQuestions, 'bank.json'), JSON.stringify(bank, null, 2));
+
+  console.log(`[sync-content] ${seedFiles.length} seed, ${lessonFiles.length} ders, ${bank.length} soru -> public/content`);
 }
 
 main().catch((e) => {

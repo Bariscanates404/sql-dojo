@@ -1,0 +1,102 @@
+[
+  {
+    "id": "q-u14-mc-view-concept-001", "type": "multiple_choice", "unit": "U14", "lessonId": "U14-view-index", "conceptTags": ["view"], "difficulty": 2,
+    "tr": {
+      "title": "VIEW (görünüm) nedir?",
+      "prompt": "Bir VIEW (görünüm) en doğru şekilde nasıl tanımlanır?",
+      "hint1": "View veri mi saklar, sorgu mu?",
+      "answerExplanation": "VIEW, kaydedilmiş bir SORGUDUR (kendi başına veri saklamaz). Ona bir tablo gibi SELECT attığında, altındaki sorgu o anda çalışır ve güncel sonucu verir. Karmaşık sorgulara ad verip tekrar tekrar kullanmayı sağlar."
+    },
+    "choices": ["Kaydedilmiş bir sorgudur; tablo gibi SELECT'lenir, her seferinde altındaki sorgu çalışır", "Verinin ikinci bir kopyasıdır", "Tablonun yedeğidir", "Sadece indeks tutan özel bir tablodur"], "correctIndex": 0
+  },
+  {
+    "id": "q-u14-mc-view-syntax-001", "type": "multiple_choice", "unit": "U14", "lessonId": "U14-view-index", "conceptTags": ["view", "ddl"], "difficulty": 2,
+    "tr": {
+      "title": "CREATE VIEW söz dizimi",
+      "prompt": "Yalnızca tamamlanmış siparişleri gösteren 'tamamlanan_siparisler' adlı bir VIEW oluşturmak için doğru komut iskeleti hangisidir?",
+      "hint1": "CREATE VIEW ad AS <sorgu>;",
+      "answerExplanation": "Doğru: CREATE VIEW tamamlanan_siparisler AS SELECT ... FROM orders WHERE status = 'completed'; — 'AS' sonrası view'ın saklayacağı sorgu gelir. CREATE TABLE ... AS bir tablo (veri kopyası) oluşturur, view değil."
+    },
+    "choices": ["CREATE VIEW tamamlanan_siparisler AS SELECT * FROM orders WHERE status = 'completed';", "CREATE VIEW tamamlanan_siparisler = SELECT * FROM orders WHERE status = 'completed';", "VIEW tamamlanan_siparisler AS SELECT * FROM orders WHERE status = 'completed';", "CREATE VIEW tamamlanan_siparisler FROM orders WHERE status = 'completed';"], "correctIndex": 0
+  },
+  {
+    "id": "q-u14-mc-view-vs-cte-001", "type": "multiple_choice", "unit": "U14", "lessonId": "U14-view-index", "conceptTags": ["view", "cte"], "difficulty": 3,
+    "tr": {
+      "title": "VIEW ile CTE (WITH) farkı",
+      "prompt": "Bir VIEW ile bir CTE (WITH) arasındaki temel fark nedir?",
+      "hint1": "Hangisi kalıcı, hangisi tek sorgu içinde yaşar?",
+      "answerExplanation": "VIEW kalıcıdır: bir kez oluşturulur, sonra BİRÇOK farklı sorguda tekrar tekrar kullanılır. CTE ise yalnızca içinde tanımlandığı O TEK sorgu boyunca yaşar; sorgu bitince yok olur. Tekrar kullanım gerekiyorsa VIEW, tek seferlik ara adım için CTE."
+    },
+    "choices": ["VIEW kalıcıdır ve birçok sorguda tekrar kullanılır; CTE yalnız tanımlandığı tek sorguda yaşar", "İkisi de kalıcıdır", "CTE kalıcı, VIEW geçicidir", "İkisi de veri saklar"], "correctIndex": 0
+  },
+  {
+    "id": "q-u14-mc-index-purpose-001", "type": "multiple_choice", "unit": "U14", "lessonId": "U14-view-index", "conceptTags": ["index"], "difficulty": 2,
+    "tr": {
+      "title": "INDEX ne işe yarar?",
+      "prompt": "Bir tablodaki bir sütuna INDEX (indeks) eklemenin temel amacı nedir?",
+      "hint1": "Kitabın sonundaki dizini düşün.",
+      "answerExplanation": "Index, o sütundaki aramayı/filtrelemeyi HIZLANDIRIR; veritabanı tüm tabloyu taramak yerine indeksten hızlıca ilgili satırlara gider (kitabın arkasındaki dizin gibi). Özellikle büyük tablolarda WHERE/JOIN'leri hızlandırır."
+    },
+    "choices": ["O sütundaki arama/filtrelemeyi hızlandırır", "Veriyi şifreler", "Sütunu benzersiz yapar", "Tabloyu küçültür (veriyi siler)"], "correctIndex": 0
+  },
+  {
+    "id": "q-u14-mc-index-tradeoff-001", "type": "multiple_choice", "unit": "U14", "lessonId": "U14-view-index", "conceptTags": ["index", "tradeoff"], "difficulty": 3,
+    "tr": {
+      "title": "INDEX'in maliyeti",
+      "prompt": "Index okumayı hızlandırır; peki maliyeti nedir? Hangisi DOĞRUDUR?",
+      "hint1": "Veri değiştiğinde indekse ne olur?",
+      "answerExplanation": "Index bedavaya gelmez: ek DEPOLAMA kaplar ve YAZMA işlemlerini (INSERT/UPDATE/DELETE) yavaşlatır, çünkü veri değiştikçe index de güncellenmek zorundadır. Bu yüzden 'her sütuna index' değil, gerçekten sık sorgulanan sütunlara index konur."
+    },
+    "choices": ["Ek depolama kaplar ve yazma (INSERT/UPDATE/DELETE) işlemlerini yavaşlatır", "Hiçbir maliyeti yoktur, her sütuna konmalı", "Okumayı da yavaşlatır", "Veriyi bozar"], "correctIndex": 0
+  },
+  {
+    "id": "q-u14-mc-index-no-result-001", "type": "multiple_choice", "unit": "U14", "lessonId": "U14-view-index", "conceptTags": ["index"], "difficulty": 3,
+    "tr": {
+      "title": "Index sonucu değiştirir mi?",
+      "prompt": "Bir sütuna index eklemek, o sütunu kullanan bir SELECT'in DÖNDÜRDÜĞÜ SONUÇLARI değiştirir mi?",
+      "hint1": "Index hızla mı ilgili, doğrulukla mı?",
+      "answerExplanation": "Hayır. Index yalnızca sorgunun NE KADAR HIZLI çalıştığını etkiler; hangi satırların/değerlerin döndüğünü DEĞİŞTİRMEZ. Aynı sorgu, index olsa da olmasa da aynı sonucu verir (sadece süresi farklı olabilir)."
+    },
+    "choices": ["Hayır; yalnızca hızı etkiler, sonuç aynı kalır", "Evet; daha az satır döner", "Evet; satırları sıralar", "Evet; NULL'ları gizler"], "correctIndex": 0
+  },
+  {
+    "id": "q-u14-mc-correct-then-fast-001", "type": "multiple_choice", "unit": "U14", "lessonId": "U14-view-index", "conceptTags": ["index", "philosophy"], "difficulty": 3,
+    "tr": {
+      "title": "Önce doğru, sonra hızlı",
+      "prompt": "Bir sorguyu yazarken performans (index ekleme vb.) ne zaman düşünülmelidir?",
+      "hint1": "Hangisi önce gelir: doğru sonuç mu, hız mı?",
+      "answerExplanation": "Önce sorgu DOĞRU sonucu versin; performans sonra gelir. Erken/körü körüne index eklemek karmaşıklık ve yazma maliyeti getirir. Gerçekten yavaşlık ölçtüğünde (örn. EXPLAIN ile darboğazı görüp) hedefli index eklersin. 'Önce doğru, sonra (gerekirse, ölçerek) hızlı.'"
+    },
+    "choices": ["Önce sorgu doğru çalışmalı; performans sonra, gerçekten gerekince ve ölçerek düşünülür", "En baştan her sütuna index eklenmeli", "Performans hiç önemli değildir", "Önce hız, doğruluk sonra"], "correctIndex": 0
+  },
+  {
+    "id": "q-u14-view-query-completed-001", "type": "write_sql", "unit": "U14", "lessonId": "U14-view-index", "conceptTags": ["view", "where", "select"], "difficulty": 2,
+    "tr": {
+      "title": "Bir view'ın saracağı sorgu",
+      "prompt": "'tamamlanan_siparisler' adlı bir view oluşturacaksın, ama önce view'ın içine koyacağın SELECT'i yazıp doğrula. (View OLUŞTURMA; sadece SELECT'i yaz.) İstenen: status'u 'completed' olan siparişlerin id ve student_id'si. Sonuçta iki sütun olsun, bu sırayla: id ve student_id. Sonucu id'ye göre artan sırala.",
+      "hint1": "View'ın gövdesi normal bir SELECT'tir: SELECT id, student_id FROM orders WHERE status = 'completed' ORDER BY id.",
+      "answerExplanation": "Bir view, içine koyacağın SELECT'in kaydedilmiş halidir. Önce SELECT'i yazıp doğru çalıştığını görmek, sonra onu CREATE VIEW ... AS ile sarmalamak iyi bir alışkanlıktır."
+    },
+    "assessment": { "referenceSql": "SELECT id, student_id FROM orders WHERE status = 'completed' ORDER BY id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["id", "student_id"], "allowedLiterals": ["completed"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-u14-view-query-summary-001", "type": "write_sql", "unit": "U14", "lessonId": "U14-view-index", "conceptTags": ["view", "join", "group-by", "count"], "difficulty": 3,
+    "tr": {
+      "title": "Özet view'ının sorgusu",
+      "prompt": "Her öğrencinin adını ve ders sayısını gösteren bir 'ogrenci_ozet' view'ı kuracaksın. Önce view'ın içindeki SELECT'i yaz (view OLUŞTURMA). İstenen: TÜM öğrenciler (kaydı olmayan da 0 ile), students'tan enrollments'a LEFT JOIN; her öğrencinin first_name'i ve ders_sayisi (COUNT(e.student_id)). Sonuçta iki sütun olsun, bu sırayla: first_name ve ders_sayisi. Sonucu öğrencinin id'sine göre artan sırala.",
+      "hint1": "LEFT JOIN + GROUP BY + COUNT(e.student_id). View'ın gövdesi bu sorgudur.",
+      "answerExplanation": "Karmaşık bir özet sorgusunu view'a koyarsan, sonra her yerde basitçe SELECT * FROM ogrenci_ozet diyebilirsin. Önce gövde sorgusunu doğru kurarız: kaydı olmayan öğrenci için COUNT(e.student_id) doğru şekilde 0 verir."
+    },
+    "assessment": { "referenceSql": "SELECT s.first_name, COUNT(e.student_id) AS ders_sayisi FROM students s LEFT JOIN enrollments e ON e.student_id = s.id GROUP BY s.id, s.first_name ORDER BY s.id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["first_name", "ders_sayisi"], "requiredConcepts": ["left-join", "group-by", "count"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-u14-view-query-expensive-001", "type": "write_sql", "unit": "U14", "lessonId": "U14-view-index", "conceptTags": ["view", "where", "select"], "difficulty": 2,
+    "tr": {
+      "title": "Pahalı ürünler view'ının sorgusu",
+      "prompt": "'pahali_urunler' view'ı için gövde sorgusunu yaz (view OLUŞTURMA): fiyatı 50'den büyük ürünlerin name ve price'ı. Sonuçta iki sütun olsun, bu sırayla: name ve price. Sonucu price'a göre büyükten küçüğe; eşitlikte name'e göre artan sırala.",
+      "hint1": "SELECT name, price FROM products WHERE price > 50 ORDER BY price DESC, name.",
+      "answerExplanation": "Bu SELECT, 'pahali_urunler' view'ının gövdesi olur. View oluşturulunca, her SELECT'te bu sorgu güncel veriyle çalışır."
+    },
+    "assessment": { "referenceSql": "SELECT name, price FROM products WHERE price > 50 ORDER BY price DESC, name ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["name", "price"], "forbiddenPatterns": ["select_star"] }
+  }
+]

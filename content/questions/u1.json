@@ -1,0 +1,263 @@
+[
+  {
+    "id": "q-u1-select-cols-001", "type": "write_sql", "unit": "U1", "lessonId": "U1-select", "conceptTags": ["select-columns"], "difficulty": 1,
+    "tr": {
+      "title": "İki sütun seçmek",
+      "prompt": "students tablosundan SADECE iki sütunu, tam bu sırayla getir: önce first_name, sonra last_name. Başka hiçbir sütun olmasın (id, city vb. gelmesin). Satır sırası önemli değil.",
+      "hint1": "İstediğin sütunları SELECT'ten sonra virgülle, istediğin sırayla yazarsın.",
+      "hint2": "SELECT first_name, last_name FROM students;",
+      "answerExplanation": "SELECT listesine hangi sütunları yazarsan sonuçta yalnız onlar gelir; sıraları da yazdığın sıradır. SELECT * her sütunu getireceği için burada kullanmıyoruz."
+    },
+    "assessment": { "referenceSql": "SELECT first_name, last_name FROM students;", "compareMode": "multiset", "expectedColumns": ["first_name", "last_name"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-u1-select-city-001", "type": "write_sql", "unit": "U1", "lessonId": "U1-select", "conceptTags": ["select-columns"], "difficulty": 1,
+    "tr": {
+      "title": "Tek sütun seçmek",
+      "prompt": "students tablosundan SADECE city sütununu getir. Başka sütun olmasın. Satır sırası önemli değil. (Bazı şehirler NULL olabilir; onları olduğu gibi getir, gizleme.)",
+      "hint1": "Tek bir sütun da seçebilirsin: SELECT city ...",
+      "answerExplanation": "SELECT city FROM students yalnız city sütununu getirir. NULL şehirler de sonuçta NULL olarak görünür."
+    },
+    "assessment": { "referenceSql": "SELECT city FROM students;", "compareMode": "multiset", "expectedColumns": ["city"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-u1-select-departments-001", "type": "write_sql", "unit": "U1", "lessonId": "U1-select", "conceptTags": ["select-columns"], "difficulty": 1,
+    "tr": {
+      "title": "Bölümlerin sütunları",
+      "prompt": "departments tablosundan id, name ve faculty sütunlarını, tam bu sırayla getir. Satır sırası önemli değil.",
+      "hint1": "Üç sütunu virgülle, istenen sırayla yaz.",
+      "answerExplanation": "SELECT id, name, faculty FROM departments üç sütunu yazdığın sırayla getirir."
+    },
+    "assessment": { "referenceSql": "SELECT id, name, faculty FROM departments;", "compareMode": "multiset", "expectedColumns": ["id", "name", "faculty"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-u1-select-products-001", "type": "write_sql", "unit": "U1", "lessonId": "U1-select", "conceptTags": ["select-columns"], "difficulty": 1,
+    "tr": {
+      "title": "Ürünlerin ad, kategori, fiyatı",
+      "prompt": "products tablosundan name, category ve price sütunlarını, bu sırayla getir. Başka sütun olmasın. Satır sırası önemli değil.",
+      "hint1": "SELECT name, category, price ...",
+      "answerExplanation": "İstenen üç sütunu seçeriz; id gibi diğer sütunları getirmeyiz."
+    },
+    "assessment": { "referenceSql": "SELECT name, category, price FROM products;", "compareMode": "multiset", "expectedColumns": ["name", "category", "price"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-u1-select-courses-001", "type": "write_sql", "unit": "U1", "lessonId": "U1-select", "conceptTags": ["select-columns"], "difficulty": 1,
+    "tr": {
+      "title": "Derslerin kod, ad, kredisi",
+      "prompt": "courses tablosundan code, name ve credits sütunlarını, bu sırayla getir. Başka sütun olmasın. Satır sırası önemli değil.",
+      "hint1": "SELECT code, name, credits ...",
+      "answerExplanation": "Üç sütunu yazdığın sırayla getirir."
+    },
+    "assessment": { "referenceSql": "SELECT code, name, credits FROM courses;", "compareMode": "multiset", "expectedColumns": ["code", "name", "credits"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-u1-select-clubs-001", "type": "write_sql", "unit": "U1", "lessonId": "U1-select", "conceptTags": ["select-columns"], "difficulty": 1,
+    "tr": {
+      "title": "Kulüplerin adı ve kuruluş yılı",
+      "prompt": "clubs tablosundan name ve founded_year sütunlarını, bu sırayla getir. Başka sütun olmasın. Satır sırası önemli değil.",
+      "hint1": "SELECT name, founded_year ...",
+      "answerExplanation": "İstenen iki sütunu seçeriz."
+    },
+    "assessment": { "referenceSql": "SELECT name, founded_year FROM clubs;", "compareMode": "multiset", "expectedColumns": ["name", "founded_year"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-u1-select-instructors-001", "type": "write_sql", "unit": "U1", "lessonId": "U1-select", "conceptTags": ["select-columns"], "difficulty": 1,
+    "tr": {
+      "title": "Eğitmenlerin ad, soyad, unvanı",
+      "prompt": "instructors tablosundan first_name, last_name ve title sütunlarını, bu sırayla getir. Başka sütun olmasın. Satır sırası önemli değil.",
+      "hint1": "SELECT first_name, last_name, title ...",
+      "answerExplanation": "İstenen üç sütunu seçeriz; title bazı eğitmenlerde NULL olabilir, öylece gelir."
+    },
+    "assessment": { "referenceSql": "SELECT first_name, last_name, title FROM instructors;", "compareMode": "multiset", "expectedColumns": ["first_name", "last_name", "title"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-u1-mc-column-order-001", "type": "multiple_choice", "unit": "U1", "lessonId": "U1-select", "conceptTags": ["select-columns"], "difficulty": 1,
+    "tr": {
+      "title": "Sütun sırasını ne belirler?",
+      "prompt": "Bir tablodan yalnızca belirli sütunları, istediğin sırayla getirmek istiyorsun. Aşağıdakilerden hangisi doğrudur?",
+      "hint1": "Sonuçtaki sütunların sırasını ne belirler?",
+      "answerExplanation": "Sonuçtaki sütunlar ve sıraları SELECT listesinde yazdığın sıraya göre gelir. ORDER BY satır sırasını değiştirir, sütun sırasını değil."
+    },
+    "choices": ["SELECT'ten sonra sütunları istediğim sırayla virgülle yazarım", "SELECT * yazarım, sıra kendiliğinden doğru gelir", "WHERE ile sütun sırasını belirlerim", "Sütun sırasını ORDER BY değiştirir"], "correctIndex": 0
+  },
+  {
+    "id": "q-u1-order-by-code-001", "type": "write_sql", "unit": "U1", "lessonId": "U1-select", "conceptTags": ["select-columns", "order-by"], "difficulty": 2,
+    "tr": {
+      "title": "Koda göre sıralamak",
+      "prompt": "courses tablosundan derslerin SADECE code ve name sütunlarını, bu sırayla getir. Sonucu code sütununa göre A'dan Z'ye (artan) sırala.",
+      "hint1": "Önce sütunları seç, sonra ORDER BY ile sırala.",
+      "hint2": "ORDER BY code ASC (ASC artan demektir, varsayılandır).",
+      "answerExplanation": "ORDER BY code, satırları code değerine göre alfabetik diler. Sadece code ve name istendiği için yalnız bu ikisini seçeriz."
+    },
+    "assessment": { "referenceSql": "SELECT code, name FROM courses ORDER BY code ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["code", "name"], "requiredConcepts": ["order-by"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-u1-order-name-001", "type": "write_sql", "unit": "U1", "lessonId": "U1-select", "conceptTags": ["select-columns", "order-by"], "difficulty": 2,
+    "tr": {
+      "title": "Ada göre alfabetik sıralamak",
+      "prompt": "students tablosundan first_name ve city sütunlarını, bu sırayla getir. Sonucu first_name'e göre A'dan Z'ye (artan), eşit adlarda city'ye göre artan sırala.",
+      "hint1": "ORDER BY first_name ASC, city ASC",
+      "answerExplanation": "İki anahtarlı ORDER BY: önce first_name'e göre, ad eşitse city'ye göre sıralar."
+    },
+    "assessment": { "referenceSql": "SELECT first_name, city FROM students ORDER BY first_name ASC, city ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["first_name", "city"], "requiredConcepts": ["order-by"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-u1-order-price-desc-001", "type": "write_sql", "unit": "U1", "lessonId": "U1-select", "conceptTags": ["select-columns", "order-by"], "difficulty": 2,
+    "tr": {
+      "title": "Fiyata göre pahalıdan ucuza",
+      "prompt": "products tablosundan name ve price sütunlarını, bu sırayla getir. Sonucu price'a göre büyükten küçüğe (azalan); fiyatı eşit ürünlerde name'e göre artan sırala.",
+      "hint1": "Azalan sıralama için DESC kullanılır.",
+      "hint2": "ORDER BY price DESC, name ASC",
+      "answerExplanation": "DESC en yüksek fiyatı başa alır. Eşit fiyatlarda sonuç belirsiz kalmasın diye name ASC ile ikinci kriter veriyoruz."
+    },
+    "assessment": { "referenceSql": "SELECT name, price FROM products ORDER BY price DESC, name ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["name", "price"], "requiredConcepts": ["order-by"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-u1-order-credits-001", "type": "write_sql", "unit": "U1", "lessonId": "U1-select", "conceptTags": ["select-columns", "order-by"], "difficulty": 2,
+    "tr": {
+      "title": "Krediye göre sıralı dersler",
+      "prompt": "courses tablosundan code, name ve credits sütunlarını, bu sırayla getir. Sonucu önce credits'e göre büyükten küçüğe (azalan); kredisi eşit derslerde code'a göre artan sırala.",
+      "hint1": "ORDER BY credits DESC, code ASC",
+      "answerExplanation": "Önce yüksek kredili dersler gelir; kredi eşitse code alfabetik sıralar."
+    },
+    "assessment": { "referenceSql": "SELECT code, name, credits FROM courses ORDER BY credits DESC, code ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["code", "name", "credits"], "requiredConcepts": ["order-by"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-u1-distinct-city-001", "type": "write_sql", "unit": "U1", "lessonId": "U1-select", "conceptTags": ["distinct", "order-by", "null-ordering"], "difficulty": 2,
+    "tr": {
+      "title": "Tekrarsız şehirler",
+      "prompt": "students tablosundaki FARKLI (tekrarsız) şehirleri getir. Sonuç tek sütun olsun, adı city olsun. Aynı şehir bir kez görünsün. Sonucu city'ye göre artan sırala; bilinmeyen (NULL) şehir en sonda olsun.",
+      "hint1": "Tekrarsız değerler için SELECT DISTINCT kullanılır.",
+      "hint2": "ORDER BY city ASC NULLS LAST",
+      "answerExplanation": "DISTINCT aynı şehri tek satıra indirir. DISTINCT, NULL'ı da tek bir değer sayar; NULLS LAST ile onu en sona koyuyoruz."
+    },
+    "assessment": { "referenceSql": "SELECT DISTINCT city FROM students ORDER BY city ASC NULLS LAST;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["city"], "requiredConcepts": ["distinct"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-u1-distinct-category-001", "type": "write_sql", "unit": "U1", "lessonId": "U1-select", "conceptTags": ["distinct", "order-by"], "difficulty": 2,
+    "tr": {
+      "title": "Tekrarsız ürün kategorileri",
+      "prompt": "products tablosundaki FARKLI (tekrarsız) kategorileri getir. Sonuç tek sütun olsun, adı category olsun. Sonucu category'ye göre artan sırala.",
+      "hint1": "SELECT DISTINCT category ...",
+      "answerExplanation": "DISTINCT her kategoriyi bir kez getirir."
+    },
+    "assessment": { "referenceSql": "SELECT DISTINCT category FROM products ORDER BY category ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["category"], "requiredConcepts": ["distinct"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-u1-distinct-semester-001", "type": "write_sql", "unit": "U1", "lessonId": "U1-select", "conceptTags": ["distinct", "order-by"], "difficulty": 2,
+    "tr": {
+      "title": "Tekrarsız dönemler",
+      "prompt": "enrollments tablosundaki FARKLI (tekrarsız) dönemleri (semester) getir. Sonuç tek sütun olsun, adı semester olsun. Sonucu semester'a göre artan sırala.",
+      "hint1": "SELECT DISTINCT semester ...",
+      "answerExplanation": "Kayıt tablosunda aynı dönem çok kez geçer; DISTINCT her dönemi bir kez getirir."
+    },
+    "assessment": { "referenceSql": "SELECT DISTINCT semester FROM enrollments ORDER BY semester ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["semester"], "requiredConcepts": ["distinct"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-u1-limit-first5-001", "type": "write_sql", "unit": "U1", "lessonId": "U1-select", "conceptTags": ["order-by", "limit"], "difficulty": 2,
+    "tr": {
+      "title": "İlk 5 öğrenci",
+      "prompt": "students tablosundan id ve first_name sütunlarını getir. Sonucu id'ye göre küçükten büyüğe (artan) sırala ve yalnızca İLK 5 satırı getir.",
+      "hint1": "Önce ORDER BY id ASC, sonra satır sayısını sınırlamak için LIMIT.",
+      "hint2": "ORDER BY id ASC LIMIT 5",
+      "answerExplanation": "LIMIT 5 yalnız ilk 5 satırı getirir. LIMIT'i hep bir ORDER BY ile birlikte kullan; yoksa hangi 5 satırın geleceği belirsizdir."
+    },
+    "assessment": { "referenceSql": "SELECT id, first_name FROM students ORDER BY id ASC LIMIT 5;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["id", "first_name"], "requiredConcepts": ["limit", "order-by"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-u1-alias-fullname-001", "type": "write_sql", "unit": "U1", "lessonId": "U1-select", "conceptTags": ["computed-column", "column-alias"], "difficulty": 3,
+    "tr": {
+      "title": "Ad ve soyadı birleştirmek (alias)",
+      "prompt": "students tablosundan id sütununu ve first_name ile last_name'in aralarında bir BOŞLUK olacak şekilde birleştirilmiş halini getir. Birleştirilmiş sütunun adı tam_ad olsun. Sonuçta sadece id ve tam_ad olsun, bu sırayla. Sonucu id'ye göre artan sırala.",
+      "hint1": "Metin birleştirme Postgres'te || ile yapılır: first_name || ' ' || last_name.",
+      "hint2": "... AS tam_ad ile sütuna ad ver.",
+      "answerExplanation": "|| metinleri birleştirir; aralarına ' ' (boşluk) koyuyoruz. AS tam_ad hesaplanan sütuna istenen adı verir."
+    },
+    "assessment": { "referenceSql": "SELECT id, first_name || ' ' || last_name AS tam_ad FROM students ORDER BY id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["id", "tam_ad"], "requiredConcepts": ["order-by"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-u1-computed-zamli-001", "type": "write_sql", "unit": "U1", "lessonId": "U1-select", "conceptTags": ["computed-column", "column-alias"], "difficulty": 3,
+    "tr": {
+      "title": "%20 zamlı fiyat (hesaplanan sütun)",
+      "prompt": "products tablosundan name ve price sütunlarını getir; ayrıca her ürünün price'ının %20 zamlı halini hesaplayıp zamli_fiyat adıyla üçüncü sütun olarak getir (yani price çarpı 1.2). Sonuçta sadece name, price, zamli_fiyat olsun, bu sırayla. Sonucu name'e göre artan sırala.",
+      "hint1": "Hesaplanan sütun: price * 1.2",
+      "hint2": "price * 1.2 AS zamli_fiyat",
+      "answerExplanation": "SELECT içinde aritmetik yapabilirsin; price * 1.2 her satır için hesaplanır ve AS ile adlandırılır."
+    },
+    "assessment": { "referenceSql": "SELECT name, price, price * 1.2 AS zamli_fiyat FROM products ORDER BY name ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["name", "price", "zamli_fiyat"], "numericTolerance": 0.01, "requiredConcepts": ["order-by"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-u1-scholarship-top3-001", "type": "write_sql", "unit": "U1", "lessonId": "U1-select", "conceptTags": ["order-by", "limit", "null-ordering"], "difficulty": 3,
+    "tr": {
+      "title": "Bursu en yüksek 3 öğrenci",
+      "prompt": "students tablosundan id, first_name ve scholarship_amount sütunlarını getir. Bursu en yüksek olan 3 öğrenciyi bul: scholarship_amount'a göre büyükten küçüğe sırala, bursu bilinmeyen (NULL) öğrenciler en sonda olsun ve yalnızca ilk 3 satırı getir.",
+      "hint1": "ORDER BY scholarship_amount DESC ile yükseği başa al; NULL'ları sona atmak için NULLS LAST.",
+      "hint2": "ORDER BY scholarship_amount DESC NULLS LAST LIMIT 3",
+      "answerExplanation": "DESC en yüksek bursu başa alır. DESC'te Postgres NULL'ları varsayılan olarak başa koyar; bunu istemediğimiz için NULLS LAST yazıyoruz. LIMIT 3 ilk üçü getirir."
+    },
+    "assessment": { "referenceSql": "SELECT id, first_name, scholarship_amount FROM students ORDER BY scholarship_amount DESC NULLS LAST LIMIT 3;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["id", "first_name", "scholarship_amount"], "requiredConcepts": ["order-by", "limit"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-u1-cheapest3-001", "type": "write_sql", "unit": "U1", "lessonId": "U1-select", "conceptTags": ["order-by", "limit"], "difficulty": 3,
+    "tr": {
+      "title": "En ucuz 3 ürün",
+      "prompt": "products tablosundan name ve price sütunlarını getir. En ucuz 3 ürünü bul: price'a göre küçükten büyüğe sırala, fiyatı eşit ürünlerde name'e göre artan sırala ve yalnızca ilk 3 satırı getir.",
+      "hint1": "Artan sıralama (ASC) en ucuzu başa alır.",
+      "hint2": "ORDER BY price ASC, name ASC LIMIT 3",
+      "answerExplanation": "ASC en küçük fiyatı başa alır; eşitlikte name ile belirsizliği kırarız; LIMIT 3 ilk üçü getirir."
+    },
+    "assessment": { "referenceSql": "SELECT name, price FROM products ORDER BY price ASC, name ASC LIMIT 3;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["name", "price"], "requiredConcepts": ["order-by", "limit"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-u1-null-order-city-001", "type": "write_sql", "unit": "U1", "lessonId": "U1-select", "conceptTags": ["order-by", "null-ordering"], "difficulty": 4,
+    "tr": {
+      "title": "NULL şehirler nereye düşer?",
+      "prompt": "students tablosundan id ve city sütunlarını getir. Sonucu city'ye göre artan (A'dan Z'ye), aynı şehirdeki öğrencilerde id'ye göre artan sırala. NULL şehirler için ÖZEL bir şey yazma; Postgres'in artan sıralamada NULL'ları nereye koyduğunu gözlemle.",
+      "hint1": "Sadece ORDER BY city ASC, id ASC yaz; NULLS LAST/FIRST ekleme.",
+      "answerExplanation": "Postgres'te artan (ASC) sıralamada NULL'lar varsayılan olarak EN SONA gelir (azalan DESC'te ise başa). Bu yüzden NULL şehirli öğrenciler listenin sonunda görünür."
+    },
+    "assessment": { "referenceSql": "SELECT id, city FROM students ORDER BY city ASC, id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["id", "city"], "requiredConcepts": ["order-by"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-u1-null-arithmetic-001", "type": "write_sql", "unit": "U1", "lessonId": "U1-select", "conceptTags": ["computed-column", "null-arithmetic"], "difficulty": 4,
+    "tr": {
+      "title": "NULL ile aritmetik",
+      "prompt": "students tablosundan id, scholarship_amount sütunlarını ve scholarship_amount'a 1000 eklenmiş halini artirilmis adıyla getir. Sonuçta sadece id, scholarship_amount, artirilmis olsun, bu sırayla. Sonucu id'ye göre artan sırala. Dikkat: bursu NULL olan öğrencide eklemenin sonucunu gözlemle.",
+      "hint1": "Hesaplanan sütun: scholarship_amount + 1000",
+      "hint2": "scholarship_amount + 1000 AS artirilmis",
+      "answerExplanation": "NULL ile yapılan her aritmetik işlemin sonucu NULL olur (bilinmeyen + 1000 = yine bilinmeyen). Bu yüzden bursu NULL olan öğrencide artirilmis da NULL çıkar."
+    },
+    "assessment": { "referenceSql": "SELECT id, scholarship_amount, scholarship_amount + 1000 AS artirilmis FROM students ORDER BY id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["id", "scholarship_amount", "artirilmis"], "numericTolerance": 0.01, "requiredConcepts": ["order-by"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-u1-distinct-pair-001", "type": "write_sql", "unit": "U1", "lessonId": "U1-select", "conceptTags": ["distinct", "order-by", "null-ordering"], "difficulty": 4,
+    "tr": {
+      "title": "Tekrarsız (şehir, bölüm) çiftleri",
+      "prompt": "students tablosundaki FARKLI (city, department_id) çiftlerini getir. Yani aynı şehir-bölüm ikilisi bir kez görünsün. Sonuçta sadece city ve department_id sütunları olsun, bu sırayla. Sonucu city'ye göre artan (NULL şehirler en sonda), sonra department_id'ye göre artan sırala.",
+      "hint1": "DISTINCT birden çok sütuna da uygulanır: SELECT DISTINCT city, department_id ...",
+      "hint2": "ORDER BY city ASC NULLS LAST, department_id ASC",
+      "answerExplanation": "DISTINCT seçtiğin sütunların KOMBİNASYONUNU tekrarsız yapar; tek tek değil, çift olarak benzersizleştirir."
+    },
+    "assessment": { "referenceSql": "SELECT DISTINCT city, department_id FROM students ORDER BY city ASC NULLS LAST, department_id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["city", "department_id"], "requiredConcepts": ["distinct"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-u1-mc-distinct-001", "type": "multiple_choice", "unit": "U1", "lessonId": "U1-select", "conceptTags": ["distinct"], "difficulty": 2,
+    "tr": {
+      "title": "DISTINCT ne işe yarar?",
+      "prompt": "SELECT DISTINCT city FROM students sorgusu ne yapar?",
+      "hint1": "DISTINCT tekrarları ne yapar?",
+      "answerExplanation": "DISTINCT, sonuçtaki tekrar eden değerleri teke indirir; yani her farklı şehri yalnızca bir kez getirir. NULL da tek bir değer olarak bir kez görünür."
+    },
+    "choices": ["Her farklı şehri yalnızca bir kez getirir (tekrarları siler)", "Şehirleri alfabetik sıralar", "NULL şehirleri tamamen siler", "Yalnızca ilk şehri getirir"], "correctIndex": 0
+  },
+  {
+    "id": "q-u1-mc-limit-001", "type": "multiple_choice", "unit": "U1", "lessonId": "U1-select", "conceptTags": ["limit", "order-by"], "difficulty": 2,
+    "tr": {
+      "title": "LIMIT'i neden ORDER BY ile kullanırız?",
+      "prompt": "Bir tablodan 'ilk 5 satırı' getirmek için LIMIT 5 kullanıyorsun. Neden bunu mutlaka bir ORDER BY ile birlikte yazmalısın?",
+      "hint1": "ORDER BY olmadan 'ilk 5' hangi 5'tir?",
+      "answerExplanation": "ORDER BY olmadan satırların sırası garanti değildir; 'ilk 5' her çalıştırmada farklı olabilir. ORDER BY ile sırayı sabitlersin, böylece LIMIT 5 anlamlı ve tekrarlanabilir olur."
+    },
+    "choices": ["ORDER BY olmadan hangi 5 satırın geleceği belirsizdir", "LIMIT, ORDER BY olmadan hata verir", "ORDER BY satır sayısını artırır", "LIMIT yalnızca sıralı tablolarda çalışır"], "correctIndex": 0
+  }
+]

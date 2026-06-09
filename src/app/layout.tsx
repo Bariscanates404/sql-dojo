@@ -16,12 +16,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <header className="sticky top-0 z-30 border-b border-border bg-surface/80 backdrop-blur">
           <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
-            <Link href="/" className="text-lg font-bold">
-              🥋 SQL Dojo
+            <Link href="/" className="text-lg font-extrabold tracking-tight">
+              🥋 <span className="gradient-text">SQL Dojo</span>
             </Link>
             <nav className="flex gap-5 text-sm">
               <Link href="/lessons" className="hover:text-primary">
                 Dersler
+              </Link>
+              <Link href="/sorular" className="hover:text-primary">
+                Sorular
               </Link>
               <Link href="/playground" className="hover:text-primary">
                 Deneme

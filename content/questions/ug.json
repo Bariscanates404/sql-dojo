@@ -1,0 +1,252 @@
+[
+  {
+    "id": "q-ug-mc-delete-no-where-001", "type": "multiple_choice", "unit": "UG", "lessonId": "UG-guvenlik", "conceptTags": ["delete", "danger"], "difficulty": 1,
+    "tr": {
+      "title": "WHERE'siz DELETE ne yapar?",
+      "prompt": "Bir kullanıcı 'DELETE FROM students;' yazıp çalıştırdı (WHERE yok). Ne olur?",
+      "hint1": "WHERE, hangi satırların etkileneceğini sınırlar. WHERE yoksa?",
+      "answerExplanation": "WHERE olmayan DELETE, tablodaki BÜTÜN satırları siler. students tablosundaki tüm öğrenciler gider. Bu yüzden DELETE/UPDATE yazarken WHERE'i unutmamak hayatidir."
+    },
+    "choices": ["students tablosundaki TÜM satırları siler", "Hiçbir şey yapmaz, hata verir", "Sadece ilk satırı siler", "Tabloyu tamamen yok eder (yapı dahil)"], "correctIndex": 0
+  },
+  {
+    "id": "q-ug-mc-update-no-where-001", "type": "multiple_choice", "unit": "UG", "lessonId": "UG-guvenlik", "conceptTags": ["update", "danger"], "difficulty": 1,
+    "tr": {
+      "title": "WHERE'siz UPDATE ne yapar?",
+      "prompt": "'UPDATE students SET city = ''Ankara'';' (WHERE yok) çalıştırılırsa ne olur?",
+      "hint1": "WHERE yoksa güncelleme hangi satırlara uygulanır?",
+      "answerExplanation": "WHERE olmayan UPDATE, TÜM satırları günceller: her öğrencinin şehri 'Ankara' olur. Tek bir öğrenciyi güncellemek istiyorsan mutlaka WHERE id = ... yazmalısın."
+    },
+    "choices": ["TÜM öğrencilerin şehrini 'Ankara' yapar", "Sadece şehri boş olanları günceller", "Hata verir", "Yeni bir Ankara satırı ekler"], "correctIndex": 0
+  },
+  {
+    "id": "q-ug-mc-select-first-001", "type": "multiple_choice", "unit": "UG", "lessonId": "UG-guvenlik", "conceptTags": ["safe-habit", "delete"], "difficulty": 1,
+    "tr": {
+      "title": "Silmeden önce en güvenli adım",
+      "prompt": "Bir DELETE çalıştırmadan önce yapabileceğin EN GÜVENLİ ilk adım nedir?",
+      "hint1": "Hangi satırların gideceğini önceden görmek istersin.",
+      "answerExplanation": "Aynı WHERE koşuluyla önce bir SELECT yazıp kaç ve hangi satırın etkileneceğini GÖRMEK en güvenli alışkanlıktır. Sonuç beklediğin gibiyse DELETE'i aynı WHERE ile çalıştırırsın."
+    },
+    "choices": ["Aynı WHERE ile önce SELECT yazıp etkilenecek satırları görmek", "Doğrudan DELETE çalıştırıp sonucu görmek", "Tabloyu DROP edip yeniden kurmak", "WHERE'i kaldırıp denemek"], "correctIndex": 0
+  },
+  {
+    "id": "q-ug-mc-rollback-001", "type": "multiple_choice", "unit": "UG", "lessonId": "UG-guvenlik", "conceptTags": ["transaction", "rollback"], "difficulty": 2,
+    "tr": {
+      "title": "ROLLBACK ne yapar?",
+      "prompt": "'BEGIN;' ile bir işlem (transaction) başlattın, birkaç UPDATE yaptın, sonra 'ROLLBACK;' çalıştırdın. Ne olur?",
+      "hint1": "ROLLBACK = geri al.",
+      "answerExplanation": "ROLLBACK, BEGIN'den bu yana yapılan tüm değişiklikleri GERİ ALIR; tablo işlem öncesi haline döner. Yanlış bir şey yaptığını fark edersen kurtarıcıdır."
+    },
+    "choices": ["BEGIN'den beri yapılan tüm değişiklikleri geri alır", "Değişiklikleri kalıcı yapar", "Tabloyu siler", "Sadece son UPDATE'i geri alır"], "correctIndex": 0
+  },
+  {
+    "id": "q-ug-mc-commit-001", "type": "multiple_choice", "unit": "UG", "lessonId": "UG-guvenlik", "conceptTags": ["transaction", "commit"], "difficulty": 2,
+    "tr": {
+      "title": "COMMIT ne yapar?",
+      "prompt": "Bir transaction içinde değişiklikler yaptın ve 'COMMIT;' çalıştırdın. Ne olur?",
+      "hint1": "COMMIT = onayla/kalıcılaştır.",
+      "answerExplanation": "COMMIT, transaction içindeki tüm değişiklikleri KALICI yapar. COMMIT'ten sonra artık ROLLBACK ile geri alamazsın."
+    },
+    "choices": ["Yapılan değişiklikleri kalıcı hale getirir", "Değişiklikleri geri alır", "Yeni bir transaction başlatır", "Hiçbir etkisi yoktur"], "correctIndex": 0
+  },
+  {
+    "id": "q-ug-mc-drop-vs-delete-001", "type": "multiple_choice", "unit": "UG", "lessonId": "UG-guvenlik", "conceptTags": ["drop", "delete"], "difficulty": 2,
+    "tr": {
+      "title": "DROP TABLE ile DELETE farkı",
+      "prompt": "'DROP TABLE students;' ile 'DELETE FROM students;' arasındaki temel fark nedir?",
+      "hint1": "Biri tabloyu, diğeri satırları hedefler.",
+      "answerExplanation": "DELETE satırları siler ama TABLO (yapısı, sütunları) yerinde kalır; boş tabloya tekrar veri ekleyebilirsin. DROP TABLE ise tablonun KENDİSİNİ yok eder: satırlar + yapı gider, tablo artık yoktur."
+    },
+    "choices": ["DELETE satırları siler, tablo kalır; DROP tablonun kendisini (yapı dahil) yok eder", "İkisi de aynıdır", "DROP daha yavaştır ama aynı işi yapar", "DELETE tabloyu siler, DROP satırları"], "correctIndex": 0
+  },
+  {
+    "id": "q-ug-mc-truncate-001", "type": "multiple_choice", "unit": "UG", "lessonId": "UG-guvenlik", "conceptTags": ["truncate", "delete"], "difficulty": 2,
+    "tr": {
+      "title": "TRUNCATE ne yapar?",
+      "prompt": "'TRUNCATE TABLE orders;' ne yapar?",
+      "hint1": "Tablo kalır mı, satırlar gider mi?",
+      "answerExplanation": "TRUNCATE tablodaki TÜM satırları hızlıca siler ama tablo yapısı kalır. DELETE'e benzer sonuç verir; farkı çok hızlı olması ve genelde tek tek log tutmamasıdır (bu yüzden dikkatli kullanılır)."
+    },
+    "choices": ["Tablodaki tüm satırları hızlıca siler, tablo yapısı kalır", "Tabloyu tamamen yok eder", "Sadece ilk satırı siler", "Tabloyu yeniden adlandırır"], "correctIndex": 0
+  },
+  {
+    "id": "q-ug-mc-autocommit-001", "type": "multiple_choice", "unit": "UG", "lessonId": "UG-guvenlik", "conceptTags": ["transaction", "danger"], "difficulty": 3,
+    "tr": {
+      "title": "BEGIN olmadan DELETE",
+      "prompt": "Hiç 'BEGIN;' yazmadan, doğrudan 'DELETE FROM orders;' çalıştırdın. Sonra yanlış olduğunu fark ettin. Genellikle ne olur?",
+      "hint1": "Transaction başlatmadıysan değişiklik ne zaman kalıcı olur?",
+      "answerExplanation": "BEGIN olmadan çalışan tek komut çoğu ortamda otomatik COMMIT olur (autocommit); yani DELETE anında kalıcılaşır ve ROLLBACK ile geri alınamaz. Kurtuluş genelde yedekten dönmektir. Dersi: riskli işlemleri BEGIN ile sarmala."
+    },
+    "choices": ["Otomatik commit olduğu için geri alamazsın; yedekten dönmen gerekir", "ROLLBACK ile kolayca geri alırsın", "Postgres seni otomatik durdurur", "Hiçbir şey silinmez"], "correctIndex": 0
+  },
+  {
+    "id": "q-ug-mc-where-id-001", "type": "multiple_choice", "unit": "UG", "lessonId": "UG-guvenlik", "conceptTags": ["update", "safe-habit"], "difficulty": 2,
+    "tr": {
+      "title": "Tek satırı güncellemenin anahtarı",
+      "prompt": "Sadece id'si 5 olan öğrencinin şehrini değiştirmek istiyorsun. Hangisi kritik?",
+      "hint1": "Güncellemeyi tek satıra nasıl sınırlarsın?",
+      "answerExplanation": "UPDATE'i WHERE id = 5 ile sınırlamak şarttır. WHERE'i unutursan tüm öğrenciler güncellenir. Tek satır hedeflerken benzersiz bir koşul (genelde birincil anahtar) kullan."
+    },
+    "choices": ["UPDATE'e WHERE id = 5 koşulunu eklemek", "WHERE yazmamak, Postgres tek satırı bulur", "Önce tabloyu TRUNCATE etmek", "city sütununu DROP etmek"], "correctIndex": 0
+  },
+  {
+    "id": "q-ug-mc-most-dangerous-001", "type": "multiple_choice", "unit": "UG", "lessonId": "UG-guvenlik", "conceptTags": ["danger"], "difficulty": 2,
+    "tr": {
+      "title": "En tehlikelisi hangisi?",
+      "prompt": "Aşağıdaki komutlardan, yanlışlıkla çalıştırılırsa en GENİŞ ve geri dönülmez hasarı hangisi verir?",
+      "hint1": "Hangisi en çok şeyi, en kalıcı şekilde yok eder?",
+      "answerExplanation": "'DROP DATABASE ...' tüm veritabanını (tüm tablolar + veriler) yok eder; en geniş hasardır. WHERE'siz DELETE de çok tehlikelidir ama tek tabloyla sınırlıdır ve transaction içinde geri alınabilir."
+    },
+    "choices": ["DROP DATABASE kampus;", "DELETE FROM students WHERE id = 5;", "SELECT * FROM students;", "UPDATE students SET city = 'X' WHERE id = 1;"], "correctIndex": 0
+  },
+  {
+    "id": "q-ug-mc-transaction-purpose-001", "type": "multiple_choice", "unit": "UG", "lessonId": "UG-guvenlik", "conceptTags": ["transaction"], "difficulty": 3,
+    "tr": {
+      "title": "Transaction güvenlik açısından ne sağlar?",
+      "prompt": "Riskli birkaç değişikliği BEGIN ... COMMIT/ROLLBACK arasına almak güvenlik açısından ne sağlar?",
+      "hint1": "Yanlış giderse ne yapabilirsin?",
+      "answerExplanation": "Transaction, birden çok değişikliği TEK bir blok gibi dener: hepsi birden başarılı olursa COMMIT, bir sorun görürsen ROLLBACK ile hepsini birden geri alırsın. 'Önce dene, beğenmezsen geri al' güvenliği verir."
+    },
+    "choices": ["Değişiklikleri tek blokta dener; yanlışsa ROLLBACK ile hepsini geri alabilirsin", "Sorguları hızlandırır", "WHERE'i otomatik ekler", "Yedek dosyası oluşturur"], "correctIndex": 0
+  },
+  {
+    "id": "q-ug-mc-truncate-vs-delete-001", "type": "multiple_choice", "unit": "UG", "lessonId": "UG-guvenlik", "conceptTags": ["truncate", "delete"], "difficulty": 3,
+    "tr": {
+      "title": "Tüm satırları silmek: DELETE mi TRUNCATE mı?",
+      "prompt": "Bir tablodaki tüm satırları silmek istiyorsun. 'DELETE FROM t;' ile 'TRUNCATE TABLE t;' için hangisi doğrudur?",
+      "hint1": "İkisi de satırları siler; fark hız ve geri alınabilirlikte.",
+      "answerExplanation": "İkisi de tüm satırları siler ve tablo yapısı kalır. DELETE satır satır çalışır, transaction içinde rahat geri alınır ve WHERE alabilir. TRUNCATE çok daha hızlıdır ama daha serttir; genelde WHERE almaz ve dikkatli kullanılır."
+    },
+    "choices": ["İkisi de satırları siler; DELETE WHERE alabilir ve daha kolay geri alınır, TRUNCATE daha hızlı ama serttir", "TRUNCATE tabloyu da siler", "DELETE tablo yapısını bozar", "İkisi tamamen aynıdır"], "correctIndex": 0
+  },
+  {
+    "id": "q-ug-mc-backup-001", "type": "multiple_choice", "unit": "UG", "lessonId": "UG-guvenlik", "conceptTags": ["safe-habit"], "difficulty": 2,
+    "tr": {
+      "title": "Üretimde toplu silme öncesi en iyi pratik",
+      "prompt": "Gerçek (canlı) bir veritabanında toplu bir DELETE çalıştırmadan önce en iyi pratik dizisi hangisidir?",
+      "hint1": "Görmek, sarmak, yedeklemek...",
+      "answerExplanation": "En sağlam yol: (1) aynı WHERE ile SELECT yapıp etkilenecek satırları gör, (2) işlemi transaction (BEGIN) içinde çalıştır, (3) mümkünse önceden yedek al. Böyle yaparsan hata maliyeti minimuma iner."
+    },
+    "choices": ["Önce SELECT ile kontrol et, transaction içinde çalış, yedek al", "Doğrudan DELETE çalıştır, hızlı olsun", "WHERE'i kaldır ki bir şey kaçmasın", "Tabloyu DROP edip baştan kur"], "correctIndex": 0
+  },
+  {
+    "id": "q-ug-mc-recover-001", "type": "multiple_choice", "unit": "UG", "lessonId": "UG-guvenlik", "conceptTags": ["transaction", "rollback", "danger"], "difficulty": 3,
+    "tr": {
+      "title": "Transaction içinde hatalı silme",
+      "prompt": "'BEGIN;' yazdın, sonra yanlışlıkla 'DELETE FROM students;' (WHERE'siz) çalıştırdın ama henüz COMMIT yapmadın. Ne yaparsın?",
+      "hint1": "Henüz kalıcı değil...",
+      "answerExplanation": "Henüz COMMIT yapmadığın için ROLLBACK çalıştırırsan tüm silme geri alınır ve students tablosu eski haline döner. BEGIN ile başlamak tam da bu yüzden hayat kurtarır."
+    },
+    "choices": ["ROLLBACK çalıştırırım; silme geri alınır", "COMMIT yaparım, düzelir", "Hiçbir şey yapamam, veriler gitti", "TRUNCATE ile düzeltirim"], "correctIndex": 0
+  },
+  {
+    "id": "q-ug-mc-ddl-dml-001", "type": "multiple_choice", "unit": "UG", "lessonId": "UG-guvenlik", "conceptTags": ["drop", "truncate", "delete"], "difficulty": 3,
+    "tr": {
+      "title": "Hangisi yalnızca veriyi, hangisi yapıyı etkiler?",
+      "prompt": "students tablosunu düşün. Hangi eşleştirme DOĞRUDUR?",
+      "hint1": "Satır mı gider, tablo mu gider?",
+      "answerExplanation": "DELETE/TRUNCATE veriyi (satırları) hedefler, tablo yapısı kalır. DROP TABLE ise tablonun kendisini (yapı + veri) yok eder. Yani 'yapıyı yok eden' DROP'tur."
+    },
+    "choices": ["DELETE ve TRUNCATE satırları siler (tablo kalır); DROP TABLE tablonun kendisini yok eder", "DELETE tabloyu, DROP satırları siler", "Üçü de tabloyu yok eder", "TRUNCATE tabloyu yeniden adlandırır"], "correctIndex": 0
+  },
+  {
+    "id": "q-ug-mc-where-typo-001", "type": "multiple_choice", "unit": "UG", "lessonId": "UG-guvenlik", "conceptTags": ["update", "danger"], "difficulty": 4,
+    "tr": {
+      "title": "Sinsi tuzak: '=' yerine bağlantı hatası",
+      "prompt": "Bir kullanıcı 'UPDATE students SET city = ''Bursa'' WHERE id = 3 OR 1 = 1;' yazdı. Sonuç ne olur?",
+      "hint1": "1 = 1 her zaman doğrudur; OR ile birleşince WHERE ne anlama gelir?",
+      "answerExplanation": "'OR 1 = 1' koşulu her satır için DOĞRU olur; OR olduğu için WHERE etkin biçimde 'herkesi seç' demektir. Yani TÜM öğrencilerin şehri 'Bursa' olur. WHERE yazmış olmak güvenli olduğun anlamına gelmez; koşulun gerçekten daralttığından emin ol."
+    },
+    "choices": ["TÜM öğrencilerin şehri 'Bursa' olur (1=1 her zaman doğru)", "Sadece id=3 güncellenir", "Hata verir", "Hiçbir şey güncellenmez"], "correctIndex": 0
+  },
+  {
+    "id": "q-ug-mc-savepoint-001", "type": "multiple_choice", "unit": "UG", "lessonId": "UG-guvenlik", "conceptTags": ["transaction"], "difficulty": 4,
+    "tr": {
+      "title": "İşlemin yalnızca bir kısmını geri almak",
+      "prompt": "Uzun bir transaction içinde birkaç adım yaptın ve yalnızca SON adımı geri alıp gerisini korumak istiyorsun. Bunu sağlayan mekanizma nedir?",
+      "hint1": "Transaction içine ara 'kayıt noktaları' koyabilirsin.",
+      "answerExplanation": "SAVEPOINT ile transaction içinde ara noktalar koyarsın; ROLLBACK TO savepoint_adi ile yalnızca o noktadan sonrasını geri alır, öncesini korursun. Tüm işlemi geri almak istemediğinde işe yarar."
+    },
+    "choices": ["SAVEPOINT + ROLLBACK TO savepoint", "Sadece COMMIT", "DROP SAVEPOINT", "TRUNCATE"], "correctIndex": 0
+  },
+  {
+    "id": "q-ug-preview-cancelled-001", "type": "write_sql", "unit": "UG", "lessonId": "UG-guvenlik", "conceptTags": ["safe-habit", "where", "select"], "difficulty": 1,
+    "tr": {
+      "title": "Silmeden önce gör: iptal siparişler",
+      "prompt": "status değeri 'cancelled' olan siparişleri SİLMEK istiyorsun, ama önce hangi satırların etkileneceğini görmek istiyorsun. Silme YAPMA; bunun yerine aynı koşulla bir SELECT yaz: iptal siparişlerin id ve student_id'sini getir. Sonucu id'ye göre artan sırala.",
+      "hint1": "DELETE yerine SELECT yaz, WHERE aynı kalsın: WHERE status = 'cancelled'.",
+      "answerExplanation": "Silmeden önce aynı WHERE ile SELECT yapmak en güvenli alışkanlıktır: kaç ve hangi satırın gideceğini görürsün. Sonuç doğruysa DELETE FROM orders WHERE status = 'cancelled'; çalıştırılır."
+    },
+    "assessment": { "referenceSql": "SELECT id, student_id FROM orders WHERE status = 'cancelled' ORDER BY id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["id", "student_id"], "allowedLiterals": ["cancelled"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-ug-count-before-update-001", "type": "write_sql", "unit": "UG", "lessonId": "UG-guvenlik", "conceptTags": ["safe-habit", "count", "null"], "difficulty": 2,
+    "tr": {
+      "title": "Güncellemeden önce say: bursu NULL olanlar",
+      "prompt": "Bursu NULL olan öğrencilerin bursunu 0 yapacaksın (UPDATE). Önce KAÇ öğrencinin etkileneceğini görmek için bir SELECT yaz: scholarship_amount değeri NULL olan öğrencilerin sayısını getir. Sonuç tek sütun olsun, adı etkilenecek olsun.",
+      "hint1": "COUNT(*) ve WHERE scholarship_amount IS NULL.",
+      "answerExplanation": "Toplu UPDATE'ten önce 'kaç satır etkilenecek' diye saymak, beklenmedik büyük bir güncellemeyi yakalamanın güvenli yoludur."
+    },
+    "assessment": { "referenceSql": "SELECT COUNT(*) AS etkilenecek FROM students WHERE scholarship_amount IS NULL;", "compareMode": "multiset", "expectedColumns": ["etkilenecek"], "requiredConcepts": ["count", "is-null"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-ug-preview-pending-cancelled-001", "type": "write_sql", "unit": "UG", "lessonId": "UG-guvenlik", "conceptTags": ["safe-habit", "in", "select"], "difficulty": 2,
+    "tr": {
+      "title": "Silmeden önce gör: iptal veya bekleyen",
+      "prompt": "status değeri 'cancelled' VEYA 'pending' olan siparişleri silmeyi düşünüyorsun. Silme YAPMA; önce bu siparişlerin id ve status'unu getiren bir SELECT yaz (IN listesi kullan). Sonucu id'ye göre artan sırala.",
+      "hint1": "WHERE status IN ('cancelled', 'pending').",
+      "answerExplanation": "IN ile birden çok durumu tek koşulda kontrol edersin; silmeden önce listeyi görmek hangi siparişlerin gideceğini netleştirir."
+    },
+    "assessment": { "referenceSql": "SELECT id, status FROM orders WHERE status IN ('cancelled', 'pending') ORDER BY id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["id", "status"], "allowedLiterals": ["cancelled", "pending"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-ug-verify-where-id-001", "type": "write_sql", "unit": "UG", "lessonId": "UG-guvenlik", "conceptTags": ["safe-habit", "where", "select"], "difficulty": 1,
+    "tr": {
+      "title": "WHERE'i doğrula: tek öğrenci",
+      "prompt": "id'si 5 olan öğrencinin şehrini güncelleyeceksin. Önce WHERE koşulunun GERÇEKTEN tek satırı seçtiğini doğrulamak için bir SELECT yaz: id = 5 olan öğrencinin id ve first_name'ini getir.",
+      "hint1": "WHERE id = 5.",
+      "answerExplanation": "UPDATE'ten önce aynı WHERE ile SELECT yapıp tam olarak doğru (ve tek) satırı seçtiğini doğrularsın. Bu, yanlış öğrenciyi güncellemeni önler."
+    },
+    "assessment": { "referenceSql": "SELECT id, first_name FROM students WHERE id = 5;", "compareMode": "multiset", "expectedColumns": ["id", "first_name"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-ug-count-not-completed-001", "type": "write_sql", "unit": "UG", "lessonId": "UG-guvenlik", "conceptTags": ["safe-habit", "count"], "difficulty": 2,
+    "tr": {
+      "title": "Silmeden önce say: tamamlanmamış siparişler",
+      "prompt": "status değeri 'completed' OLMAYAN siparişleri silmeyi düşünüyorsun. Önce kaç siparişin etkileneceğini görmek için bir SELECT yaz: status'u 'completed' olmayan siparişlerin sayısını getir. Sonuç tek sütun olsun, adı silinecek_sayi olsun. (Bu tabloda status hep doludur.)",
+      "hint1": "COUNT(*) ve WHERE status <> 'completed'.",
+      "answerExplanation": "<> 'completed' tamamlanmamışları (cancelled + pending) seçer. Önce sayarak silmenin boyutunu görürsün."
+    },
+    "assessment": { "referenceSql": "SELECT COUNT(*) AS silinecek_sayi FROM orders WHERE status <> 'completed';", "compareMode": "multiset", "expectedColumns": ["silinecek_sayi"], "requiredConcepts": ["count"], "allowedLiterals": ["completed"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-ug-preview-null-city-001", "type": "write_sql", "unit": "UG", "lessonId": "UG-guvenlik", "conceptTags": ["safe-habit", "null", "is-null"], "difficulty": 2,
+    "tr": {
+      "title": "Güncellemeden önce gör: şehri NULL olanlar",
+      "prompt": "Şehri NULL olan öğrencilerin şehrini 'Bilinmiyor' yapacaksın (UPDATE). Önce hangi öğrencilerin etkileneceğini görmek için bir SELECT yaz: city değeri NULL olan öğrencilerin id ve first_name'ini getir. Sonucu id'ye göre artan sırala.",
+      "hint1": "WHERE city IS NULL.",
+      "answerExplanation": "Toplu güncelleme öncesi etkilenecek satırları IS NULL koşuluyla görmek, yanlış kapsamı önler."
+    },
+    "assessment": { "referenceSql": "SELECT id, first_name FROM students WHERE city IS NULL ORDER BY id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["id", "first_name"], "requiredConcepts": ["is-null"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-ug-count-ongoing-001", "type": "write_sql", "unit": "UG", "lessonId": "UG-guvenlik", "conceptTags": ["safe-habit", "count", "null"], "difficulty": 2,
+    "tr": {
+      "title": "Silmeden önce say: devam eden kayıtlar",
+      "prompt": "Notu henüz girilmemiş (grade NULL, yani devam eden) kayıtları enrollments tablosundan silmeyi düşünüyorsun. Önce kaç kaydın etkileneceğini görmek için bir SELECT yaz: grade değeri NULL olan kayıtların sayısını getir. Sonuç tek sütun olsun, adı devam_eden olsun.",
+      "hint1": "COUNT(*) ve WHERE grade IS NULL.",
+      "answerExplanation": "Silmeden önce sayım yapmak, 'devam eden' kayıtları yanlışlıkla yok etmeden kapsamı görmeni sağlar."
+    },
+    "assessment": { "referenceSql": "SELECT COUNT(*) AS devam_eden FROM enrollments WHERE grade IS NULL;", "compareMode": "multiset", "expectedColumns": ["devam_eden"], "requiredConcepts": ["count", "is-null"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-ug-preview-expensive-001", "type": "write_sql", "unit": "UG", "lessonId": "UG-guvenlik", "conceptTags": ["safe-habit", "where", "select"], "difficulty": 2,
+    "tr": {
+      "title": "İndirimden önce gör: pahalı ürünler",
+      "prompt": "Fiyatı 40'tan büyük ürünlere toplu indirim (UPDATE) uygulamayı düşünüyorsun. Silme/güncelleme YAPMA; önce hangi ürünlerin etkileneceğini görmek için bir SELECT yaz: price değeri 40'tan büyük ürünlerin name ve price'ını getir. Sonucu price'a göre büyükten küçüğe, eşit fiyatta name'e göre artan sırala.",
+      "hint1": "WHERE price > 40.",
+      "answerExplanation": "Toplu fiyat güncellemesinden önce etkilenecek ürünleri görmek, yanlış ürünlere indirim uygulamanı önler. Aynı WHERE'i sonra UPDATE'te kullanırsın."
+    },
+    "assessment": { "referenceSql": "SELECT name, price FROM products WHERE price > 40 ORDER BY price DESC, name ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["name", "price"], "forbiddenPatterns": ["select_star"] }
+  }
+]

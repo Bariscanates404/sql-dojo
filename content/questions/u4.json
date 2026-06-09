@@ -1,0 +1,160 @@
+[
+  {
+    "id": "q-u4-count-products-001", "type": "write_sql", "unit": "U4", "lessonId": "U4-aggregate", "conceptTags": ["aggregate", "count"], "difficulty": 1,
+    "tr": {
+      "title": "Satır saymak: COUNT(*)",
+      "prompt": "products tablosunda toplam kaç ürün (kaç satır) olduğunu say. Sonuç tek satır ve tek sütun olsun; sütunun adı urun_sayisi olsun.",
+      "hint1": "'Kaç satır' sorusu COUNT(*) ile cevaplanır.",
+      "hint2": "SELECT COUNT(*) AS urun_sayisi FROM products;",
+      "answerExplanation": "COUNT(*) tablodaki tüm satırları sayar. AS urun_sayisi ile sonuç sütununa istenen adı veriyoruz."
+    },
+    "assessment": { "referenceSql": "SELECT COUNT(*) AS urun_sayisi FROM products;", "compareMode": "multiset", "expectedColumns": ["urun_sayisi"], "requiredConcepts": ["count"] }
+  },
+  {
+    "id": "q-u4-count-email-001", "type": "write_sql", "unit": "U4", "lessonId": "U4-aggregate", "conceptTags": ["aggregate", "count", "null"], "difficulty": 2,
+    "tr": {
+      "title": "Dolu değerleri saymak: COUNT(sütun)",
+      "prompt": "students tablosunda email değeri dolu (yani NULL olmayan) kaç öğrenci olduğunu say. Sonuç tek sütun olsun; adı epostasi_olan olsun. İpucu: COUNT(*) değil, COUNT(email) NULL olanları saymaz.",
+      "hint1": "COUNT(sütun) yalnızca o sütunu NULL olmayan satırları sayar.",
+      "hint2": "SELECT COUNT(email) AS epostasi_olan FROM students;",
+      "answerExplanation": "COUNT(email), email'i NULL olmayan satırları sayar. Eğer bazı e-postalar NULL olsaydı, COUNT(*)'tan küçük çıkardı."
+    },
+    "assessment": { "referenceSql": "SELECT COUNT(email) AS epostasi_olan FROM students;", "compareMode": "multiset", "expectedColumns": ["epostasi_olan"], "requiredConcepts": ["count"] }
+  },
+  {
+    "id": "q-u4-mc-count-star-vs-col-001", "type": "multiple_choice", "unit": "U4", "lessonId": "U4-aggregate", "conceptTags": ["count", "null"], "difficulty": 3,
+    "tr": {
+      "title": "COUNT(*) vs COUNT(sütun)",
+      "prompt": "students tablosunda bazı city değerleri NULL. COUNT(*) ile COUNT(city) arasındaki fark nedir?",
+      "hint1": "Hangisi NULL satırları görmezden gelir?",
+      "answerExplanation": "COUNT(*) tüm satırları sayar (NULL olsa bile). COUNT(city) ise yalnızca city'si NULL olmayan satırları sayar. Bu yüzden NULL şehir varsa COUNT(city) < COUNT(*) olur."
+    },
+    "choices": ["COUNT(*) tüm satırları sayar; COUNT(city) yalnızca city'si NULL olmayan satırları sayar", "İkisi de tamamen aynıdır", "COUNT(city) NULL'ları da sayar, COUNT(*) saymaz", "COUNT(*) yalnızca dolu sütunları sayar"], "correctIndex": 0
+  },
+  {
+    "id": "q-u4-count-distinct-city-001", "type": "write_sql", "unit": "U4", "lessonId": "U4-aggregate", "conceptTags": ["count", "distinct", "null"], "difficulty": 2,
+    "tr": {
+      "title": "Kaç farklı şehir? (COUNT DISTINCT)",
+      "prompt": "students tablosunda öğrenciler kaç FARKLI şehirden geliyor? Aynı şehir bir kez sayılsın; şehri bilinmeyen (NULL) öğrenciler sayıya katılmasın. Sonuç tek sütun olsun, adı farkli_sehir olsun.",
+      "hint1": "Farklı değerleri saymak için COUNT(DISTINCT sütun).",
+      "hint2": "SELECT COUNT(DISTINCT city) AS farkli_sehir FROM students;",
+      "answerExplanation": "COUNT(DISTINCT city) tekrarsız şehir sayısını verir; NULL'ı saymaz. Yani 'kaç farklı bilinen şehir' sorusunu cevaplar."
+    },
+    "assessment": { "referenceSql": "SELECT COUNT(DISTINCT city) AS farkli_sehir FROM students;", "compareMode": "multiset", "expectedColumns": ["farkli_sehir"], "requiredConcepts": ["count", "distinct"] }
+  },
+  {
+    "id": "q-u4-sum-quantity-001", "type": "write_sql", "unit": "U4", "lessonId": "U4-aggregate", "conceptTags": ["aggregate", "sum"], "difficulty": 2,
+    "tr": {
+      "title": "Toplam adet (SUM)",
+      "prompt": "order_items tablosundaki tüm satırların quantity değerlerinin TOPLAMINI bul. Sonuç tek sütun olsun, adı toplam_adet olsun.",
+      "hint1": "Toplam için SUM(sütun).",
+      "hint2": "SELECT SUM(quantity) AS toplam_adet FROM order_items;",
+      "answerExplanation": "SUM(quantity) tüm satırlardaki quantity değerlerini toplar; tek bir özet sayı döndürür."
+    },
+    "assessment": { "referenceSql": "SELECT SUM(quantity) AS toplam_adet FROM order_items;", "compareMode": "multiset", "expectedColumns": ["toplam_adet"], "requiredConcepts": ["sum"] }
+  },
+  {
+    "id": "q-u4-avg-price-001", "type": "write_sql", "unit": "U4", "lessonId": "U4-aggregate", "conceptTags": ["aggregate", "avg", "round"], "difficulty": 2,
+    "tr": {
+      "title": "Ortalama fiyat (AVG)",
+      "prompt": "products tablosundaki tüm ürünlerin ORTALAMA fiyatını bul, virgülden sonra 2 basamağa yuvarla. Sonuç tek sütun olsun, adı ort_fiyat olsun.",
+      "hint1": "Ortalama için AVG(price); yuvarlamak için ROUND(..., 2).",
+      "hint2": "SELECT ROUND(AVG(price), 2) AS ort_fiyat FROM products;",
+      "answerExplanation": "AVG(price) ortalamayı verir; ROUND(..., 2) iki ondalığa yuvarlar (AVG'nin uzun ondalığını temizler)."
+    },
+    "assessment": { "referenceSql": "SELECT ROUND(AVG(price), 2) AS ort_fiyat FROM products;", "compareMode": "multiset", "expectedColumns": ["ort_fiyat"], "numericTolerance": 0.01 }
+  },
+  {
+    "id": "q-u4-max-price-001", "type": "write_sql", "unit": "U4", "lessonId": "U4-aggregate", "conceptTags": ["aggregate", "max"], "difficulty": 1,
+    "tr": {
+      "title": "En yüksek fiyat (MAX)",
+      "prompt": "products tablosundaki en yüksek fiyatı bul. Sonuç tek sütun olsun, adı en_pahali olsun.",
+      "hint1": "En büyük değer için MAX(price).",
+      "answerExplanation": "MAX(price) sütundaki en büyük değeri döndürür."
+    },
+    "assessment": { "referenceSql": "SELECT MAX(price) AS en_pahali FROM products;", "compareMode": "multiset", "expectedColumns": ["en_pahali"], "numericTolerance": 0.01 }
+  },
+  {
+    "id": "q-u4-min-price-001", "type": "write_sql", "unit": "U4", "lessonId": "U4-aggregate", "conceptTags": ["aggregate", "min"], "difficulty": 1,
+    "tr": {
+      "title": "En düşük fiyat (MIN)",
+      "prompt": "products tablosundaki en düşük fiyatı bul. Sonuç tek sütun olsun, adı en_ucuz olsun.",
+      "hint1": "En küçük değer için MIN(price).",
+      "answerExplanation": "MIN(price) sütundaki en küçük değeri döndürür."
+    },
+    "assessment": { "referenceSql": "SELECT MIN(price) AS en_ucuz FROM products;", "compareMode": "multiset", "expectedColumns": ["en_ucuz"], "numericTolerance": 0.01 }
+  },
+  {
+    "id": "q-u4-minmax-date-001", "type": "write_sql", "unit": "U4", "lessonId": "U4-aggregate", "conceptTags": ["aggregate", "min", "max", "date"], "difficulty": 2,
+    "tr": {
+      "title": "En erken ve en geç doğum tarihi",
+      "prompt": "students tablosundaki en erken (en eski) ve en geç (en yeni) birth_date değerlerini tek sorguda bul. İki sütun olsun, bu sırayla: en_eski (en erken tarih), en_yeni (en geç tarih).",
+      "hint1": "MIN ve MAX tarihlerde de çalışır: MIN(birth_date), MAX(birth_date).",
+      "answerExplanation": "MIN(birth_date) en eski (en küçük) tarihi, MAX(birth_date) en yeni (en büyük) tarihi verir. Aggregate'ler sayıların yanı sıra tarih ve metinde de çalışır."
+    },
+    "assessment": { "referenceSql": "SELECT MIN(birth_date) AS en_eski, MAX(birth_date) AS en_yeni FROM students;", "compareMode": "multiset", "expectedColumns": ["en_eski", "en_yeni"] }
+  },
+  {
+    "id": "q-u4-where-count-completed-001", "type": "write_sql", "unit": "U4", "lessonId": "U4-aggregate", "conceptTags": ["aggregate", "count", "where"], "difficulty": 2,
+    "tr": {
+      "title": "Önce süz, sonra say",
+      "prompt": "orders tablosunda status değeri 'completed' olan kaç sipariş olduğunu say. Önce WHERE ile süz, sonra say. Sonuç tek sütun olsun, adı tamamlanan olsun.",
+      "hint1": "WHERE status = 'completed' satırları eler, COUNT(*) kalanları sayar.",
+      "hint2": "SELECT COUNT(*) AS tamamlanan FROM orders WHERE status = 'completed';",
+      "answerExplanation": "Çalışma sırası: önce WHERE satırları süzer, SONRA COUNT kalanları sayar. Yani yalnız tamamlanmış siparişler sayılır."
+    },
+    "assessment": { "referenceSql": "SELECT COUNT(*) AS tamamlanan FROM orders WHERE status = 'completed';", "compareMode": "multiset", "expectedColumns": ["tamamlanan"], "requiredConcepts": ["count"], "allowedLiterals": ["completed"] }
+  },
+  {
+    "id": "q-u4-where-avg-001", "type": "write_sql", "unit": "U4", "lessonId": "U4-aggregate", "conceptTags": ["aggregate", "avg", "where", "round"], "difficulty": 2,
+    "tr": {
+      "title": "Bir kategorinin ortalama fiyatı",
+      "prompt": "products tablosunda category değeri 'Yiyecek' olan ürünlerin ORTALAMA fiyatını bul, 2 ondalığa yuvarla. Önce WHERE ile süz, sonra ortala. Sonuç tek sütun olsun, adı ort olsun.",
+      "hint1": "WHERE category = 'Yiyecek' ile süz, sonra ROUND(AVG(price), 2).",
+      "answerExplanation": "Önce yiyecekleri süzeriz, sonra yalnız onların ortalamasını alırız. WHERE aggregate'ten ÖNCE çalışır."
+    },
+    "assessment": { "referenceSql": "SELECT ROUND(AVG(price), 2) AS ort FROM products WHERE category = 'Yiyecek';", "compareMode": "multiset", "expectedColumns": ["ort"], "numericTolerance": 0.01, "allowedLiterals": ["Yiyecek"] }
+  },
+  {
+    "id": "q-u4-sum-revenue-001", "type": "write_sql", "unit": "U4", "lessonId": "U4-aggregate", "conceptTags": ["aggregate", "sum", "arithmetic"], "difficulty": 3,
+    "tr": {
+      "title": "Toplam ciro (SUM + çarpım)",
+      "prompt": "order_items tablosunda toplam ciroyu bul: her satırın quantity çarpı unit_price değerini hesapla ve hepsini topla. 2 ondalığa yuvarla. Sonuç tek sütun olsun, adı toplam_ciro olsun.",
+      "hint1": "SUM içinde çarpım yazılabilir: SUM(quantity * unit_price).",
+      "hint2": "SELECT ROUND(SUM(quantity * unit_price), 2) AS toplam_ciro FROM order_items;",
+      "answerExplanation": "Önce her satırın tutarı (quantity * unit_price) hesaplanır, SUM hepsini toplar. Aggregate'in içine ifade yazabilirsin."
+    },
+    "assessment": { "referenceSql": "SELECT ROUND(SUM(quantity * unit_price), 2) AS toplam_ciro FROM order_items;", "compareMode": "multiset", "expectedColumns": ["toplam_ciro"], "numericTolerance": 0.01, "requiredConcepts": ["sum"] }
+  },
+  {
+    "id": "q-u4-avg-grade-001", "type": "write_sql", "unit": "U4", "lessonId": "U4-aggregate", "conceptTags": ["aggregate", "avg", "null"], "difficulty": 3,
+    "tr": {
+      "title": "Ortalama not (AVG ve NULL)",
+      "prompt": "enrollments tablosunda girilmiş notların ORTALAMASINI bul, 2 ondalığa yuvarla. Sonuç tek sütun olsun, adı ort_not olsun. (Notu NULL olan devam eden kayıtlar için ekstra bir şey yapmana gerek yok; AVG zaten NULL'ları hesaba katmaz.)",
+      "hint1": "ROUND(AVG(grade), 2). AVG NULL'ları otomatik atlar.",
+      "answerExplanation": "AVG(grade) yalnızca notu DOLU olan kayıtların ortalamasını alır; NULL'lar toplama da paydaya da girmez. Yani 'devam eden' kayıtlar ortalamayı bozmaz."
+    },
+    "assessment": { "referenceSql": "SELECT ROUND(AVG(grade), 2) AS ort_not FROM enrollments;", "compareMode": "multiset", "expectedColumns": ["ort_not"], "numericTolerance": 0.01 }
+  },
+  {
+    "id": "q-u4-count-total-vs-grade-001", "type": "write_sql", "unit": "U4", "lessonId": "U4-aggregate", "conceptTags": ["aggregate", "count", "null"], "difficulty": 4,
+    "tr": {
+      "title": "TUZAK: toplam kayıt vs notlu kayıt",
+      "prompt": "enrollments tablosunda iki sayıyı tek sorguda yan yana getir: toplam kayıt sayısı (adı toplam) ve NOTU GİRİLMİŞ kayıt sayısı (adı notlu). İki sütun olsun, bu sırayla: toplam, notlu. Farkı gözlemle.",
+      "hint1": "COUNT(*) tüm satırları, COUNT(grade) yalnız notu dolu olanları sayar.",
+      "hint2": "SELECT COUNT(*) AS toplam, COUNT(grade) AS notlu FROM enrollments;",
+      "answerExplanation": "COUNT(*) tüm kayıtları (devam edenler dahil) sayar; COUNT(grade) notu NULL olanları saymaz. Aradaki fark, devam eden (notu girilmemiş) kayıt sayısıdır. İşte AVG(grade) de tam bu 'notlu' sayıya böler, toplam kayda değil."
+    },
+    "assessment": { "referenceSql": "SELECT COUNT(*) AS toplam, COUNT(grade) AS notlu FROM enrollments;", "compareMode": "multiset", "expectedColumns": ["toplam", "notlu"], "requiredConcepts": ["count"] }
+  },
+  {
+    "id": "q-u4-mc-avg-null-001", "type": "multiple_choice", "unit": "U4", "lessonId": "U4-aggregate", "conceptTags": ["avg", "null"], "difficulty": 4,
+    "tr": {
+      "title": "AVG neye böler?",
+      "prompt": "enrollments tablosunda 20 kayıt var ve bunların 4'ünde grade NULL (devam ediyor). SELECT AVG(grade) FROM enrollments çalıştırılırsa, AVG not toplamını KAÇA böler?",
+      "hint1": "AVG, NULL'ları toplama katar mı, paydaya katar mı?",
+      "answerExplanation": "AVG NULL'ları hiç hesaba katmaz: ne toplama ne de paydaya. Toplamı, notu DOLU olan 16 kayda böler (20'ye değil). Yani 'bilinmeyen', 0 sayılmaz; tamamen yok sayılır."
+    },
+    "choices": ["16'ya (notu dolu olan kayıtlara) böler", "20'ye (tüm kayıtlara) böler", "Hata verir çünkü NULL var", "4'e (devam eden kayıtlara) böler"], "correctIndex": 0
+  }
+]

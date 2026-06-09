@@ -1,0 +1,108 @@
+[
+  {
+    "id": "q-u13-row-number-001", "type": "write_sql", "unit": "U13", "lessonId": "U13-window", "conceptTags": ["window", "row-number"], "difficulty": 2,
+    "tr": {
+      "title": "Sıra numarası ver (ROW_NUMBER)",
+      "prompt": "products tablosundaki ürünleri fiyata göre büyükten küçüğe sırala ve her satıra 1'den başlayan bir sıra numarası ekle (ROW_NUMBER). Sonuçta üç sütun olsun, bu sırayla: name, price, sira. Pencere sırası: price azalan, eşitlikte name artan. Sonucu sira'ya göre artan sırala.",
+      "hint1": "ROW_NUMBER() OVER (ORDER BY price DESC, name ASC) AS sira.",
+      "hint2": "Window function OVER (...) ile satırları gruba indirmeden her satıra hesaplanmış değer ekler.",
+      "answerExplanation": "ROW_NUMBER her satıra benzersiz, ardışık bir numara verir (eşit değerlerde bile farklı). OVER (...) penceresinin ORDER BY'ı numaralandırma sırasını belirler."
+    },
+    "assessment": { "referenceSql": "SELECT name, price, ROW_NUMBER() OVER (ORDER BY price DESC, name ASC) AS sira FROM products ORDER BY sira ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["name", "price", "sira"], "requiredConcepts": ["window"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-u13-rank-dense-001", "type": "write_sql", "unit": "U13", "lessonId": "U13-window", "conceptTags": ["window", "rank", "dense-rank"], "difficulty": 3,
+    "tr": {
+      "title": "RANK ve DENSE_RANK yan yana",
+      "prompt": "enrollments tablosunda notu girilmiş (grade NULL olmayan) kayıtları nota göre büyükten küçüğe sırala; her satıra hem RANK hem DENSE_RANK değerini ekle. Sonuçta dört sütun olsun, bu sırayla: student_id, grade, rank_, dense_. İki window'un da pencere sırası grade azalan olsun. Sonucu grade'e göre büyükten küçüğe, sonra student_id'ye göre artan sırala. (Eşit notlarda RANK ile DENSE_RANK farkını gözlemle.)",
+      "hint1": "RANK() OVER (ORDER BY grade DESC) AS rank_, DENSE_RANK() OVER (ORDER BY grade DESC) AS dense_.",
+      "answerExplanation": "RANK eşit değerlere aynı sırayı verir ama SONRA sayıyı atlar (1,1,3...). DENSE_RANK eşitlere aynı sırayı verir ve atlamaz (1,1,2...). İkisini yan yana görünce fark netleşir."
+    },
+    "assessment": { "referenceSql": "SELECT student_id, grade, RANK() OVER (ORDER BY grade DESC) AS rank_, DENSE_RANK() OVER (ORDER BY grade DESC) AS dense_ FROM enrollments WHERE grade IS NOT NULL ORDER BY grade DESC, student_id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["student_id", "grade", "rank_", "dense_"], "requiredConcepts": ["window", "rank"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-u13-running-total-001", "type": "write_sql", "unit": "U13", "lessonId": "U13-window", "conceptTags": ["window", "running-total", "sum"], "difficulty": 3,
+    "tr": {
+      "title": "Koşan toplam (running total)",
+      "prompt": "order_items tablosunu order_id, sonra product_id sırasıyla göster; her satıra, o satıra KADAR (o satır dahil) olan quantity'lerin koşan toplamını ekle. Sonuçta dört sütun olsun, bu sırayla: order_id, product_id, quantity, kosan_toplam. Pencere sırası: order_id artan, sonra product_id artan. Sonucu order_id, sonra product_id'ye göre artan sırala.",
+      "hint1": "SUM(quantity) OVER (ORDER BY order_id, product_id) AS kosan_toplam.",
+      "answerExplanation": "SUM(...) OVER (ORDER BY ...) bir 'koşan toplam' üretir: her satırda, pencere sırasında o satıra kadarki değerlerin toplamını verir. GROUP BY'ın aksine her satır korunur."
+    },
+    "assessment": { "referenceSql": "SELECT order_id, product_id, quantity, SUM(quantity) OVER (ORDER BY order_id, product_id) AS kosan_toplam FROM order_items ORDER BY order_id ASC, product_id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["order_id", "product_id", "quantity", "kosan_toplam"], "requiredConcepts": ["window", "sum"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-u13-partition-running-001", "type": "write_sql", "unit": "U13", "lessonId": "U13-window", "conceptTags": ["window", "partition-by", "running-total", "sum"], "difficulty": 4,
+    "tr": {
+      "title": "Her sipariş içinde koşan toplam (PARTITION BY)",
+      "prompt": "order_items tablosunda, koşan toplamı HER SİPARİŞ İÇİNDE ayrı ayrı hesapla (her yeni order_id'de toplam sıfırdan başlasın). Yani pencereyi order_id'ye göre böl. Sonuçta dört sütun olsun, bu sırayla: order_id, product_id, quantity, siparis_ici_toplam. Pencere: PARTITION BY order_id, ORDER BY product_id. Sonucu order_id, sonra product_id'ye göre artan sırala.",
+      "hint1": "SUM(quantity) OVER (PARTITION BY order_id ORDER BY product_id) AS siparis_ici_toplam.",
+      "answerExplanation": "PARTITION BY order_id, pencereyi her sipariş için ayrı bir bölmeye ayırır; koşan toplam her yeni siparişte yeniden başlar. PARTITION BY, window'un 'GROUP BY'ı gibidir ama satırları korur."
+    },
+    "assessment": { "referenceSql": "SELECT order_id, product_id, quantity, SUM(quantity) OVER (PARTITION BY order_id ORDER BY product_id) AS siparis_ici_toplam FROM order_items ORDER BY order_id ASC, product_id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["order_id", "product_id", "quantity", "siparis_ici_toplam"], "requiredConcepts": ["window", "partition-by", "sum"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-u13-row-number-partition-001", "type": "write_sql", "unit": "U13", "lessonId": "U13-window", "conceptTags": ["window", "row-number", "partition-by"], "difficulty": 3,
+    "tr": {
+      "title": "Kategori içinde sıra numarası",
+      "prompt": "products tablosunda, HER KATEGORİ İÇİNDE ürünleri fiyata göre büyükten küçüğe sırala ve kategori içi 1'den başlayan sıra numarası ver. Sonuçta dört sütun olsun, bu sırayla: category, name, price, kategori_sira. Pencere: PARTITION BY category, ORDER BY price DESC, name ASC. Sonucu önce category'ye göre artan, sonra kategori_sira'ya göre artan sırala.",
+      "hint1": "ROW_NUMBER() OVER (PARTITION BY category ORDER BY price DESC, name ASC) AS kategori_sira.",
+      "answerExplanation": "PARTITION BY category numaralandırmayı her kategoride sıfırlar; böylece her kategorinin en pahalısı 1 olur. 'Her grupta en üst N' problemlerinin temelidir."
+    },
+    "assessment": { "referenceSql": "SELECT category, name, price, ROW_NUMBER() OVER (PARTITION BY category ORDER BY price DESC, name ASC) AS kategori_sira FROM products ORDER BY category ASC, kategori_sira ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["category", "name", "price", "kategori_sira"], "requiredConcepts": ["window", "partition-by"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-u13-window-vs-groupby-001", "type": "write_sql", "unit": "U13", "lessonId": "U13-window", "conceptTags": ["window", "partition-by", "avg", "grain"], "difficulty": 4,
+    "tr": {
+      "title": "Satırı koru: window AVG (GROUP BY değil)",
+      "prompt": "products tablosunda HER ürünü ayrı satır olarak göster; her satırın yanına, o ürünün KENDİ KATEGORİSİNİN ortalama fiyatını (2 ondalık) ekle. GROUP BY KULLANMA (satırlar kaybolmasın); window function kullan. Sonuçta dört sütun olsun, bu sırayla: name, price, category, kat_ort. Sonucu önce category'ye göre artan, sonra name'e göre artan sırala.",
+      "hint1": "ROUND(AVG(price) OVER (PARTITION BY category), 2) AS kat_ort — OVER içinde ORDER BY yok, tüm kategori ortalaması.",
+      "answerExplanation": "AVG(price) OVER (PARTITION BY category) her ürünün satırını KORUR ve yanına kategori ortalamasını yazar. GROUP BY category yapsaydın her kategori tek satıra inerdi ve ürünleri kaybederdin. İşte window ile GROUP BY'ın temel farkı: window satırı korur."
+    },
+    "assessment": { "referenceSql": "SELECT name, price, category, ROUND(AVG(price) OVER (PARTITION BY category), 2) AS kat_ort FROM products ORDER BY category ASC, name ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["name", "price", "category", "kat_ort"], "numericTolerance": 0.01, "requiredConcepts": ["window", "partition-by"], "forbiddenPatterns": ["select_star", "group_by_as_main_solution"] }
+  },
+  {
+    "id": "q-u13-lag-001", "type": "write_sql", "unit": "U13", "lessonId": "U13-window", "conceptTags": ["window", "lag"], "difficulty": 4,
+    "tr": {
+      "title": "Bir önceki satır (LAG)",
+      "prompt": "orders tablosunu id sırasıyla göster; her satıra, bir ÖNCEKİ siparişin id'sini ekle (LAG). İlk satırda önceki olmadığı için NULL gelecek. Sonuçta üç sütun olsun, bu sırayla: id, status, onceki_id. Pencere sırası: id artan. Sonucu id'ye göre artan sırala.",
+      "hint1": "LAG(id) OVER (ORDER BY id) AS onceki_id.",
+      "answerExplanation": "LAG, pencere sırasında bir ÖNCEKİ satırın değerini getirir; ilk satırda önceki olmadığından NULL döner. Ardışık satırları karşılaştırmak (örn. fark hesaplamak) için kullanılır."
+    },
+    "assessment": { "referenceSql": "SELECT id, status, LAG(id) OVER (ORDER BY id) AS onceki_id FROM orders ORDER BY id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["id", "status", "onceki_id"], "requiredConcepts": ["window"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-u13-lead-001", "type": "write_sql", "unit": "U13", "lessonId": "U13-window", "conceptTags": ["window", "lead"], "difficulty": 4,
+    "tr": {
+      "title": "Bir sonraki satır (LEAD)",
+      "prompt": "products tablosunu fiyat sırasıyla (artan, eşitlikte name artan) göster; her satıra bir SONRAKİ ürünün fiyatını ekle (LEAD). Son satırda sonraki olmadığı için NULL gelecek. Sonuçta üç sütun olsun, bu sırayla: name, price, sonraki_fiyat. Pencere sırası: price artan, name artan. Sonucu price'a göre artan, sonra name'e göre artan sırala.",
+      "hint1": "LEAD(price) OVER (ORDER BY price ASC, name ASC) AS sonraki_fiyat.",
+      "answerExplanation": "LEAD, pencere sırasında bir SONRAKİ satırın değerini getirir; son satırda NULL döner. LAG'in tersidir; 'bir sonraki ile fark' gibi analizlerde kullanılır."
+    },
+    "assessment": { "referenceSql": "SELECT name, price, LEAD(price) OVER (ORDER BY price ASC, name ASC) AS sonraki_fiyat FROM products ORDER BY price ASC, name ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["name", "price", "sonraki_fiyat"], "requiredConcepts": ["window"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-u13-mc-window-vs-groupby-001", "type": "multiple_choice", "unit": "U13", "lessonId": "U13-window", "conceptTags": ["window", "group-by", "grain"], "difficulty": 3,
+    "tr": {
+      "title": "Window function ile GROUP BY farkı",
+      "prompt": "Bir aggregate'i (örn. ortalama) window function (OVER) ile yazmakla GROUP BY ile yazmak arasındaki temel fark nedir?",
+      "hint1": "Satırlara ne olur?",
+      "answerExplanation": "GROUP BY satırları gruba İNDİRİR (her grup için tek satır). Window function (OVER) ise tüm satırları KORUR ve her satırın yanına hesaplanmış özet değeri ekler. 'Hem detay satırını hem grup özetini birlikte istiyorum' dediğinde window kullanılır."
+    },
+    "choices": ["Window satırları korur (her satıra özet ekler); GROUP BY satırları gruba indirir", "İkisi de satırları gruba indirir", "Window daha yavaştır ama aynı sonucu verir", "GROUP BY satırları korur, window indirir"], "correctIndex": 0
+  },
+  {
+    "id": "q-u13-window-rank-course-grades-001", "type": "write_sql", "unit": "U13", "lessonId": "U13-window", "conceptTags": ["window", "rank", "partition-by", "join", "null"], "difficulty": 3,
+    "tr": {
+      "title": "Ders içinde not sıralaması (RANK)",
+      "prompt": "enrollments, students ve courses tablolarını birlikte kullan. grade değeri NULL olan (devam eden) kayıtları DAHİL ETME. Her dersin KENDİ İÇİNDE, öğrencileri grade değerine göre yüksekten düşüğe sırala ve her satırın yanına RANK() ile ders içi sıralama numarası ekle. Aynı grade'e sahip öğrenciler AYNI rank'i almalı ve sonraki numara atlamalı (Postgres RANK davranışı). Sonuçta sadece şu sütunlar olsun, bu sırayla: course_code, student_id, student_name, grade, rank_in_course. student_name, first_name ve last_name'in aralarında bir boşlukla birleştirilmiş hali olsun. Sonucu course_code'a göre artan, sonra rank_in_course'a göre artan, sonra student_id'ye göre artan sırala.",
+      "hint1": "Her öğrencinin satırı korunmalı, GROUP BY satırları azaltır; burada window function (OVER) gerekir.",
+      "hint2": "RANK() OVER (PARTITION BY e.course_id ORDER BY e.grade DESC) yapısını kullan. PARTITION BY her ders için sıralamayı sıfırlar.",
+      "answerExplanation": "Window function satırları gruba indirmeden, her satırın yanına hesaplanmış bir değer (rank) ekler. PARTITION BY ders, her dersi ayrı bir pencere yapar; ORDER BY grade DESC pencere içi sırayı belirler. RANK eşitlerde aynı numarayı verir, sonra atlar."
+    },
+    "assessment": { "referenceSql": "SELECT c.code AS course_code, s.id AS student_id, s.first_name || ' ' || s.last_name AS student_name, e.grade, RANK() OVER (PARTITION BY e.course_id ORDER BY e.grade DESC) AS rank_in_course FROM enrollments e JOIN students s ON s.id = e.student_id JOIN courses c ON c.id = e.course_id WHERE e.grade IS NOT NULL ORDER BY c.code ASC, rank_in_course ASC, s.id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["course_code", "student_id", "student_name", "grade", "rank_in_course"], "requiredConcepts": ["window", "rank", "partition-by"], "forbiddenPatterns": ["group_by_as_main_solution"] },
+    "commonWrongPatterns": [
+      { "id": "uses_row_number", "sqlRegex": "ROW_NUMBER\\s*\\(", "feedback": "ROW_NUMBER eşit notlara farklı sıra verir. Bu soruda eşit notlar AYNI rank almalı; RANK() kullan." },
+      { "id": "uses_dense_rank", "sqlRegex": "DENSE_RANK\\s*\\(", "feedback": "DENSE_RANK eşitlikten sonra numara atlamaz. Bu soru Postgres RANK davranışını istiyor; RANK() kullan." }
+    ]
+  }
+]

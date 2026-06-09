@@ -1,0 +1,103 @@
+[
+  {
+    "id": "q-u10-basic-001", "type": "write_sql", "unit": "U10", "lessonId": "U10-cte", "conceptTags": ["cte"], "difficulty": 2,
+    "tr": {
+      "title": "Temel CTE (WITH)",
+      "prompt": "WITH kullanarak önce 'pahali' adında bir CTE tanımla: fiyatı 50'den büyük ürünlerin name ve price'ı. Sonra bu CTE'den name ve price'ı seç. Sonuçta iki sütun olsun, bu sırayla: name ve price. Sonucu price'a göre büyükten küçüğe; eşitlikte name'e göre artan sırala.",
+      "hint1": "WITH pahali AS (SELECT name, price FROM products WHERE price > 50) SELECT name, price FROM pahali ...",
+      "hint2": "CTE, sorgunun başında geçici bir adlandırılmış sonuç kümesi tanımlamandır.",
+      "answerExplanation": "WITH ... AS (...) ile sorguya bir ad veririz (pahali) ve sonra ondan normal bir tablo gibi seçeriz. Karmaşık sorguları okunur parçalara böler."
+    },
+    "assessment": { "referenceSql": "WITH pahali AS (SELECT name, price FROM products WHERE price > 50) SELECT name, price FROM pahali ORDER BY price DESC, name ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["name", "price"], "requiredConcepts": ["cte"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-u10-count-filter-001", "type": "write_sql", "unit": "U10", "lessonId": "U10-cte", "conceptTags": ["cte", "group-by", "count"], "difficulty": 3,
+    "tr": {
+      "title": "CTE ile hesapla, sonra süz",
+      "prompt": "WITH ile önce her öğrencinin ders sayısını hesaplayan bir CTE tanımla (student_id ve ders_sayisi). Sonra bu CTE'den yalnız ders_sayisi 2 veya daha fazla olanları seç. Sonuçta iki sütun olsun, bu sırayla: student_id ve ders_sayisi. Sonucu student_id'ye göre artan sırala.",
+      "hint1": "WITH t AS (SELECT student_id, COUNT(*) AS ders_sayisi FROM enrollments GROUP BY student_id) SELECT ... FROM t WHERE ders_sayisi >= 2.",
+      "answerExplanation": "CTE'de gruplayıp sayarız; dış sorguda CTE'nin sonucunu normal tablo gibi WHERE ile süzeriz. Bu, Ü9'daki türetilmiş tablonun daha okunur halidir."
+    },
+    "assessment": { "referenceSql": "WITH t AS (SELECT student_id, COUNT(*) AS ders_sayisi FROM enrollments GROUP BY student_id) SELECT student_id, ders_sayisi FROM t WHERE ders_sayisi >= 2 ORDER BY student_id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["student_id", "ders_sayisi"], "requiredConcepts": ["cte"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-u10-join-names-001", "type": "write_sql", "unit": "U10", "lessonId": "U10-cte", "conceptTags": ["cte", "join", "sum"], "difficulty": 3,
+    "tr": {
+      "title": "CTE'yi JOIN ile adlandırma",
+      "prompt": "WITH ile önce her ürünün cirosunu hesapla (product_id ve ciro = SUM(quantity*unit_price)); sonra bu CTE'yi products ile birleştirip ürünün adını ekle. Sonuçta iki sütun olsun, bu sırayla: urun (products.name) ve ciro (2 ondalık). Sonucu ciro'ya göre büyükten küçüğe; eşitlikte products.id'ye göre artan sırala.",
+      "hint1": "WITH ciro_t AS (SELECT product_id, SUM(quantity*unit_price) AS ciro FROM order_items GROUP BY product_id) SELECT p.name AS urun, ROUND(c.ciro,2) AS ciro FROM ciro_t c JOIN products p ON p.id = c.product_id ...",
+      "answerExplanation": "Önce ciroyu CTE'de hesaplar, sonra ürün adını JOIN ile ekleriz. Hesaplama ve adlandırmayı ayırmak sorguyu okunur kılar."
+    },
+    "assessment": { "referenceSql": "WITH ciro_t AS (SELECT product_id, SUM(quantity * unit_price) AS ciro FROM order_items GROUP BY product_id) SELECT p.name AS urun, ROUND(c.ciro, 2) AS ciro FROM ciro_t c JOIN products p ON p.id = c.product_id ORDER BY c.ciro DESC, p.id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["urun", "ciro"], "numericTolerance": 0.01, "requiredConcepts": ["cte", "join"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-u10-chained-001", "type": "write_sql", "unit": "U10", "lessonId": "U10-cte", "conceptTags": ["cte", "chained"], "difficulty": 4,
+    "tr": {
+      "title": "Zincirleme CTE (biri diğerini kullanır)",
+      "prompt": "İki CTE zinciri kur: (1) 'kayit' CTE'si her öğrencinin ders sayısını hesaplasın (student_id, ders_sayisi); (2) 'cok' CTE'si 'kayit'tan yalnız ders_sayisi 2 ve üzeri olanları seçsin. Sonra 'cok'tan seç. Sonuçta iki sütun olsun, bu sırayla: student_id ve ders_sayisi. Sonucu student_id'ye göre artan sırala.",
+      "hint1": "WITH kayit AS (...), cok AS (SELECT student_id, ders_sayisi FROM kayit WHERE ders_sayisi >= 2) SELECT ... FROM cok ...",
+      "answerExplanation": "Tek WITH altında virgülle birden çok CTE tanımlanır; sonra gelen CTE, önce geleni kullanabilir (zincir). Karmaşık mantığı adım adım, okunur kurarsın."
+    },
+    "assessment": { "referenceSql": "WITH kayit AS (SELECT student_id, COUNT(*) AS ders_sayisi FROM enrollments GROUP BY student_id), cok AS (SELECT student_id, ders_sayisi FROM kayit WHERE ders_sayisi >= 2) SELECT student_id, ders_sayisi FROM cok ORDER BY student_id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["student_id", "ders_sayisi"], "requiredConcepts": ["cte"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-u10-double-count-fix-001", "type": "write_sql", "unit": "U10", "lessonId": "U10-cte", "conceptTags": ["cte", "grain", "left-join", "trap-fix"], "difficulty": 4,
+    "tr": {
+      "title": "Çift saymayı CTE ile düzelt",
+      "prompt": "Her öğrencinin adını, bursunu ve ders sayısını DOĞRU şekilde yan yana göster (burs şişmeden). Yöntem: önce WITH ile ders sayısını öğrenci başına hesapla (önce-topla); sonra students ile LEFT JOIN yap. Bursu NULL olanlarda 0, ders sayısı olmayanlarda 0 göster. Sonuçta üç sütun olsun, bu sırayla: first_name, burs, ders_sayisi. Sonucu öğrencinin id'sine göre artan sırala.",
+      "hint1": "WITH dc AS (SELECT student_id, COUNT(*) AS ders_sayisi FROM enrollments GROUP BY student_id) SELECT s.first_name, COALESCE(s.scholarship_amount,0) AS burs, COALESCE(dc.ders_sayisi,0) AS ders_sayisi FROM students s LEFT JOIN dc ON dc.student_id = s.id ...",
+      "answerExplanation": "Eğer students'ı enrollments ile doğrudan JOIN edip sayarsan öğrenci çoğalır ve burs şişer. CTE'de ÖNCE öğrenci başına sayıp SONRA join'leyince her öğrenci tek satır kalır; burs doğru, ders sayısı doğru. 'Önce topla, sonra birleştir' kuralı."
+    },
+    "assessment": { "referenceSql": "WITH dc AS (SELECT student_id, COUNT(*) AS ders_sayisi FROM enrollments GROUP BY student_id) SELECT s.first_name, COALESCE(s.scholarship_amount, 0) AS burs, COALESCE(dc.ders_sayisi, 0) AS ders_sayisi FROM students s LEFT JOIN dc ON dc.student_id = s.id ORDER BY s.id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["first_name", "burs", "ders_sayisi"], "numericTolerance": 0.01, "requiredConcepts": ["cte", "left-join"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-u10-category-avg-001", "type": "write_sql", "unit": "U10", "lessonId": "U10-cte", "conceptTags": ["cte", "group-by", "avg"], "difficulty": 3,
+    "tr": {
+      "title": "CTE ile kategori ortalamaları süz",
+      "prompt": "WITH ile önce her kategorinin ortalama fiyatını hesapla (category, ort = ROUND(AVG(price),2)); sonra bu CTE'den yalnız ortalaması 40'tan büyük kategorileri getir. Sonuçta iki sütun olsun, bu sırayla: category ve ort. Sonucu category'ye göre artan sırala.",
+      "hint1": "WITH cat AS (SELECT category, ROUND(AVG(price),2) AS ort FROM products GROUP BY category) SELECT category, ort FROM cat WHERE ort > 40 ...",
+      "answerExplanation": "CTE'de kategori ortalamalarını hesaplar, dış sorguda hesaplanmış ortalamaya göre süzeriz (HAVING'e okunur bir alternatif)."
+    },
+    "assessment": { "referenceSql": "WITH cat AS (SELECT category, ROUND(AVG(price), 2) AS ort FROM products GROUP BY category) SELECT category, ort FROM cat WHERE ort > 40 ORDER BY category ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["category", "ort"], "numericTolerance": 0.01, "requiredConcepts": ["cte"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-u10-self-ref-avg-001", "type": "write_sql", "unit": "U10", "lessonId": "U10-cte", "conceptTags": ["cte", "subquery", "sum"], "difficulty": 4,
+    "tr": {
+      "title": "CTE'yi iki kez kullanmak",
+      "prompt": "WITH ile önce her ürünün cirosunu hesapla (product_id, toplam = SUM(quantity*unit_price)). Sonra, cirosu TÜM ürünlerin ortalama cirosundan BÜYÜK olan ürünleri getir. Ortalamayı aynı CTE'den bir scalar subquery ile al. Sonuçta iki sütun olsun, bu sırayla: product_id ve toplam (2 ondalık). Sonucu toplam'a göre büyükten küçüğe; eşitlikte product_id'ye göre artan sırala.",
+      "hint1": "WITH ciro AS (SELECT product_id, SUM(quantity*unit_price) AS toplam FROM order_items GROUP BY product_id) SELECT product_id, ROUND(toplam,2) AS toplam FROM ciro WHERE toplam > (SELECT AVG(toplam) FROM ciro) ...",
+      "answerExplanation": "Bir CTE'yi hem ana FROM'da hem de scalar subquery içinde tekrar tekrar kullanabilirsin; aynı hesabı iki kez yazmak yerine bir kez tanımlar, çok yerde kullanırsın."
+    },
+    "assessment": { "referenceSql": "WITH ciro AS (SELECT product_id, SUM(quantity * unit_price) AS toplam FROM order_items GROUP BY product_id) SELECT product_id, ROUND(toplam, 2) AS toplam FROM ciro WHERE toplam > (SELECT AVG(toplam) FROM ciro) ORDER BY toplam DESC, product_id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["product_id", "toplam"], "numericTolerance": 0.01, "requiredConcepts": ["cte", "subquery"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-u10-distinct-count-001", "type": "write_sql", "unit": "U10", "lessonId": "U10-cte", "conceptTags": ["cte", "distinct", "count"], "difficulty": 3,
+    "tr": {
+      "title": "CTE ile tekilleştir, sonra say",
+      "prompt": "WITH ile önce kulübe üye olan TEKRARSIZ öğrenci id'lerini al (uyeler CTE'si: SELECT DISTINCT student_id FROM club_memberships); sonra bu CTE'deki satır sayısını getir. Sonuç tek sütun olsun, adı uye_sayisi olsun.",
+      "hint1": "WITH uyeler AS (SELECT DISTINCT student_id FROM club_memberships) SELECT COUNT(*) AS uye_sayisi FROM uyeler.",
+      "answerExplanation": "CTE'de önce tekilleştirir (DISTINCT), sonra sayarız. Adımları ayırmak, çok kulüplü öğrencinin tekrar tekrar sayılmasını net biçimde engeller."
+    },
+    "assessment": { "referenceSql": "WITH uyeler AS (SELECT DISTINCT student_id FROM club_memberships) SELECT COUNT(*) AS uye_sayisi FROM uyeler;", "compareMode": "multiset", "expectedColumns": ["uye_sayisi"], "requiredConcepts": ["cte"] }
+  },
+  {
+    "id": "q-u10-top3-courses-001", "type": "write_sql", "unit": "U10", "lessonId": "U10-cte", "conceptTags": ["cte", "group-by", "avg", "order-by", "limit"], "difficulty": 4,
+    "tr": {
+      "title": "CTE ile en yüksek ortalamalı 3 ders",
+      "prompt": "WITH ile önce her dersin ortalama notunu hesapla (yalnız notu girilmiş kayıtları kullan: WHERE grade IS NOT NULL; sütunlar course_id, ort_not = ROUND(AVG(grade),2)). Sonra ortalaması en yüksek 3 dersi getir. Sonuçta iki sütun olsun, bu sırayla: course_id ve ort_not. Sonucu ort_not'a göre büyükten küçüğe; eşitlikte course_id'ye göre artan sırala ve yalnız ilk 3 satırı getir.",
+      "hint1": "WITH ort AS (SELECT course_id, ROUND(AVG(grade),2) AS ort_not FROM enrollments WHERE grade IS NOT NULL GROUP BY course_id) SELECT ... FROM ort ORDER BY ort_not DESC, course_id ASC LIMIT 3.",
+      "answerExplanation": "CTE'de ders ortalamalarını hesaplar, dış sorguda sıralayıp ilk 3'ü alırız. Hesabı CTE'ye koymak, dış sorguyu (sıralama+limit) sade bırakır."
+    },
+    "assessment": { "referenceSql": "WITH ort AS (SELECT course_id, ROUND(AVG(grade), 2) AS ort_not FROM enrollments WHERE grade IS NOT NULL GROUP BY course_id) SELECT course_id, ort_not FROM ort ORDER BY ort_not DESC, course_id ASC LIMIT 3;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["course_id", "ort_not"], "numericTolerance": 0.01, "requiredConcepts": ["cte", "limit"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-u10-mc-cte-vs-subquery-001", "type": "multiple_choice", "unit": "U10", "lessonId": "U10-cte", "conceptTags": ["cte", "subquery"], "difficulty": 3,
+    "tr": {
+      "title": "CTE'nin türetilmiş tabloya göre faydası",
+      "prompt": "Aynı işi yapan bir CTE (WITH) ile FROM içindeki bir alt sorgu (türetilmiş tablo) karşılaştırıldığında, CTE'nin temel faydası nedir?",
+      "hint1": "Okunabilirlik ve tekrar kullanım açısından düşün.",
+      "answerExplanation": "CTE, ara sonuca bir AD verir; bu sorguyu okunur kılar ve aynı ara sonucu sorgunun birden çok yerinde tekrar kullanmana izin verir. Sonuç açısından çoğu zaman ikisi eşdeğerdir; fark okunabilirlik ve yeniden kullanımdır."
+    },
+    "choices": ["Ara sonuca ad verip okunabilirliği artırır ve birden çok yerde tekrar kullanılabilir", "Her zaman daha hızlıdır", "Subquery'nin yapamadığı şeyleri hesaplar", "NULL'ları otomatik temizler"], "correctIndex": 0
+  }
+]

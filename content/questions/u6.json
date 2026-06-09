@@ -1,0 +1,158 @@
+[
+  {
+    "id": "q-u6-inner-students-dept-001", "type": "write_sql", "unit": "U6", "lessonId": "U6-join", "conceptTags": ["join", "inner-join"], "difficulty": 2,
+    "tr": {
+      "title": "Öğrenci ve bölüm adı (INNER JOIN)",
+      "prompt": "students ve departments tablolarını birleştirerek, bölümü olan her öğrencinin adını ve bağlı olduğu bölümün adını getir. Birleştirme koşulu: students.department_id = departments.id. Sonuçta iki sütun olsun, bu sırayla: first_name (öğrencinin adı) ve bolum (departments.name). Sonucu öğrencinin id'sine göre artan sırala.",
+      "hint1": "İki tabloyu JOIN ... ON ... ile bağla: JOIN departments d ON d.id = s.department_id.",
+      "hint2": "SELECT s.first_name, d.name AS bolum FROM students s JOIN departments d ON d.id = s.department_id ORDER BY s.id;",
+      "answerExplanation": "JOIN, iki tabloyu ON koşuluyla eşleştirir: her öğrencinin department_id'si, departments.id ile eşleşir. INNER JOIN yalnız eşleşen satırları getirir."
+    },
+    "assessment": { "referenceSql": "SELECT s.first_name, d.name AS bolum FROM students s JOIN departments d ON d.id = s.department_id ORDER BY s.id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["first_name", "bolum"], "requiredConcepts": ["join"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-u6-inner-courses-dept-001", "type": "write_sql", "unit": "U6", "lessonId": "U6-join", "conceptTags": ["join", "inner-join"], "difficulty": 2,
+    "tr": {
+      "title": "Ders ve bölüm adı",
+      "prompt": "courses ve departments tablolarını birleştir (courses.department_id = departments.id). Her dersin code'unu ve ait olduğu bölümün adını getir. Sonuçta iki sütun olsun, bu sırayla: code ve bolum (departments.name). Sonucu code'a göre artan sırala.",
+      "hint1": "JOIN departments d ON d.id = c.department_id.",
+      "answerExplanation": "Dersin department_id'si departments.id ile eşleştirilir; böylece her dersin yanına bölüm adını yazabiliriz."
+    },
+    "assessment": { "referenceSql": "SELECT c.code, d.name AS bolum FROM courses c JOIN departments d ON d.id = c.department_id ORDER BY c.code ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["code", "bolum"], "requiredConcepts": ["join"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-u6-inner-enroll-students-001", "type": "write_sql", "unit": "U6", "lessonId": "U6-join", "conceptTags": ["join", "inner-join"], "difficulty": 2,
+    "tr": {
+      "title": "Kayıttaki öğrencinin adı",
+      "prompt": "enrollments ve students tablolarını birleştir (enrollments.student_id = students.id). Her kaydın öğrenci adını ve hangi derse (course_id) ait olduğunu getir. Sonuçta iki sütun olsun, bu sırayla: first_name ve course_id. Sonucu önce student_id'ye göre artan, sonra course_id'ye göre artan sırala.",
+      "hint1": "JOIN students s ON s.id = e.student_id.",
+      "answerExplanation": "Kayıt tablosundaki student_id'yi students.id ile eşleştirerek öğrencinin adını kayda ekliyoruz."
+    },
+    "assessment": { "referenceSql": "SELECT s.first_name, e.course_id FROM enrollments e JOIN students s ON s.id = e.student_id ORDER BY e.student_id ASC, e.course_id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["first_name", "course_id"], "requiredConcepts": ["join"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-u6-join-where-001", "type": "write_sql", "unit": "U6", "lessonId": "U6-join", "conceptTags": ["join", "inner-join", "where"], "difficulty": 3,
+    "tr": {
+      "title": "JOIN + WHERE: tamamlanmış siparişin sahibi",
+      "prompt": "orders ve students tablolarını birleştir (orders.student_id = students.id). Yalnızca status'u 'completed' olan siparişler için, siparişin id'sini ve siparişi veren öğrencinin adını getir. Sonuçta iki sütun olsun, bu sırayla: id (orders.id) ve first_name. Sonucu orders.id'ye göre artan sırala.",
+      "hint1": "Önce JOIN ile bağla, sonra WHERE o.status = 'completed' ile süz.",
+      "answerExplanation": "JOIN tabloları birleştirir; WHERE birleşik sonuç üzerinde satırları süzer. Önce eşleştir, sonra completed olanları tut."
+    },
+    "assessment": { "referenceSql": "SELECT o.id, s.first_name FROM orders o JOIN students s ON s.id = o.student_id WHERE o.status = 'completed' ORDER BY o.id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["id", "first_name"], "requiredConcepts": ["join"], "allowedLiterals": ["completed"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-u6-inner-courses-instr-001", "type": "write_sql", "unit": "U6", "lessonId": "U6-join", "conceptTags": ["join", "inner-join"], "difficulty": 3,
+    "tr": {
+      "title": "Dersin eğitmeni (INNER: atanmamış düşer)",
+      "prompt": "courses ve instructors tablolarını INNER JOIN ile birleştir (courses.instructor_id = instructors.id). Her dersin code'unu ve eğitmeninin soyadını getir. DİKKAT: eğitmeni atanmamış (instructor_id NULL) bir ders varsa, INNER JOIN onu GETİRMEZ. Sonuçta iki sütun olsun, bu sırayla: code ve egitmen_soyad (instructors.last_name). Sonucu code'a göre artan sırala.",
+      "hint1": "JOIN instructors i ON i.id = c.instructor_id.",
+      "answerExplanation": "INNER JOIN yalnız eşleşen satırları getirir. instructor_id'si NULL olan ders hiçbir eğitmenle eşleşemez, bu yüzden sonuçta görünmez (bir sonraki soruda LEFT JOIN ile hepsini getireceğiz)."
+    },
+    "assessment": { "referenceSql": "SELECT c.code, i.last_name AS egitmen_soyad FROM courses c JOIN instructors i ON i.id = c.instructor_id ORDER BY c.code ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["code", "egitmen_soyad"], "requiredConcepts": ["join"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-u6-inner-cm-clubs-001", "type": "write_sql", "unit": "U6", "lessonId": "U6-join", "conceptTags": ["join", "inner-join"], "difficulty": 2,
+    "tr": {
+      "title": "Üyelik ve kulüp adı",
+      "prompt": "club_memberships ve clubs tablolarını birleştir (club_memberships.club_id = clubs.id). Her üyeliğin öğrenci id'sini ve kulübün adını getir. Sonuçta iki sütun olsun, bu sırayla: student_id ve kulup (clubs.name). Sonucu önce student_id'ye göre artan, sonra club_id'ye göre artan sırala.",
+      "hint1": "JOIN clubs cl ON cl.id = cm.club_id.",
+      "answerExplanation": "Ara tablodaki (club_memberships) club_id'yi clubs.id ile eşleştirerek kulüp adını üyeliğe ekleriz."
+    },
+    "assessment": { "referenceSql": "SELECT cm.student_id, cl.name AS kulup FROM club_memberships cm JOIN clubs cl ON cl.id = cm.club_id ORDER BY cm.student_id ASC, cm.club_id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["student_id", "kulup"], "requiredConcepts": ["join"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-u6-left-students-dept-001", "type": "write_sql", "unit": "U6", "lessonId": "U6-join", "conceptTags": ["join", "left-join", "null"], "difficulty": 3,
+    "tr": {
+      "title": "TÜM öğrenciler + bölüm (LEFT JOIN)",
+      "prompt": "students tablosundaki TÜM öğrencileri getir; her birinin bölüm adını da yaz, ama bölümü olmayan (department_id NULL veya eşleşmeyen) öğrencide bölüm adı NULL gelsin (öğrenci yine de listede olsun). students'tan departments'a LEFT JOIN yap (students.department_id = departments.id). Sonuçta iki sütun olsun, bu sırayla: first_name ve bolum (departments.name). Sonucu öğrencinin id'sine göre artan sırala.",
+      "hint1": "LEFT JOIN sol tablodaki (students) tüm satırları korur: FROM students s LEFT JOIN departments d ON d.id = s.department_id.",
+      "answerExplanation": "LEFT JOIN sol tablonun (students) HER satırını tutar; sağda (departments) eşleşme yoksa o satırın sağ sütunları NULL gelir. Böylece bölümsüz öğrenci de listede kalır."
+    },
+    "assessment": { "referenceSql": "SELECT s.first_name, d.name AS bolum FROM students s LEFT JOIN departments d ON d.id = s.department_id ORDER BY s.id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["first_name", "bolum"], "requiredConcepts": ["left-join"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-u6-left-courses-instr-001", "type": "write_sql", "unit": "U6", "lessonId": "U6-join", "conceptTags": ["join", "left-join", "null"], "difficulty": 3,
+    "tr": {
+      "title": "TÜM dersler + eğitmen (LEFT JOIN)",
+      "prompt": "courses tablosundaki TÜM dersleri getir; her dersin eğitmeninin soyadını da yaz, ama eğitmeni atanmamış (instructor_id NULL) derste eğitmen soyadı NULL gelsin (ders yine listede olsun). courses'tan instructors'a LEFT JOIN yap. Sonuçta iki sütun olsun, bu sırayla: code ve egitmen (instructors.last_name). Sonucu code'a göre artan sırala.",
+      "hint1": "FROM courses c LEFT JOIN instructors i ON i.id = c.instructor_id.",
+      "answerExplanation": "Bir önceki INNER sorusunda kaybolan (eğitmensiz) ders, LEFT JOIN ile geri gelir; eğitmen sütunu o satırda NULL olur. 'Hepsini getir, eşleşmeyen tarafı NULL bırak' demek LEFT JOIN demektir."
+    },
+    "assessment": { "referenceSql": "SELECT c.code, i.last_name AS egitmen FROM courses c LEFT JOIN instructors i ON i.id = c.instructor_id ORDER BY c.code ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["code", "egitmen"], "requiredConcepts": ["left-join"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-u6-join-computed-001", "type": "write_sql", "unit": "U6", "lessonId": "U6-join", "conceptTags": ["join", "inner-join", "arithmetic"], "difficulty": 3,
+    "tr": {
+      "title": "Sipariş satırı + ürün adı + tutar",
+      "prompt": "order_items ve products tablolarını birleştir (order_items.product_id = products.id). Her sipariş satırı için ürün adını ve satır tutarını (quantity çarpı unit_price) getir. Sonuçta iki sütun olsun, bu sırayla: urun (products.name) ve tutar. Sonucu önce order_id'ye göre artan, sonra product_id'ye göre artan sırala.",
+      "hint1": "JOIN products p ON p.id = oi.product_id; tutar için oi.quantity * oi.unit_price.",
+      "answerExplanation": "JOIN ile ürün adını satıra ekleriz; aynı SELECT'te quantity * unit_price ile satır tutarını hesaplarız."
+    },
+    "assessment": { "referenceSql": "SELECT p.name AS urun, oi.quantity * oi.unit_price AS tutar FROM order_items oi JOIN products p ON p.id = oi.product_id ORDER BY oi.order_id ASC, oi.product_id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["urun", "tutar"], "numericTolerance": 0.01, "requiredConcepts": ["join"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-u6-join-enroll-courses-001", "type": "write_sql", "unit": "U6", "lessonId": "U6-join", "conceptTags": ["join", "inner-join"], "difficulty": 3,
+    "tr": {
+      "title": "Kayıttaki dersin adı ve not",
+      "prompt": "enrollments ve courses tablolarını birleştir (enrollments.course_id = courses.id). Her kaydın ders adını ve notunu getir. Sonuçta iki sütun olsun, bu sırayla: ders (courses.name) ve grade. Sonucu önce student_id'ye göre artan, sonra course_id'ye göre artan sırala.",
+      "hint1": "JOIN courses c ON c.id = e.course_id.",
+      "answerExplanation": "Kayıt tablosundaki course_id'yi courses.id ile eşleştirerek ders adını kayda ekleriz; grade kayıt tablosundan gelir (NULL olabilir, öylece görünür)."
+    },
+    "assessment": { "referenceSql": "SELECT c.name AS ders, e.grade FROM enrollments e JOIN courses c ON c.id = e.course_id ORDER BY e.student_id ASC, e.course_id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["ders", "grade"], "requiredConcepts": ["join"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-u6-join-where-grade-001", "type": "write_sql", "unit": "U6", "lessonId": "U6-join", "conceptTags": ["join", "inner-join", "where"], "difficulty": 3,
+    "tr": {
+      "title": "JOIN + WHERE: yüksek notlu kayıtlar",
+      "prompt": "enrollments ve students tablolarını birleştir (enrollments.student_id = students.id). Yalnızca grade değeri 80'e eşit veya 80'den büyük olan kayıtlar için öğrencinin adını ve notunu getir. Sonuçta iki sütun olsun, bu sırayla: first_name ve grade. Sonucu grade'e göre büyükten küçüğe; eşit notta student_id'ye göre artan sırala.",
+      "hint1": "JOIN ... ON ... sonra WHERE e.grade >= 80.",
+      "answerExplanation": "JOIN ile öğrenci adını ekleriz; WHERE ile yalnız yüksek notlu kayıtları tutarız. grade NULL olan kayıtlar 'NULL >= 80' true olmadığı için elenir."
+    },
+    "assessment": { "referenceSql": "SELECT s.first_name, e.grade FROM enrollments e JOIN students s ON s.id = e.student_id WHERE e.grade >= 80 ORDER BY e.grade DESC, e.student_id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["first_name", "grade"], "requiredConcepts": ["join"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-u6-antijoin-001", "type": "write_sql", "unit": "U6", "lessonId": "U6-join", "conceptTags": ["join", "left-join", "null", "anti-join"], "difficulty": 4,
+    "tr": {
+      "title": "Eğitmeni ATANMAMIŞ dersler (LEFT + IS NULL)",
+      "prompt": "Hiçbir eğitmene bağlı OLMAYAN dersleri bul. Yöntem: courses'tan instructors'a LEFT JOIN yap (courses.instructor_id = instructors.id); eşleşme olmayan satırlarda instructors tarafı NULL olur. Sonra WHERE ile bu eşleşmeyenleri (instructors.id IS NULL olanları) tut. Sonuçta tek sütun olsun: code. Sonucu code'a göre artan sırala.",
+      "hint1": "LEFT JOIN'den sonra WHERE i.id IS NULL yaz: bu, sağda eşleşme bulunamayan satırları yakalar.",
+      "hint2": "FROM courses c LEFT JOIN instructors i ON i.id = c.instructor_id WHERE i.id IS NULL",
+      "answerExplanation": "'LEFT JOIN + sağ taraf IS NULL' kalıbı 'eşleşmeyenleri bul' (anti-join) demektir. Eğitmeni atanmamış derste instructors sütunları NULL kalır; WHERE i.id IS NULL tam bu satırları seçer."
+    },
+    "assessment": { "referenceSql": "SELECT c.code FROM courses c LEFT JOIN instructors i ON i.id = c.instructor_id WHERE i.id IS NULL ORDER BY c.code ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["code"], "requiredConcepts": ["left-join", "is-null"], "forbiddenPatterns": ["select_star"] }
+  },
+  {
+    "id": "q-u6-mc-inner-vs-left-001", "type": "multiple_choice", "unit": "U6", "lessonId": "U6-join", "conceptTags": ["inner-join", "left-join"], "difficulty": 3,
+    "tr": {
+      "title": "INNER JOIN ile LEFT JOIN farkı",
+      "prompt": "INNER JOIN ile LEFT JOIN arasındaki temel fark nedir?",
+      "hint1": "Eşleşmeyen sol satırlara ne olur?",
+      "answerExplanation": "INNER JOIN yalnız iki tarafın EŞLEŞTİĞİ satırları getirir. LEFT JOIN ise sol tablonun TÜM satırlarını getirir; sağda eşleşme yoksa o satırın sağ sütunları NULL olur. 'Eşleşmeyenleri de istiyorum' diyorsan LEFT JOIN."
+    },
+    "choices": ["INNER yalnız eşleşen satırları; LEFT sol tablonun tüm satırlarını getirir (eşleşmeyen sağ NULL)", "İkisi de tamamen aynıdır", "LEFT yalnız eşleşenleri, INNER hepsini getirir", "LEFT JOIN ON koşulu almaz"], "correctIndex": 0
+  },
+  {
+    "id": "q-u6-mc-left-where-trap-001", "type": "multiple_choice", "unit": "U6", "lessonId": "U6-join", "conceptTags": ["left-join", "where", "null"], "difficulty": 4,
+    "tr": {
+      "title": "TUZAK: LEFT JOIN'den sonra sağ tabloya WHERE",
+      "prompt": "courses LEFT JOIN instructors yaptın (tüm dersleri görmek için). Sonra 'WHERE i.title = ''Profesör''' eklersen ne olur?",
+      "hint1": "Eğitmeni NULL olan dersin i.title'ı NULL'dır; 'NULL = Profesör' true mu?",
+      "answerExplanation": "WHERE'de sağ tablonun sütununa (eğitmeni olmayan satırda NULL) koşul koyunca, o NULL satırlar elenir; LEFT JOIN'in 'hepsini koru' faydası kaybolur ve sonuç INNER JOIN gibi olur. Sağ tablo koşulunu korumak istiyorsan koşulu JOIN'in ON kısmına yazmalısın."
+    },
+    "choices": ["Eğitmensiz dersler elenir; LEFT'in etkisi kaybolur, INNER JOIN gibi davranır", "Hiçbir şey değişmez, tüm dersler kalır", "Hata verir", "Eğitmensiz derslerin title'ı 'Profesör' olur"], "correctIndex": 0
+  },
+  {
+    "id": "q-u6-left-join-club-members-001", "type": "write_sql", "unit": "U6", "lessonId": "U6-join", "conceptTags": ["join", "left-join", "group-by", "count", "null"], "difficulty": 4,
+    "tr": {
+      "title": "Üyesi olmayan kulüpler de görünsün",
+      "prompt": "clubs ve club_memberships tablolarını kullanarak her kulübün kaç üyesi olduğunu göster. ÇOK ÖNEMLİ: üyesi hiç olmayan kulüpler de sonuçta görünmeli ve üye sayıları 0 olmalı. Sonuçta sadece şu üç sütun olsun, bu sırayla: club_id (kulübün id'si), club_name (kulübün adı), member_count (üye sayısı). Sonucu önce member_count'a göre büyükten küçüğe; eşitlik olursa club_id'ye göre küçükten büyüğe sırala.",
+      "hint1": "Üyesi olmayan kulüpleri de getirmek için clubs'tan club_memberships'e LEFT JOIN yap.",
+      "hint2": "Üye sayısı için COUNT(*) değil COUNT(cm.student_id) kullan; çünkü LEFT JOIN'de eşleşmeyen kulüpte bu sütun NULL olur ve COUNT onu saymaz (0 verir). COUNT(*) ise yanlışlıkla 1 sayar.",
+      "answerExplanation": "LEFT JOIN sol tablodaki (clubs) tüm satırları korur; eşleşme yoksa sağ taraf NULL gelir. COUNT(cm.student_id) NULL'ları saymadığı için üyesiz kulüpte doğru şekilde 0 verir. COUNT(*) satır saydığından üyesiz kulübe yanlışlıkla 1 derdi."
+    },
+    "assessment": { "referenceSql": "SELECT c.id AS club_id, c.name AS club_name, COUNT(cm.student_id) AS member_count FROM clubs c LEFT JOIN club_memberships cm ON cm.club_id = c.id GROUP BY c.id, c.name ORDER BY member_count DESC, c.id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["club_id", "club_name", "member_count"], "requiredConcepts": ["left-join", "group-by", "count"], "forbiddenPatterns": ["select_star"] },
+    "commonWrongPatterns": [
+      { "id": "count_star_in_left_join", "sqlRegex": "COUNT\\s*\\(\\s*\\*\\s*\\)", "feedback": "LEFT JOIN'de COUNT(*) üyesi olmayan kulübe 1 der (çünkü 1 NULL satır gelir). Doğru sayım için COUNT(cm.student_id) kullan." }
+    ]
+  }
+]
