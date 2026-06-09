@@ -2,6 +2,10 @@
 
 > Codex yanıtı (docs/research/codex-questionbank-response.md) + Claude'un mühendislik/eğitmen görüşü
 > birleştirildi. Bu doküman NE YAPACAĞIMIZI kilitler. Tarih: 2026-06-09.
+>
+> **DURUM (2026-06-09): Q1 (sistem) + Q2 (245 soru) TAMAMLANDI ve public repoda.** Tüm referenceSql
+> seed'e karşı doğrulandı (`npm run qa:bank`). content/questions/*.json. Hidden-seed, predict_output/
+> find_bug tipleri ve Q3 (spaced repetition / günlük-5 / öğretmen analitiği) hâlâ açık (bkz. §F).
 
 ## A. Codex'le tam mutabık olduğumuz çekirdek (temel alıyoruz)
 - **"Kaç soru çözdün" değil "hangi kavram oturdu"**: her soru kavram-etiketli, zorluk-kalibreli, versiyonlu.

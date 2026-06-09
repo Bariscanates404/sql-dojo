@@ -1,6 +1,8 @@
 # SQL Trainer — PLAN (v1 taslak, tartışmaya açık)
 
-> Durum: PLAN yazıldı, kullanıcı incelemesi bekliyor. Henüz kod yok.
+> Durum (2026-06-09): Bu ORİJİNAL plandır (tarihsel referans). YAPILDI: Faz 0 iskeleti +
+> 245 soruluk otomatik değerlendirilen Sorular modülü + /ilerleme + guardrails, public repoda.
+> GÜNCEL durum için README "Durum" bölümüne, soru bankası için docs/QUESTION_BANK_PLAN.md'ye bak.
 > Kararlar BRAINSTORM.md bölüm 8'de kilitli. Bu doküman onların üstüne kuruluyor.
 > Tarih: 2026-06-07
 

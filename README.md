@@ -18,7 +18,8 @@ _An interactive SQL learning app running a real Postgres (PGlite) entirely in yo
 
 - 🐘 **Gerçek Postgres, tarayıcıda.** Sorgular [PGlite](https://github.com/electric-sql/pglite) (WASM Postgres) üzerinde çalışır. Kurulum yok, backend yok, anında sonuç.
 - 📚 **Ünite ünite müfredat.** SELECT temellerinden window fonksiyonlarına 16 ders: anlatım + çözümlü örnek + pratik.
-- 📝 **Otomatik değerlendirilen soru bankası.** Yüzlerce soru, gerçek Postgres üzerinde sonuç karşılaştırmasıyla otomatik puanlanır (SQL yaz + çoktan seçmeli). Ünite ve zorluk (taklit, transfer, birleştirme, tuzaklı) filtreleri.
+- 📝 **Otomatik değerlendirilen soru bankası.** 245 soru (16 ünite), gerçek Postgres üzerinde sonuç karşılaştırmasıyla otomatik puanlanır (SQL yaz + çoktan seçmeli). Ünite, zorluk (taklit, transfer, birleştirme, tuzaklı) ve tip filtreleri; tek tek soru akışı, kademeli ipucu, hataya özel geri bildirim.
+- 📊 **İlerleme takibi.** Kaç soru çözüldü, ünite ilerlemesi ve kavram ustalığı (çalışılacak / oturmuş kavramlar) `/ilerleme` sayfasında. (Şimdilik tarayıcıda saklanır; hesap senkronu ileride.)
 - ⌨️ **Deneme Tahtası.** Her ekrandan `⌘K` ile açılan global SQL paneli: kampüs verisi üzerinde özgürce dene, `↺ Sıfırla` ile temize dön.
 - 🧑‍🏫 **Rol görünürlüğü.** Ders içinde 🧑‍🏫 ile işaretli bölümler sadece öğretmene görünür; öğrenci görünümünde otomatik gizlenir.
 
@@ -45,9 +46,15 @@ npm run dev        # http://localhost:5176  (predev otomatik içerik senkronu ya
 | Komut | Ne yapar |
 |---|---|
 | `npm run build` | Production build (TypeScript kontrolü dahil) |
+| `npm run check` | Tam kalite kapısı: sync + type-check + lint + db/strip/bank smoke |
+| `npm run lint` | ESLint (`eslint src`) |
 | `npm run type-check` | Sadece `tsc --noEmit` |
 | `npm run sync:content` | `content/` -> `public/content/` kopyalar + ders `index.json` üretir |
 | `npm run db:smoke` | Node'da seed'i PGlite'a yükleyip örnek sorguları doğrular |
+| `npm run qa:bank` | 245 sorunun referenceSql'ini seed'e karşı doğrular (Zod + çalışma + sütun) |
+| `npm run qa:lessons` | Derslerde gösterilen sonuç tablolarını seed'e karşı kontrol eder |
+
+> Commit öncesi `husky` pre-commit hook'u `type-check + lint + qa:bank`'i otomatik çalıştırır.
 
 ## Stack
 
@@ -66,4 +73,10 @@ Kaynak doğruluk `content/` altındadır (16 ders `content/lessons/*.md`, seed `
 
 ## Durum
 
-**Faz 0 (iskelet) tamam:** scaffold, PGlite + seed (tarayıcıda doğrulandı), CodeMirror editör, Deneme Tahtası, ders renderer + rol-strip, otomatik değerlendirilen Sorular modülü. Sırada: Supabase auth + roller + RLS + ilerleme/deneme tabloları, sonra Faz 1 (Ünite 1 uçtan uca + /progress). Yol haritası: `docs/PLAN.md`.
+**Çalışan:** Faz 0 iskeleti (Next 16 + PGlite + CodeMirror + Tailwind v4), 16 ders + Kampüs seed, rol-görünürlüklü ders renderer, global Deneme Tahtası (⌘K), **245 soruluk otomatik değerlendirilen Sorular modülü** (ünite/zorluk/tip filtreleri, kademeli ipucu), **`/ilerleme`** takibi ve kalite kapısı (`npm run check` + husky pre-commit). Tümü tarayıcıda doğrulandı.
+
+**Sırada:** Supabase auth + roller + RLS (cihazlar arası ilerleme, öğretmen paneli), spaced-repetition / günlük drill, İngilizce i18n, GitHub Actions CI (`.github/workflows/ci.yml` hazır). Canlı demo: `docs/DEPLOY.md`. Tam yol haritası: `docs/PLAN.md` + `docs/QUESTION_BANK_PLAN.md`.
+
+## Lisans
+
+[MIT](LICENSE) © Barış Can Ateş
