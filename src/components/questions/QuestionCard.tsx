@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { QueryResultView } from '@/components/sql/QueryResultView';
 import { SqlEditor } from '@/components/sql/SqlEditor';
 import { Button } from '@ui/Button';
+import { toSqlError, type SqlError } from '@lib/db/errors';
 import { ensureSeed, execSql, type DisplayResult } from '@lib/db/pglite';
 import { gradeQuestion, type GradeResult } from '@lib/questions/grade';
 import { DIFFICULTY_LABEL, type Question } from '@lib/questions/schema';
@@ -33,7 +34,7 @@ export function QuestionCard({ question: q, onGraded, onNext }: Props) {
   const [sql, setSql] = useState('');
   const [choiceIndex, setChoiceIndex] = useState<number | null>(null);
   const [runResult, setRunResult] = useState<DisplayResult | null>(null);
-  const [runError, setRunError] = useState<string | null>(null);
+  const [runError, setRunError] = useState<SqlError | null>(null);
   const [grade, setGrade] = useState<GradeResult | null>(null);
   const [hintsShown, setHintsShown] = useState(0);
   const [solutionShown, setSolutionShown] = useState(false);
@@ -51,7 +52,7 @@ export function QuestionCard({ question: q, onGraded, onNext }: Props) {
     try {
       setRunResult(await execSql(sql));
     } catch (e) {
-      setRunError(e && typeof e === 'object' && 'message' in e ? String((e as { message: unknown }).message) : String(e));
+      setRunError(toSqlError(e));
       setRunResult(null);
     } finally {
       setBusy(false);

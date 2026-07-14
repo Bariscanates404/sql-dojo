@@ -3,19 +3,13 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import { ensureSeed, execSql, type DisplayResult, resetSeed } from '@lib/db/pglite';
-
-function formatError(e: unknown): string {
-  if (e && typeof e === 'object' && 'message' in e) {
-    return String((e as { message: unknown }).message);
-  }
-  return String(e);
-}
+import { toSqlError, type SqlError } from '@lib/db/errors';
 
 export interface SqlRunnerState {
   ready: boolean;
   running: boolean;
   result: DisplayResult | null;
-  error: string | null;
+  error: SqlError | null;
   run: (sql: string) => Promise<void>;
   reset: () => Promise<void>;
 }
@@ -25,14 +19,14 @@ export function useSqlRunner(seedKey: string): SqlRunnerState {
   const [ready, setReady] = useState(false);
   const [running, setRunning] = useState(false);
   const [result, setResult] = useState<DisplayResult | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<SqlError | null>(null);
 
   useEffect(() => {
     let active = true;
     setReady(false);
     ensureSeed(seedKey)
       .then(() => { if (active) setReady(true); })
-      .catch((e) => { if (active) setError(formatError(e)); });
+      .catch((e) => { if (active) setError(toSqlError(e)); });
     return () => { active = false; };
   }, [seedKey]);
 
@@ -43,7 +37,7 @@ export function useSqlRunner(seedKey: string): SqlRunnerState {
     try {
       setResult(await execSql(sql));
     } catch (e) {
-      setError(formatError(e));
+      setError(toSqlError(e));
       setResult(null);
     } finally {
       setRunning(false);
@@ -57,7 +51,7 @@ export function useSqlRunner(seedKey: string): SqlRunnerState {
       await resetSeed(seedKey);
       setResult(null);
     } catch (e) {
-      setError(formatError(e));
+      setError(toSqlError(e));
     } finally {
       setRunning(false);
     }
