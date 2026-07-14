@@ -17,8 +17,9 @@ _An interactive SQL learning app running a real Postgres (PGlite) entirely in yo
 ## Ne yapar
 
 - 🐘 **Gerçek Postgres, tarayıcıda.** Sorgular [PGlite](https://github.com/electric-sql/pglite) (WASM Postgres) üzerinde çalışır. Kurulum yok, backend yok, anında sonuç.
-- 📚 **Ünite ünite müfredat.** SELECT temellerinden window fonksiyonlarına 16 ders: anlatım + çözümlü örnek + pratik.
-- 📝 **Otomatik değerlendirilen soru bankası.** 245 soru (16 ünite), gerçek Postgres üzerinde sonuç karşılaştırmasıyla otomatik puanlanır (SQL yaz + çoktan seçmeli). Ünite, zorluk (taklit, transfer, birleştirme, tuzaklı) ve tip filtreleri; tek tek soru akışı, kademeli ipucu, hataya özel geri bildirim.
+- 📚 **Ünite ünite müfredat.** SELECT temellerinden window fonksiyonlarına, güvenlikten veri modellemeye 17 ders: anlatım + çözümlü örnek + pratik.
+- 📝 **Otomatik değerlendirilen soru bankası.** 257 soru (17 ünite), gerçek Postgres üzerinde sonuç karşılaştırmasıyla otomatik puanlanır (SQL yaz + çoktan seçmeli). Ünite, zorluk (taklit, transfer, birleştirme, tuzaklı) ve tip filtreleri; tek tek soru akışı, kademeli ipucu, hataya özel geri bildirim.
+- 🩹 **İki kademeli hata yardımı.** Editörde bir sorgu patlayınca önce gerçek Postgres hata mesajı (SQLSTATE ile) görünür; öğrenci çözemezse "Anlamadım" butonuyla anlaşılır bir "ne demek + şunu yap" açıklaması açılır.
 - 📊 **İlerleme takibi.** Kaç soru çözüldü, ünite ilerlemesi ve kavram ustalığı (çalışılacak / oturmuş kavramlar) `/ilerleme` sayfasında. (Şimdilik tarayıcıda saklanır; hesap senkronu ileride.)
 - ⌨️ **Deneme Tahtası.** Her ekrandan `⌘K` ile açılan global SQL paneli: kampüs verisi üzerinde özgürce dene, `↺ Sıfırla` ile temize dön.
 - 🧑‍🏫 **Rol görünürlüğü.** Ders içinde 🧑‍🏫 ile işaretli bölümler sadece öğretmene görünür; öğrenci görünümünde otomatik gizlenir.
@@ -69,11 +70,11 @@ Next.js 16 (App Router) · React 19 · TypeScript · Tailwind v4 · Zustand 5 ·
 
 ## İçerik
 
-Kaynak doğruluk `content/` altındadır (16 ders `content/lessons/*.md`, seed `content/seed/campus_seed.sql`). `public/content/` üretilmiş kopyadır (gitignore'da). Tam tasarım: `docs/PLAN.md`, `docs/CURRICULUM_MASTER.md`.
+Kaynak doğruluk `content/` altındadır (17 ders `content/lessons/*.md`, seed `content/seed/campus_seed.sql`). `public/content/` üretilmiş kopyadır (gitignore'da). Tam tasarım: `docs/PLAN.md`, `docs/CURRICULUM_MASTER.md`.
 
 ## Durum
 
-**Çalışan:** Faz 0 iskeleti (Next 16 + PGlite + CodeMirror + Tailwind v4), 16 ders + Kampüs seed, rol-görünürlüklü ders renderer, global Deneme Tahtası (⌘K), **245 soruluk otomatik değerlendirilen Sorular modülü** (ünite/zorluk/tip filtreleri, kademeli ipucu), **`/ilerleme`** takibi ve kalite kapısı (`npm run check` + husky pre-commit). Tümü tarayıcıda doğrulandı.
+**Çalışan:** Faz 0 iskeleti (Next 16 + PGlite + CodeMirror + Tailwind v4), 17 ders + Kampüs seed, rol-görünürlüklü ders renderer, global Deneme Tahtası (⌘K), **257 soruluk otomatik değerlendirilen Sorular modülü** (ünite/zorluk/tip filtreleri, kademeli ipucu), iki kademeli SQL hata yardımı, **`/ilerleme`** takibi ve kalite kapısı (`npm run check` + husky pre-commit). Tümü tarayıcıda doğrulandı.
 
 **Sırada:** Supabase auth + roller + RLS (cihazlar arası ilerleme, öğretmen paneli), spaced-repetition / günlük drill, İngilizce i18n, GitHub Actions CI (`.github/workflows/ci.yml` hazır). Canlı demo: `docs/DEPLOY.md`. Tam yol haritası: `docs/PLAN.md` + `docs/QUESTION_BANK_PLAN.md`.
 

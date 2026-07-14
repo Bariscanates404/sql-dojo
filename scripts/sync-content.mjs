@@ -13,8 +13,8 @@ const outSeed = path.join(root, 'public', 'content', 'seed');
 const srcQuestions = path.join(root, 'content', 'questions');
 const outQuestions = path.join(root, 'public', 'content', 'questions');
 
-// Canonical curriculum order (ÜG güvenlik comes after Ü3 per curriculum).
-const ORDER = ['U0', 'U1', 'U2', 'U3', 'UG', 'U4', 'U5', 'U6', 'U7', 'U8', 'U9', 'U10', 'U11', 'U12', 'U13', 'U14'];
+// Canonical curriculum order (ÜG güvenlik Ü3'ten sonra; ÜM veri modelleme Ü11 ile Ü12 DDL arasında).
+const ORDER = ['U0', 'U1', 'U2', 'U3', 'UG', 'U4', 'U5', 'U6', 'U7', 'U8', 'U9', 'U10', 'U11', 'UM', 'U12', 'U13', 'U14'];
 
 function prefixOf(file) {
   return file.split('-')[0]; // "U4-aggregate.md" -> "U4"

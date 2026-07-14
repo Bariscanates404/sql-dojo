@@ -59,6 +59,7 @@ Her ünite 2-5 ders. Her ders şablonu bölüm 5'te.
 | Ü9 | Subquery & küme | scalar subquery · IN · EXISTS/NOT EXISTS · derived table · UNION/INTERSECT/EXCEPT · NOT IN+NULL | "Sorgu içinde sorgu" |
 | Ü10 | CTE | WITH · sorguyu adımlara bölme · okunabilirlik · zincirleme CTE | "İsimlendirilmiş ara sonuç" |
 | Ü11 | DML & transaction | INSERT · UPDATE · DELETE · RETURNING · BEGIN/COMMIT/ROLLBACK | Veriyi değiştirmek; WHERE'siz tehlikesi |
+| **ÜM** | **Veri Modelleme** (ara ünite, Ü11-Ü12 arası) | Varlık/nitelik/ilişki · redundans & anomali · normalleştirme · 1:N / N:M (ara tablo) / self-ilişki · doğal vs surrogate & bileşik anahtar | "Gerçek dünyayı tekrarsız tablolara böl" |
 | Ü12 | DDL & tasarım | CREATE TABLE · veri tipleri · NOT NULL/UNIQUE/CHECK/DEFAULT · PK/FK · ALTER/DROP | "Tablolar nasıl tasarlanır" |
 | Ü13 | Window functions | OVER/PARTITION BY · ROW_NUMBER/RANK/DENSE_RANK · running total · LAG/LEAD | "Satır korunur, yanına hesap" |
 | Ü14 | View & index (bonus) | VIEW · index nedir · EXPLAIN'e bakış · doğru vs hızlı | Performans sezgisi |
@@ -72,6 +73,12 @@ Sabit kararlar:
   Amaç: tehlikeyi tanı + güvenli alışkanlık (önce SELECT, WHERE, transaction, reset). Tam DML Ü11,
   tam DDL Ü12'de derinleşir. Sandbox resetlenebilir olduğu için DELETE/DROP korkusuzca denenir.
   (Numara yerine "G" verdik ki Ü0-Ü14 numaralandırması ve mevcut çapraz referanslar bozulmasın.)
+- **ÜM (Veri Modelleme)** ara ünitesi Ü11 (DML) ile Ü12 (DDL) arasına gelir. Ü12 tabloyu KURMAYI
+  (CREATE/kısıt/PK-FK) öğretiyor; ÜM ise önce tasarımın kendisini (varlık/nitelik/ilişki, redundans/
+  anomali, normalleştirme, ilişki tipleri, anahtar seçimi) hazır kampüs şeması üzerinden oturtur:
+  "önce modelle, sonra Ü12'de SQL'e dök." ÜG gibi harf verildi (ÜM) ki Ü0-Ü14 numaralandırması ve
+  çapraz referanslar bozulmasın. Sorular ağırlıkla kavram (MC) + kampüs şemasını çözümleyen okuma
+  sorgularıdır (seed'i değiştirmez).
 - Her görev bir veya birden çok **kavram etiketi** taşır (örn: `null-comparison`, `where-vs-having`,
   `left-join-unmatched`, `join-duplication`). Drill motoru ve eğitmen paneli bunları kullanır.
 
@@ -221,11 +228,12 @@ Sıra: seed -> Ü0 -> Ü1 -> ... -> Ü14. Her ünite ayrı dosya: content/lesson
 | Ü9 Subquery/EXISTS/küme + NOT IN-NULL | bitti (Pratik bölümlü) |
 | Ü10 CTE (WITH) + çift sayma çözümü | bitti (Pratik bölümlü) |
 | Ü11 DML (INSERT/UPDATE/DELETE/transaction) | bitti (Pratik bölümlü) |
+| ÜM Veri Modelleme (varlık/ilişki, normalleştirme, anahtar) | bitti (Pratik bölümlü) |
 | Ü12 DDL (CREATE/kısıtlar/PK-FK/ALTER/DROP) | bitti (Pratik bölümlü) |
 | Ü13 Window functions | bitti (Pratik bölümlü) |
 | Ü14 View & index (bonus) | bitti (Pratik bölümlü) |
-| === TÜM ANLATIM ÜNİTELERİ TAMAM (Ü0-Ü14 + ÜG) === | |
+| === TÜM ANLATIM ÜNİTELERİ TAMAM (Ü0-Ü14 + ÜG + ÜM) === | |
 | U0-U3 "Pratik (editörde dene)" backfill | bitti |
-| ==== TÜM EĞİTİM İÇERİĞİ TAMAM: 15 ders + seed + planlar. Sıradaki: DEVELOPMENT ==== | |
+| ==== TÜM EĞİTİM İÇERİĞİ TAMAM: 17 ders (Ü0-Ü14 + ÜG + ÜM) + seed + planlar. Sıradaki: DEVELOPMENT ==== | |
 
 Tüm üniteler "bitti" olmadan KOD YAZILMAYACAK (kullanıcı talebi).

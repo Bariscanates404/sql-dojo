@@ -3,7 +3,7 @@ import { z } from 'zod';
 // v1 desteklenen tipler. predict_output / find_bug / fill_blank Q2'de.
 export const QUESTION_TYPES = ['write_sql', 'multiple_choice'] as const;
 export const COMPARE_MODES = ['set', 'multiset', 'ordered_multiset'] as const;
-export const UNITS = ['U0', 'U1', 'U2', 'U3', 'UG', 'U4', 'U5', 'U6', 'U7', 'U8', 'U9', 'U10', 'U11', 'U12', 'U13', 'U14'] as const;
+export const UNITS = ['U0', 'U1', 'U2', 'U3', 'UG', 'U4', 'U5', 'U6', 'U7', 'U8', 'U9', 'U10', 'U11', 'UM', 'U12', 'U13', 'U14'] as const;
 
 const localeText = z.object({
   title: z.string(),
