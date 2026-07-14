@@ -155,6 +155,6 @@
       "hint1": "AVG, NULL'ları toplama katar mı, paydaya katar mı?",
       "answerExplanation": "AVG NULL'ları hiç hesaba katmaz: ne toplama ne de paydaya. Toplamı, notu DOLU olan 16 kayda böler (20'ye değil). Yani 'bilinmeyen', 0 sayılmaz; tamamen yok sayılır."
     },
-    "choices": ["16'ya (notu dolu olan kayıtlara) böler", "20'ye (tüm kayıtlara) böler", "Hata verir çünkü NULL var", "4'e (devam eden kayıtlara) böler"], "correctIndex": 0
+    "choices": ["20'ye (tüm kayıtlara) böler", "16'ya (notu dolu olan kayıtlara) böler", "Hata verir çünkü NULL var", "4'e (devam eden kayıtlara) böler"], "correctIndex": 1
   }
 ]

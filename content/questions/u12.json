@@ -7,7 +7,7 @@
       "hint1": "CREATE TABLE ad (sütun TİP kısıtlar, ...);",
       "answerExplanation": "Doğru: CREATE TABLE kitaplar (id INTEGER PRIMARY KEY, baslik TEXT NOT NULL); — her sütunun adı, tipi ve (varsa) kısıtı yazılır. PRIMARY KEY id'yi benzersiz+zorunlu yapar, NOT NULL baslik'in boş kalmasını engeller."
     },
-    "choices": ["CREATE TABLE kitaplar (id INTEGER PRIMARY KEY, baslik TEXT NOT NULL);", "CREATE TABLE kitaplar (id INTEGER, baslik TEXT);", "MAKE TABLE kitaplar (id INTEGER PRIMARY KEY, baslik TEXT NOT NULL);", "CREATE kitaplar (id INTEGER PRIMARY KEY, baslik TEXT NOT NULL);"], "correctIndex": 0
+    "choices": ["CREATE TABLE kitaplar (id INTEGER, baslik TEXT);", "MAKE TABLE kitaplar (id INTEGER PRIMARY KEY, baslik TEXT NOT NULL);", "CREATE kitaplar (id INTEGER PRIMARY KEY, baslik TEXT NOT NULL);", "CREATE TABLE kitaplar (id INTEGER PRIMARY KEY, baslik TEXT NOT NULL);"], "correctIndex": 3
   },
   {
     "id": "q-u12-mc-not-null-001", "type": "multiple_choice", "unit": "U12", "lessonId": "U12-ddl", "conceptTags": ["constraint", "not-null"], "difficulty": 2,
@@ -27,7 +27,7 @@
       "hint1": "DEFAULT, değer verilmediğinde devreye girer.",
       "answerExplanation": "DEFAULT, INSERT'te o sütun belirtilmezse otomatik olarak varsayılan değeri (burada CURRENT_DATE = bugünün tarihi) kullanır. Sık tekrar eden değerleri elle yazmaktan kurtarır."
     },
-    "choices": ["Otomatik olarak bugünün tarihi yazılır", "Hata verir çünkü değer eksik", "NULL kalır", "Satır eklenmez"], "correctIndex": 0
+    "choices": ["Hata verir çünkü değer eksik", "Otomatik olarak bugünün tarihi yazılır", "NULL kalır", "Satır eklenmez"], "correctIndex": 1
   },
   {
     "id": "q-u12-mc-unique-001", "type": "multiple_choice", "unit": "U12", "lessonId": "U12-ddl", "conceptTags": ["constraint", "unique"], "difficulty": 2,
@@ -37,7 +37,7 @@
       "hint1": "Aynı e-posta iki kez girilebilir mi?",
       "answerExplanation": "UNIQUE, o sütunda aynı değerin birden çok satırda bulunmasını engeller; iki öğrenci aynı e-postayı alamaz. (PRIMARY KEY de benzersizdir ama ek olarak NOT NULL'dur ve tablo başına bir tanedir.)"
     },
-    "choices": ["Aynı e-posta iki farklı satırda olamaz (tekrarsız)", "E-posta boş bırakılamaz", "E-posta otomatik üretilir", "E-posta küçük harfe çevrilir"], "correctIndex": 0
+    "choices": ["E-posta boş bırakılamaz", "E-posta otomatik üretilir", "Aynı e-posta iki farklı satırda olamaz (tekrarsız)", "E-posta küçük harfe çevrilir"], "correctIndex": 2
   },
   {
     "id": "q-u12-mc-check-001", "type": "multiple_choice", "unit": "U12", "lessonId": "U12-ddl", "conceptTags": ["constraint", "check"], "difficulty": 3,
@@ -47,7 +47,7 @@
       "hint1": "CHECK koşulu sağlanmazsa ne yapar?",
       "answerExplanation": "CHECK, her INSERT/UPDATE'te koşulu denetler; koşul (price >= 0) sağlanmazsa işlem REDDEDİLİR (hata). Böylece negatif fiyat gibi geçersiz veriler tabloya hiç giremez."
     },
-    "choices": ["Komut reddedilir (CHECK ihlali); negatif fiyat eklenemez", "Eklenir ama 0'a yuvarlanır", "Eklenir, CHECK sadece uyarı verir", "price NULL olur"], "correctIndex": 0
+    "choices": ["Eklenir ama 0'a yuvarlanır", "Eklenir, CHECK sadece uyarı verir", "price NULL olur", "Komut reddedilir (CHECK ihlali); negatif fiyat eklenemez"], "correctIndex": 3
   },
   {
     "id": "q-u12-mc-pk-vs-fk-001", "type": "multiple_choice", "unit": "U12", "lessonId": "U12-ddl", "conceptTags": ["primary-key", "foreign-key"], "difficulty": 3,
@@ -67,7 +67,7 @@
       "hint1": "FK, işaret edilen satırın var olmasını şart koşar.",
       "answerExplanation": "FOREIGN KEY ilişkisel bütünlüğü zorlar: kitap_id, kitaplar tablosunda gerçekten var olan bir id olmalıdır. Olmayan bir kitaba referans veren INSERT REDDEDİLİR; böylece 'öksüz' (karşılığı olmayan) kayıtlar engellenir."
     },
-    "choices": ["INSERT reddedilir (FK ihlali); olmayan kitaba referans verilemez", "Eklenir, kitap_id NULL olur", "kitaplar tablosuna otomatik o kitap eklenir", "Eklenir, FK sadece tavsiyedir"], "correctIndex": 0
+    "choices": ["Eklenir, kitap_id NULL olur", "INSERT reddedilir (FK ihlali); olmayan kitaba referans verilemez", "kitaplar tablosuna otomatik o kitap eklenir", "Eklenir, FK sadece tavsiyedir"], "correctIndex": 1
   },
   {
     "id": "q-u12-introspect-columns-001", "type": "write_sql", "unit": "U12", "lessonId": "U12-ddl", "conceptTags": ["introspection", "information-schema"], "difficulty": 3,

@@ -238,7 +238,7 @@
       "hint1": "COALESCE argümanlarına soldan sağa bakar.",
       "answerExplanation": "COALESCE soldan sağa ilk NULL OLMAYAN değeri döndürür. city doluysa city'yi, NULL ise 'Bilinmiyor'u verir."
     },
-    "choices": ["city doluysa city'yi, NULL ise 'Bilinmiyor'u döndürür", "Her zaman 'Bilinmiyor' döndürür", "city'yi büyük harfe çevirir", "city NULL ise hata verir"], "correctIndex": 0
+    "choices": ["Her zaman 'Bilinmiyor' döndürür", "city doluysa city'yi, NULL ise 'Bilinmiyor'u döndürür", "city'yi büyük harfe çevirir", "city NULL ise hata verir"], "correctIndex": 1
   },
   {
     "id": "q-u3-mc-int-div-001", "type": "multiple_choice", "unit": "U3", "lessonId": "U3-ifadeler", "conceptTags": ["arithmetic", "type"], "difficulty": 3,
@@ -248,7 +248,7 @@
       "hint1": "Tam sayı bölme ondalığı ne yapar?",
       "answerExplanation": "İki tam sayının bölümü yine tam sayıdır ve ondalık atılır: 7 / 2 = 3 (3.5 değil). Ondalık istersen 7 / 2.0 ya da 7::numeric / 2 yazmalısın."
     },
-    "choices": ["3 (ondalık atılır)", "3.5", "4 (yukarı yuvarlar)", "Hata verir"], "correctIndex": 0
+    "choices": ["3.5", "4 (yukarı yuvarlar)", "3 (ondalık atılır)", "Hata verir"], "correctIndex": 2
   },
   {
     "id": "q-u3-mc-concat-null-001", "type": "multiple_choice", "unit": "U3", "lessonId": "U3-ifadeler", "conceptTags": ["concat", "null"], "difficulty": 3,
@@ -258,6 +258,6 @@
       "hint1": "Birleştirmede bir parça NULL olursa ne olur?",
       "answerExplanation": "Metin birleştirmede (||) parçalardan biri NULL ise sonucun tamamı NULL olur. 'Ali' || NULL = NULL. Bunu önlemek için COALESCE kullanılır."
     },
-    "choices": ["NULL", "'Ali'", "'AliNULL'", "Hata verir"], "correctIndex": 0
+    "choices": ["'Ali'", "'AliNULL'", "Hata verir", "NULL"], "correctIndex": 3
   }
 ]

@@ -129,7 +129,7 @@
       "hint1": "Eşleşmeyen sol satırlara ne olur?",
       "answerExplanation": "INNER JOIN yalnız iki tarafın EŞLEŞTİĞİ satırları getirir. LEFT JOIN ise sol tablonun TÜM satırlarını getirir; sağda eşleşme yoksa o satırın sağ sütunları NULL olur. 'Eşleşmeyenleri de istiyorum' diyorsan LEFT JOIN."
     },
-    "choices": ["INNER yalnız eşleşen satırları; LEFT sol tablonun tüm satırlarını getirir (eşleşmeyen sağ NULL)", "İkisi de tamamen aynıdır", "LEFT yalnız eşleşenleri, INNER hepsini getirir", "LEFT JOIN ON koşulu almaz"], "correctIndex": 0
+    "choices": ["İkisi de tamamen aynıdır", "LEFT yalnız eşleşenleri, INNER hepsini getirir", "LEFT JOIN ON koşulu almaz", "INNER yalnız eşleşen satırları; LEFT sol tablonun tüm satırlarını getirir (eşleşmeyen sağ NULL)"], "correctIndex": 3
   },
   {
     "id": "q-u6-mc-left-where-trap-001", "type": "multiple_choice", "unit": "U6", "lessonId": "U6-join", "conceptTags": ["left-join", "where", "null"], "difficulty": 4,

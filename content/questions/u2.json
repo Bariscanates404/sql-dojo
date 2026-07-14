@@ -244,7 +244,7 @@
       "hint1": "NULL bir değer mi, yoksa 'bilinmeyen' mi?",
       "answerExplanation": "NULL 'bilinmeyen' demektir ve hiçbir şeye (NULL'a bile) eşit sayılmaz; 'NULL = NULL' bile true değil, bilinmeyendir. Bu yüzden = NULL hep boş döner; doğrusu IS NULL'dır."
     },
-    "choices": ["NULL hiçbir şeye eşit sayılmaz; doğrusu IS NULL kullanmaktır", "city sütunu yoktur", "= yerine == yazmalıydı", "NULL yalnızca sayılarla çalışır"], "correctIndex": 0
+    "choices": ["city sütunu yoktur", "= yerine == yazmalıydı", "NULL hiçbir şeye eşit sayılmaz; doğrusu IS NULL kullanmaktır", "NULL yalnızca sayılarla çalışır"], "correctIndex": 2
   },
   {
     "id": "q-u2-mc-between-001", "type": "multiple_choice", "unit": "U2", "lessonId": "U2-where", "conceptTags": ["between"], "difficulty": 2,
@@ -254,7 +254,7 @@
       "hint1": "BETWEEN, >= ve <= ile aynı mıdır?",
       "answerExplanation": "Evet, BETWEEN her iki uç değeri de KAPSAR: price BETWEEN 20 AND 60 ile price >= 20 AND price <= 60 aynıdır. Yani 20 ve 60 da dahildir."
     },
-    "choices": ["Evet, iki uç da dahildir (20 ve 60 gelir)", "Hayır, iki uç da hariçtir", "Sadece alt uç (20) dahildir", "Sadece üst uç (60) dahildir"], "correctIndex": 0
+    "choices": ["Hayır, iki uç da hariçtir", "Sadece alt uç (20) dahildir", "Sadece üst uç (60) dahildir", "Evet, iki uç da dahildir (20 ve 60 gelir)"], "correctIndex": 3
   },
   {
     "id": "q-u2-mc-neq-null-001", "type": "multiple_choice", "unit": "U2", "lessonId": "U2-where", "conceptTags": ["not", "null"], "difficulty": 4,

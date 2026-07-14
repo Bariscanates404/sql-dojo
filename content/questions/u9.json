@@ -99,6 +99,6 @@
       "hint1": "NOT IN, listedeki NULL'la karşılaştırma yapınca sonuç 'bilinmeyen' olur.",
       "answerExplanation": "Liste bir NULL içeriyorsa, NOT IN beklenmedik şekilde HİÇ satır döndürmez (her karşılaştırma 'bilinmeyen'e düşer, true olmaz). Bu klasik bir tuzaktır. Güvenli yol: alt sorguda NULL'ları ele (WHERE ... IS NOT NULL) ya da NOT IN yerine NOT EXISTS kullan."
     },
-    "choices": ["Beklenmedik şekilde hiç satır dönmez; NOT EXISTS daha güvenlidir", "NULL'ları yok sayar, sorun olmaz", "Hata verir ve sorgu durur", "NULL'ları da sonuca ekler"], "correctIndex": 0
+    "choices": ["NULL'ları yok sayar, sorun olmaz", "Beklenmedik şekilde hiç satır dönmez; NOT EXISTS daha güvenlidir", "Hata verir ve sorgu durur", "NULL'ları da sonuca ekler"], "correctIndex": 1
   }
 ]

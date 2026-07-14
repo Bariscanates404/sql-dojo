@@ -7,7 +7,7 @@
       "hint1": "WHERE, hangi satırların etkileneceğini sınırlar. WHERE yoksa?",
       "answerExplanation": "WHERE olmayan DELETE, tablodaki BÜTÜN satırları siler. students tablosundaki tüm öğrenciler gider. Bu yüzden DELETE/UPDATE yazarken WHERE'i unutmamak hayatidir."
     },
-    "choices": ["students tablosundaki TÜM satırları siler", "Hiçbir şey yapmaz, hata verir", "Sadece ilk satırı siler", "Tabloyu tamamen yok eder (yapı dahil)"], "correctIndex": 0
+    "choices": ["Hiçbir şey yapmaz, hata verir", "Sadece ilk satırı siler", "students tablosundaki TÜM satırları siler", "Tabloyu tamamen yok eder (yapı dahil)"], "correctIndex": 2
   },
   {
     "id": "q-ug-mc-update-no-where-001", "type": "multiple_choice", "unit": "UG", "lessonId": "UG-guvenlik", "conceptTags": ["update", "danger"], "difficulty": 1,
@@ -17,7 +17,7 @@
       "hint1": "WHERE yoksa güncelleme hangi satırlara uygulanır?",
       "answerExplanation": "WHERE olmayan UPDATE, TÜM satırları günceller: her öğrencinin şehri 'Ankara' olur. Tek bir öğrenciyi güncellemek istiyorsan mutlaka WHERE id = ... yazmalısın."
     },
-    "choices": ["TÜM öğrencilerin şehrini 'Ankara' yapar", "Sadece şehri boş olanları günceller", "Hata verir", "Yeni bir Ankara satırı ekler"], "correctIndex": 0
+    "choices": ["Sadece şehri boş olanları günceller", "Hata verir", "Yeni bir Ankara satırı ekler", "TÜM öğrencilerin şehrini 'Ankara' yapar"], "correctIndex": 3
   },
   {
     "id": "q-ug-mc-select-first-001", "type": "multiple_choice", "unit": "UG", "lessonId": "UG-guvenlik", "conceptTags": ["safe-habit", "delete"], "difficulty": 1,
@@ -37,7 +37,7 @@
       "hint1": "ROLLBACK = geri al.",
       "answerExplanation": "ROLLBACK, BEGIN'den bu yana yapılan tüm değişiklikleri GERİ ALIR; tablo işlem öncesi haline döner. Yanlış bir şey yaptığını fark edersen kurtarıcıdır."
     },
-    "choices": ["BEGIN'den beri yapılan tüm değişiklikleri geri alır", "Değişiklikleri kalıcı yapar", "Tabloyu siler", "Sadece son UPDATE'i geri alır"], "correctIndex": 0
+    "choices": ["Değişiklikleri kalıcı yapar", "BEGIN'den beri yapılan tüm değişiklikleri geri alır", "Tabloyu siler", "Sadece son UPDATE'i geri alır"], "correctIndex": 1
   },
   {
     "id": "q-ug-mc-commit-001", "type": "multiple_choice", "unit": "UG", "lessonId": "UG-guvenlik", "conceptTags": ["transaction", "commit"], "difficulty": 2,
@@ -47,7 +47,7 @@
       "hint1": "COMMIT = onayla/kalıcılaştır.",
       "answerExplanation": "COMMIT, transaction içindeki tüm değişiklikleri KALICI yapar. COMMIT'ten sonra artık ROLLBACK ile geri alamazsın."
     },
-    "choices": ["Yapılan değişiklikleri kalıcı hale getirir", "Değişiklikleri geri alır", "Yeni bir transaction başlatır", "Hiçbir etkisi yoktur"], "correctIndex": 0
+    "choices": ["Değişiklikleri geri alır", "Yeni bir transaction başlatır", "Yapılan değişiklikleri kalıcı hale getirir", "Hiçbir etkisi yoktur"], "correctIndex": 2
   },
   {
     "id": "q-ug-mc-drop-vs-delete-001", "type": "multiple_choice", "unit": "UG", "lessonId": "UG-guvenlik", "conceptTags": ["drop", "delete"], "difficulty": 2,
@@ -57,7 +57,7 @@
       "hint1": "Biri tabloyu, diğeri satırları hedefler.",
       "answerExplanation": "DELETE satırları siler ama TABLO (yapısı, sütunları) yerinde kalır; boş tabloya tekrar veri ekleyebilirsin. DROP TABLE ise tablonun KENDİSİNİ yok eder: satırlar + yapı gider, tablo artık yoktur."
     },
-    "choices": ["DELETE satırları siler, tablo kalır; DROP tablonun kendisini (yapı dahil) yok eder", "İkisi de aynıdır", "DROP daha yavaştır ama aynı işi yapar", "DELETE tabloyu siler, DROP satırları"], "correctIndex": 0
+    "choices": ["İkisi de aynıdır", "DROP daha yavaştır ama aynı işi yapar", "DELETE tabloyu siler, DROP satırları", "DELETE satırları siler, tablo kalır; DROP tablonun kendisini (yapı dahil) yok eder"], "correctIndex": 3
   },
   {
     "id": "q-ug-mc-truncate-001", "type": "multiple_choice", "unit": "UG", "lessonId": "UG-guvenlik", "conceptTags": ["truncate", "delete"], "difficulty": 2,
@@ -77,7 +77,7 @@
       "hint1": "Transaction başlatmadıysan değişiklik ne zaman kalıcı olur?",
       "answerExplanation": "BEGIN olmadan çalışan tek komut çoğu ortamda otomatik COMMIT olur (autocommit); yani DELETE anında kalıcılaşır ve ROLLBACK ile geri alınamaz. Kurtuluş genelde yedekten dönmektir. Dersi: riskli işlemleri BEGIN ile sarmala."
     },
-    "choices": ["Otomatik commit olduğu için geri alamazsın; yedekten dönmen gerekir", "ROLLBACK ile kolayca geri alırsın", "Postgres seni otomatik durdurur", "Hiçbir şey silinmez"], "correctIndex": 0
+    "choices": ["ROLLBACK ile kolayca geri alırsın", "Otomatik commit olduğu için geri alamazsın; yedekten dönmen gerekir", "Postgres seni otomatik durdurur", "Hiçbir şey silinmez"], "correctIndex": 1
   },
   {
     "id": "q-ug-mc-where-id-001", "type": "multiple_choice", "unit": "UG", "lessonId": "UG-guvenlik", "conceptTags": ["update", "safe-habit"], "difficulty": 2,
@@ -87,7 +87,7 @@
       "hint1": "Güncellemeyi tek satıra nasıl sınırlarsın?",
       "answerExplanation": "UPDATE'i WHERE id = 5 ile sınırlamak şarttır. WHERE'i unutursan tüm öğrenciler güncellenir. Tek satır hedeflerken benzersiz bir koşul (genelde birincil anahtar) kullan."
     },
-    "choices": ["UPDATE'e WHERE id = 5 koşulunu eklemek", "WHERE yazmamak, Postgres tek satırı bulur", "Önce tabloyu TRUNCATE etmek", "city sütununu DROP etmek"], "correctIndex": 0
+    "choices": ["WHERE yazmamak, Postgres tek satırı bulur", "Önce tabloyu TRUNCATE etmek", "UPDATE'e WHERE id = 5 koşulunu eklemek", "city sütununu DROP etmek"], "correctIndex": 2
   },
   {
     "id": "q-ug-mc-most-dangerous-001", "type": "multiple_choice", "unit": "UG", "lessonId": "UG-guvenlik", "conceptTags": ["danger"], "difficulty": 2,
@@ -97,7 +97,7 @@
       "hint1": "Hangisi en çok şeyi, en kalıcı şekilde yok eder?",
       "answerExplanation": "'DROP DATABASE ...' tüm veritabanını (tüm tablolar + veriler) yok eder; en geniş hasardır. WHERE'siz DELETE de çok tehlikelidir ama tek tabloyla sınırlıdır ve transaction içinde geri alınabilir."
     },
-    "choices": ["DROP DATABASE kampus;", "DELETE FROM students WHERE id = 5;", "SELECT * FROM students;", "UPDATE students SET city = 'X' WHERE id = 1;"], "correctIndex": 0
+    "choices": ["DELETE FROM students WHERE id = 5;", "SELECT * FROM students;", "UPDATE students SET city = 'X' WHERE id = 1;", "DROP DATABASE kampus;"], "correctIndex": 3
   },
   {
     "id": "q-ug-mc-transaction-purpose-001", "type": "multiple_choice", "unit": "UG", "lessonId": "UG-guvenlik", "conceptTags": ["transaction"], "difficulty": 3,
@@ -117,7 +117,7 @@
       "hint1": "İkisi de satırları siler; fark hız ve geri alınabilirlikte.",
       "answerExplanation": "İkisi de tüm satırları siler ve tablo yapısı kalır. DELETE satır satır çalışır, transaction içinde rahat geri alınır ve WHERE alabilir. TRUNCATE çok daha hızlıdır ama daha serttir; genelde WHERE almaz ve dikkatli kullanılır."
     },
-    "choices": ["İkisi de satırları siler; DELETE WHERE alabilir ve daha kolay geri alınır, TRUNCATE daha hızlı ama serttir", "TRUNCATE tabloyu da siler", "DELETE tablo yapısını bozar", "İkisi tamamen aynıdır"], "correctIndex": 0
+    "choices": ["TRUNCATE tabloyu da siler", "İkisi de satırları siler; DELETE WHERE alabilir ve daha kolay geri alınır, TRUNCATE daha hızlı ama serttir", "DELETE tablo yapısını bozar", "İkisi tamamen aynıdır"], "correctIndex": 1
   },
   {
     "id": "q-ug-mc-backup-001", "type": "multiple_choice", "unit": "UG", "lessonId": "UG-guvenlik", "conceptTags": ["safe-habit"], "difficulty": 2,
@@ -127,7 +127,7 @@
       "hint1": "Görmek, sarmak, yedeklemek...",
       "answerExplanation": "En sağlam yol: (1) aynı WHERE ile SELECT yapıp etkilenecek satırları gör, (2) işlemi transaction (BEGIN) içinde çalıştır, (3) mümkünse önceden yedek al. Böyle yaparsan hata maliyeti minimuma iner."
     },
-    "choices": ["Önce SELECT ile kontrol et, transaction içinde çalış, yedek al", "Doğrudan DELETE çalıştır, hızlı olsun", "WHERE'i kaldır ki bir şey kaçmasın", "Tabloyu DROP edip baştan kur"], "correctIndex": 0
+    "choices": ["Doğrudan DELETE çalıştır, hızlı olsun", "WHERE'i kaldır ki bir şey kaçmasın", "Önce SELECT ile kontrol et, transaction içinde çalış, yedek al", "Tabloyu DROP edip baştan kur"], "correctIndex": 2
   },
   {
     "id": "q-ug-mc-recover-001", "type": "multiple_choice", "unit": "UG", "lessonId": "UG-guvenlik", "conceptTags": ["transaction", "rollback", "danger"], "difficulty": 3,
@@ -137,7 +137,7 @@
       "hint1": "Henüz kalıcı değil...",
       "answerExplanation": "Henüz COMMIT yapmadığın için ROLLBACK çalıştırırsan tüm silme geri alınır ve students tablosu eski haline döner. BEGIN ile başlamak tam da bu yüzden hayat kurtarır."
     },
-    "choices": ["ROLLBACK çalıştırırım; silme geri alınır", "COMMIT yaparım, düzelir", "Hiçbir şey yapamam, veriler gitti", "TRUNCATE ile düzeltirim"], "correctIndex": 0
+    "choices": ["COMMIT yaparım, düzelir", "Hiçbir şey yapamam, veriler gitti", "TRUNCATE ile düzeltirim", "ROLLBACK çalıştırırım; silme geri alınır"], "correctIndex": 3
   },
   {
     "id": "q-ug-mc-ddl-dml-001", "type": "multiple_choice", "unit": "UG", "lessonId": "UG-guvenlik", "conceptTags": ["drop", "truncate", "delete"], "difficulty": 3,
@@ -157,7 +157,7 @@
       "hint1": "1 = 1 her zaman doğrudur; OR ile birleşince WHERE ne anlama gelir?",
       "answerExplanation": "'OR 1 = 1' koşulu her satır için DOĞRU olur; OR olduğu için WHERE etkin biçimde 'herkesi seç' demektir. Yani TÜM öğrencilerin şehri 'Bursa' olur. WHERE yazmış olmak güvenli olduğun anlamına gelmez; koşulun gerçekten daralttığından emin ol."
     },
-    "choices": ["TÜM öğrencilerin şehri 'Bursa' olur (1=1 her zaman doğru)", "Sadece id=3 güncellenir", "Hata verir", "Hiçbir şey güncellenmez"], "correctIndex": 0
+    "choices": ["Sadece id=3 güncellenir", "TÜM öğrencilerin şehri 'Bursa' olur (1=1 her zaman doğru)", "Hata verir", "Hiçbir şey güncellenmez"], "correctIndex": 1
   },
   {
     "id": "q-ug-mc-savepoint-001", "type": "multiple_choice", "unit": "UG", "lessonId": "UG-guvenlik", "conceptTags": ["transaction"], "difficulty": 4,
@@ -167,7 +167,7 @@
       "hint1": "Transaction içine ara 'kayıt noktaları' koyabilirsin.",
       "answerExplanation": "SAVEPOINT ile transaction içinde ara noktalar koyarsın; ROLLBACK TO savepoint_adi ile yalnızca o noktadan sonrasını geri alır, öncesini korursun. Tüm işlemi geri almak istemediğinde işe yarar."
     },
-    "choices": ["SAVEPOINT + ROLLBACK TO savepoint", "Sadece COMMIT", "DROP SAVEPOINT", "TRUNCATE"], "correctIndex": 0
+    "choices": ["Sadece COMMIT", "DROP SAVEPOINT", "SAVEPOINT + ROLLBACK TO savepoint", "TRUNCATE"], "correctIndex": 2
   },
   {
     "id": "q-ug-preview-cancelled-001", "type": "write_sql", "unit": "UG", "lessonId": "UG-guvenlik", "conceptTags": ["safe-habit", "where", "select"], "difficulty": 1,

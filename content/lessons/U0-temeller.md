@@ -2,7 +2,7 @@
 
 > Kavram etiketleri: `table-basics`, `select-all`, `result-set`
 > Ön koşul: yok (sıfırdan başlayan öğrenci)
-> Kullanılan tablolar: students, departments
+> Kullanılan tablolar: students, departments, products
 > Tahmini süre: 25-30 dk
 > Ünite sloganı: **"SQL'de bilgisayara ne yapacağını değil, hangi cevabı istediğini söylersin."**
 
@@ -121,6 +121,10 @@ tablodaki 14 öğrencinin tamamı, bütün sütunlarıyla.
 
 Noktalı virgül (`;`) bir sorgunun bittiğini söyler. Tek sorgu yazarken çoğu zaman olmadan da
 çalışır, ama alışkanlık olarak koymak iyidir.
+
+Satırları belli bir sırada görmek istiyorsan sorgunun sonuna `ORDER BY sütun ASC` eklersin; `ASC`
+küçükten büyüğe demektir. Örneğin `SELECT name FROM products ORDER BY id ASC;` ürün adlarını id'ye
+göre sıralı gösterir; detayını Ü1'de işleyeceğiz.
 
 > Mini slogan: **`SELECT` ne istediğini, `FROM` nereden istediğini söyler.**
 

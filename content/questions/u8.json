@@ -144,7 +144,7 @@
       "hint1": "Üyesiz kulüpte LEFT JOIN tek bir NULL satır üretir; COUNT(*) ne sayar?",
       "answerExplanation": "COUNT(cm.student_id) kullanmalısın: LEFT JOIN üyesiz kulüpte bir NULL satır üretir; COUNT(*) o satırı 1 sayar (yanlış), COUNT(cm.student_id) NULL'ı saymaz ve doğru şekilde 0 verir."
     },
-    "choices": ["COUNT(cm.student_id) (NULL'ı saymaz, üyesiz kulüpte 0 verir)", "COUNT(*) (her zaman doğrudur)", "SUM(cm.student_id)", "COUNT(DISTINCT *)"], "correctIndex": 0
+    "choices": ["COUNT(*) (her zaman doğrudur)", "SUM(cm.student_id)", "COUNT(DISTINCT *)", "COUNT(cm.student_id) (NULL'ı saymaz, üyesiz kulüpte 0 verir)"], "correctIndex": 3
   },
   {
     "id": "q-u8-mc-sum-inflation-fix-001", "type": "multiple_choice", "unit": "U8", "lessonId": "U8-join-aggregate", "conceptTags": ["grain", "sum", "trap"], "difficulty": 4,

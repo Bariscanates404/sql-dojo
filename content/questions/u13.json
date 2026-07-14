@@ -88,7 +88,7 @@
       "hint1": "Satırlara ne olur?",
       "answerExplanation": "GROUP BY satırları gruba İNDİRİR (her grup için tek satır). Window function (OVER) ise tüm satırları KORUR ve her satırın yanına hesaplanmış özet değeri ekler. 'Hem detay satırını hem grup özetini birlikte istiyorum' dediğinde window kullanılır."
     },
-    "choices": ["Window satırları korur (her satıra özet ekler); GROUP BY satırları gruba indirir", "İkisi de satırları gruba indirir", "Window daha yavaştır ama aynı sonucu verir", "GROUP BY satırları korur, window indirir"], "correctIndex": 0
+    "choices": ["İkisi de satırları gruba indirir", "Window daha yavaştır ama aynı sonucu verir", "Window satırları korur (her satıra özet ekler); GROUP BY satırları gruba indirir", "GROUP BY satırları korur, window indirir"], "correctIndex": 2
   },
   {
     "id": "q-u13-window-rank-course-grades-001", "type": "write_sql", "unit": "U13", "lessonId": "U13-window", "conceptTags": ["window", "rank", "partition-by", "join", "null"], "difficulty": 3,

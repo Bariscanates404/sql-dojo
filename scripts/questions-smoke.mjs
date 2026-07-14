@@ -36,12 +36,16 @@ console.log('  ✓ tüm sorular şemaya uygun');
 
 console.log('\n--- referenceSql seed üzerinde çalışıyor mu + sütun kontrolü ---');
 const ids = new Set();
+const mcPositionCounts = [];
+let mcChoiceCount = 0;
 for (const q of parsed.data) {
   assert(!ids.has(q.id), `tekrarlı id: ${q.id}`);
   ids.add(q.id);
 
   if (q.type === 'multiple_choice') {
     const ok = assert(q.correctIndex >= 0 && q.correctIndex < q.choices.length, `${q.id}: correctIndex aralık dışı`);
+    mcChoiceCount = Math.max(mcChoiceCount, q.choices.length);
+    mcPositionCounts[q.correctIndex] = (mcPositionCounts[q.correctIndex] ?? 0) + 1;
     console.log(`  ${ok ? '✓' : '✗'} ${q.id.padEnd(42)} [MC] ${q.choices.length} şık`);
     continue;
   }
@@ -59,6 +63,15 @@ for (const q of parsed.data) {
   } catch (e) {
     assert(false, `${q.id}: referenceSql ÇALIŞMADI -> ${e.message}`);
   }
+}
+
+const mcTotal = mcPositionCounts.reduce((sum, n) => sum + (n ?? 0), 0);
+if (mcTotal > 0) {
+  const counts = Array.from({ length: mcChoiceCount }, (_, i) => mcPositionCounts[i] ?? 0);
+  const labels = counts.map((n, i) => `${String.fromCharCode(65 + i)}=${n}`);
+  const spread = Math.max(...counts) - Math.min(...counts);
+  console.log(`\n--- MC doğru cevap dağılımı: ${labels.join(' ')} ---`);
+  assert(spread <= 1, `MC doğru cevap dağılımı dengesiz: ${labels.join(' ')}`);
 }
 
 console.log(process.exitCode ? '\nQUESTIONS SMOKE: BAŞARISIZ' : `\nQUESTIONS SMOKE: ${bank.length} soru TAMAM ✓`);

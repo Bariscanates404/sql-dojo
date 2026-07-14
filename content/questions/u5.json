@@ -152,6 +152,6 @@
       "hint1": "Hangisi gruplamadan önce, hangisi sonra çalışır?",
       "answerExplanation": "WHERE gruplamadan ÖNCE, tek tek satırları süzer (aggregate kullanamaz). HAVING gruplamadan SONRA, grupları aggregate sonucuna göre süzer (örn. HAVING COUNT(*) > 1). 'Satırı mı yoksa grubu mu süzüyorum?' sorusu hangisini kullanacağını söyler."
     },
-    "choices": ["WHERE gruplama öncesi satırları, HAVING gruplama sonrası grupları (aggregate'e göre) süzer", "İkisi de aynıdır, sadece isimleri farklı", "HAVING satırları, WHERE grupları süzer", "WHERE yalnızca GROUP BY ile, HAVING WHERE'siz çalışır"], "correctIndex": 0
+    "choices": ["İkisi de aynıdır, sadece isimleri farklı", "HAVING satırları, WHERE grupları süzer", "WHERE gruplama öncesi satırları, HAVING gruplama sonrası grupları (aggregate'e göre) süzer", "WHERE yalnızca GROUP BY ile, HAVING WHERE'siz çalışır"], "correctIndex": 2
   }
 ]

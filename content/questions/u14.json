@@ -7,7 +7,7 @@
       "hint1": "View veri mi saklar, sorgu mu?",
       "answerExplanation": "VIEW, kaydedilmiş bir SORGUDUR (kendi başına veri saklamaz). Ona bir tablo gibi SELECT attığında, altındaki sorgu o anda çalışır ve güncel sonucu verir. Karmaşık sorgulara ad verip tekrar tekrar kullanmayı sağlar."
     },
-    "choices": ["Kaydedilmiş bir sorgudur; tablo gibi SELECT'lenir, her seferinde altındaki sorgu çalışır", "Verinin ikinci bir kopyasıdır", "Tablonun yedeğidir", "Sadece indeks tutan özel bir tablodur"], "correctIndex": 0
+    "choices": ["Verinin ikinci bir kopyasıdır", "Tablonun yedeğidir", "Sadece indeks tutan özel bir tablodur", "Kaydedilmiş bir sorgudur; tablo gibi SELECT'lenir, her seferinde altındaki sorgu çalışır"], "correctIndex": 3
   },
   {
     "id": "q-u14-mc-view-syntax-001", "type": "multiple_choice", "unit": "U14", "lessonId": "U14-view-index", "conceptTags": ["view", "ddl"], "difficulty": 2,
@@ -27,7 +27,7 @@
       "hint1": "Hangisi kalıcı, hangisi tek sorgu içinde yaşar?",
       "answerExplanation": "VIEW kalıcıdır: bir kez oluşturulur, sonra BİRÇOK farklı sorguda tekrar tekrar kullanılır. CTE ise yalnızca içinde tanımlandığı O TEK sorgu boyunca yaşar; sorgu bitince yok olur. Tekrar kullanım gerekiyorsa VIEW, tek seferlik ara adım için CTE."
     },
-    "choices": ["VIEW kalıcıdır ve birçok sorguda tekrar kullanılır; CTE yalnız tanımlandığı tek sorguda yaşar", "İkisi de kalıcıdır", "CTE kalıcı, VIEW geçicidir", "İkisi de veri saklar"], "correctIndex": 0
+    "choices": ["İkisi de kalıcıdır", "VIEW kalıcıdır ve birçok sorguda tekrar kullanılır; CTE yalnız tanımlandığı tek sorguda yaşar", "CTE kalıcı, VIEW geçicidir", "İkisi de veri saklar"], "correctIndex": 1
   },
   {
     "id": "q-u14-mc-index-purpose-001", "type": "multiple_choice", "unit": "U14", "lessonId": "U14-view-index", "conceptTags": ["index"], "difficulty": 2,
@@ -37,7 +37,7 @@
       "hint1": "Kitabın sonundaki dizini düşün.",
       "answerExplanation": "Index, o sütundaki aramayı/filtrelemeyi HIZLANDIRIR; veritabanı tüm tabloyu taramak yerine indeksten hızlıca ilgili satırlara gider (kitabın arkasındaki dizin gibi). Özellikle büyük tablolarda WHERE/JOIN'leri hızlandırır."
     },
-    "choices": ["O sütundaki arama/filtrelemeyi hızlandırır", "Veriyi şifreler", "Sütunu benzersiz yapar", "Tabloyu küçültür (veriyi siler)"], "correctIndex": 0
+    "choices": ["Veriyi şifreler", "Sütunu benzersiz yapar", "O sütundaki arama/filtrelemeyi hızlandırır", "Tabloyu küçültür (veriyi siler)"], "correctIndex": 2
   },
   {
     "id": "q-u14-mc-index-tradeoff-001", "type": "multiple_choice", "unit": "U14", "lessonId": "U14-view-index", "conceptTags": ["index", "tradeoff"], "difficulty": 3,
@@ -47,7 +47,7 @@
       "hint1": "Veri değiştiğinde indekse ne olur?",
       "answerExplanation": "Index bedavaya gelmez: ek DEPOLAMA kaplar ve YAZMA işlemlerini (INSERT/UPDATE/DELETE) yavaşlatır, çünkü veri değiştikçe index de güncellenmek zorundadır. Bu yüzden 'her sütuna index' değil, gerçekten sık sorgulanan sütunlara index konur."
     },
-    "choices": ["Ek depolama kaplar ve yazma (INSERT/UPDATE/DELETE) işlemlerini yavaşlatır", "Hiçbir maliyeti yoktur, her sütuna konmalı", "Okumayı da yavaşlatır", "Veriyi bozar"], "correctIndex": 0
+    "choices": ["Hiçbir maliyeti yoktur, her sütuna konmalı", "Okumayı da yavaşlatır", "Veriyi bozar", "Ek depolama kaplar ve yazma (INSERT/UPDATE/DELETE) işlemlerini yavaşlatır"], "correctIndex": 3
   },
   {
     "id": "q-u14-mc-index-no-result-001", "type": "multiple_choice", "unit": "U14", "lessonId": "U14-view-index", "conceptTags": ["index"], "difficulty": 3,
@@ -67,7 +67,7 @@
       "hint1": "Hangisi önce gelir: doğru sonuç mu, hız mı?",
       "answerExplanation": "Önce sorgu DOĞRU sonucu versin; performans sonra gelir. Erken/körü körüne index eklemek karmaşıklık ve yazma maliyeti getirir. Gerçekten yavaşlık ölçtüğünde (örn. EXPLAIN ile darboğazı görüp) hedefli index eklersin. 'Önce doğru, sonra (gerekirse, ölçerek) hızlı.'"
     },
-    "choices": ["Önce sorgu doğru çalışmalı; performans sonra, gerçekten gerekince ve ölçerek düşünülür", "En baştan her sütuna index eklenmeli", "Performans hiç önemli değildir", "Önce hız, doğruluk sonra"], "correctIndex": 0
+    "choices": ["En baştan her sütuna index eklenmeli", "Önce sorgu doğru çalışmalı; performans sonra, gerçekten gerekince ve ölçerek düşünülür", "Performans hiç önemli değildir", "Önce hız, doğruluk sonra"], "correctIndex": 1
   },
   {
     "id": "q-u14-view-query-completed-001", "type": "write_sql", "unit": "U14", "lessonId": "U14-view-index", "conceptTags": ["view", "where", "select"], "difficulty": 2,

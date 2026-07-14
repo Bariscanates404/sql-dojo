@@ -7,7 +7,7 @@
       "hint1": "INSERT INTO tablo (sütunlar) VALUES (değerler);",
       "answerExplanation": "Doğru yapı: INSERT INTO clubs (name, founded_year) VALUES ('Robotik', 2024); Önce hangi sütunlara, sonra VALUES ile hangi değerlerin gireceğini yazarsın."
     },
-    "choices": ["INSERT INTO clubs (name, founded_year) VALUES ('Robotik', 2024);", "INSERT clubs SET name = 'Robotik', founded_year = 2024;", "ADD INTO clubs VALUES ('Robotik', 2024);", "UPDATE clubs SET name = 'Robotik', founded_year = 2024;"], "correctIndex": 0
+    "choices": ["INSERT clubs SET name = 'Robotik', founded_year = 2024;", "INSERT INTO clubs (name, founded_year) VALUES ('Robotik', 2024);", "ADD INTO clubs VALUES ('Robotik', 2024);", "UPDATE clubs SET name = 'Robotik', founded_year = 2024;"], "correctIndex": 1
   },
   {
     "id": "q-u11-mc-insert-multi-001", "type": "multiple_choice", "unit": "U11", "lessonId": "U11-dml", "conceptTags": ["insert"], "difficulty": 2,
@@ -17,7 +17,7 @@
       "hint1": "VALUES'tan sonra parantezli grupları virgülle ayır.",
       "answerExplanation": "VALUES'tan sonra her satır bir parantez grubudur ve gruplar virgülle ayrılır: VALUES (...), (...), (...). Tek komut, çok satır."
     },
-    "choices": ["INSERT INTO products (...) VALUES (...), (...), (...);", "Üç kez VALUES anahtar kelimesi yazarım", "INSERT INTO products VALUES (...) AND (...) AND (...);", "Tek INSERT ile birden fazla satır eklenemez"], "correctIndex": 0
+    "choices": ["Üç kez VALUES anahtar kelimesi yazarım", "INSERT INTO products VALUES (...) AND (...) AND (...);", "INSERT INTO products (...) VALUES (...), (...), (...);", "Tek INSERT ile birden fazla satır eklenemez"], "correctIndex": 2
   },
   {
     "id": "q-u11-mc-returning-001", "type": "multiple_choice", "unit": "U11", "lessonId": "U11-dml", "conceptTags": ["insert", "returning"], "difficulty": 3,
@@ -27,7 +27,7 @@
       "hint1": "Eklenen satırla ilgili bir bilgiyi geri ister.",
       "answerExplanation": "RETURNING id, yeni eklenen satırın id değerini (çoğunlukla otomatik üretilen anahtarı) komutun sonucu olarak geri döndürür. Böylece eklediğin kaydın id'sini ayrı bir SELECT'e gerek kalmadan öğrenirsin."
     },
-    "choices": ["Yeni eklenen satırın id değerini geri döndürür", "id sütununu tablodan siler", "Yalnızca id'si dolu satırları ekler", "Komutu geri alır (rollback)"], "correctIndex": 0
+    "choices": ["id sütununu tablodan siler", "Yalnızca id'si dolu satırları ekler", "Komutu geri alır (rollback)", "Yeni eklenen satırın id değerini geri döndürür"], "correctIndex": 3
   },
   {
     "id": "q-u11-mc-update-where-001", "type": "multiple_choice", "unit": "U11", "lessonId": "U11-dml", "conceptTags": ["update", "where"], "difficulty": 2,
@@ -47,7 +47,7 @@
       "hint1": "Arada hata olursa ne olmasını istersin?",
       "answerExplanation": "Atomiklik: ya iki UPDATE de uygulanır ya da (arada hata olur veya ROLLBACK yaparsan) HİÇBİRİ uygulanmaz. Böylece 'paradan düştü ama eklenmedi' gibi yarım/tutarsız durum oluşmaz."
     },
-    "choices": ["Ya ikisi de uygulanır ya da hiçbiri (hepsi-veya-hiçbiri)", "Sadece ilk UPDATE uygulanır", "UPDATE'leri hızlandırır", "İkinci UPDATE'i otomatik geri alır"], "correctIndex": 0
+    "choices": ["Sadece ilk UPDATE uygulanır", "Ya ikisi de uygulanır ya da hiçbiri (hepsi-veya-hiçbiri)", "UPDATE'leri hızlandırır", "İkinci UPDATE'i otomatik geri alır"], "correctIndex": 1
   },
   {
     "id": "q-u11-mc-delete-001", "type": "multiple_choice", "unit": "U11", "lessonId": "U11-dml", "conceptTags": ["delete", "where"], "difficulty": 2,
@@ -57,7 +57,7 @@
       "hint1": "DELETE FROM tablo WHERE koşul;",
       "answerExplanation": "Doğru: DELETE FROM orders WHERE status = 'cancelled'; FROM şarttır ve WHERE silmeyi yalnız iptal siparişlere sınırlar. WHERE'siz DELETE tüm satırları siler."
     },
-    "choices": ["DELETE FROM orders WHERE status = 'cancelled';", "DELETE orders WHERE status = 'cancelled';", "DELETE FROM orders;", "DROP FROM orders WHERE status = 'cancelled';"], "correctIndex": 0
+    "choices": ["DELETE orders WHERE status = 'cancelled';", "DELETE FROM orders;", "DELETE FROM orders WHERE status = 'cancelled';", "DROP FROM orders WHERE status = 'cancelled';"], "correctIndex": 2
   },
   {
     "id": "q-u11-preview-max-id-001", "type": "write_sql", "unit": "U11", "lessonId": "U11-dml", "conceptTags": ["safe-habit", "max", "insert"], "difficulty": 1,

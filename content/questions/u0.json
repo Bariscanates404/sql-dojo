@@ -17,7 +17,7 @@
       "hint1": "Sütun, tüm satırlarda ortak olan bir...",
       "answerExplanation": "Bir sütun, tüm kayıtların ORTAK bir özelliğidir: örneğin first_name sütunu, her öğrencinin adını tutar. Satır bir kaydı, sütun bir özelliği temsil eder."
     },
-    "choices": ["Tüm öğrencilerin ortak bir özelliğini (herkesin adı)", "Tek bir öğrenciyi", "Tablodaki satır sayısını", "Veritabanının adını"], "correctIndex": 0
+    "choices": ["Tek bir öğrenciyi", "Tüm öğrencilerin ortak bir özelliğini (herkesin adı)", "Tablodaki satır sayısını", "Veritabanının adını"], "correctIndex": 1
   },
   {
     "id": "q-u0-mc-select-star-001", "type": "multiple_choice", "unit": "U0", "lessonId": "U0-temeller", "conceptTags": ["basics", "select"], "difficulty": 1,
@@ -27,7 +27,7 @@
       "hint1": "* yıldızı 'hepsi' anlamına gelir.",
       "answerExplanation": "SELECT * FROM students, students tablosundaki TÜM sütunları ve TÜM satırları getirir. Yıldız (*) 'bütün sütunlar' demektir."
     },
-    "choices": ["students tablosundaki tüm sütunları ve tüm satırları getirir", "Sadece ilk satırı getirir", "Tabloyu siler", "Sadece sütun adlarını getirir"], "correctIndex": 0
+    "choices": ["Sadece ilk satırı getirir", "Tabloyu siler", "students tablosundaki tüm sütunları ve tüm satırları getirir", "Sadece sütun adlarını getirir"], "correctIndex": 2
   },
   {
     "id": "q-u0-mc-from-001", "type": "multiple_choice", "unit": "U0", "lessonId": "U0-temeller", "conceptTags": ["basics", "from"], "difficulty": 1,
@@ -37,7 +37,7 @@
       "hint1": "Veri nereden gelecek?",
       "answerExplanation": "FROM, verinin HANGİ TABLODAN geleceğini belirtir. Örneğin FROM students, verinin students tablosundan okunacağını söyler."
     },
-    "choices": ["Verinin hangi tablodan geleceğini", "Hangi sütunların seçileceğini", "Kaç satır geleceğini", "Sonucun nasıl sıralanacağını"], "correctIndex": 0
+    "choices": ["Hangi sütunların seçileceğini", "Kaç satır geleceğini", "Sonucun nasıl sıralanacağını", "Verinin hangi tablodan geleceğini"], "correctIndex": 3
   },
   {
     "id": "q-u0-mc-query-returns-001", "type": "multiple_choice", "unit": "U0", "lessonId": "U0-temeller", "conceptTags": ["basics", "select"], "difficulty": 1,

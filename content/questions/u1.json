@@ -78,7 +78,7 @@
       "hint1": "Sonuçtaki sütunların sırasını ne belirler?",
       "answerExplanation": "Sonuçtaki sütunlar ve sıraları SELECT listesinde yazdığın sıraya göre gelir. ORDER BY satır sırasını değiştirir, sütun sırasını değil."
     },
-    "choices": ["SELECT'ten sonra sütunları istediğim sırayla virgülle yazarım", "SELECT * yazarım, sıra kendiliğinden doğru gelir", "WHERE ile sütun sırasını belirlerim", "Sütun sırasını ORDER BY değiştirir"], "correctIndex": 0
+    "choices": ["SELECT * yazarım, sıra kendiliğinden doğru gelir", "SELECT'ten sonra sütunları istediğim sırayla virgülle yazarım", "WHERE ile sütun sırasını belirlerim", "Sütun sırasını ORDER BY değiştirir"], "correctIndex": 1
   },
   {
     "id": "q-u1-order-by-code-001", "type": "write_sql", "unit": "U1", "lessonId": "U1-select", "conceptTags": ["select-columns", "order-by"], "difficulty": 2,
@@ -248,7 +248,7 @@
       "hint1": "DISTINCT tekrarları ne yapar?",
       "answerExplanation": "DISTINCT, sonuçtaki tekrar eden değerleri teke indirir; yani her farklı şehri yalnızca bir kez getirir. NULL da tek bir değer olarak bir kez görünür."
     },
-    "choices": ["Her farklı şehri yalnızca bir kez getirir (tekrarları siler)", "Şehirleri alfabetik sıralar", "NULL şehirleri tamamen siler", "Yalnızca ilk şehri getirir"], "correctIndex": 0
+    "choices": ["Şehirleri alfabetik sıralar", "NULL şehirleri tamamen siler", "Her farklı şehri yalnızca bir kez getirir (tekrarları siler)", "Yalnızca ilk şehri getirir"], "correctIndex": 2
   },
   {
     "id": "q-u1-mc-limit-001", "type": "multiple_choice", "unit": "U1", "lessonId": "U1-select", "conceptTags": ["limit", "order-by"], "difficulty": 2,
@@ -258,6 +258,6 @@
       "hint1": "ORDER BY olmadan 'ilk 5' hangi 5'tir?",
       "answerExplanation": "ORDER BY olmadan satırların sırası garanti değildir; 'ilk 5' her çalıştırmada farklı olabilir. ORDER BY ile sırayı sabitlersin, böylece LIMIT 5 anlamlı ve tekrarlanabilir olur."
     },
-    "choices": ["ORDER BY olmadan hangi 5 satırın geleceği belirsizdir", "LIMIT, ORDER BY olmadan hata verir", "ORDER BY satır sayısını artırır", "LIMIT yalnızca sıralı tablolarda çalışır"], "correctIndex": 0
+    "choices": ["LIMIT, ORDER BY olmadan hata verir", "ORDER BY satır sayısını artırır", "LIMIT yalnızca sıralı tablolarda çalışır", "ORDER BY olmadan hangi 5 satırın geleceği belirsizdir"], "correctIndex": 3
   }
 ]

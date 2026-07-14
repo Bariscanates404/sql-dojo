@@ -141,7 +141,7 @@
       "hint1": "Eşleşme hangi seviyede oluyor?",
       "answerExplanation": "Her satır bir öğrenci-ders KAYDINI (tek bir enrollment'ı) temsil eder, tek bir öğrenciyi değil. Bir öğrenci birden çok derse kayıtlıysa o öğrenci birden çok satırda görünür. Bu 'grain' (seviye) farkı, JOIN'lerde en kritik kavramdır."
     },
-    "choices": ["Bir öğrenci-ders kaydını (tek bir enrollment'ı)", "Tek bir öğrenciyi", "Tek bir dersi", "Tüm öğrencilerin özetini"], "correctIndex": 0
+    "choices": ["Tek bir öğrenciyi", "Bir öğrenci-ders kaydını (tek bir enrollment'ı)", "Tek bir dersi", "Tüm öğrencilerin özetini"], "correctIndex": 1
   },
   {
     "id": "q-u7-mc-sum-inflation-001", "type": "multiple_choice", "unit": "U7", "lessonId": "U7-join2", "conceptTags": ["grain", "sum", "trap"], "difficulty": 4,
@@ -151,6 +151,6 @@
       "hint1": "Öğrenci kaç satıra çoğaldıysa bursu kaç kez toplanır?",
       "answerExplanation": "JOIN öğrenciyi 3 satıra çoğalttığı için bursu 3 KEZ toplanır; toplam yapay olarak şişer. Bu klasik bir hatadır. Çözüm: ya önce öğrenci seviyesinde topla (subquery/CTE), ya da çoğalmayan bir grain kullan."
     },
-    "choices": ["Bursu 3 kez toplanır; SUM yapay olarak şişer", "Bursu doğru bir kez toplanır", "SUM hata verir", "Bursu 3'e bölünür"], "correctIndex": 0
+    "choices": ["Bursu doğru bir kez toplanır", "SUM hata verir", "Bursu 3 kez toplanır; SUM yapay olarak şişer", "Bursu 3'e bölünür"], "correctIndex": 2
   }
 ]
