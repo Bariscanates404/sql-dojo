@@ -42,6 +42,10 @@ evrensel dilidir. Yani SQL öğrenmek, "verinin olduğu her yerle konuşabilmek"
 | 2  | Mehmet     | Demir     | NULL     | 1             | NULL               |
 | 3  | Zeynep     | Kaya      | Ankara   | 3             | 3000               |
 
+> 💡 Bu tabloyla oyna: fareyle bir **sütunun** üstüne gel, o sütun boydan boya renklenir; bir
+> **satırın** üstüne gel, o satır renklenir. Böylece "sütun dikey ve tek tür bilgi, satır yatay ve
+> tek varlık" fikrini gözünle görürsün.
+
 Burada gördüğün `NULL` kelimesi çok önemli ve ileride ayrı ders olacak. Şimdilik tek cümle:
 **`NULL`, "bu hücrede değer yok / bilinmiyor" demektir. Sıfır değildir, boş yazı değildir.**
 Mehmet'in şehri silinmemiş, "bilmiyoruz" diye işaretlenmiş.
@@ -122,9 +126,23 @@ tablodaki 14 öğrencinin tamamı, bütün sütunlarıyla.
 Noktalı virgül (`;`) bir sorgunun bittiğini söyler. Tek sorgu yazarken çoğu zaman olmadan da
 çalışır, ama alışkanlık olarak koymak iyidir.
 
-Satırları belli bir sırada görmek istiyorsan sorgunun sonuna `ORDER BY sütun ASC` eklersin; `ASC`
-küçükten büyüğe demektir. Örneğin `SELECT name FROM products ORDER BY id ASC;` ürün adlarını id'ye
-göre sıralı gösterir; detayını Ü1'de işleyeceğiz.
+Satırları belli bir sırada görmek istiyorsan sorgunun sonuna `ORDER BY sütun` eklersin ve sıralamanın
+yönünü iki kelimeyle söylersin:
+
+- `ASC` küçükten büyüğe sıralar (1, 2, 3... ya da a, b, c...). Hatırlaması kolay: **A**SC, Türkçe
+  **A**rtan demek. Yön yazmazsan varsayılan zaten ASC'dir.
+- `DESC` büyükten küçüğe sıralar (9, 8, 7... ya da z, y, x...). Hatırlaması kolay: **D**ESC, Türkçe
+  **D**üşen demek.
+
+Örneğin `SELECT name FROM products ORDER BY id ASC;` ürünleri id'ye göre küçükten büyüğe (artan)
+sıralar; aynı sorguyu `ORDER BY id DESC` ile yazsaydın en büyük id en üste gelirdi. Sıralamanın
+detayını Ü1'de işleyeceğiz.
+
+Bazen bütün satırlara değil, sadece ilk birkaçına bakmak istersin. Bunun için sorgunun sonuna
+`LIMIT n` eklersin: sana yalnızca ilk `n` satırı verir, gerisini keser. Örneğin
+`SELECT * FROM students LIMIT 5;` 14 öğrencinin hepsini değil, sadece ilk 5'ini getirir. Büyük
+tablolara hızlıca göz atmak için pratiktir. `LIMIT`'i (ve "en yüksek 5" gibi kullanımını) Ü1'de
+detaylı göreceğiz.
 
 > Mini slogan: **`SELECT` ne istediğini, `FROM` nereden istediğini söyler.**
 

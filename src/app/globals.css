@@ -168,3 +168,21 @@ body::before {
   text-align: left;
 }
 .prose-dojo th { background: color-mix(in srgb, var(--muted) 12%, transparent); font-weight: 600; }
+
+/* Interactive lesson tables: hover a cell to light up its column and its row,
+   turning "sütun = dikey, satır = yatay" into something you can see. */
+.prose-dojo .lesson-table { cursor: crosshair; }
+.prose-dojo .lesson-table td,
+.prose-dojo .lesson-table th { transition: background-color 0.12s ease; }
+.prose-dojo .lesson-table td.cell-col-hl,
+.prose-dojo .lesson-table th.cell-col-hl {
+  background: color-mix(in srgb, var(--primary) 14%, transparent);
+}
+.prose-dojo .lesson-table tr.cell-row-hl > td,
+.prose-dojo .lesson-table tr.cell-row-hl > th {
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+}
+.prose-dojo .lesson-table tr.cell-row-hl > td.cell-col-hl,
+.prose-dojo .lesson-table tr.cell-row-hl > th.cell-col-hl {
+  background: color-mix(in srgb, var(--primary) 30%, transparent);
+}

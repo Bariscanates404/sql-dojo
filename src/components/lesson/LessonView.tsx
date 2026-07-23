@@ -1,6 +1,13 @@
 'use client';
 
-import { isValidElement, type ReactElement, type ReactNode, useMemo } from 'react';
+import {
+  isValidElement,
+  type ReactElement,
+  type ReactNode,
+  useCallback,
+  useMemo,
+  useRef,
+} from 'react';
 import ReactMarkdown, { type Components } from 'react-markdown';
 import rehypeRaw from 'rehype-raw';
 import remarkGfm from 'remark-gfm';
@@ -28,6 +35,56 @@ function nodeText(node: ReactNode): string {
 // Sentinel href used to turn the inline "[▶ Editörde dene]" markers into real buttons.
 const TRY_HREF = '#deneme-tahtasi';
 
+// Lesson tables double as a teaching aid: hovering a cell highlights its whole
+// column and its row, so "sütun dikey, satır yatay" is something you can see.
+function InteractiveTable({ children }: { children?: ReactNode }) {
+  const tableRef = useRef<HTMLTableElement>(null);
+  const active = useRef<{ col: number; row: HTMLTableRowElement | null; cells: HTMLElement[] }>({
+    col: -1,
+    row: null,
+    cells: [],
+  });
+
+  const clear = useCallback(() => {
+    for (const c of active.current.cells) c.classList.remove('cell-col-hl');
+    active.current.row?.classList.remove('cell-row-hl');
+    active.current = { col: -1, row: null, cells: [] };
+  }, []);
+
+  const onMove = useCallback(
+    (e: React.MouseEvent) => {
+      const table = tableRef.current;
+      if (!table) return;
+      const cell = (e.target as HTMLElement).closest('td,th') as HTMLTableCellElement | null;
+      if (!cell || !table.contains(cell)) {
+        clear();
+        return;
+      }
+      const col = cell.cellIndex;
+      const row = cell.parentElement as HTMLTableRowElement | null;
+      if (col === active.current.col && row === active.current.row) return;
+      clear();
+      const cells: HTMLElement[] = [];
+      for (const tr of Array.from(table.rows)) {
+        const c = tr.cells.item(col);
+        if (c) {
+          c.classList.add('cell-col-hl');
+          cells.push(c);
+        }
+      }
+      row?.classList.add('cell-row-hl');
+      active.current = { col, row, cells };
+    },
+    [clear],
+  );
+
+  return (
+    <table ref={tableRef} className="lesson-table" onMouseMove={onMove} onMouseLeave={clear}>
+      {children}
+    </table>
+  );
+}
+
 export function LessonView({ markdown }: { markdown: string }) {
   const role = useRoleStore((s) => s.role);
   const openPanel = useScratchpadStore((s) => s.openPanel);
@@ -40,6 +97,8 @@ export function LessonView({ markdown }: { markdown: string }) {
 
   const components = useMemo<Components>(
     () => ({
+      // Lesson tables become interactive: hover highlights the column + row.
+      table: ({ children }) => <InteractiveTable>{children}</InteractiveTable>,
       // Inline task marker -> button that opens an empty Deneme Tahtası to solve the task.
       a({ href, children, ...props }) {
         if (href === TRY_HREF) {
