@@ -41,16 +41,343 @@ SQL komutlarını üç gruba ayıralım:
 3. **Yapıyı değiştiren/yok eden (yüksek dikkat):** `DROP TABLE` (tabloyu komple siler), `TRUNCATE`
    (tüm satırları bir anda boşaltır), `ALTER` (yapıyı değiştirir). (Detay: Ü12.)
 
+#### Her komutun en basit hali
+
+Şimdi bu komutların **yazılışını** görelim. Ayrıntıya girmiyoruz (INSERT/UPDATE/DELETE'in tamamı
+Ü11'de, DROP/TRUNCATE/ALTER'ın tamamı Ü12'de). Buradaki tek amacımız şu: bir komutu görünce
+**ne yaptığını ve hangi dünyaya ait olduğunu** anında tanıyabilmek.
+
+| Komut | En basit hali | Ne yapar | Dünya |
+|-------|---------------|----------|-------|
+| `SELECT` | `SELECT sütunlar FROM tablo;` | Satırları okur, sonuç kümesi üretir | okur |
+| `INSERT` | `INSERT INTO tablo (sütunlar) VALUES (değerler);` | Tabloya yeni satır ekler | değiştirir |
+| `UPDATE` | `UPDATE tablo SET sütun = değer WHERE koşul;` | Var olan satırların değerini değiştirir | değiştirir |
+| `DELETE` | `DELETE FROM tablo WHERE koşul;` | Satır siler, tablonun kendisi kalır | değiştirir |
+| `TRUNCATE` | `TRUNCATE tablo;` | Tüm satırları bir anda boşaltır | yok eder |
+| `DROP` | `DROP TABLE tablo;` | Tabloyu yapısıyla birlikte yok eder | yok eder |
+| `ALTER` | `ALTER TABLE tablo ADD COLUMN ad tip;` | Tablonun yapısını değiştirir | yapıyı değiştirir |
+
+#### Peki bu kelimeler ne demek? (`SET`, `INTO`, `VALUES`...)
+
+Tabloda `SET`, `INTO`, `VALUES` gibi kelimeler geçti. Bunlar sihirli değil, her biri cümlenin bir
+parçasını işaretliyor. SQL'i İngilizce bir emir cümlesi gibi düşün; bu kelimeler o cümlenin
+bağlaçları.
+
+| Kelime | Hangi komutta | Ne işi var | Minik örnek |
+|--------|---------------|------------|-------------|
+| `FROM` | SELECT, DELETE | hangi tablodan | `DELETE FROM clubs` = "clubs tablosun**dan**" |
+| `INTO` | INSERT | hangi tabloya | `INSERT INTO clubs` = "clubs tablosun**a**" |
+| `VALUES` | INSERT | eklenecek değerler | `VALUES (6, 'Tiyatro', 2024)` |
+| `SET` | UPDATE | neyi ne yapacağız | `SET founded_year = 2020` = "yılı 2020 **yap**" |
+| `WHERE` | SELECT, UPDATE, DELETE | hangi satırlarda | `WHERE id = 3` = "sadece 3 numaralı satırda" |
+| `TABLE` | DROP, ALTER | işlem tablonun kendisine | `DROP TABLE clubs` = tabloyu komple |
+| `ADD COLUMN` | ALTER | sütun ekle | `ADD COLUMN aciklama text` |
+| `DROP COLUMN` | ALTER | sütun sil | `DROP COLUMN aciklama` |
+
+Bir komutu kelime kelime okuyalım. Bu, tüm SQL boyunca işine yarayacak bir alışkanlık:
+
+```sql
+UPDATE clubs SET founded_year = 2020 WHERE id = 3;
+```
+
+| Parça | Nasıl okunur |
+|-------|--------------|
+| `UPDATE clubs` | "clubs tablosunu güncelleyeceğim" |
+| `SET founded_year = 2020` | "founded_year sütununu 2020 yap" |
+| `WHERE id = 3` | "ama sadece id'si 3 olan satırda" |
+
+Hepsini birleştir: *"clubs tablosunda, id'si 3 olan satırın founded_year'ını 2020 yap."* Türkçesini
+bu şekilde söyleyebiliyorsan komutu anlamışsın demektir.
+
+**Buradaki en sinsi ayrıntı: `=` işareti iki farklı anlama geliyor.** Şu komuta bak, ikisi de aynı
+cümlede:
+
+```sql
+UPDATE clubs SET founded_year = 2020 WHERE founded_year = 2018;
+SELECT id, name, founded_year FROM clubs ORDER BY id;
+```
+- Sonuç:
+
+| id | name          | founded_year |
+|----|---------------|--------------|
+| 1  | Robotik       | 2015 |
+| 2  | Müzik         | 2010 |
+| 3  | Satranç       | **2020** |
+| 4  | Fotoğrafçılık | 2012 |
+| 5  | Girişimcilik  | 2020 |
+
+- Gözlem: 1 satır değişti (Satranç, 2018'di). İki `=` işaretinin işi tamamen farklıydı:
+  - `SET founded_year = 2020` → buradaki `=` **atama**: "bunu şu yap".
+  - `WHERE founded_year = 2018` → buradaki `=` **karşılaştırma**: "bu şuna eşit mi?".
+
+  Yani aynı sembol, `SET`'ten sonra emir veriyor, `WHERE`'den sonra soru soruyor. Karıştırırsan
+  komut yine çalışır ama bambaşka bir şey yapar, ve bu ünitenin bütün derdi tam olarak bu:
+  **çalışan komut, doğru komut demek değil.**
+
+`INSERT`'te de küçük bir kural var: iki parantez birbirine karşılık gelir.
+
+```sql
+INSERT INTO clubs (id, name) VALUES (7);
+```
+- Sonuç: hata verir.
+
+```
+HATA: INSERT has more target columns than expressions
+```
+
+- Gözlem: 2 sütun saydık ama 1 değer verdik, sayılar tutmayınca SQL komutu reddetti. İlk
+  parantezdeki sütun sırası ile ikinci parantezdeki değer sırası birebir eşleşmeli. Sıraları
+  değiştirmek serbest, yeter ki ikisi aynı sırada olsun: `(name, id, founded_year)` yazıp
+  `('Tiyatro', 6, 2024)` verirsen sorunsuz çalışır.
+
+#### Son bir tespit
+
+Şimdi yukarıdaki **komut tablosuna** (ilk tablo) bir daha bak ve şunu fark et: **`WHERE` yalnızca
+`UPDATE` ve `DELETE` satırlarında var.**
+Bu bir tesadüf değil, bu ünitenin en önemli ayrıntısı. `UPDATE` ve `DELETE` hedef seçebilir, yani
+"sadece şu satırlara dokun" diyebilirsin. `TRUNCATE` ve `DROP` hedef seçemez; onlar ya hep ya hiç
+çalışır. Bir sonraki derste (G.2) göreceğiz ki asıl felaket, hedef seçebilen komutta hedefi
+söylemeyi unutmaktan çıkıyor.
+
 Bu ünitede bu komutları derinlemesine değil, **tehlikelerini ve güvenli kullanımını** öğreneceğiz.
 En önemli fikir: **2. ve 3. gruptaki komutların gerçek hayatta çoğu zaman "geri al" tuşu yoktur.**
 
 > Mini slogan: **SELECT okur ve güvenlidir; UPDATE/DELETE/DROP değiştirir ya da yok eder, geri dönüşü çoğu zaman yoktur.**
 
-### Çözümlü örnek
+### Çözümlü örnekler
 
-**Örnek 1 (güvenli dünya)**
-- `SELECT * FROM clubs;` çalıştır. 5 kulüp gelir. Tekrar tekrar çalıştır; hep aynı, hiçbir şey bozulmaz.
-  Bu, okuyan dünyanın rahatlığı: deneme yapmak bedava.
+Hepsini `clubs` tablosunda yapacağız, çünkü küçük: 5 satır, 3 sütun. Gözle takip etmesi kolay.
+Her örnekten sonra **↺ Sıfırla** ile başlangıç haline dönebilirsin.
+
+Başlangıç hali (her örnek buradan başlıyor):
+
+```sql
+SELECT id, name, founded_year FROM clubs ORDER BY id;
+```
+- Sonuç:
+
+| id | name          | founded_year |
+|----|---------------|--------------|
+| 1  | Robotik       | 2015 |
+| 2  | Müzik         | 2010 |
+| 3  | Satranç       | 2018 |
+| 4  | Fotoğrafçılık | 2012 |
+| 5  | Girişimcilik  | 2020 |
+
+**Örnek 1 (`SELECT`: okuyan dünya)**
+- Sorgu: yukarıdaki sorgunun kendisi.
+- Ne anlıyoruz? Tekrar tekrar çalıştır; hep aynı 5 satır gelir, hiçbir şey bozulmaz. Okuyan
+  dünyanın rahatlığı budur: deneme yapmak bedava.
+
+**Örnek 2 (`INSERT`: yeni satır ekler)**
+- Sorgu:
+```sql
+INSERT INTO clubs (id, name, founded_year) VALUES (6, 'Tiyatro', 2024);
+SELECT id, name, founded_year FROM clubs WHERE id = 6;
+```
+- Sonuç:
+
+| id | name    | founded_year |
+|----|---------|--------------|
+| 6  | Tiyatro | 2024 |
+
+- Ne anlıyoruz? Tabloda 5 kulüp vardı, şimdi 6 var. `INSERT` var olan satırlara dokunmaz, sona
+  yeni bir satır ekler. Parantezlerin sırası önemli: önce hangi sütunlara yazacağını söylersin,
+  sonra `VALUES` ile o sıradaki değerleri verirsin.
+
+Şimdi iki küçük varyasyon dene. Her birinden sonra ↺ Sıfırla, sonra bir sonrakini çalıştır.
+Amaç ezber değil: çalıştır, sonuca bak, farkı kendin gör.
+
+**2a. Bir sütunu hiç yazmazsan ne olur?**
+```sql
+INSERT INTO clubs (id, name) VALUES (7, 'Münazara');
+SELECT id, name, founded_year FROM clubs WHERE id = 7;
+```
+- Sonuç:
+
+| id | name     | founded_year |
+|----|----------|--------------|
+| 7  | Münazara | *NULL*       |
+
+- Gözlem: `founded_year` yazmadık, hata da almadık. O sütun `NULL` (boş) kaldı. SQL "eksik bıraktın"
+  demiyor, "bilinmiyor" diye işaretliyor. NULL'ı Ü2'de görmüştün, işte yine karşındasın.
+
+**2b. Tek komutla iki satır ekleyebilir misin?**
+```sql
+INSERT INTO clubs (id, name, founded_year) VALUES (8, 'Sinema', 2021), (9, 'Doğa Sporları', 2019);
+SELECT id, name, founded_year FROM clubs ORDER BY id;
+```
+- Sonuç:
+
+| id | name          | founded_year |
+|----|---------------|--------------|
+| 1  | Robotik       | 2015 |
+| 2  | Müzik         | 2010 |
+| 3  | Satranç       | 2018 |
+| 4  | Fotoğrafçılık | 2012 |
+| 5  | Girişimcilik  | 2020 |
+| 8  | Sinema        | 2021 |
+| 9  | Doğa Sporları | 2019 |
+
+- Gözlem: `VALUES`'tan sonra parantezleri virgülle çoğaltınca 2 satır birden eklendi. 5 kulüp 7 oldu.
+  Bu, 100 satır eklerken de aynı: tek komut, çok satır. Aklında tut, çünkü aynı "tek komut, çok
+  satır" gücü `DELETE`'te felakete dönüşecek (G.2).
+
+**Örnek 3 (`UPDATE`: var olan satırı değiştirir)**
+- Sorgu:
+```sql
+UPDATE clubs SET founded_year = 2020 WHERE id = 3;
+SELECT id, name, founded_year FROM clubs WHERE id = 3;
+```
+- Sonuç:
+
+| id | name    | founded_year |
+|----|---------|--------------|
+| 3  | Satranç | 2020 |
+
+- Ne anlıyoruz? Satranç kulübünün kuruluş yılı 2018'di, 2020 oldu. Satır sayısı değişmedi (hâlâ
+  5 kulüp), **satırın içindeki bir değer** değişti. `WHERE id = 3` olmasaydı 5 kulübün hepsinin
+  yılı 2020 olurdu; bu, G.2'nin konusu.
+
+Üç küçük varyasyon. Yine: çalıştır, bak, Sıfırla, sonrakine geç.
+
+**3a. Aynı anda iki sütunu değiştirebilir misin?**
+```sql
+UPDATE clubs SET name = 'Satranç Kulübü', founded_year = 2019 WHERE id = 3;
+SELECT id, name, founded_year FROM clubs WHERE id = 3;
+```
+- Sonuç:
+
+| id | name           | founded_year |
+|----|----------------|--------------|
+| 3  | Satranç Kulübü | 2019 |
+
+- Gözlem: `SET`'ten sonra virgülle istediğin kadar sütun sayabilirsin. Tek `WHERE`, tek satır,
+  ama iki değer birden değişti.
+
+**3b. Yeni değeri, eski değerden hesaplayabilir misin?**
+```sql
+UPDATE clubs SET founded_year = founded_year + 1 WHERE id = 1;
+SELECT id, name, founded_year FROM clubs WHERE id = 1;
+```
+- Sonuç:
+
+| id | name    | founded_year |
+|----|---------|--------------|
+| 1  | Robotik | 2016 |
+
+- Gözlem: Robotik 2015'ti, 2016 oldu. Eşitliğin sağındaki `founded_year`, **o satırın şu anki
+  değeri** demek. Yani "sütunu kendi değerinin bir fazlası yap" dedik. Sabit bir sayı yazmak
+  zorunda değilsin.
+
+**3c. Koşula birden çok satır uyarsa ne olur?**
+```sql
+UPDATE clubs SET founded_year = 2000 WHERE founded_year < 2013;
+SELECT id, name, founded_year FROM clubs ORDER BY id;
+```
+- Sonuç:
+
+| id | name          | founded_year |
+|----|---------------|--------------|
+| 1  | Robotik       | 2015 |
+| 2  | Müzik         | **2000** |
+| 3  | Satranç       | 2018 |
+| 4  | Fotoğrafçılık | **2000** |
+| 5  | Girişimcilik  | 2020 |
+
+- Gözlem: Koşula uyan 2 satır (Müzik 2010, Fotoğrafçılık 2012) **birlikte** değişti. `UPDATE` tek
+  satırlık bir komut değil; koşula kaç satır uyuyorsa hepsine uygular. Şimdi şunu düşün: koşulu
+  hiç yazmasaydın kaç satıra uygulardı? İşte G.2 tam olarak bu sorunun cevabı.
+
+**Örnek 4 (`DELETE`: satırı siler, tablo kalır)**
+- Sorgu:
+```sql
+DELETE FROM clubs WHERE id = 3;
+SELECT id, name FROM clubs ORDER BY id;
+```
+- Sonuç:
+
+| id | name          |
+|----|---------------|
+| 1  | Robotik       |
+| 2  | Müzik         |
+| 4  | Fotoğrafçılık |
+| 5  | Girişimcilik  |
+
+- Ne anlıyoruz? Satranç satırı gitti, 5 kulüp 4'e düştü. Ama `clubs` tablosunun kendisi duruyor:
+  hâlâ SELECT atabiliyoruz, sütunları yerinde. **Satır silmek, tablo silmek değildir.** Bu ayrım
+  G.4'ün konusu.
+
+İki varyasyon, ikisi de şaşırtıcı.
+
+**4a. Koşula hiçbir satır uymazsa hata alır mısın?**
+```sql
+DELETE FROM clubs WHERE id = 99;
+SELECT COUNT(*) AS kulup_sayisi FROM clubs;
+```
+- Sonuç:
+
+| kulup_sayisi |
+|--------------|
+| 5 |
+
+- Gözlem: **Hata yok.** 99 numaralı kulüp diye bir şey olmadığı için hiçbir satır silinmedi,
+  komut sessizce "0 satır etkilendi" deyip geçti. Bunu aklında tut: SQL'in hata vermemesi
+  "doğru şeyi yaptın" demek değildir, sadece "cümlen geçerliydi" demektir. Yanlış bir `WHERE`
+  yazsan da aynı sessizlikle karşılaşırsın.
+
+**4b. Neden Satranç'ı sildik de Robotik'i silmedik?**
+```sql
+DELETE FROM clubs WHERE id = 1;
+```
+- Sonuç: komut çalışmaz, hata verir:
+
+```
+HATA: update or delete on table "clubs" violates foreign key constraint
+      "club_memberships_club_id_fkey" on table "club_memberships"
+DETAY: Key (id)=(1) is still referenced from table "club_memberships".
+```
+
+- Gözlem: Robotik kulübünün 4 üyesi var ve bu üyelikler `club_memberships` tablosunda duruyor.
+  Robotik silinseydi, o 4 üyelik **var olmayan bir kulübü** işaret ediyor olurdu. Veritabanı
+  buna izin vermiyor ve seni durduruyor. Satranç'ın ise hiç üyesi yok, o yüzden silinebildi.
+  Bu koruma mekanizmasını G.4'te tekrar göreceğiz, orada adını da koyacağız.
+
+**Örnek 5 (`ALTER`: yapıyı değiştirir, veriye dokunmaz)**
+- Sorgu:
+```sql
+ALTER TABLE clubs ADD COLUMN aciklama text;
+SELECT id, name, founded_year, aciklama FROM clubs WHERE id = 1;
+```
+- Sonuç:
+
+| id | name    | founded_year | aciklama |
+|----|---------|--------------|----------|
+| 1  | Robotik | 2015         | *NULL*   |
+
+- Ne anlıyoruz? Tabloya 4. bir sütun eklendi. Satır sayısı değişmedi, var olan veri bozulmadı,
+  ama artık her satırda bir `aciklama` alanı var ve hepsi boş (`NULL`), çünkü henüz kimse bir
+  şey yazmadı. `ALTER` içeriğe değil **yapıya** dokunur.
+
+**5a. Eklediğin sütunu geri alabilir misin?**
+```sql
+ALTER TABLE clubs ADD COLUMN aciklama text;
+ALTER TABLE clubs DROP COLUMN aciklama;
+SELECT id, name, founded_year FROM clubs WHERE id = 1;
+```
+- Sonuç:
+
+| id | name    | founded_year |
+|----|---------|--------------|
+| 1  | Robotik | 2015 |
+
+- Gözlem: Sütunu ekledik, sonra sildik, tablo eski haline döndü. Ama dikkat: burada sütun boştu.
+  Eğer o sütunda **veri olsaydı**, `DROP COLUMN` o verinin tamamını da götürürdü ve geri
+  getiremezdin. `ALTER` masum görünür, çünkü satır saymaz; oysa bir sütunu düşürmek, o sütundaki
+  bütün satırların değerini silmektir.
+
+> Bu beş örnekte `TRUNCATE` ve `DROP` yok, çünkü onlar en tehlikeli uçta ve kendi dersleri var:
+> G.4. Orada ikisini de göreceğiz.
 
 ### Sık hatalar & uyarılar
 - "Her komut SELECT gibi masumdur" sanmak. Değil. UPDATE/DELETE/DROP veriye kalıcı dokunur.
@@ -93,6 +420,27 @@ sınıf "aaa" desin, sonra "↺ Sıfırla" bas, geri gelsin. Bu an unutulmaz olu
 `DELETE` ve `UPDATE` bir `WHERE` ile hangi satırlara dokunacağını belirler. **WHERE'i yazmazsan,
 komut TÜM satırlara uygulanır.** Bu, en sık ve en pahalı SQL hatasıdır.
 
+Önce iki komutun yazılışına yakından bakalım:
+
+```sql
+DELETE FROM tablo WHERE koşul;
+--     ^^^^^^^^^^ ^^^^^^^^^^^^
+--     nereden     kimi  (bu kısmı yazmazsan: HEPSİNİ)
+
+UPDATE tablo SET sütun = değer WHERE koşul;
+--     ^^^^^ ^^^^^^^^^^^^^^^^^ ^^^^^^^^^^^^
+--     neyi   neyi ne yapacağız  kimi (bu kısmı yazmazsan: HEPSİNİ)
+```
+
+Dikkat et: `WHERE` her iki komutta da **cümlenin sonunda ve isteğe bağlı**. SQL sana "WHERE'i
+unuttun" demez, çünkü WHERE'siz `DELETE` de geçerli bir cümledir; sadece anlamı "hepsini sil"
+olur. İşte tehlike tam burada: yazım hatası değil, **anlam** hatası. Bilgisayar seni uyarmaz,
+komutu sessizce ve eksiksiz uygular.
+
+Bir de şunu fark et: `WHERE` kullandığın koşul, Ü2'de öğrendiğin koşulun aynısı. Yani yeni bir
+şey öğrenmiyorsun; bildiğin `WHERE`'i bu sefer okumak için değil, **silmek ve değiştirmek** için
+kullanıyorsun. Aynı araç, çok daha ağır sonuç.
+
 Güvenli alışkanlık, üç adım:
 1. **Önce prova:** Silmek/değiştirmek istediğin satırları, aynı WHERE ile bir `SELECT` yazıp gör.
 2. **Kaç satır?** Beklediğin sayı mı? (3 öğrenci silecektim ama SELECT 14 gösteriyorsa, WHERE yanlış.)
@@ -133,16 +481,46 @@ DELETE FROM enrollments WHERE student_id = 7;     -- sadece o 1 satır silinir
   sildik. Sürpriz yok. (Bitince sıfırla.)
 
 **Örnek 3 (UPDATE'te aynı tuzak)**
-- Sorgu:
+- Ne yapmak istiyoruz? Ali Vural (id 7) Bursa'dan İzmir'e taşındı, sadece onun şehrini güncelleyeceğiz.
+- Sorgu (YANLIŞ, WHERE yok):
 ```sql
--- YANLIŞ: herkesin şehrini değiştirir
 UPDATE students SET city = 'İzmir';
--- DOĞRU: önce prova, sonra hedefli
-SELECT * FROM students WHERE id = 9;
-UPDATE students SET city = 'İzmir' WHERE id = 9;
+SELECT DISTINCT city FROM students;
 ```
-- Ne anlıyoruz? WHERE'siz UPDATE 14 öğrencinin hepsini İzmirli yaptı (felaket). WHERE'li olan sadece
-  Burak'ı (id 9) güncelledi.
+- Sonuç:
+
+| city  |
+|-------|
+| İzmir |
+
+- Ne anlıyoruz? Tek satır döndü, çünkü artık **14 öğrencinin hepsi İzmirli.** Ankara'lılar,
+  Bursa'lılar, hatta şehri boş (`NULL`) olan 3 öğrenci bile İzmir oldu. Tek bir öğrenciyi
+  güncellemek isterken tüm tabloyu ezdik. (Şimdi ↺ Sıfırla.)
+
+- Sorgu (DOĞRU, önce prova sonra hedefli):
+```sql
+-- 1) prova: kimi güncelleyeceğim?
+SELECT id, first_name, last_name, city FROM students WHERE id = 7;
+-- 2) beklediğim kişi mi? Evetse uygula:
+UPDATE students SET city = 'İzmir' WHERE id = 7;
+-- 3) doğrula:
+SELECT id, first_name, last_name, city FROM students WHERE id = 7;
+```
+- Sonuç (1. adım, prova):
+
+| id | first_name | last_name | city  |
+|----|------------|-----------|-------|
+| 7  | Ali        | Vural     | Bursa |
+
+- Sonuç (3. adım, doğrulama):
+
+| id | first_name | last_name | city  |
+|----|------------|-----------|-------|
+| 7  | Ali        | Vural     | İzmir |
+
+- Ne anlıyoruz? Aynı komut, tek farkla: `WHERE id = 7`. Bu sefer 14 satır değil 1 satır etkilendi,
+  ve etkilenenin kim olduğunu **daha uygulamadan önce** gördük. Aradaki fark bir satır kod, sonucu
+  ise 13 öğrencinin verisi.
 
 ### Sık hatalar & uyarılar
 - WHERE'i unutmak. En pahalı hata. Refleksin "WHERE nerede?" olsun.
@@ -202,8 +580,30 @@ Bir **transaction** (işlem), birkaç komutu "ya hep ya hiç" paketine koyar:
 - `COMMIT;` dersen değişiklikler **kalıcı** olur.
 - `ROLLBACK;` dersen tüm değişiklikler **geri alınır**, hiç olmamış gibi.
 
+Yazılışı çok basit, üç komutun da parametresi yok:
+
+| Komut | En basit hali | Ne yapar |
+|-------|---------------|----------|
+| `BEGIN` | `BEGIN;` | İşlemi başlatır, bundan sonrası geçici |
+| `COMMIT` | `COMMIT;` | Yapılanları kalıcı yapar, işlemi kapatır |
+| `ROLLBACK` | `ROLLBACK;` | Yapılanları iptal eder, işlemi kapatır |
+
+Kalıbı hep aynı, ezberlenecek tek şey bu:
+
+```sql
+BEGIN;                    -- 1) kalkanı aç
+  DELETE FROM ... ;       -- 2) tehlikeli işi yap
+  SELECT ... ;            -- 3) sonucu KONTROL ET
+COMMIT;                   -- 4a) doğruysa sabitle
+-- ya da
+ROLLBACK;                 -- 4b) yanlışsa hiç olmamışa çevir
+```
+
 Bu, tehlikeli bir işlemi yapmadan önce bir güvenlik ağı kurmanı sağlar: BEGIN ile başla, yap,
 SELECT ile sonucu kontrol et; iyiyse COMMIT, kötüyse ROLLBACK.
+
+3. adımı atlama. Kontrol etmeden COMMIT dersen, transaction seni korumamış olur; sadece felaketi
+bir komut geciktirmiş olursun.
 
 ```sql
 BEGIN;
@@ -272,8 +672,16 @@ Yanlış bir `DELETE` yaptın ama henüz `COMMIT` etmedin. Seni ne kurtarır?
 
 ### 🧑‍🏫 Öğretmen için
 "DELETE satırları siler ama tablo durur. DROP ise tabloyu komple yok eder, sütunlarıyla birlikte.
-TRUNCATE ise tüm satırları bir anda, çok hızlı boşaltır." Tahtaya farkı çiz. Sonra DROP'u sandbox'ta
-göster, `SELECT * FROM events` hata versin ("tablo yok"), sınıf görsün, Sıfırla ile geri gelsin.
+TRUNCATE ise tüm satırları bir anda, çok hızlı boşaltır." Tahtaya farkı çiz.
+- **Canlı demoda sıra önemli, çünkü ilk komut BİLEREK hata verecek:** önce `DROP TABLE events;`
+  çalıştır. Reddedilir ("cannot drop table events because other objects depend on it"). Sınıfa sor:
+  "Veritabanı bizi neden durdurdu?" Cevap: `event_attendance` bu tabloya bağlı, o satırlar sahipsiz
+  kalırdı. Sonra `SELECT COUNT(*) FROM events;` ile tablonun hâlâ yerinde olduğunu göster (4).
+  Ardından hatanın ipucunu okut ve `DROP TABLE events CASCADE;` çalıştır; şimdi `SELECT` "relation
+  events does not exist" der, sınıf görsün, Sıfırla ile geri gelsin.
+- Bu iki adımlı demo tek adımlıdan çok daha değerli: çocuk hem DROP'un yıkıcılığını hem de
+  veritabanının onu korumaya çalıştığını görüyor. Vurgu: "`CASCADE` yazmak, kemer takmamayı
+  seçmektir."
 - Uyarı (büyük yaz): "DROP ve TRUNCATE genelde transaction'la bile zor kurtarılır; gerçek hayatta
   bunları çalıştırmadan önce iki kez düşün, yedek al."
 - Sor: "DELETE ile DROP arasındaki fark ne?" (DELETE satır siler/tablo kalır; DROP tabloyu yok eder.)
@@ -285,6 +693,62 @@ göster, `SELECT * FROM events` hata versin ("tablo yok"), sınıf görsün, Sı
 - `DROP TABLE tablo;` tabloyu **komple yok eder**: satırlar, sütunlar, yapı, hepsi gider. Artık o tablo
   yoktur.
 
+Üçünü yan yana koyunca fark netleşiyor:
+
+| Komut | En basit hali | Satırlar | Tablonun kendisi | `WHERE` alır mı? |
+|-------|---------------|----------|------------------|------------------|
+| `DELETE` | `DELETE FROM tablo WHERE koşul;` | seçtiklerin gider | kalır | **evet** |
+| `TRUNCATE` | `TRUNCATE tablo;` | hepsi gider | kalır | hayır |
+| `DROP` | `DROP TABLE tablo;` | hepsi gider | **yok olur** | hayır |
+
+Yani aşağı doğru indikçe kapsam büyüyor ve kontrolün azalıyor. `DELETE` ile "şu 3 satırı sil"
+diyebilirsin; `TRUNCATE` ile sadece "hepsini boşalt" diyebilirsin; `DROP` ile "böyle bir tablo
+hiç olmasın" demiş olursun.
+
+#### DROP her zaman çalışmaz: bağlı tablolar onu durdurur
+
+Burada çoğu kişinin şaşırdığı bir şey var. Bir tabloyu DROP etmeye çalıştığında, **başka bir tablo
+ona bağlıysa Postgres komutu reddeder.** Kampüs veritabanımızda deneyelim:
+
+```sql
+DROP TABLE events;
+```
+- Sonuç: komut çalışmaz, şu hatayı alırsın:
+
+```
+HATA: cannot drop table events because other objects depend on it
+DETAY: constraint event_attendance_event_id_fkey on table event_attendance
+       depends on table events
+İPUCU: Use DROP ... CASCADE to drop the dependent objects too.
+```
+
+- Ne anlıyoruz? `event_attendance` tablosu, hangi etkinliğe kimin katıldığını tutuyor ve her satırı
+  `events` tablosundaki bir etkinliğe bağlı. Eğer `events` yok olsaydı, `event_attendance`
+  içindeki satırlar **var olmayan bir etkinliği** işaret ediyor olurdu. Postgres buna izin vermez
+  ve seni durdurur. Bu bir arıza değil, **bir koruma.** (Bu bağlantının adı yabancı anahtar; tam
+  konusu Ü12 ve ÜM.)
+
+Postgres'in verdiği ipucu şunu söylüyor: gerçekten ısrar ediyorsan `CASCADE` ekle.
+
+```sql
+DROP TABLE events CASCADE;
+SELECT * FROM events;
+```
+- Sonuç: ilk komut bu sefer çalışır, ikincisi hata verir:
+
+```
+HATA: relation "events" does not exist
+```
+
+- Ne anlıyoruz? `CASCADE`, "bana bağlı olan şeyleri de hallet" demek ve korumayı devre dışı
+  bırakır. Artık `events` tablosu gerçekten yok, ona SELECT bile atamıyorsun. Dikkat: `CASCADE`
+  burada `event_attendance` **tablosunu silmedi**, sadece ona bağlayan bağlantıyı kaldırdı; ama
+  o satırlar artık hangi etkinliğe ait olduğunu söyleyemiyor, yani anlamlarını kaybettiler.
+
+Buradan çıkan ders, bu ünitenin özeti gibi: **veritabanı seni korumaya çalışır, `CASCADE` gibi
+kelimeler o korumayı kapatır.** Bir hata mesajı gördüğünde ilk tepkin "nasıl susturarım" değil,
+"bu bana ne söylemeye çalışıyor" olsun.
+
 Bunlar "yok edici" uçtur. Gerçek hayatta DROP/TRUNCATE çoğu zaman geri alınamaz (yedekten dönmek
 gerekir). Bu yüzden en yüksek dikkat bunlarda. (Tam syntax ve kullanım: Ü12.)
 
@@ -295,15 +759,26 @@ Korkuyu değil, "gerçek hayatta bunu yapmadan önce dur ve yedek al" disiplinin
 
 ### Çözümlü örnekler
 
-**Örnek 1 (DROP, sonra Sıfırla)**
-- Sorgu:
+**Örnek 1 (DROP: önce reddedilir, sonra CASCADE ile geçer)**
+- Sorgu (1. deneme):
 ```sql
-SELECT * FROM events;     -- 4 etkinlik var
-DROP TABLE events;        -- tablo komple yok edildi
-SELECT * FROM events;     -- HATA: "relation events does not exist"
+SELECT COUNT(*) FROM events;   -- 4 etkinlik var
+DROP TABLE events;             -- reddedilir!
+SELECT COUNT(*) FROM events;   -- hâlâ 4: tablo yerinde duruyor
 ```
-- Ne anlıyoruz? `DROP TABLE events;` tabloyu tamamen sildi; artık ona SELECT bile atamıyoruz, hata
-  veriyor. Gerçek hayatta bu kayıpla sonuçlanırdı. Burada **↺ Sıfırla** ile `events` geri gelir.
+- Ne anlıyoruz? `DROP TABLE events;` **çalışmadı**, çünkü `event_attendance` tablosu ona bağlı
+  (yukarıdaki hata mesajı). Önemli ayrıntı: komut reddedildiği için hiçbir şey değişmedi, tablo
+  ve 4 etkinlik yerli yerinde. Postgres yarım iş bırakmadı.
+
+- Sorgu (2. deneme, korumayı kapatarak):
+```sql
+DROP TABLE events CASCADE;     -- bu sefer çalışır
+SELECT COUNT(*) FROM events;   -- HATA: relation "events" does not exist
+```
+- Ne anlıyoruz? `CASCADE` ile tablo gerçekten yok oldu; artık ona SELECT bile atamıyoruz. Gerçek
+  hayatta bu, yedekten dönmeyi gerektiren bir kayıptır. Burada **↺ Sıfırla** ile `events` geri gelir.
+- Aklında kalsın: ilk denemede aldığın hata bir engel değil, **son uyarıdı.** `CASCADE` yazarak o
+  uyarıyı kendi ellerinle kapattın. Gerçek bir veritabanında `CASCADE` yazmadan önce iki kez düşün.
 
 **Örnek 2 (TRUNCATE vs DELETE)**
 - Sorgu:
@@ -398,18 +873,23 @@ SELECT ile gör, sonra ROLLBACK ile geri al. Şehirler eski haline döndü mü?
 > ROLLBACK, COMMIT etmediğimiz değişiklikleri sildi. Transaction = güvenlik ağı.
 > </details>
 
-**P4 (zorlayıcı, DROP).** [▶ Editörde dene] `events` tablosunu DROP et, sonra ona SELECT atmayı dene
-(hata almalısın). Sonra Sıfırla ile geri getir ve tekrar SELECT at.
-> İpucu: `DROP TABLE events;` sonra `SELECT * FROM events;` hata verir.
+**P4 (zorlayıcı, DROP ve koruma).** [▶ Editörde dene] Önce `events` tablosunu düz `DROP TABLE` ile
+silmeyi dene. Hata alacaksın: hatayı OKU, sana ne söylüyor? Tablo gerçekten gitti mi, kontrol et.
+Sonra hatanın ipucundaki yolu kullanarak tabloyu gerçekten sil ve ona SELECT atmayı dene. Bitince Sıfırla.
+> İpucu: İlk komut reddedilir çünkü başka bir tablo `events`'e bağlıdır. Hata mesajının son satırı
+> sana ne yapman gerektiğini yazıyor.
 > <details><summary>Cevap</summary>
 >
 > ```sql
-> DROP TABLE events;        -- tablo yok edildi
-> SELECT * FROM events;     -- HATA: relation events does not exist
-> -- ↺ Sıfırla bas, sonra:
-> SELECT * FROM events;     -- 4 etkinlik geri geldi
+> DROP TABLE events;             -- REDDEDİLİR: event_attendance buna bağlı
+> SELECT COUNT(*) FROM events;   -- 4: komut reddedildiği için tablo yerinde duruyor
+>
+> DROP TABLE events CASCADE;     -- korumayı kapattık, bu sefer çalışır
+> SELECT COUNT(*) FROM events;   -- HATA: relation "events" does not exist
 > ```
-> DROP, tabloyu yapısıyla birlikte yok etti; DELETE'ten farkı bu. Sıfırla seed'i yeniden kurar.
+> İki ders birden: (1) `DROP`, tabloyu yapısıyla birlikte yok eder, `DELETE`'ten farkı bu.
+> (2) Veritabanı, bağlı tablolar varken seni durdurur; bu bir arıza değil koruma, ve `CASCADE`
+> yazmak o korumayı kendi ellerinle kapatmaktır. Sıfırla seed'i yeniden kurar.
 > </details>
 
 **P5 (düşündürücü).** [▶ Editörde dene] Önce `SELECT COUNT(*) FROM students WHERE city = 'İstanbul';`
@@ -436,8 +916,12 @@ Sonra toplamı kontrol et (10 kalmalı). (Sonra Sıfırla.)
   ile SELECT** çek, kaç satır göreceğine bak.
 - **Transaction** güvenlik ağıdır: `BEGIN` ile başla, `ROLLBACK` ile geri al, `COMMIT` ile sabitle.
   ROLLBACK yalnız COMMIT'ten önce kurtarır.
+- Her komutun **en basit hali** var ve `WHERE` yalnızca `UPDATE`/`DELETE` alır. `TRUNCATE` ve
+  `DROP` hedef seçemez, ya hep ya hiç çalışır.
 - **DELETE** satır siler (tablo kalır), **TRUNCATE** hepsini boşaltır, **DROP** tabloyu yok eder.
   DROP/TRUNCATE gerçek hayatta çoğu zaman geri dönülmez; önce yedek, iki kez düşün.
+- Bağlı tablo varsa **DROP reddedilir**; bu bir arıza değil, korumadır. `CASCADE` o korumayı kapatır.
+  Hata mesajı gördüğünde ilk işin susturmak değil, okumak olsun.
 - Burada sandbox + **↺ Sıfırla** var, korkmadan dene; ama disiplini gerçek hayat için kazan.
 
 ## 🧑‍🏫 Öğretmen notu (ünite geneli)
