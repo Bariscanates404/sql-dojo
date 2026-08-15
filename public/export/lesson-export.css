@@ -1,0 +1,294 @@
+/* SQL Dojo — dışa aktarılan ders/ödev dosyasının tek stil kaynağı.
+ *
+ * Bu dosya export sırasında HTML'in içine GÖMÜLÜR: indirilen .html tek başına,
+ * internetsiz, hiçbir dış bağlantı olmadan düzgün görünmek zorunda.
+ * Bu yüzden burada dış font, dış görsel, dış stil YOKTUR ve olmamalıdır.
+ *
+ * Renk paleti src/app/globals.css ile aynı kimliği taşır (dojo teması), ama
+ * değerler burada bağımsız durur: indirilen dosya uygulamanın CSS'ini çekemez.
+ * Paleti değiştirirsen iki yeri birlikte güncelle.
+ */
+
+:root {
+  --background: #fafaf9;
+  --foreground: #1c1917;
+  --muted: #78716c;
+  --surface: #ffffff;
+  --border: #e7e5e4;
+  --primary: #4f46e5;
+  --accent: #0d9488;
+  --danger: #dc2626;
+  --code-bg: #f5f5f4;
+  --brand-from: #6366f1;
+  --brand-to: #a855f7;
+  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "SF Mono", ui-monospace, "Cascadia Code", Consolas, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0c0a09;
+    --foreground: #f5f5f4;
+    --muted: #a8a29e;
+    --surface: #1c1917;
+    --border: #292524;
+    --primary: #818cf8;
+    --accent: #2dd4bf;
+    --danger: #f87171;
+    --code-bg: #1c1917;
+    --brand-from: #818cf8;
+    --brand-to: #c084fc;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 2rem 1.25rem 4rem;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 1.7;
+  -webkit-text-size-adjust: 100%;
+}
+
+main { max-width: 46rem; margin: 0 auto; }
+
+/* --- Kapak --- */
+
+.doc-cover {
+  max-width: 46rem;
+  margin: 0 auto 2.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid var(--border);
+}
+
+.doc-brand {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0 0 0.75rem;
+}
+
+.doc-title {
+  font-size: 2rem;
+  line-height: 1.2;
+  margin: 0 0 0.5rem;
+  background: linear-gradient(90deg, var(--brand-from), var(--brand-to));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Gradyan metin yazıcıda kaybolur; yazdırmada düz renge döner (bkz. @media print). */
+
+.doc-tagline { color: var(--muted); margin: 0 0 1rem; font-size: 0.95rem; }
+
+.doc-namefield {
+  margin-top: 1.25rem;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+
+.doc-note {
+  margin: 1.25rem 0 0;
+  padding: 0.75rem 1rem;
+  border-left: 3px solid var(--accent);
+  background: var(--surface);
+  border-radius: 0 8px 8px 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+/* --- Metin --- */
+
+h1, h2, h3, h4 { line-height: 1.3; font-weight: 700; }
+
+h1 { font-size: 1.7rem; margin: 2.5rem 0 1rem; }
+
+h2 {
+  font-size: 1.35rem;
+  margin: 2.5rem 0 0.75rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 2px solid var(--border);
+  color: var(--primary);
+}
+
+h3 { font-size: 1.1rem; margin: 1.75rem 0 0.5rem; color: var(--accent); }
+h4 { font-size: 1rem; margin: 1.5rem 0 0.5rem; }
+
+p { margin: 0.85rem 0; }
+ul, ol { margin: 0.85rem 0; padding-left: 1.4rem; }
+li { margin: 0.35rem 0; }
+li > ul, li > ol { margin: 0.35rem 0; }
+
+strong { font-weight: 700; }
+a { color: var(--primary); }
+
+hr { border: 0; border-top: 1px solid var(--border); margin: 2.5rem 0; }
+
+blockquote {
+  margin: 1rem 0;
+  padding: 0.6rem 1rem;
+  border-left: 3px solid var(--primary);
+  background: var(--surface);
+  border-radius: 0 8px 8px 0;
+  color: var(--muted);
+}
+blockquote p { margin: 0.4rem 0; }
+blockquote strong { color: var(--foreground); }
+
+/* --- Kod --- */
+
+code {
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.1em 0.35em;
+}
+
+pre {
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--primary);
+  border-radius: 8px;
+  padding: 0.9rem 1rem;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+pre code {
+  background: none;
+  border: 0;
+  padding: 0;
+  font-size: 0.86rem;
+  line-height: 1.6;
+}
+
+/* --- Tablolar --- */
+
+.table-scroll { overflow-x: auto; margin: 1rem 0; }
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.9rem;
+}
+
+th, td {
+  border: 1px solid var(--border);
+  padding: 0.45rem 0.7rem;
+  text-align: left;
+  vertical-align: top;
+}
+
+th { background: var(--surface); font-weight: 700; }
+tbody tr:nth-child(even) { background: color-mix(in srgb, var(--surface) 55%, transparent); }
+
+/* --- Ödev kağıdı --- */
+
+.hw-item {
+  margin: 0 0 1.75rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  break-inside: avoid;
+}
+
+.hw-no {
+  display: inline-block;
+  min-width: 1.9rem;
+  height: 1.9rem;
+  line-height: 1.9rem;
+  text-align: center;
+  border-radius: 50%;
+  background: var(--primary);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.9rem;
+  margin-right: 0.6rem;
+}
+
+.hw-prompt { margin: 0.75rem 0; }
+.hw-meta { font-size: 0.8rem; color: var(--muted); margin: 0.35rem 0 0; }
+
+.hw-choices { list-style: none; padding-left: 0; margin: 0.6rem 0 0; }
+.hw-choices li {
+  margin: 0.35rem 0;
+  padding: 0.4rem 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
+.hw-answer-area {
+  margin-top: 0.75rem;
+  border: 1px dashed var(--border);
+  border-radius: 8px;
+  min-height: 5.5rem;
+  padding: 0.5rem 0.7rem;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.hw-schema {
+  margin: 1.5rem 0 2rem;
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+  font-size: 0.85rem;
+}
+.hw-schema h2 { margin-top: 0; border: 0; font-size: 1.05rem; }
+.hw-schema ul { margin: 0.5rem 0 0; }
+.hw-schema code { font-size: 0.82em; }
+
+/* --- Alt bilgi --- */
+
+.doc-footer {
+  max-width: 46rem;
+  margin: 3rem auto 0;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+/* --- Yazdırma (Ctrl+P -> PDF olarak kaydet) --- */
+
+@media print {
+  :root {
+    --background: #fff;
+    --foreground: #000;
+    --muted: #444;
+    --surface: #fff;
+    --border: #bbb;
+    --primary: #000;
+    --accent: #000;
+    --code-bg: #f4f4f4;
+  }
+
+  body { font-size: 11pt; padding: 0; line-height: 1.5; background: #fff; }
+  main, .doc-cover, .doc-footer { max-width: none; }
+
+  /* Gradyan metin siyah beyaz yazıcıda görünmez olur, düz renge çeviriyoruz. */
+  .doc-title { background: none; color: #000; -webkit-text-fill-color: #000; }
+
+  .doc-cover { break-after: page; }
+
+  h2, h3, h4 { break-after: avoid; }
+  pre, table, blockquote, .hw-item, .hw-schema { break-inside: avoid; }
+
+  /* Kağıtta link tıklanamaz, adresi yanına bas. */
+  a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 0.85em; color: #444; }
+
+  .hw-answer-area { min-height: 7rem; }
+}
+
+@page { margin: 18mm 16mm; }

@@ -16,7 +16,8 @@
     "qa:bank": "node scripts/questions-smoke.mjs",
     "qa:errors": "node scripts/errors-smoke.mjs",
     "qa:lessons": "node scripts/lesson-results-check.mjs",
-    "check": "npm run sync:content && npm run type-check && npm run lint && npm run db:smoke && npm run qa:strip && npm run qa:bank && npm run qa:errors",
+    "qa:export": "node --experimental-strip-types scripts/export-smoke.mjs",
+    "check": "npm run sync:content && npm run type-check && npm run lint && npm run db:smoke && npm run qa:strip && npm run qa:bank && npm run qa:errors && npm run qa:export",
     "prepare": "husky || true"
   },
   "dependencies": {
@@ -31,8 +32,12 @@
     "react-dom": "19.2.3",
     "react-markdown": "^9.0.1",
     "rehype-raw": "^7.0.0",
+    "rehype-stringify": "^10.0.1",
     "remark-gfm": "^4.0.0",
+    "remark-parse": "^11.0.0",
+    "remark-rehype": "^11.1.2",
     "tailwind-merge": "^3.4.1",
+    "unified": "^11.0.5",
     "zod": "^4.3.6",
     "zustand": "^5.0.11"
   },

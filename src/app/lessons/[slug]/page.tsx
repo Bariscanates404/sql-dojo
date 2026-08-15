@@ -3,10 +3,16 @@
 import Link from 'next/link';
 import { use, useEffect, useState } from 'react';
 
+import { ExportButtons } from '@/components/lesson/ExportButtons';
 import { LessonView } from '@/components/lesson/LessonView';
 import { fetchLessonMarkdown } from '@lib/content/lessons';
 import { useRoleStore } from '@stores/roleStore';
 import { cn } from '@utils/cn';
+
+/** "U6-join" -> "U6". Ödev soruları bu ünite kodundan seçilir (index.json'daki prefix ile aynı). */
+function unitFromSlug(slug: string): string {
+  return slug.split('-')[0];
+}
 
 export default function LessonPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = use(params);
@@ -50,6 +56,12 @@ export default function LessonPage({ params }: { params: Promise<{ slug: string 
           Öğretmen görünümü: 🧑‍🏫 ile başlayan bölümler görünür. Öğrenci görünümünde otomatik gizlenir.
         </p>
       ) : null}
+
+      {md !== null && (
+        <div className="rounded-xl border border-border bg-surface px-3 py-2.5">
+          <ExportButtons slug={slug} markdown={md} unit={unitFromSlug(slug)} />
+        </div>
+      )}
 
       {error && <p className="text-sm text-danger">{error}</p>}
       {md === null && !error && <p className="text-sm text-muted">Yükleniyor…</p>}
