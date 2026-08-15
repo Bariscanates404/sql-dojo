@@ -8,7 +8,9 @@ import { getSeed, type SeedDef } from './seeds';
 
 export interface DisplayResult {
   fields: { name: string }[];
-  rows: Record<string, unknown>[];
+  // Pozisyonel: Postgres aynı adı taşıyan iki kolon döndürebilir (örn. iki kez last_name),
+  // isim bazlı bir obje bu durumda ikinci değeri birinciye ezdirir.
+  rows: unknown[][];
   affectedRows: number;
   statements: number;
   durationMs: number;
@@ -74,7 +76,7 @@ export function execSql(sql: string): Promise<DisplayResult> {
   return enqueue(async () => {
     const db = await getDb();
     const t0 = performance.now();
-    const results = await db.exec(sql);
+    const results = await db.exec(sql, { rowMode: 'array' });
     const durationMs = performance.now() - t0;
     // Show the last statement that produced columns (a SELECT / RETURNING);
     // otherwise the last statement (so DML/DDL reports affected rows).
@@ -82,7 +84,8 @@ export function execSql(sql: string): Promise<DisplayResult> {
     const chosen = withFields ?? results[results.length - 1];
     return {
       fields: (chosen?.fields ?? []).map((f) => ({ name: f.name })),
-      rows: (chosen?.rows ?? []) as Record<string, unknown>[],
+      // exec()'in tip imzası rowMode'u yansıtmıyor (pglite .d.ts sınırlaması); asıl veri dizi.
+      rows: (chosen?.rows ?? []) as unknown as unknown[][],
       affectedRows: chosen?.affectedRows ?? 0,
       statements: results.length,
       durationMs,

@@ -49,9 +49,9 @@ export function QueryResultView({ result, error }: QueryResultViewProps) {
         <table className="w-full border-collapse text-sm">
           <thead className="sticky top-0">
             <tr>
-              {result.fields.map((f) => (
+              {result.fields.map((f, i) => (
                 <th
-                  key={f.name}
+                  key={i}
                   className="whitespace-nowrap border-b border-border bg-surface px-3 py-2 text-left font-semibold"
                 >
                   {f.name}
@@ -62,12 +62,12 @@ export function QueryResultView({ result, error }: QueryResultViewProps) {
           <tbody>
             {result.rows.map((row, i) => (
               <tr key={i} className="odd:bg-foreground/[0.025]">
-                {result.fields.map((f) => {
-                  const v = row[f.name];
+                {result.fields.map((_f, j) => {
+                  const v = row[j];
                   const isNull = v === null || v === undefined;
                   return (
                     <td
-                      key={f.name}
+                      key={j}
                       className={cn(
                         'whitespace-nowrap border-b border-border px-3 py-1.5 font-mono',
                         isNull && 'italic text-muted',

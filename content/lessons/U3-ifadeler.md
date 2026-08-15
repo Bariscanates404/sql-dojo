@@ -67,6 +67,8 @@ SELECT 10 + 5 AS sayisal, '10' || '5' AS metinsel;
 ```
 - Sonuç: `sayisal = 15`, `metinsel = '105'`. Ne anlıyoruz? `+` sayılarda toplar (15), `||` metinlerde
   yan yana ekler ('105'). Aynı görünen "10" ve "5", tipe göre bambaşka davranır.
+- Not: `||` burada sadece tip farkını göstermek için kullanıldı; ne işe yaradığını ve NULL ile nasıl
+  davrandığını 3.2'de (Metin fonksiyonları) detaylı işleyeceğiz.
 
 ### Sık hatalar & uyarılar
 - Sayı sütununu tırnakla yazmak (`WHERE credits = '6'`). Postgres çoğu zaman idare eder ama
@@ -83,7 +85,7 @@ SELECT 10 + 5 AS sayisal, '10' || '5' AS metinsel;
 > yazılarını yan yana koyar, sonuç `'77'` metni olur. `+` ise sayısal toplama yapar: `7 + 7 = 14`.
 > Burada gözle aynı görünen "7"ler, biri metin biri sayı bağlamında olduğu için tamamen farklı
 > sonuç verir. Bu, tipin neden önemli olduğunun en net kanıtı: işlemi belirleyen şey, değerin
-> "göründüğü" değil "tipi"dir.
+> "göründüğü" değil "tipi"dir. (`||`'i tüm detaylarıyla 3.2'de göreceğiz.)
 
 **Soru 2 (yaz).** `students` tablosunda burs miktarını tam sayı olarak (`burs_tam` adıyla) getir.
 > **İpucu:** `::integer` ya da `CAST(... AS integer)` kullan.

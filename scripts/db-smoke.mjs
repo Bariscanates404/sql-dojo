@@ -36,6 +36,23 @@ const joined = await db.query(`
   LIMIT 3`);
 assert(joined.rows.length === 3, '3 tablolu JOIN çalışıyor');
 
+console.log('\n--- Aynı adlı sütunlar (pozisyonel satır regresyonu) ---');
+// Postgres aynı adı taşıyan iki sütun döndürebilir (JOIN'de iki kez last_name gibi).
+// İsim bazlı satır objesi bu durumda ikinci değeri birinciye ezdirir; execSql bu yüzden
+// rowMode:'array' kullanır (bkz. src/lib/db/pglite.ts, src/lib/questions/grade.ts:toRecord).
+const dupSql = `
+  SELECT s.last_name, s2.last_name
+  FROM students s
+  JOIN students s2 ON s2.id <> s.id
+  ORDER BY s.id, s2.id
+  LIMIT 1`;
+const dupNamed = (await db.exec(dupSql))[0];
+const dupArray = (await db.exec(dupSql, { rowMode: 'array' }))[0];
+assert(dupNamed.fields.length === 2, 'sorgu gerçekten 2 aynı adlı sütun döndürüyor');
+assert(Object.keys(dupNamed.rows[0]).length === 1, 'isim bazlı satır bir değeri KAYBEDİYOR (hatanın kanıtı)');
+assert(dupArray.rows[0].length === 2, 'pozisyonel satır iki değeri de koruyor');
+assert(dupArray.rows[0][0] !== dupArray.rows[0][1], 'iki sütun farklı değer taşıyor (ezilme yok)');
+
 console.log('\n--- İçerik tutarlılığı (derste yazılı sonuç vs gerçek) ---');
 const checks = [
   ['students toplam', 'SELECT COUNT(*)::int AS n FROM students', null],
