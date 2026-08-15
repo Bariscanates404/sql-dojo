@@ -1,6 +1,14 @@
 [
   {
-    "id": "q-u5-count-per-category-001", "type": "write_sql", "unit": "U5", "lessonId": "U5-groupby", "conceptTags": ["group-by", "count"], "difficulty": 2,
+    "id": "q-u5-count-per-category-001",
+    "type": "write_sql",
+    "unit": "U5",
+    "lessonId": "U5-groupby",
+    "conceptTags": [
+      "group-by",
+      "count"
+    ],
+    "difficulty": 2,
     "tr": {
       "title": "Kategori başına ürün sayısı",
       "prompt": "products tablosunda HER kategoride kaç ürün olduğunu bul. Sonuçta iki sütun olsun, bu sırayla: category ve adet (o kategorideki ürün sayısı). Her kategori için tek satır olsun. Sonucu category'ye göre A'dan Z'ye sırala.",
@@ -8,20 +16,69 @@
       "hint2": "SELECT category, COUNT(*) AS adet FROM products GROUP BY category ORDER BY category;",
       "answerExplanation": "GROUP BY category aynı kategorideki satırları tek gruba toplar; COUNT(*) her grubun satır sayısını verir. Sonuçta her kategori bir satırdır."
     },
-    "assessment": { "referenceSql": "SELECT category, COUNT(*) AS adet FROM products GROUP BY category ORDER BY category ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["category", "adet"], "requiredConcepts": ["group-by", "count"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT category, COUNT(*) AS adet FROM products GROUP BY category ORDER BY category ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "category",
+        "adet"
+      ],
+      "requiredConcepts": [
+        "group-by",
+        "count"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "5.2"
   },
   {
-    "id": "q-u5-count-per-status-001", "type": "write_sql", "unit": "U5", "lessonId": "U5-groupby", "conceptTags": ["group-by", "count"], "difficulty": 2,
+    "id": "q-u5-count-per-status-001",
+    "type": "write_sql",
+    "unit": "U5",
+    "lessonId": "U5-groupby",
+    "conceptTags": [
+      "group-by",
+      "count"
+    ],
+    "difficulty": 2,
     "tr": {
       "title": "Duruma göre sipariş sayısı",
       "prompt": "orders tablosunda HER status (durum) için kaç sipariş olduğunu bul. Sonuçta iki sütun olsun, bu sırayla: status ve adet. Her durum için tek satır olsun. Sonucu status'a göre artan sırala.",
       "hint1": "GROUP BY status, sonra COUNT(*).",
       "answerExplanation": "GROUP BY status siparişleri durumlarına göre gruplar; COUNT(*) her durumdaki sipariş sayısını verir."
     },
-    "assessment": { "referenceSql": "SELECT status, COUNT(*) AS adet FROM orders GROUP BY status ORDER BY status ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["status", "adet"], "requiredConcepts": ["group-by", "count"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT status, COUNT(*) AS adet FROM orders GROUP BY status ORDER BY status ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "status",
+        "adet"
+      ],
+      "requiredConcepts": [
+        "group-by",
+        "count"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "5.2"
   },
   {
-    "id": "q-u5-count-per-city-null-001", "type": "write_sql", "unit": "U5", "lessonId": "U5-groupby", "conceptTags": ["group-by", "count", "null"], "difficulty": 3,
+    "id": "q-u5-count-per-city-null-001",
+    "type": "write_sql",
+    "unit": "U5",
+    "lessonId": "U5-groupby",
+    "conceptTags": [
+      "group-by",
+      "count",
+      "null"
+    ],
+    "difficulty": 3,
     "tr": {
       "title": "Şehir başına öğrenci (NULL bir gruptur)",
       "prompt": "students tablosunda HER şehirde kaç öğrenci olduğunu bul. Şehri bilinmeyen (NULL) öğrenciler de KENDİ grubunu oluştursun (silme). Sonuçta iki sütun olsun, bu sırayla: city ve ogrenci_sayisi. Sonucu city'ye göre artan sırala; NULL grubu en sonda olsun.",
@@ -29,60 +86,209 @@
       "hint2": "SELECT city, COUNT(*) AS ogrenci_sayisi FROM students GROUP BY city ORDER BY city ASC NULLS LAST;",
       "answerExplanation": "GROUP BY'da tüm NULL'lar TEK bir grup sayılır (birbirine 'eşit' kabul edilir, bu özel durumdur). Yani şehri bilinmeyen öğrenciler tek bir satırda toplanır."
     },
-    "assessment": { "referenceSql": "SELECT city, COUNT(*) AS ogrenci_sayisi FROM students GROUP BY city ORDER BY city ASC NULLS LAST;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["city", "ogrenci_sayisi"], "requiredConcepts": ["group-by", "count"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT city, COUNT(*) AS ogrenci_sayisi FROM students GROUP BY city ORDER BY city ASC NULLS LAST;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "city",
+        "ogrenci_sayisi"
+      ],
+      "requiredConcepts": [
+        "group-by",
+        "count"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "5.2"
   },
   {
-    "id": "q-u5-count-per-course-001", "type": "write_sql", "unit": "U5", "lessonId": "U5-groupby", "conceptTags": ["group-by", "count"], "difficulty": 2,
+    "id": "q-u5-count-per-course-001",
+    "type": "write_sql",
+    "unit": "U5",
+    "lessonId": "U5-groupby",
+    "conceptTags": [
+      "group-by",
+      "count"
+    ],
+    "difficulty": 2,
     "tr": {
       "title": "Ders başına kayıt sayısı",
       "prompt": "enrollments tablosunda HER course_id için kaç kayıt (enrollment) olduğunu bul. Sonuçta iki sütun olsun, bu sırayla: course_id ve kayit_sayisi. Sonucu course_id'ye göre artan sırala.",
       "hint1": "GROUP BY course_id, COUNT(*).",
       "answerExplanation": "Her ders, o derse kayıtlı satırların sayısıyla tek bir satır olur."
     },
-    "assessment": { "referenceSql": "SELECT course_id, COUNT(*) AS kayit_sayisi FROM enrollments GROUP BY course_id ORDER BY course_id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["course_id", "kayit_sayisi"], "requiredConcepts": ["group-by", "count"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT course_id, COUNT(*) AS kayit_sayisi FROM enrollments GROUP BY course_id ORDER BY course_id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "course_id",
+        "kayit_sayisi"
+      ],
+      "requiredConcepts": [
+        "group-by",
+        "count"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "5.2"
   },
   {
-    "id": "q-u5-sum-per-product-001", "type": "write_sql", "unit": "U5", "lessonId": "U5-groupby", "conceptTags": ["group-by", "sum"], "difficulty": 2,
+    "id": "q-u5-sum-per-product-001",
+    "type": "write_sql",
+    "unit": "U5",
+    "lessonId": "U5-groupby",
+    "conceptTags": [
+      "group-by",
+      "sum"
+    ],
+    "difficulty": 2,
     "tr": {
       "title": "Ürün başına satılan adet",
       "prompt": "order_items tablosunda HER product_id için toplam kaç adet satıldığını bul (quantity toplamı). Sonuçta iki sütun olsun, bu sırayla: product_id ve toplam_adet. Sonucu product_id'ye göre artan sırala.",
       "hint1": "GROUP BY product_id, SUM(quantity).",
       "answerExplanation": "GROUP BY product_id satışları ürüne göre gruplar; SUM(quantity) her ürünün toplam satış adedini verir."
     },
-    "assessment": { "referenceSql": "SELECT product_id, SUM(quantity) AS toplam_adet FROM order_items GROUP BY product_id ORDER BY product_id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["product_id", "toplam_adet"], "requiredConcepts": ["group-by", "sum"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT product_id, SUM(quantity) AS toplam_adet FROM order_items GROUP BY product_id ORDER BY product_id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "product_id",
+        "toplam_adet"
+      ],
+      "requiredConcepts": [
+        "group-by",
+        "sum"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "5.2"
   },
   {
-    "id": "q-u5-avg-per-category-001", "type": "write_sql", "unit": "U5", "lessonId": "U5-groupby", "conceptTags": ["group-by", "avg", "round"], "difficulty": 3,
+    "id": "q-u5-avg-per-category-001",
+    "type": "write_sql",
+    "unit": "U5",
+    "lessonId": "U5-groupby",
+    "conceptTags": [
+      "group-by",
+      "avg",
+      "round"
+    ],
+    "difficulty": 3,
     "tr": {
       "title": "Kategori başına ortalama fiyat",
       "prompt": "products tablosunda HER kategorinin ortalama fiyatını bul, 2 ondalığa yuvarla. Sonuçta iki sütun olsun, bu sırayla: category ve ort_fiyat. Sonucu category'ye göre artan sırala.",
       "hint1": "GROUP BY category, ROUND(AVG(price), 2).",
       "answerExplanation": "Her kategori bir grup olur; AVG(price) o grubun ortalama fiyatını verir."
     },
-    "assessment": { "referenceSql": "SELECT category, ROUND(AVG(price), 2) AS ort_fiyat FROM products GROUP BY category ORDER BY category ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["category", "ort_fiyat"], "numericTolerance": 0.01, "requiredConcepts": ["group-by"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT category, ROUND(AVG(price), 2) AS ort_fiyat FROM products GROUP BY category ORDER BY category ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "category",
+        "ort_fiyat"
+      ],
+      "numericTolerance": 0.01,
+      "requiredConcepts": [
+        "group-by"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "5.2"
   },
   {
-    "id": "q-u5-avg-per-course-001", "type": "write_sql", "unit": "U5", "lessonId": "U5-groupby", "conceptTags": ["group-by", "avg", "null"], "difficulty": 3,
+    "id": "q-u5-avg-per-course-001",
+    "type": "write_sql",
+    "unit": "U5",
+    "lessonId": "U5-groupby",
+    "conceptTags": [
+      "group-by",
+      "avg",
+      "null"
+    ],
+    "difficulty": 3,
     "tr": {
       "title": "Ders başına ortalama not",
       "prompt": "enrollments tablosunda HER course_id'nin ortalama notunu bul, 2 ondalığa yuvarla. Sonuçta iki sütun olsun, bu sırayla: course_id ve ort_not. Sonucu course_id'ye göre artan sırala. (Notu NULL olan kayıtlar için ekstra bir şey yapma; AVG onları zaten saymaz.)",
       "hint1": "GROUP BY course_id, ROUND(AVG(grade), 2).",
       "answerExplanation": "Her dersin notlu kayıtlarının ortalaması alınır. AVG NULL'ları görmezden gelir; bir dersin tüm notları NULL ise o grubun ortalaması NULL çıkar."
     },
-    "assessment": { "referenceSql": "SELECT course_id, ROUND(AVG(grade), 2) AS ort_not FROM enrollments GROUP BY course_id ORDER BY course_id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["course_id", "ort_not"], "numericTolerance": 0.01, "requiredConcepts": ["group-by"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT course_id, ROUND(AVG(grade), 2) AS ort_not FROM enrollments GROUP BY course_id ORDER BY course_id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "course_id",
+        "ort_not"
+      ],
+      "numericTolerance": 0.01,
+      "requiredConcepts": [
+        "group-by"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "5.2"
   },
   {
-    "id": "q-u5-revenue-per-product-001", "type": "write_sql", "unit": "U5", "lessonId": "U5-groupby", "conceptTags": ["group-by", "sum", "order-by"], "difficulty": 3,
+    "id": "q-u5-revenue-per-product-001",
+    "type": "write_sql",
+    "unit": "U5",
+    "lessonId": "U5-groupby",
+    "conceptTags": [
+      "group-by",
+      "sum",
+      "order-by"
+    ],
+    "difficulty": 3,
     "tr": {
       "title": "Ürün başına ciro (gruba göre sıralı)",
       "prompt": "order_items tablosunda HER product_id'nin cirosunu bul: o ürünün satırlarındaki quantity çarpı unit_price toplamı, 2 ondalığa yuvarlanmış. Sonuçta iki sütun olsun, bu sırayla: product_id ve ciro. Sonucu ciro'ya göre BÜYÜKTEN küçüğe; ciro eşitse product_id'ye göre artan sırala.",
       "hint1": "GROUP BY product_id, ROUND(SUM(quantity*unit_price),2). Sonra ORDER BY ciro DESC.",
       "answerExplanation": "Grup başına ciro hesaplanır; sonra hesaplanan ciroya göre sıralanır. ORDER BY'da SELECT'teki takma adı (ciro) kullanabilirsin."
     },
-    "assessment": { "referenceSql": "SELECT product_id, ROUND(SUM(quantity * unit_price), 2) AS ciro FROM order_items GROUP BY product_id ORDER BY ciro DESC, product_id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["product_id", "ciro"], "numericTolerance": 0.01, "requiredConcepts": ["group-by", "sum"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT product_id, ROUND(SUM(quantity * unit_price), 2) AS ciro FROM order_items GROUP BY product_id ORDER BY ciro DESC, product_id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "product_id",
+        "ciro"
+      ],
+      "numericTolerance": 0.01,
+      "requiredConcepts": [
+        "group-by",
+        "sum"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "5.3"
   },
   {
-    "id": "q-u5-where-then-group-001", "type": "write_sql", "unit": "U5", "lessonId": "U5-groupby", "conceptTags": ["group-by", "where", "count"], "difficulty": 3,
+    "id": "q-u5-where-then-group-001",
+    "type": "write_sql",
+    "unit": "U5",
+    "lessonId": "U5-groupby",
+    "conceptTags": [
+      "group-by",
+      "where",
+      "count"
+    ],
+    "difficulty": 3,
     "tr": {
       "title": "Önce süz, sonra grupla",
       "prompt": "Sadece status'u 'completed' olan siparişleri dikkate alarak, HER student_id'nin kaç tamamlanmış siparişi olduğunu bul. Sonuçta iki sütun olsun, bu sırayla: student_id ve tamamlanan. Sonucu student_id'ye göre artan sırala.",
@@ -90,20 +296,72 @@
       "hint2": "SELECT student_id, COUNT(*) AS tamamlanan FROM orders WHERE status = 'completed' GROUP BY student_id ORDER BY student_id;",
       "answerExplanation": "Çalışma sırası: WHERE önce satırları süzer (yalnız completed kalır), SONRA GROUP BY öğrenciye göre gruplar, COUNT sayar. WHERE gruplamadan ÖNCE çalışır."
     },
-    "assessment": { "referenceSql": "SELECT student_id, COUNT(*) AS tamamlanan FROM orders WHERE status = 'completed' GROUP BY student_id ORDER BY student_id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["student_id", "tamamlanan"], "requiredConcepts": ["group-by", "count"], "allowedLiterals": ["completed"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT student_id, COUNT(*) AS tamamlanan FROM orders WHERE status = 'completed' GROUP BY student_id ORDER BY student_id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "student_id",
+        "tamamlanan"
+      ],
+      "requiredConcepts": [
+        "group-by",
+        "count"
+      ],
+      "allowedLiterals": [
+        "completed"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "5.5"
   },
   {
-    "id": "q-u5-count-per-dept-001", "type": "write_sql", "unit": "U5", "lessonId": "U5-groupby", "conceptTags": ["group-by", "count"], "difficulty": 2,
+    "id": "q-u5-count-per-dept-001",
+    "type": "write_sql",
+    "unit": "U5",
+    "lessonId": "U5-groupby",
+    "conceptTags": [
+      "group-by",
+      "count"
+    ],
+    "difficulty": 2,
     "tr": {
       "title": "Bölüm başına öğrenci sayısı",
       "prompt": "students tablosunda HER department_id'de kaç öğrenci olduğunu bul. Sonuçta iki sütun olsun, bu sırayla: department_id ve sayi. Sonucu department_id'ye göre artan sırala.",
       "hint1": "GROUP BY department_id, COUNT(*).",
       "answerExplanation": "Öğrenciler bölümlerine göre gruplanır; her bölüm tek satır olur."
     },
-    "assessment": { "referenceSql": "SELECT department_id, COUNT(*) AS sayi FROM students GROUP BY department_id ORDER BY department_id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["department_id", "sayi"], "requiredConcepts": ["group-by", "count"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT department_id, COUNT(*) AS sayi FROM students GROUP BY department_id ORDER BY department_id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "department_id",
+        "sayi"
+      ],
+      "requiredConcepts": [
+        "group-by",
+        "count"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "5.2"
   },
   {
-    "id": "q-u5-having-count-001", "type": "write_sql", "unit": "U5", "lessonId": "U5-groupby", "conceptTags": ["group-by", "having", "count"], "difficulty": 3,
+    "id": "q-u5-having-count-001",
+    "type": "write_sql",
+    "unit": "U5",
+    "lessonId": "U5-groupby",
+    "conceptTags": [
+      "group-by",
+      "having",
+      "count"
+    ],
+    "difficulty": 3,
     "tr": {
       "title": "1'den fazla ürünü olan kategoriler (HAVING)",
       "prompt": "products tablosunda, içinde 1'DEN FAZLA ürün olan kategorileri bul. Sonuçta iki sütun olsun, bu sırayla: category ve adet. Yalnız adet 1'den büyük olan kategoriler gelsin. Sonucu category'ye göre artan sırala.",
@@ -111,20 +369,73 @@
       "hint2": "GROUP BY category HAVING COUNT(*) > 1",
       "answerExplanation": "HAVING, GROUP BY'dan SONRA grupları aggregate sonucuna göre süzer. WHERE bunu yapamaz çünkü WHERE gruplama ÖNCESİ, tek satırlarda çalışır; COUNT henüz hesaplanmamıştır."
     },
-    "assessment": { "referenceSql": "SELECT category, COUNT(*) AS adet FROM products GROUP BY category HAVING COUNT(*) > 1 ORDER BY category ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["category", "adet"], "requiredConcepts": ["group-by", "having", "count"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT category, COUNT(*) AS adet FROM products GROUP BY category HAVING COUNT(*) > 1 ORDER BY category ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "category",
+        "adet"
+      ],
+      "requiredConcepts": [
+        "group-by",
+        "having",
+        "count"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "5.4"
   },
   {
-    "id": "q-u5-having-avg-001", "type": "write_sql", "unit": "U5", "lessonId": "U5-groupby", "conceptTags": ["group-by", "having", "avg"], "difficulty": 4,
+    "id": "q-u5-having-avg-001",
+    "type": "write_sql",
+    "unit": "U5",
+    "lessonId": "U5-groupby",
+    "conceptTags": [
+      "group-by",
+      "having",
+      "avg"
+    ],
+    "difficulty": 4,
     "tr": {
       "title": "Ortalaması 70'in üzerindeki dersler (HAVING)",
       "prompt": "enrollments tablosunda, ortalama notu 70'TEN BÜYÜK olan dersleri bul. Sonuçta iki sütun olsun, bu sırayla: course_id ve ort_not (2 ondalık). Yalnız ortalama notu 70'in üzerinde olan dersler gelsin. Sonucu course_id'ye göre artan sırala.",
       "hint1": "Grup ortalamasına göre süzmek için HAVING AVG(grade) > 70.",
       "answerExplanation": "HAVING AVG(grade) > 70 her dersin ortalamasını hesaplar ve yalnız 70'in üzerindekileri bırakır. Aggregate koşulu WHERE'de değil HAVING'de yazılır."
     },
-    "assessment": { "referenceSql": "SELECT course_id, ROUND(AVG(grade), 2) AS ort_not FROM enrollments GROUP BY course_id HAVING AVG(grade) > 70 ORDER BY course_id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["course_id", "ort_not"], "numericTolerance": 0.01, "requiredConcepts": ["group-by", "having"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT course_id, ROUND(AVG(grade), 2) AS ort_not FROM enrollments GROUP BY course_id HAVING AVG(grade) > 70 ORDER BY course_id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "course_id",
+        "ort_not"
+      ],
+      "numericTolerance": 0.01,
+      "requiredConcepts": [
+        "group-by",
+        "having"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "5.4"
   },
   {
-    "id": "q-u5-where-group-having-001", "type": "write_sql", "unit": "U5", "lessonId": "U5-groupby", "conceptTags": ["group-by", "having", "where", "null"], "difficulty": 4,
+    "id": "q-u5-where-group-having-001",
+    "type": "write_sql",
+    "unit": "U5",
+    "lessonId": "U5-groupby",
+    "conceptTags": [
+      "group-by",
+      "having",
+      "where",
+      "null"
+    ],
+    "difficulty": 4,
     "tr": {
       "title": "Tam zincir: WHERE + GROUP BY + HAVING",
       "prompt": "enrollments tablosunda yalnızca NOTU GİRİLMİŞ kayıtları (grade NULL olmayan) dikkate al; her ders için bu kayıtların ortalamasını ve sayısını grupla; sonra YALNIZCA en az 2 notlu kaydı olan dersleri tut. Sonuçta iki sütun olsun, bu sırayla: course_id ve ort (2 ondalık). Sonucu course_id'ye göre artan sırala.",
@@ -132,26 +443,84 @@
       "hint2": "WHERE grade IS NOT NULL GROUP BY course_id HAVING COUNT(*) >= 2",
       "answerExplanation": "Sıra: WHERE satırları süzer (notsuzları atar), GROUP BY derse göre gruplar, HAVING grup sayısına göre süzer. WHERE tek satırı, HAVING ise grubu (aggregate) değerlendirir."
     },
-    "assessment": { "referenceSql": "SELECT course_id, ROUND(AVG(grade), 2) AS ort FROM enrollments WHERE grade IS NOT NULL GROUP BY course_id HAVING COUNT(*) >= 2 ORDER BY course_id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["course_id", "ort"], "numericTolerance": 0.01, "requiredConcepts": ["group-by", "having", "is-not-null"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT course_id, ROUND(AVG(grade), 2) AS ort FROM enrollments WHERE grade IS NOT NULL GROUP BY course_id HAVING COUNT(*) >= 2 ORDER BY course_id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "course_id",
+        "ort"
+      ],
+      "numericTolerance": 0.01,
+      "requiredConcepts": [
+        "group-by",
+        "having",
+        "is-not-null"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "5.5"
   },
   {
-    "id": "q-u5-group-multi-001", "type": "write_sql", "unit": "U5", "lessonId": "U5-groupby", "conceptTags": ["group-by", "count"], "difficulty": 4,
+    "id": "q-u5-group-multi-001",
+    "type": "write_sql",
+    "unit": "U5",
+    "lessonId": "U5-groupby",
+    "conceptTags": [
+      "group-by",
+      "count"
+    ],
+    "difficulty": 4,
     "tr": {
       "title": "İki sütuna göre gruplama",
       "prompt": "enrollments tablosunda HER (semester, course_id) İKİLİSİ için kaç kayıt olduğunu bul. Yani aynı dönem ve aynı ders birlikte bir grup olsun. Sonuçta üç sütun olsun, bu sırayla: semester, course_id, sayi. Sonucu önce semester'a göre artan, sonra course_id'ye göre artan sırala.",
       "hint1": "GROUP BY'a iki sütun yazabilirsin: GROUP BY semester, course_id.",
       "answerExplanation": "GROUP BY semester, course_id satırları bu İKİLİNİN kombinasyonuna göre gruplar; her (dönem, ders) çifti tek satır olur."
     },
-    "assessment": { "referenceSql": "SELECT semester, course_id, COUNT(*) AS sayi FROM enrollments GROUP BY semester, course_id ORDER BY semester ASC, course_id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["semester", "course_id", "sayi"], "requiredConcepts": ["group-by", "count"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT semester, course_id, COUNT(*) AS sayi FROM enrollments GROUP BY semester, course_id ORDER BY semester ASC, course_id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "semester",
+        "course_id",
+        "sayi"
+      ],
+      "requiredConcepts": [
+        "group-by",
+        "count"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "5.3"
   },
   {
-    "id": "q-u5-mc-having-vs-where-001", "type": "multiple_choice", "unit": "U5", "lessonId": "U5-groupby", "conceptTags": ["having", "where"], "difficulty": 3,
+    "id": "q-u5-mc-having-vs-where-001",
+    "type": "multiple_choice",
+    "unit": "U5",
+    "lessonId": "U5-groupby",
+    "conceptTags": [
+      "having",
+      "where"
+    ],
+    "difficulty": 3,
     "tr": {
       "title": "HAVING ile WHERE farkı",
       "prompt": "GROUP BY içeren bir sorguda WHERE ile HAVING arasındaki temel fark nedir?",
       "hint1": "Hangisi gruplamadan önce, hangisi sonra çalışır?",
       "answerExplanation": "WHERE gruplamadan ÖNCE, tek tek satırları süzer (aggregate kullanamaz). HAVING gruplamadan SONRA, grupları aggregate sonucuna göre süzer (örn. HAVING COUNT(*) > 1). 'Satırı mı yoksa grubu mu süzüyorum?' sorusu hangisini kullanacağını söyler."
     },
-    "choices": ["İkisi de aynıdır, sadece isimleri farklı", "HAVING satırları, WHERE grupları süzer", "WHERE gruplama öncesi satırları, HAVING gruplama sonrası grupları (aggregate'e göre) süzer", "WHERE yalnızca GROUP BY ile, HAVING WHERE'siz çalışır"], "correctIndex": 2
+    "choices": [
+      "İkisi de aynıdır, sadece isimleri farklı",
+      "HAVING satırları, WHERE grupları süzer",
+      "WHERE gruplama öncesi satırları, HAVING gruplama sonrası grupları (aggregate'e göre) süzer",
+      "WHERE yalnızca GROUP BY ile, HAVING WHERE'siz çalışır"
+    ],
+    "correctIndex": 2,
+    "section": "5.4"
   }
 ]

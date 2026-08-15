@@ -1,6 +1,14 @@
 [
   {
-    "id": "q-u3-upper-001", "type": "write_sql", "unit": "U3", "lessonId": "U3-ifadeler", "conceptTags": ["string-func", "computed-column"], "difficulty": 1,
+    "id": "q-u3-upper-001",
+    "type": "write_sql",
+    "unit": "U3",
+    "lessonId": "U3-ifadeler",
+    "conceptTags": [
+      "string-func",
+      "computed-column"
+    ],
+    "difficulty": 1,
     "tr": {
       "title": "Adı büyük harfe çevirmek (UPPER)",
       "prompt": "students tablosundan id sütununu ve first_name'in TAMAMEN BÜYÜK HARFLİ halini buyuk_ad adıyla getir. Sonuçta sadece id ve buyuk_ad olsun, bu sırayla. Sonucu id'ye göre artan sırala.",
@@ -8,10 +16,30 @@
       "hint2": "UPPER(first_name) AS buyuk_ad",
       "answerExplanation": "UPPER(first_name) metni büyük harfe çevirir; AS ile yeni sütuna ad veririz. Orijinal veri değişmez, sadece sonuçta öyle görünür."
     },
-    "assessment": { "referenceSql": "SELECT id, UPPER(first_name) AS buyuk_ad FROM students ORDER BY id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["id", "buyuk_ad"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT id, UPPER(first_name) AS buyuk_ad FROM students ORDER BY id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "buyuk_ad"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "3.2"
   },
   {
-    "id": "q-u3-length-001", "type": "write_sql", "unit": "U3", "lessonId": "U3-ifadeler", "conceptTags": ["string-func", "computed-column"], "difficulty": 1,
+    "id": "q-u3-length-001",
+    "type": "write_sql",
+    "unit": "U3",
+    "lessonId": "U3-ifadeler",
+    "conceptTags": [
+      "string-func",
+      "computed-column"
+    ],
+    "difficulty": 1,
     "tr": {
       "title": "Ürün adının harf sayısı (LENGTH)",
       "prompt": "products tablosundan name sütununu ve name'in kaç karakter (harf) olduğunu harf_sayisi adıyla getir. Sonuçta sadece name ve harf_sayisi olsun, bu sırayla. Sonucu name'e göre artan sırala.",
@@ -19,10 +47,30 @@
       "hint2": "LENGTH(name) AS harf_sayisi",
       "answerExplanation": "LENGTH(name) metindeki karakter sayısını verir."
     },
-    "assessment": { "referenceSql": "SELECT name, LENGTH(name) AS harf_sayisi FROM products ORDER BY name ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["name", "harf_sayisi"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT name, LENGTH(name) AS harf_sayisi FROM products ORDER BY name ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "name",
+        "harf_sayisi"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "3.2"
   },
   {
-    "id": "q-u3-line-total-001", "type": "write_sql", "unit": "U3", "lessonId": "U3-ifadeler", "conceptTags": ["arithmetic", "computed-column"], "difficulty": 1,
+    "id": "q-u3-line-total-001",
+    "type": "write_sql",
+    "unit": "U3",
+    "lessonId": "U3-ifadeler",
+    "conceptTags": [
+      "arithmetic",
+      "computed-column"
+    ],
+    "difficulty": 1,
     "tr": {
       "title": "Sipariş satırı tutarı",
       "prompt": "order_items tablosundan order_id, product_id sütunlarını ve her satırın tutarını (quantity çarpı unit_price) satir_tutari adıyla getir. Sonuçta sadece order_id, product_id, satir_tutari olsun, bu sırayla. Sonucu order_id'ye göre artan, sonra product_id'ye göre artan sırala.",
@@ -30,30 +78,93 @@
       "hint2": "quantity * unit_price AS satir_tutari",
       "answerExplanation": "SELECT içinde sütunları çarpabilirsin; her satır için quantity * unit_price hesaplanır."
     },
-    "assessment": { "referenceSql": "SELECT order_id, product_id, quantity * unit_price AS satir_tutari FROM order_items ORDER BY order_id ASC, product_id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["order_id", "product_id", "satir_tutari"], "numericTolerance": 0.01, "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT order_id, product_id, quantity * unit_price AS satir_tutari FROM order_items ORDER BY order_id ASC, product_id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "order_id",
+        "product_id",
+        "satir_tutari"
+      ],
+      "numericTolerance": 0.01,
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "3.1"
   },
   {
-    "id": "q-u3-discount-001", "type": "write_sql", "unit": "U3", "lessonId": "U3-ifadeler", "conceptTags": ["arithmetic", "computed-column"], "difficulty": 1,
+    "id": "q-u3-discount-001",
+    "type": "write_sql",
+    "unit": "U3",
+    "lessonId": "U3-ifadeler",
+    "conceptTags": [
+      "arithmetic",
+      "computed-column"
+    ],
+    "difficulty": 1,
     "tr": {
       "title": "10 TL indirimli fiyat",
       "prompt": "products tablosundan name ve price sütunlarını, bir de price'tan 10 çıkarılmış halini indirimli_fiyat adıyla getir. Sonuçta sadece name, price, indirimli_fiyat olsun, bu sırayla. Sonucu name'e göre artan sırala.",
       "hint1": "Çıkarma: price - 10.",
       "answerExplanation": "price - 10 her ürün için hesaplanır ve indirimli_fiyat adıyla gösterilir."
     },
-    "assessment": { "referenceSql": "SELECT name, price, price - 10 AS indirimli_fiyat FROM products ORDER BY name ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["name", "price", "indirimli_fiyat"], "numericTolerance": 0.01, "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT name, price, price - 10 AS indirimli_fiyat FROM products ORDER BY name ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "name",
+        "price",
+        "indirimli_fiyat"
+      ],
+      "numericTolerance": 0.01,
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "3.1"
   },
   {
-    "id": "q-u3-lower-email-001", "type": "write_sql", "unit": "U3", "lessonId": "U3-ifadeler", "conceptTags": ["string-func"], "difficulty": 1,
+    "id": "q-u3-lower-email-001",
+    "type": "write_sql",
+    "unit": "U3",
+    "lessonId": "U3-ifadeler",
+    "conceptTags": [
+      "string-func"
+    ],
+    "difficulty": 1,
     "tr": {
       "title": "E-postayı küçük harfe çevirmek (LOWER)",
       "prompt": "students tablosundan id sütununu ve email'in tamamen KÜÇÜK HARFLİ halini kucuk_email adıyla getir. Sonuçta sadece id ve kucuk_email olsun, bu sırayla. Sonucu id'ye göre artan sırala.",
       "hint1": "Küçük harf için LOWER(...).",
       "answerExplanation": "LOWER(email) metni küçük harfe çevirir."
     },
-    "assessment": { "referenceSql": "SELECT id, LOWER(email) AS kucuk_email FROM students ORDER BY id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["id", "kucuk_email"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT id, LOWER(email) AS kucuk_email FROM students ORDER BY id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "kucuk_email"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "3.2"
   },
   {
-    "id": "q-u3-coalesce-city-001", "type": "write_sql", "unit": "U3", "lessonId": "U3-ifadeler", "conceptTags": ["coalesce", "null"], "difficulty": 2,
+    "id": "q-u3-coalesce-city-001",
+    "type": "write_sql",
+    "unit": "U3",
+    "lessonId": "U3-ifadeler",
+    "conceptTags": [
+      "coalesce",
+      "null"
+    ],
+    "difficulty": 2,
     "tr": {
       "title": "NULL şehir yerine 'Bilinmiyor' (COALESCE)",
       "prompt": "students tablosundan id sütununu ve şehri getir; ama city değeri NULL ise onun yerine 'Bilinmiyor' yazsın. Bu sütunun adı sehir olsun. Sonuçta sadece id ve sehir olsun, bu sırayla. Sonucu id'ye göre artan sırala.",
@@ -61,20 +172,67 @@
       "hint2": "COALESCE(city, 'Bilinmiyor') AS sehir",
       "answerExplanation": "COALESCE(city, 'Bilinmiyor'): city doluysa city'yi, NULL ise 'Bilinmiyor' yazısını döndürür. NULL'ı kullanıcıya güzel göstermenin standart yolu."
     },
-    "assessment": { "referenceSql": "SELECT id, COALESCE(city, 'Bilinmiyor') AS sehir FROM students ORDER BY id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["id", "sehir"], "requiredConcepts": ["coalesce"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT id, COALESCE(city, 'Bilinmiyor') AS sehir FROM students ORDER BY id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "sehir"
+      ],
+      "requiredConcepts": [
+        "coalesce"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "3.4"
   },
   {
-    "id": "q-u3-coalesce-scholarship-001", "type": "write_sql", "unit": "U3", "lessonId": "U3-ifadeler", "conceptTags": ["coalesce", "null"], "difficulty": 2,
+    "id": "q-u3-coalesce-scholarship-001",
+    "type": "write_sql",
+    "unit": "U3",
+    "lessonId": "U3-ifadeler",
+    "conceptTags": [
+      "coalesce",
+      "null"
+    ],
+    "difficulty": 2,
     "tr": {
       "title": "NULL burs yerine 0 (COALESCE)",
       "prompt": "students tablosundan id sütununu ve scholarship_amount'u getir; ama scholarship_amount NULL ise yerine 0 yazsın. Bu sütunun adı burs olsun. Sonuçta sadece id ve burs olsun, bu sırayla. Sonucu id'ye göre artan sırala.",
       "hint1": "COALESCE(scholarship_amount, 0).",
       "answerExplanation": "COALESCE ile bilinmeyen bursu 0 gösteririz. Dikkat: bu sadece görüntüde 0 yapar; 'burs yok' ile 'burs 0' anlamca farklı olabilir, ama hesaplarda çoğu zaman 0 istenir."
     },
-    "assessment": { "referenceSql": "SELECT id, COALESCE(scholarship_amount, 0) AS burs FROM students ORDER BY id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["id", "burs"], "numericTolerance": 0.01, "requiredConcepts": ["coalesce"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT id, COALESCE(scholarship_amount, 0) AS burs FROM students ORDER BY id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "burs"
+      ],
+      "numericTolerance": 0.01,
+      "requiredConcepts": [
+        "coalesce"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "3.4"
   },
   {
-    "id": "q-u3-cast-price-int-001", "type": "write_sql", "unit": "U3", "lessonId": "U3-ifadeler", "conceptTags": ["cast", "type"], "difficulty": 2,
+    "id": "q-u3-cast-price-int-001",
+    "type": "write_sql",
+    "unit": "U3",
+    "lessonId": "U3-ifadeler",
+    "conceptTags": [
+      "cast",
+      "type"
+    ],
+    "difficulty": 2,
     "tr": {
       "title": "Fiyatı tam sayıya çevirmek (CAST)",
       "prompt": "products tablosundan name ve price sütunlarını, bir de price'ın tam sayıya çevrilmiş halini tam_fiyat adıyla getir. Tam sayıya çevirmek için price'ı INTEGER tipine dönüştür. Sonuçta sadece name, price, tam_fiyat olsun, bu sırayla. Sonucu name'e göre artan sırala.",
@@ -82,10 +240,32 @@
       "hint2": "price::integer AS tam_fiyat",
       "answerExplanation": "CAST(price AS INTEGER) veya price::integer fiyatı tam sayıya çevirir (ondalığı yuvarlar). :: Postgres'in kısa yazımıdır."
     },
-    "assessment": { "referenceSql": "SELECT name, price, price::integer AS tam_fiyat FROM products ORDER BY name ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["name", "price", "tam_fiyat"], "numericTolerance": 0.01, "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT name, price, price::integer AS tam_fiyat FROM products ORDER BY name ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "name",
+        "price",
+        "tam_fiyat"
+      ],
+      "numericTolerance": 0.01,
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "3.1"
   },
   {
-    "id": "q-u3-round-kdv-001", "type": "write_sql", "unit": "U3", "lessonId": "U3-ifadeler", "conceptTags": ["arithmetic", "round"], "difficulty": 2,
+    "id": "q-u3-round-kdv-001",
+    "type": "write_sql",
+    "unit": "U3",
+    "lessonId": "U3-ifadeler",
+    "conceptTags": [
+      "arithmetic",
+      "round"
+    ],
+    "difficulty": 2,
     "tr": {
       "title": "%18 KDV'li fiyat (ROUND)",
       "prompt": "products tablosundan name sütununu ve fiyatın %18 KDV eklenmiş halini (yani price çarpı 1.18) virgülden sonra 2 basamağa YUVARLANMIŞ olarak kdvli adıyla getir. Sonuçta sadece name ve kdvli olsun, bu sırayla. Sonucu name'e göre artan sırala.",
@@ -93,40 +273,122 @@
       "hint2": "ROUND(price * 1.18, 2) AS kdvli",
       "answerExplanation": "price * 1.18 KDV'li tutarı verir; ROUND(..., 2) iki ondalığa yuvarlar."
     },
-    "assessment": { "referenceSql": "SELECT name, ROUND(price * 1.18, 2) AS kdvli FROM products ORDER BY name ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["name", "kdvli"], "numericTolerance": 0.01, "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT name, ROUND(price * 1.18, 2) AS kdvli FROM products ORDER BY name ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "name",
+        "kdvli"
+      ],
+      "numericTolerance": 0.01,
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "3.1"
   },
   {
-    "id": "q-u3-concat-label-001", "type": "write_sql", "unit": "U3", "lessonId": "U3-ifadeler", "conceptTags": ["string-func", "concat"], "difficulty": 2,
+    "id": "q-u3-concat-label-001",
+    "type": "write_sql",
+    "unit": "U3",
+    "lessonId": "U3-ifadeler",
+    "conceptTags": [
+      "string-func",
+      "concat"
+    ],
+    "difficulty": 2,
     "tr": {
       "title": "Ders etiketi (metin birleştirme)",
       "prompt": "courses tablosundan id sütununu ve code ile name'i ' - ' (boşluk tire boşluk) ile birleştirilmiş halini ders_etiketi adıyla getir. Örnek: 'CS101 - Programlamaya Giriş'. Sonuçta sadece id ve ders_etiketi olsun, bu sırayla. Sonucu id'ye göre artan sırala.",
       "hint1": "Metin birleştirme || ile: code || ' - ' || name.",
       "answerExplanation": "|| operatörü metinleri uç uca ekler; aralarına sabit ' - ' metnini koyarız."
     },
-    "assessment": { "referenceSql": "SELECT id, code || ' - ' || name AS ders_etiketi FROM courses ORDER BY id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["id", "ders_etiketi"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT id, code || ' - ' || name AS ders_etiketi FROM courses ORDER BY id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "ders_etiketi"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "3.2"
   },
   {
-    "id": "q-u3-extract-year-001", "type": "write_sql", "unit": "U3", "lessonId": "U3-ifadeler", "conceptTags": ["date", "computed-column"], "difficulty": 2,
+    "id": "q-u3-extract-year-001",
+    "type": "write_sql",
+    "unit": "U3",
+    "lessonId": "U3-ifadeler",
+    "conceptTags": [
+      "date",
+      "computed-column"
+    ],
+    "difficulty": 2,
     "tr": {
       "title": "Doğum yılını çıkarmak (EXTRACT)",
       "prompt": "students tablosundan id sütununu ve birth_date'ten yalnızca YIL bilgisini dogum_yili adıyla getir. Sonuçta sadece id ve dogum_yili olsun, bu sırayla. Sonucu id'ye göre artan sırala.",
       "hint1": "Tarihten yıl almak için EXTRACT(YEAR FROM birth_date).",
       "answerExplanation": "EXTRACT(YEAR FROM birth_date) tarihin yıl parçasını verir. Benzer şekilde MONTH, DAY de alınabilir."
     },
-    "assessment": { "referenceSql": "SELECT id, EXTRACT(YEAR FROM birth_date) AS dogum_yili FROM students ORDER BY id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["id", "dogum_yili"], "numericTolerance": 0.01, "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT id, EXTRACT(YEAR FROM birth_date) AS dogum_yili FROM students ORDER BY id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "dogum_yili"
+      ],
+      "numericTolerance": 0.01,
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "3.3"
   },
   {
-    "id": "q-u3-left-initial-001", "type": "write_sql", "unit": "U3", "lessonId": "U3-ifadeler", "conceptTags": ["string-func"], "difficulty": 2,
+    "id": "q-u3-left-initial-001",
+    "type": "write_sql",
+    "unit": "U3",
+    "lessonId": "U3-ifadeler",
+    "conceptTags": [
+      "string-func"
+    ],
+    "difficulty": 2,
     "tr": {
       "title": "Adın baş harfi (LEFT)",
       "prompt": "students tablosundan id, first_name sütunlarını ve first_name'in İLK harfini bas_harf adıyla getir. Sonuçta sadece id, first_name, bas_harf olsun, bu sırayla. Sonucu id'ye göre artan sırala.",
       "hint1": "İlk n karakter için LEFT(metin, n): LEFT(first_name, 1).",
       "answerExplanation": "LEFT(first_name, 1) metnin baştan 1 karakterini alır."
     },
-    "assessment": { "referenceSql": "SELECT id, first_name, LEFT(first_name, 1) AS bas_harf FROM students ORDER BY id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["id", "first_name", "bas_harf"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT id, first_name, LEFT(first_name, 1) AS bas_harf FROM students ORDER BY id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "first_name",
+        "bas_harf"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "3.2"
   },
   {
-    "id": "q-u3-case-price-001", "type": "write_sql", "unit": "U3", "lessonId": "U3-ifadeler", "conceptTags": ["case", "conditional"], "difficulty": 3,
+    "id": "q-u3-case-price-001",
+    "type": "write_sql",
+    "unit": "U3",
+    "lessonId": "U3-ifadeler",
+    "conceptTags": [
+      "case",
+      "conditional"
+    ],
+    "difficulty": 3,
     "tr": {
       "title": "Fiyat sınıfı (CASE)",
       "prompt": "products tablosundan name ve price sütunlarını, bir de fiyata göre bir etiket üret: price 50'ye eşit veya büyükse 'Pahalı', değilse 'Ucuz' yazsın. Bu sütunun adı fiyat_sinifi olsun. Sonuçta sadece name, price, fiyat_sinifi olsun, bu sırayla. Sonucu name'e göre artan sırala.",
@@ -134,10 +396,35 @@
       "hint2": "CASE WHEN price >= 50 THEN 'Pahalı' ELSE 'Ucuz' END AS fiyat_sinifi",
       "answerExplanation": "CASE her satır için koşulu değerlendirir: price >= 50 ise 'Pahalı', değilse ELSE dalı olan 'Ucuz' döner."
     },
-    "assessment": { "referenceSql": "SELECT name, price, CASE WHEN price >= 50 THEN 'Pahalı' ELSE 'Ucuz' END AS fiyat_sinifi FROM products ORDER BY name ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["name", "price", "fiyat_sinifi"], "requiredConcepts": ["case"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT name, price, CASE WHEN price >= 50 THEN 'Pahalı' ELSE 'Ucuz' END AS fiyat_sinifi FROM products ORDER BY name ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "name",
+        "price",
+        "fiyat_sinifi"
+      ],
+      "requiredConcepts": [
+        "case"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "3.5"
   },
   {
-    "id": "q-u3-case-grade-001", "type": "write_sql", "unit": "U3", "lessonId": "U3-ifadeler", "conceptTags": ["case", "conditional", "null"], "difficulty": 3,
+    "id": "q-u3-case-grade-001",
+    "type": "write_sql",
+    "unit": "U3",
+    "lessonId": "U3-ifadeler",
+    "conceptTags": [
+      "case",
+      "conditional",
+      "null"
+    ],
+    "difficulty": 3,
     "tr": {
       "title": "Not durumu (CASE + NULL)",
       "prompt": "enrollments tablosundan student_id, course_id, grade sütunlarını ve bir durum üret: grade NULL ise 'Devam', grade 50'ye eşit veya büyükse 'Geçti', değilse 'Kaldı' yazsın. Bu sütunun adı durum olsun. Sonuçta sadece student_id, course_id, grade, durum olsun, bu sırayla. Sonucu student_id'ye göre artan, sonra course_id'ye göre artan sırala.",
@@ -145,10 +432,36 @@
       "hint2": "CASE WHEN grade IS NULL THEN 'Devam' WHEN grade >= 50 THEN 'Geçti' ELSE 'Kaldı' END",
       "answerExplanation": "CASE koşulları yukarıdan aşağı bakar; ilk doğru olanı kullanır. NULL'ı önce yakalamazsak 'grade >= 50' NULL satırlarda bilinmeyen döner ve yanlışlıkla ELSE'e ('Kaldı') düşerdi."
     },
-    "assessment": { "referenceSql": "SELECT student_id, course_id, grade, CASE WHEN grade IS NULL THEN 'Devam' WHEN grade >= 50 THEN 'Geçti' ELSE 'Kaldı' END AS durum FROM enrollments ORDER BY student_id ASC, course_id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["student_id", "course_id", "grade", "durum"], "requiredConcepts": ["case"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT student_id, course_id, grade, CASE WHEN grade IS NULL THEN 'Devam' WHEN grade >= 50 THEN 'Geçti' ELSE 'Kaldı' END AS durum FROM enrollments ORDER BY student_id ASC, course_id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "student_id",
+        "course_id",
+        "grade",
+        "durum"
+      ],
+      "requiredConcepts": [
+        "case"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "3.5"
   },
   {
-    "id": "q-u3-coalesce-calc-001", "type": "write_sql", "unit": "U3", "lessonId": "U3-ifadeler", "conceptTags": ["coalesce", "arithmetic", "null"], "difficulty": 3,
+    "id": "q-u3-coalesce-calc-001",
+    "type": "write_sql",
+    "unit": "U3",
+    "lessonId": "U3-ifadeler",
+    "conceptTags": [
+      "coalesce",
+      "arithmetic",
+      "null"
+    ],
+    "difficulty": 3,
     "tr": {
       "title": "Bursa 500 eklemek (önce COALESCE)",
       "prompt": "students tablosundan id sütununu ve bursa 500 eklenmiş halini getir; ama bursu NULL olanlarda burs 0 sayılsın (yani sonuç 500 olsun, NULL değil). Bu sütunun adı yeni_burs olsun. Sonuçta sadece id ve yeni_burs olsun, bu sırayla. Sonucu id'ye göre artan sırala.",
@@ -156,30 +469,107 @@
       "hint2": "COALESCE(scholarship_amount, 0) + 500 AS yeni_burs",
       "answerExplanation": "Doğru sıra: önce NULL'ı 0'a çevir (COALESCE), sonra 500 ekle. scholarship_amount + 500 yazsaydın, bursu NULL olanlarda sonuç NULL çıkardı."
     },
-    "assessment": { "referenceSql": "SELECT id, COALESCE(scholarship_amount, 0) + 500 AS yeni_burs FROM students ORDER BY id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["id", "yeni_burs"], "numericTolerance": 0.01, "requiredConcepts": ["coalesce"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT id, COALESCE(scholarship_amount, 0) + 500 AS yeni_burs FROM students ORDER BY id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "yeni_burs"
+      ],
+      "numericTolerance": 0.01,
+      "requiredConcepts": [
+        "coalesce"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "3.4"
   },
   {
-    "id": "q-u3-case-city-001", "type": "write_sql", "unit": "U3", "lessonId": "U3-ifadeler", "conceptTags": ["case", "null", "conditional"], "difficulty": 3,
+    "id": "q-u3-case-city-001",
+    "type": "write_sql",
+    "unit": "U3",
+    "lessonId": "U3-ifadeler",
+    "conceptTags": [
+      "case",
+      "null",
+      "conditional"
+    ],
+    "difficulty": 3,
     "tr": {
       "title": "CASE ile NULL şehir etiketi",
       "prompt": "students tablosundan id, first_name sütunlarını ve şehir etiketi üret: city NULL ise 'Bilinmiyor', değilse city değerinin kendisi yazsın. Bunu CASE ile yap (COALESCE ile değil). Bu sütunun adı sehir olsun. Sonuçta sadece id, first_name, sehir olsun, bu sırayla. Sonucu id'ye göre artan sırala.",
       "hint1": "CASE WHEN city IS NULL THEN 'Bilinmiyor' ELSE city END",
       "answerExplanation": "Bu, COALESCE(city, 'Bilinmiyor') ile aynı sonucu verir; CASE daha genel, COALESCE bu özel durumun kısa yoludur."
     },
-    "assessment": { "referenceSql": "SELECT id, first_name, CASE WHEN city IS NULL THEN 'Bilinmiyor' ELSE city END AS sehir FROM students ORDER BY id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["id", "first_name", "sehir"], "requiredConcepts": ["case"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT id, first_name, CASE WHEN city IS NULL THEN 'Bilinmiyor' ELSE city END AS sehir FROM students ORDER BY id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "first_name",
+        "sehir"
+      ],
+      "requiredConcepts": [
+        "case"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "3.5"
   },
   {
-    "id": "q-u3-multi-expr-001", "type": "write_sql", "unit": "U3", "lessonId": "U3-ifadeler", "conceptTags": ["arithmetic", "round", "case"], "difficulty": 3,
+    "id": "q-u3-multi-expr-001",
+    "type": "write_sql",
+    "unit": "U3",
+    "lessonId": "U3-ifadeler",
+    "conceptTags": [
+      "arithmetic",
+      "round",
+      "case"
+    ],
+    "difficulty": 3,
     "tr": {
       "title": "Birden çok hesaplanan sütun",
       "prompt": "products tablosundan name ve price sütunlarını; bir de price'ın %20 zamlı, 2 ondalığa yuvarlanmış halini zamli adıyla; bir de price 50'den büyükse 'pahalı' değilse 'normal' diyen bir etiketi sinif adıyla getir. Sonuçta sadece name, price, zamli, sinif olsun, bu sırayla. Sonucu name'e göre artan sırala.",
       "hint1": "İki hesaplanan sütunu virgülle yan yana yazabilirsin: ROUND(price*1.2,2) AS zamli, CASE ... AS sinif.",
       "answerExplanation": "SELECT listesinde istediğin kadar hesaplanan sütun olabilir; her biri kendi AS adını alır."
     },
-    "assessment": { "referenceSql": "SELECT name, price, ROUND(price * 1.2, 2) AS zamli, CASE WHEN price > 50 THEN 'pahalı' ELSE 'normal' END AS sinif FROM products ORDER BY name ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["name", "price", "zamli", "sinif"], "numericTolerance": 0.01, "requiredConcepts": ["case"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT name, price, ROUND(price * 1.2, 2) AS zamli, CASE WHEN price > 50 THEN 'pahalı' ELSE 'normal' END AS sinif FROM products ORDER BY name ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "name",
+        "price",
+        "zamli",
+        "sinif"
+      ],
+      "numericTolerance": 0.01,
+      "requiredConcepts": [
+        "case"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "3.5"
   },
   {
-    "id": "q-u3-concat-coalesce-001", "type": "write_sql", "unit": "U3", "lessonId": "U3-ifadeler", "conceptTags": ["concat", "coalesce", "null"], "difficulty": 3,
+    "id": "q-u3-concat-coalesce-001",
+    "type": "write_sql",
+    "unit": "U3",
+    "lessonId": "U3-ifadeler",
+    "conceptTags": [
+      "concat",
+      "coalesce",
+      "null"
+    ],
+    "difficulty": 3,
     "tr": {
       "title": "Ad ve şehir etiketi (NULL'a karşı COALESCE)",
       "prompt": "students tablosundan id sütununu ve şu biçimde bir etiket üret: first_name, bir boşluk, parantez içinde şehir; ama şehir NULL ise parantez içinde '?' yazsın. Örnek: 'Ayşe (İstanbul)' veya 'Can (?)'. Bu sütunun adı etiket olsun. Sonuçta sadece id ve etiket olsun, bu sırayla. Sonucu id'ye göre artan sırala.",
@@ -187,40 +577,131 @@
       "hint2": "first_name || ' (' || COALESCE(city, '?') || ')' AS etiket",
       "answerExplanation": "|| zincirinde bir parça bile NULL olursa SONUÇ NULL olur. city NULL olabildiği için onu COALESCE(city,'?') ile güvenli hale getiririz."
     },
-    "assessment": { "referenceSql": "SELECT id, first_name || ' (' || COALESCE(city, '?') || ')' AS etiket FROM students ORDER BY id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["id", "etiket"], "requiredConcepts": ["coalesce"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT id, first_name || ' (' || COALESCE(city, '?') || ')' AS etiket FROM students ORDER BY id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "etiket"
+      ],
+      "requiredConcepts": [
+        "coalesce"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "3.4"
   },
   {
-    "id": "q-u3-trap-int-div-001", "type": "write_sql", "unit": "U3", "lessonId": "U3-ifadeler", "conceptTags": ["arithmetic", "type", "trap"], "difficulty": 4,
+    "id": "q-u3-trap-int-div-001",
+    "type": "write_sql",
+    "unit": "U3",
+    "lessonId": "U3-ifadeler",
+    "conceptTags": [
+      "arithmetic",
+      "type",
+      "trap"
+    ],
+    "difficulty": 4,
     "tr": {
       "title": "TUZAK: tam sayı bölme",
       "prompt": "courses tablosundan code ve credits sütunlarını, bir de credits'in 2'ye bölümünü yari adıyla getir. credits bir TAM SAYI (integer) olduğu için 2'ye bölünce ne olduğunu gözlemle (örn. 3 / 2 kaç çıkıyor?). Sonuçta sadece code, credits, yari olsun, bu sırayla. Sonucu code'a göre artan sırala.",
       "hint1": "Sadece credits / 2 yaz ve sonucu incele.",
       "answerExplanation": "İki tam sayının bölümü Postgres'te yine TAM SAYIDIR; ondalık atılır: 3 / 2 = 1, 5 / 2 = 2. Ondalıklı sonuç istersen bir tarafı ondalığa çevirmelisin: credits / 2.0 ya da credits::numeric / 2."
     },
-    "assessment": { "referenceSql": "SELECT code, credits, credits / 2 AS yari FROM courses ORDER BY code ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["code", "credits", "yari"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT code, credits, credits / 2 AS yari FROM courses ORDER BY code ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "code",
+        "credits",
+        "yari"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "3.1"
   },
   {
-    "id": "q-u3-trap-concat-null-001", "type": "write_sql", "unit": "U3", "lessonId": "U3-ifadeler", "conceptTags": ["concat", "null", "trap"], "difficulty": 4,
+    "id": "q-u3-trap-concat-null-001",
+    "type": "write_sql",
+    "unit": "U3",
+    "lessonId": "U3-ifadeler",
+    "conceptTags": [
+      "concat",
+      "null",
+      "trap"
+    ],
+    "difficulty": 4,
     "tr": {
       "title": "TUZAK: '||' ile NULL",
       "prompt": "students tablosundan id sütununu ve first_name ile city'yi ' - ' ile birleştirilmiş halini etiket adıyla getir (COALESCE KULLANMA). Sonuçta sadece id ve etiket olsun, bu sırayla. Sonucu id'ye göre artan sırala. DİKKAT: şehri NULL olan öğrencilerde etiket sütununda ne çıkıyor? Çalıştır ve gözlemle.",
       "hint1": "first_name || ' - ' || city yaz; NULL şehirli satırlarda etikete bak.",
       "answerExplanation": "Bir metin birleştirmede (||) parçalardan biri NULL ise SONUCUN TAMAMI NULL olur. Bu yüzden şehri NULL olan öğrencide etiket boş (NULL) çıkar. Bunu önlemek için COALESCE(city, '...') kullanılır (bir önceki soruda yaptığımız gibi)."
     },
-    "assessment": { "referenceSql": "SELECT id, first_name || ' - ' || city AS etiket FROM students ORDER BY id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["id", "etiket"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT id, first_name || ' - ' || city AS etiket FROM students ORDER BY id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "etiket"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "3.2"
   },
   {
-    "id": "q-u3-trap-case-no-else-001", "type": "write_sql", "unit": "U3", "lessonId": "U3-ifadeler", "conceptTags": ["case", "null", "trap"], "difficulty": 4,
+    "id": "q-u3-trap-case-no-else-001",
+    "type": "write_sql",
+    "unit": "U3",
+    "lessonId": "U3-ifadeler",
+    "conceptTags": [
+      "case",
+      "null",
+      "trap"
+    ],
+    "difficulty": 4,
     "tr": {
       "title": "TUZAK: ELSE'siz CASE",
       "prompt": "products tablosundan name sütununu ve şu CASE'i etiket adıyla getir: price 1000'den büyükse 'çok pahalı' yazsın; BAŞKA HİÇBİR DAL EKLEME (ELSE yazma). Sonuçta sadece name ve etiket olsun, bu sırayla. Sonucu name'e göre artan sırala. DİKKAT: hiçbir ürün 1000'den pahalı değil; o zaman etiket ne olur?",
       "hint1": "CASE WHEN price > 1000 THEN 'çok pahalı' END (ELSE yok).",
       "answerExplanation": "ELSE yazılmazsa ve hiçbir WHEN doğru değilse CASE NULL döndürür. Hiçbir ürün 1000'den pahalı olmadığı için tüm etiketler NULL çıkar. Bir varsayılan istiyorsan ELSE eklemelisin."
     },
-    "assessment": { "referenceSql": "SELECT name, CASE WHEN price > 1000 THEN 'çok pahalı' END AS etiket FROM products ORDER BY name ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["name", "etiket"], "requiredConcepts": ["case"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT name, CASE WHEN price > 1000 THEN 'çok pahalı' END AS etiket FROM products ORDER BY name ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "name",
+        "etiket"
+      ],
+      "requiredConcepts": [
+        "case"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "3.5"
   },
   {
-    "id": "q-u3-case-letter-001", "type": "write_sql", "unit": "U3", "lessonId": "U3-ifadeler", "conceptTags": ["case", "conditional", "null"], "difficulty": 3,
+    "id": "q-u3-case-letter-001",
+    "type": "write_sql",
+    "unit": "U3",
+    "lessonId": "U3-ifadeler",
+    "conceptTags": [
+      "case",
+      "conditional",
+      "null"
+    ],
+    "difficulty": 3,
     "tr": {
       "title": "Harf notu (çok dallı CASE)",
       "prompt": "enrollments tablosundan student_id, course_id, grade sütunlarını ve sayısal nottan harf notu üret: grade NULL ise '-'; 85 ve üzeri 'AA'; 70 ile 84 arası 'BA'; 50 ile 69 arası 'CC'; 50'nin altı 'FF'. Bu sütunun adı harf olsun. Sonuçta sadece student_id, course_id, grade, harf olsun, bu sırayla. Sonucu student_id'ye göre artan, sonra course_id'ye göre artan sırala.",
@@ -228,36 +709,97 @@
       "hint2": "CASE WHEN grade IS NULL THEN '-' WHEN grade >= 85 THEN 'AA' WHEN grade >= 70 THEN 'BA' WHEN grade >= 50 THEN 'CC' ELSE 'FF' END",
       "answerExplanation": "CASE koşulları sırayla bakar; ilk doğru olan kazanır. Dalları yüksekten düşüğe yazmak şart: 88 için önce 'grade >= 85' doğru olur -> 'AA'. Düşük eşik önce yazılsaydı 88 yanlış dala düşerdi. NULL'ı en başta yakalarız."
     },
-    "assessment": { "referenceSql": "SELECT student_id, course_id, grade, CASE WHEN grade IS NULL THEN '-' WHEN grade >= 85 THEN 'AA' WHEN grade >= 70 THEN 'BA' WHEN grade >= 50 THEN 'CC' ELSE 'FF' END AS harf FROM enrollments ORDER BY student_id ASC, course_id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["student_id", "course_id", "grade", "harf"], "requiredConcepts": ["case"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT student_id, course_id, grade, CASE WHEN grade IS NULL THEN '-' WHEN grade >= 85 THEN 'AA' WHEN grade >= 70 THEN 'BA' WHEN grade >= 50 THEN 'CC' ELSE 'FF' END AS harf FROM enrollments ORDER BY student_id ASC, course_id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "student_id",
+        "course_id",
+        "grade",
+        "harf"
+      ],
+      "requiredConcepts": [
+        "case"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "3.5"
   },
   {
-    "id": "q-u3-mc-coalesce-001", "type": "multiple_choice", "unit": "U3", "lessonId": "U3-ifadeler", "conceptTags": ["coalesce"], "difficulty": 2,
+    "id": "q-u3-mc-coalesce-001",
+    "type": "multiple_choice",
+    "unit": "U3",
+    "lessonId": "U3-ifadeler",
+    "conceptTags": [
+      "coalesce"
+    ],
+    "difficulty": 2,
     "tr": {
       "title": "COALESCE ne yapar?",
       "prompt": "COALESCE(city, 'Bilinmiyor') ifadesi ne döndürür?",
       "hint1": "COALESCE argümanlarına soldan sağa bakar.",
       "answerExplanation": "COALESCE soldan sağa ilk NULL OLMAYAN değeri döndürür. city doluysa city'yi, NULL ise 'Bilinmiyor'u verir."
     },
-    "choices": ["Her zaman 'Bilinmiyor' döndürür", "city doluysa city'yi, NULL ise 'Bilinmiyor'u döndürür", "city'yi büyük harfe çevirir", "city NULL ise hata verir"], "correctIndex": 1
+    "choices": [
+      "Her zaman 'Bilinmiyor' döndürür",
+      "city doluysa city'yi, NULL ise 'Bilinmiyor'u döndürür",
+      "city'yi büyük harfe çevirir",
+      "city NULL ise hata verir"
+    ],
+    "correctIndex": 1,
+    "section": "3.4"
   },
   {
-    "id": "q-u3-mc-int-div-001", "type": "multiple_choice", "unit": "U3", "lessonId": "U3-ifadeler", "conceptTags": ["arithmetic", "type"], "difficulty": 3,
+    "id": "q-u3-mc-int-div-001",
+    "type": "multiple_choice",
+    "unit": "U3",
+    "lessonId": "U3-ifadeler",
+    "conceptTags": [
+      "arithmetic",
+      "type"
+    ],
+    "difficulty": 3,
     "tr": {
       "title": "7 / 2 kaç eder?",
       "prompt": "Postgres'te iki tam sayı (integer) ile 7 / 2 işleminin sonucu nedir?",
       "hint1": "Tam sayı bölme ondalığı ne yapar?",
       "answerExplanation": "İki tam sayının bölümü yine tam sayıdır ve ondalık atılır: 7 / 2 = 3 (3.5 değil). Ondalık istersen 7 / 2.0 ya da 7::numeric / 2 yazmalısın."
     },
-    "choices": ["3.5", "4 (yukarı yuvarlar)", "3 (ondalık atılır)", "Hata verir"], "correctIndex": 2
+    "choices": [
+      "3.5",
+      "4 (yukarı yuvarlar)",
+      "3 (ondalık atılır)",
+      "Hata verir"
+    ],
+    "correctIndex": 2,
+    "section": "3.1"
   },
   {
-    "id": "q-u3-mc-concat-null-001", "type": "multiple_choice", "unit": "U3", "lessonId": "U3-ifadeler", "conceptTags": ["concat", "null"], "difficulty": 3,
+    "id": "q-u3-mc-concat-null-001",
+    "type": "multiple_choice",
+    "unit": "U3",
+    "lessonId": "U3-ifadeler",
+    "conceptTags": [
+      "concat",
+      "null"
+    ],
+    "difficulty": 3,
     "tr": {
       "title": "'Ali' || NULL kaç eder?",
       "prompt": "Postgres'te 'Ali' || NULL ifadesinin (metin birleştirme) sonucu nedir?",
       "hint1": "Birleştirmede bir parça NULL olursa ne olur?",
       "answerExplanation": "Metin birleştirmede (||) parçalardan biri NULL ise sonucun tamamı NULL olur. 'Ali' || NULL = NULL. Bunu önlemek için COALESCE kullanılır."
     },
-    "choices": ["'Ali'", "'AliNULL'", "Hata verir", "NULL"], "correctIndex": 3
+    "choices": [
+      "'Ali'",
+      "'AliNULL'",
+      "Hata verir",
+      "NULL"
+    ],
+    "correctIndex": 3,
+    "section": "3.2"
   }
 ]

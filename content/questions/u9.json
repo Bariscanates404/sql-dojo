@@ -1,6 +1,15 @@
 [
   {
-    "id": "q-u9-scalar-where-001", "type": "write_sql", "unit": "U9", "lessonId": "U9-subquery", "conceptTags": ["subquery", "scalar-subquery", "where"], "difficulty": 2,
+    "id": "q-u9-scalar-where-001",
+    "type": "write_sql",
+    "unit": "U9",
+    "lessonId": "U9-subquery",
+    "conceptTags": [
+      "subquery",
+      "scalar-subquery",
+      "where"
+    ],
+    "difficulty": 2,
     "tr": {
       "title": "Ortalamadan pahalı ürünler (scalar subquery)",
       "prompt": "products tablosunda, fiyatı TÜM ürünlerin ortalama fiyatından BÜYÜK olan ürünleri getir. Ortalamayı bir alt sorgu (subquery) ile hesapla: WHERE price > (SELECT AVG(price) FROM products). Sonuçta iki sütun olsun, bu sırayla: name ve price. Sonucu price'a göre büyükten küçüğe; eşit fiyatta name'e göre artan sırala.",
@@ -8,30 +17,101 @@
       "hint2": "WHERE price > (SELECT AVG(price) FROM products)",
       "answerExplanation": "Tek değer döndüren alt sorguya 'scalar subquery' denir. Burada ortalamayı hesaplar, dış sorgu her ürünü bu ortalamayla karşılaştırır."
     },
-    "assessment": { "referenceSql": "SELECT name, price FROM products WHERE price > (SELECT AVG(price) FROM products) ORDER BY price DESC, name ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["name", "price"], "requiredConcepts": ["subquery"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT name, price FROM products WHERE price > (SELECT AVG(price) FROM products) ORDER BY price DESC, name ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "name",
+        "price"
+      ],
+      "requiredConcepts": [
+        "subquery"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "9.1"
   },
   {
-    "id": "q-u9-in-subquery-001", "type": "write_sql", "unit": "U9", "lessonId": "U9-subquery", "conceptTags": ["subquery", "in"], "difficulty": 2,
+    "id": "q-u9-in-subquery-001",
+    "type": "write_sql",
+    "unit": "U9",
+    "lessonId": "U9-subquery",
+    "conceptTags": [
+      "subquery",
+      "in"
+    ],
+    "difficulty": 2,
     "tr": {
       "title": "En az bir derse kayıtlı öğrenciler (IN)",
       "prompt": "Herhangi bir derse kayıtlı olan öğrencileri getir. Yöntem: students içinde, id'si enrollments tablosundaki student_id listesinde olanları seç (WHERE id IN (SELECT student_id FROM enrollments)). Sonuçta iki sütun olsun, bu sırayla: id ve first_name. Sonucu id'ye göre artan sırala.",
       "hint1": "Alt sorgu bir değer LİSTESİ döndürür; IN ile bu listede olma durumunu kontrol et.",
       "answerExplanation": "Alt sorgu kayıtlı öğrenci id'lerini döndürür; dış sorgu id'si bu listede olan öğrencileri getirir. 'En az bir kaydı olan' demek budur."
     },
-    "assessment": { "referenceSql": "SELECT id, first_name FROM students WHERE id IN (SELECT student_id FROM enrollments) ORDER BY id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["id", "first_name"], "requiredConcepts": ["subquery"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT id, first_name FROM students WHERE id IN (SELECT student_id FROM enrollments) ORDER BY id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "first_name"
+      ],
+      "requiredConcepts": [
+        "subquery"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "9.2"
   },
   {
-    "id": "q-u9-not-in-safe-001", "type": "write_sql", "unit": "U9", "lessonId": "U9-subquery", "conceptTags": ["subquery", "not-in", "anti-join"], "difficulty": 3,
+    "id": "q-u9-not-in-safe-001",
+    "type": "write_sql",
+    "unit": "U9",
+    "lessonId": "U9-subquery",
+    "conceptTags": [
+      "subquery",
+      "not-in",
+      "anti-join"
+    ],
+    "difficulty": 3,
     "tr": {
       "title": "Hiç kulübe üye olmayan öğrenciler (NOT IN)",
       "prompt": "Hiçbir kulübe üye OLMAYAN öğrencileri getir. Yöntem: students içinde, id'si club_memberships'teki student_id listesinde OLMAYANLAR (WHERE id NOT IN (SELECT student_id FROM club_memberships)). Sonuçta iki sütun olsun, bu sırayla: id ve first_name. Sonucu id'ye göre artan sırala. (Not: club_memberships.student_id hiç NULL içermez, bu yüzden NOT IN burada güvenlidir.)",
       "hint1": "WHERE id NOT IN (SELECT student_id FROM club_memberships).",
       "answerExplanation": "NOT IN, listede OLMAYANLARI seçer; burada üye olmayan öğrenciler. NOT IN'in NULL ile tehlikeli bir tuzağı vardır (sonraki soruda); ama bu alt sorgu NULL döndürmediği için güvenlidir."
     },
-    "assessment": { "referenceSql": "SELECT id, first_name FROM students WHERE id NOT IN (SELECT student_id FROM club_memberships) ORDER BY id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["id", "first_name"], "requiredConcepts": ["subquery"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT id, first_name FROM students WHERE id NOT IN (SELECT student_id FROM club_memberships) ORDER BY id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "first_name"
+      ],
+      "requiredConcepts": [
+        "subquery"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "9.4"
   },
   {
-    "id": "q-u9-exists-001", "type": "write_sql", "unit": "U9", "lessonId": "U9-subquery", "conceptTags": ["subquery", "exists", "correlated"], "difficulty": 3,
+    "id": "q-u9-exists-001",
+    "type": "write_sql",
+    "unit": "U9",
+    "lessonId": "U9-subquery",
+    "conceptTags": [
+      "subquery",
+      "exists",
+      "correlated"
+    ],
+    "difficulty": 3,
     "tr": {
       "title": "Tamamlanmış siparişi olan öğrenciler (EXISTS)",
       "prompt": "En az bir TAMAMLANMIŞ ('completed') siparişi olan öğrencileri getir. Yöntem: EXISTS ile korelasyonlu alt sorgu kullan: her öğrenci için, o öğrenciye ait status='completed' bir sipariş VAR MI diye bak. Sonuçta iki sütun olsun, bu sırayla: id ve first_name. Sonucu id'ye göre artan sırala.",
@@ -39,66 +119,216 @@
       "hint2": "EXISTS, alt sorgu en az bir satır döndürürse TRUE olur; içerideki o.student_id = s.id dış sorguya bağlar (korelasyon).",
       "answerExplanation": "EXISTS, 'şu koşula uyan en az bir satır var mı?' sorusudur. Korelasyonlu alt sorgu (o.student_id = s.id) her öğrenci için ayrı kontrol edilir; tamamlanmış siparişi olan öğrenci TRUE alır."
     },
-    "assessment": { "referenceSql": "SELECT s.id, s.first_name FROM students s WHERE EXISTS (SELECT 1 FROM orders o WHERE o.student_id = s.id AND o.status = 'completed') ORDER BY s.id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["id", "first_name"], "requiredConcepts": ["subquery"], "allowedLiterals": ["completed"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT s.id, s.first_name FROM students s WHERE EXISTS (SELECT 1 FROM orders o WHERE o.student_id = s.id AND o.status = 'completed') ORDER BY s.id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "first_name"
+      ],
+      "requiredConcepts": [
+        "subquery"
+      ],
+      "allowedLiterals": [
+        "completed"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "9.3"
   },
   {
-    "id": "q-u9-not-exists-001", "type": "write_sql", "unit": "U9", "lessonId": "U9-subquery", "conceptTags": ["subquery", "not-exists", "anti-join"], "difficulty": 4,
+    "id": "q-u9-not-exists-001",
+    "type": "write_sql",
+    "unit": "U9",
+    "lessonId": "U9-subquery",
+    "conceptTags": [
+      "subquery",
+      "not-exists",
+      "anti-join"
+    ],
+    "difficulty": 4,
     "tr": {
       "title": "Hiç siparişi olmayan öğrenciler (NOT EXISTS)",
       "prompt": "Hiç siparişi OLMAYAN öğrencileri getir. Yöntem: NOT EXISTS ile korelasyonlu alt sorgu: her öğrenci için, o öğrenciye ait HİÇ sipariş yoksa onu seç. Sonuçta iki sütun olsun, bu sırayla: id ve first_name. Sonucu id'ye göre artan sırala.",
       "hint1": "WHERE NOT EXISTS (SELECT 1 FROM orders o WHERE o.student_id = s.id).",
       "answerExplanation": "NOT EXISTS, 'bu koşula uyan HİÇBİR satır yok' demektir; siparişi olmayan öğrencileri yakalar. NOT EXISTS, NOT IN'in NULL tuzağına düşmeden 'olmayanları bul' işinin en güvenli yoludur."
     },
-    "assessment": { "referenceSql": "SELECT s.id, s.first_name FROM students s WHERE NOT EXISTS (SELECT 1 FROM orders o WHERE o.student_id = s.id) ORDER BY s.id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["id", "first_name"], "requiredConcepts": ["subquery"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT s.id, s.first_name FROM students s WHERE NOT EXISTS (SELECT 1 FROM orders o WHERE o.student_id = s.id) ORDER BY s.id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "first_name"
+      ],
+      "requiredConcepts": [
+        "subquery"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "9.3"
   },
   {
-    "id": "q-u9-scalar-select-001", "type": "write_sql", "unit": "U9", "lessonId": "U9-subquery", "conceptTags": ["subquery", "scalar-subquery"], "difficulty": 3,
+    "id": "q-u9-scalar-select-001",
+    "type": "write_sql",
+    "unit": "U9",
+    "lessonId": "U9-subquery",
+    "conceptTags": [
+      "subquery",
+      "scalar-subquery"
+    ],
+    "difficulty": 3,
     "tr": {
       "title": "Her satırda genel ortalama (SELECT içinde subquery)",
       "prompt": "products tablosundan her ürünün name ve price'ını getir; ayrıca her satıra TÜM ürünlerin ortalama fiyatını (2 ondalık) genel_ort adıyla ekle (her satırda aynı değer olacak). Ortalamayı SELECT içinde bir scalar subquery ile hesapla. Sonuçta üç sütun olsun, bu sırayla: name, price, genel_ort. Sonucu name'e göre artan sırala.",
       "hint1": "SELECT name, price, (SELECT ROUND(AVG(price),2) FROM products) AS genel_ort FROM products ...",
       "answerExplanation": "Scalar subquery SELECT listesinde de kullanılabilir; tek bir değer (genel ortalama) üretir ve her satırın yanına aynı şekilde yazılır. Böylece her ürünü genel ortalamayla kıyaslayabilirsin."
     },
-    "assessment": { "referenceSql": "SELECT name, price, (SELECT ROUND(AVG(price), 2) FROM products) AS genel_ort FROM products ORDER BY name ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["name", "price", "genel_ort"], "numericTolerance": 0.01, "requiredConcepts": ["subquery"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT name, price, (SELECT ROUND(AVG(price), 2) FROM products) AS genel_ort FROM products ORDER BY name ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "name",
+        "price",
+        "genel_ort"
+      ],
+      "numericTolerance": 0.01,
+      "requiredConcepts": [
+        "subquery"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "9.1"
   },
   {
-    "id": "q-u9-derived-table-001", "type": "write_sql", "unit": "U9", "lessonId": "U9-subquery", "conceptTags": ["subquery", "derived-table"], "difficulty": 3,
+    "id": "q-u9-derived-table-001",
+    "type": "write_sql",
+    "unit": "U9",
+    "lessonId": "U9-subquery",
+    "conceptTags": [
+      "subquery",
+      "derived-table"
+    ],
+    "difficulty": 3,
     "tr": {
       "title": "Türetilmiş tablo (FROM içinde subquery)",
       "prompt": "Önce her öğrencinin ders sayısını hesaplayan bir alt sorguyu FROM içinde bir TÜRETİLMİŞ TABLO olarak kullan; sonra dışarıdan yalnız ders sayısı 2 veya daha fazla olanları seç. Türetilmiş tablo: (SELECT student_id, COUNT(*) AS ders_sayisi FROM enrollments GROUP BY student_id). Sonuçta iki sütun olsun, bu sırayla: student_id ve ders_sayisi. Sonucu student_id'ye göre artan sırala.",
       "hint1": "FROM (SELECT student_id, COUNT(*) AS ders_sayisi FROM enrollments GROUP BY student_id) t WHERE t.ders_sayisi >= 2.",
       "answerExplanation": "FROM içindeki alt sorgu geçici bir tablo gibi davranır (türetilmiş tablo); ona bir takma ad (t) verip dış sorguda normal tablo gibi süzebilirsin. Bu, 'önce hesapla, sonra filtrele' düzenidir (HAVING'e alternatif)."
     },
-    "assessment": { "referenceSql": "SELECT student_id, ders_sayisi FROM (SELECT student_id, COUNT(*) AS ders_sayisi FROM enrollments GROUP BY student_id) t WHERE t.ders_sayisi >= 2 ORDER BY student_id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["student_id", "ders_sayisi"], "requiredConcepts": ["subquery"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT student_id, ders_sayisi FROM (SELECT student_id, COUNT(*) AS ders_sayisi FROM enrollments GROUP BY student_id) t WHERE t.ders_sayisi >= 2 ORDER BY student_id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "student_id",
+        "ders_sayisi"
+      ],
+      "requiredConcepts": [
+        "subquery"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "9.5"
   },
   {
-    "id": "q-u9-union-001", "type": "write_sql", "unit": "U9", "lessonId": "U9-subquery", "conceptTags": ["set-ops", "union"], "difficulty": 4,
+    "id": "q-u9-union-001",
+    "type": "write_sql",
+    "unit": "U9",
+    "lessonId": "U9-subquery",
+    "conceptTags": [
+      "set-ops",
+      "union"
+    ],
+    "difficulty": 4,
     "tr": {
       "title": "Tüm isimler tek listede (UNION)",
       "prompt": "Öğrencilerin ve eğitmenlerin first_name'lerini TEK bir listede topla. Aynı isim iki kez yazılmasın (tekrarsız). Yöntem: iki SELECT'i UNION ile birleştir (UNION otomatik tekilleştirir). Sonuçta tek sütun olsun: first_name. Sonucu first_name'e göre artan sırala.",
       "hint1": "SELECT first_name FROM students UNION SELECT first_name FROM instructors ORDER BY first_name.",
       "answerExplanation": "UNION iki sorgunun satırlarını alt alta birleştirir ve tekrarları kaldırır (tekilleştirir). Tekrarları KORUMAK isteseydin UNION ALL kullanırdın. ORDER BY birleşik sonucun tamamına uygulanır."
     },
-    "assessment": { "referenceSql": "SELECT first_name FROM students UNION SELECT first_name FROM instructors ORDER BY first_name ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["first_name"], "requiredConcepts": ["set-ops"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT first_name FROM students UNION SELECT first_name FROM instructors ORDER BY first_name ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "first_name"
+      ],
+      "requiredConcepts": [
+        "set-ops"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "9.5"
   },
   {
-    "id": "q-u9-except-001", "type": "write_sql", "unit": "U9", "lessonId": "U9-subquery", "conceptTags": ["set-ops", "except"], "difficulty": 4,
+    "id": "q-u9-except-001",
+    "type": "write_sql",
+    "unit": "U9",
+    "lessonId": "U9-subquery",
+    "conceptTags": [
+      "set-ops",
+      "except"
+    ],
+    "difficulty": 4,
     "tr": {
       "title": "Öğrencide olup eğitmende olmayan isimler (EXCEPT)",
       "prompt": "Öğrencilerin first_name'lerinden, eğitmenlerde DE bulunan isimleri ÇIKAR. Yani 'öğrenci isimleri eksi eğitmen isimleri'. Yöntem: SELECT first_name FROM students EXCEPT SELECT first_name FROM instructors. Sonuçta tek sütun olsun: first_name. Sonucu first_name'e göre artan sırala.",
       "hint1": "EXCEPT, ilk sorgunun sonucundan ikinci sorgunun sonucunu çıkarır.",
       "answerExplanation": "EXCEPT (fark) işlemi: ilk kümede olup ikinci kümede OLMAYAN değerleri verir ve tekilleştirir. Burada öğrenci isimlerinden, eğitmenlerde de geçenler atılır."
     },
-    "assessment": { "referenceSql": "SELECT first_name FROM students EXCEPT SELECT first_name FROM instructors ORDER BY first_name ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["first_name"], "requiredConcepts": ["set-ops"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT first_name FROM students EXCEPT SELECT first_name FROM instructors ORDER BY first_name ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "first_name"
+      ],
+      "requiredConcepts": [
+        "set-ops"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "9.5"
   },
   {
-    "id": "q-u9-mc-not-in-null-001", "type": "multiple_choice", "unit": "U9", "lessonId": "U9-subquery", "conceptTags": ["not-in", "null", "trap"], "difficulty": 4,
+    "id": "q-u9-mc-not-in-null-001",
+    "type": "multiple_choice",
+    "unit": "U9",
+    "lessonId": "U9-subquery",
+    "conceptTags": [
+      "not-in",
+      "null",
+      "trap"
+    ],
+    "difficulty": 4,
     "tr": {
       "title": "TUZAK: NOT IN + NULL",
       "prompt": "Bir alt sorgu (örn. SELECT instructor_id FROM courses) içinde NULL değer de döndürüyor. WHERE id NOT IN (o alt sorgu) koşulunu kullanırsan ne olur?",
       "hint1": "NOT IN, listedeki NULL'la karşılaştırma yapınca sonuç 'bilinmeyen' olur.",
       "answerExplanation": "Liste bir NULL içeriyorsa, NOT IN beklenmedik şekilde HİÇ satır döndürmez (her karşılaştırma 'bilinmeyen'e düşer, true olmaz). Bu klasik bir tuzaktır. Güvenli yol: alt sorguda NULL'ları ele (WHERE ... IS NOT NULL) ya da NOT IN yerine NOT EXISTS kullan."
     },
-    "choices": ["NULL'ları yok sayar, sorun olmaz", "Beklenmedik şekilde hiç satır dönmez; NOT EXISTS daha güvenlidir", "Hata verir ve sorgu durur", "NULL'ları da sonuca ekler"], "correctIndex": 1
+    "choices": [
+      "NULL'ları yok sayar, sorun olmaz",
+      "Beklenmedik şekilde hiç satır dönmez; NOT EXISTS daha güvenlidir",
+      "Hata verir ve sorgu durur",
+      "NULL'ları da sonuca ekler"
+    ],
+    "correctIndex": 1,
+    "section": "9.4"
   }
 ]

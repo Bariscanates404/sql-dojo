@@ -1,6 +1,17 @@
 [
   {
-    "id": "q-u8-join-aggregate-student-total-spent-001", "type": "write_sql", "unit": "U8", "lessonId": "U8-join-aggregate", "conceptTags": ["join", "join-aggregate", "grain", "group-by", "sum"], "difficulty": 3,
+    "id": "q-u8-join-aggregate-student-total-spent-001",
+    "type": "write_sql",
+    "unit": "U8",
+    "lessonId": "U8-join-aggregate",
+    "conceptTags": [
+      "join",
+      "join-aggregate",
+      "grain",
+      "group-by",
+      "sum"
+    ],
+    "difficulty": 3,
     "tr": {
       "title": "Öğrenci başına tamamlanmış sipariş tutarı",
       "prompt": "students, orders ve order_items tablolarını birlikte kullan. SADECE status değeri 'completed' olan siparişleri hesaba kat. Her öğrenci için, tamamlanmış siparişlerindeki toplam harcamayı hesapla. Toplam harcama = order_items tablosundaki her satırın quantity çarpı unit_price değerlerinin toplamı. Tamamlanmış siparişi olmayan öğrenciler sonuçta GÖRÜNMESİN. Sonuçta sadece şu sütunlar olsun, bu sırayla: student_id, first_name, last_name, total_spent. Sonucu önce total_spent'e göre büyükten küçüğe; eşitlikte student_id'ye göre küçükten büyüğe sırala.",
@@ -8,152 +19,535 @@
       "hint2": "Her öğrenci için tek satır istiyorsan GROUP BY öğrenci seviyesinde olmalı: GROUP BY s.id, s.first_name, s.last_name.",
       "answerExplanation": "Doğru grain (seviye) öğrencidir. JOIN order_items satırlarını çoğaltır; SUM bunları öğrenci başına toplar. status filtresi WHERE'de olur."
     },
-    "assessment": { "referenceSql": "SELECT s.id AS student_id, s.first_name, s.last_name, SUM(oi.quantity * oi.unit_price) AS total_spent FROM students s JOIN orders o ON o.student_id = s.id JOIN order_items oi ON oi.order_id = o.id WHERE o.status = 'completed' GROUP BY s.id, s.first_name, s.last_name ORDER BY total_spent DESC, s.id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["student_id", "first_name", "last_name", "total_spent"], "numericTolerance": 0.0001, "requiredConcepts": ["join", "group-by", "sum"], "allowedLiterals": ["completed"], "forbiddenPatterns": ["select_star"] },
+    "assessment": {
+      "referenceSql": "SELECT s.id AS student_id, s.first_name, s.last_name, SUM(oi.quantity * oi.unit_price) AS total_spent FROM students s JOIN orders o ON o.student_id = s.id JOIN order_items oi ON oi.order_id = o.id WHERE o.status = 'completed' GROUP BY s.id, s.first_name, s.last_name ORDER BY total_spent DESC, s.id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "student_id",
+        "first_name",
+        "last_name",
+        "total_spent"
+      ],
+      "numericTolerance": 0.0001,
+      "requiredConcepts": [
+        "join",
+        "group-by",
+        "sum"
+      ],
+      "allowedLiterals": [
+        "completed"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
     "commonWrongPatterns": [
-      { "id": "forgot_quantity", "sqlRegex": "SUM\\s*\\(\\s*(oi\\.)?unit_price\\s*\\)", "feedback": "Toplam tutar sadece unit_price değil, quantity * unit_price toplamıdır." }
-    ]
+      {
+        "id": "forgot_quantity",
+        "sqlRegex": "SUM\\s*\\(\\s*(oi\\.)?unit_price\\s*\\)",
+        "feedback": "Toplam tutar sadece unit_price değil, quantity * unit_price toplamıdır."
+      }
+    ],
+    "section": "8.1"
   },
   {
-    "id": "q-u8-revenue-per-product-001", "type": "write_sql", "unit": "U8", "lessonId": "U8-join-aggregate", "conceptTags": ["join", "group-by", "sum"], "difficulty": 3,
+    "id": "q-u8-revenue-per-product-001",
+    "type": "write_sql",
+    "unit": "U8",
+    "lessonId": "U8-join-aggregate",
+    "conceptTags": [
+      "join",
+      "group-by",
+      "sum"
+    ],
+    "difficulty": 3,
     "tr": {
       "title": "Ürün başına ciro (ad ile)",
       "prompt": "order_items ve products tablolarını birleştir (oi.product_id = products.id). Her ürünün toplam cirosunu hesapla: o ürünün satırlarındaki quantity çarpı unit_price toplamı, 2 ondalığa yuvarlanmış. Sonuçta iki sütun olsun, bu sırayla: urun (products.name) ve ciro. Sonucu ciro'ya göre büyükten küçüğe; eşitlikte products.id'ye göre artan sırala.",
       "hint1": "JOIN products, GROUP BY p.id, p.name, ROUND(SUM(oi.quantity*oi.unit_price),2).",
       "answerExplanation": "Ürün adını JOIN ile getirip, ürüne göre gruplayıp satır tutarlarını toplarız."
     },
-    "assessment": { "referenceSql": "SELECT p.name AS urun, ROUND(SUM(oi.quantity * oi.unit_price), 2) AS ciro FROM order_items oi JOIN products p ON p.id = oi.product_id GROUP BY p.id, p.name ORDER BY ciro DESC, p.id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["urun", "ciro"], "numericTolerance": 0.01, "requiredConcepts": ["join", "group-by", "sum"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT p.name AS urun, ROUND(SUM(oi.quantity * oi.unit_price), 2) AS ciro FROM order_items oi JOIN products p ON p.id = oi.product_id GROUP BY p.id, p.name ORDER BY ciro DESC, p.id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "urun",
+        "ciro"
+      ],
+      "numericTolerance": 0.01,
+      "requiredConcepts": [
+        "join",
+        "group-by",
+        "sum"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "8.1"
   },
   {
-    "id": "q-u8-count-per-course-name-001", "type": "write_sql", "unit": "U8", "lessonId": "U8-join-aggregate", "conceptTags": ["join", "group-by", "count"], "difficulty": 3,
+    "id": "q-u8-count-per-course-name-001",
+    "type": "write_sql",
+    "unit": "U8",
+    "lessonId": "U8-join-aggregate",
+    "conceptTags": [
+      "join",
+      "group-by",
+      "count"
+    ],
+    "difficulty": 3,
     "tr": {
       "title": "Ders başına kayıt sayısı (ad ile)",
       "prompt": "enrollments ve courses tablolarını birleştir (e.course_id = courses.id). Her dersin adını ve aldığı kayıt sayısını getir. Sonuçta iki sütun olsun, bu sırayla: ders (courses.name) ve kayit_sayisi. Sonucu courses.id'ye göre artan sırala.",
       "hint1": "JOIN courses, GROUP BY c.id, c.name, COUNT(*).",
       "answerExplanation": "Önce kayıtları derse bağlarız, derse göre gruplayıp sayarız; her ders adıyla birlikte tek satır olur."
     },
-    "assessment": { "referenceSql": "SELECT c.name AS ders, COUNT(*) AS kayit_sayisi FROM enrollments e JOIN courses c ON c.id = e.course_id GROUP BY c.id, c.name ORDER BY c.id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["ders", "kayit_sayisi"], "requiredConcepts": ["join", "group-by", "count"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT c.name AS ders, COUNT(*) AS kayit_sayisi FROM enrollments e JOIN courses c ON c.id = e.course_id GROUP BY c.id, c.name ORDER BY c.id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "ders",
+        "kayit_sayisi"
+      ],
+      "requiredConcepts": [
+        "join",
+        "group-by",
+        "count"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "8.1"
   },
   {
-    "id": "q-u8-avg-grade-per-course-name-001", "type": "write_sql", "unit": "U8", "lessonId": "U8-join-aggregate", "conceptTags": ["join", "group-by", "avg"], "difficulty": 3,
+    "id": "q-u8-avg-grade-per-course-name-001",
+    "type": "write_sql",
+    "unit": "U8",
+    "lessonId": "U8-join-aggregate",
+    "conceptTags": [
+      "join",
+      "group-by",
+      "avg"
+    ],
+    "difficulty": 3,
     "tr": {
       "title": "Ders başına ortalama not (ad ile)",
       "prompt": "enrollments ve courses tablolarını birleştir (e.course_id = courses.id). Her dersin adını ve ortalama notunu (2 ondalık) getir. Sonuçta iki sütun olsun, bu sırayla: ders (courses.name) ve ort_not. Sonucu courses.id'ye göre artan sırala. (AVG NULL notları zaten saymaz.)",
       "hint1": "JOIN courses, GROUP BY c.id, c.name, ROUND(AVG(e.grade),2).",
       "answerExplanation": "Dersi adıyla getirip derse göre gruplar, AVG(grade) ile ortalamayı alırız. Tüm notları NULL olan dersin ortalaması NULL çıkar."
     },
-    "assessment": { "referenceSql": "SELECT c.name AS ders, ROUND(AVG(e.grade), 2) AS ort_not FROM enrollments e JOIN courses c ON c.id = e.course_id GROUP BY c.id, c.name ORDER BY c.id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["ders", "ort_not"], "numericTolerance": 0.01, "requiredConcepts": ["join", "group-by"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT c.name AS ders, ROUND(AVG(e.grade), 2) AS ort_not FROM enrollments e JOIN courses c ON c.id = e.course_id GROUP BY c.id, c.name ORDER BY c.id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "ders",
+        "ort_not"
+      ],
+      "numericTolerance": 0.01,
+      "requiredConcepts": [
+        "join",
+        "group-by"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "8.1"
   },
   {
-    "id": "q-u8-students-per-dept-name-001", "type": "write_sql", "unit": "U8", "lessonId": "U8-join-aggregate", "conceptTags": ["join", "group-by", "count"], "difficulty": 3,
+    "id": "q-u8-students-per-dept-name-001",
+    "type": "write_sql",
+    "unit": "U8",
+    "lessonId": "U8-join-aggregate",
+    "conceptTags": [
+      "join",
+      "group-by",
+      "count"
+    ],
+    "difficulty": 3,
     "tr": {
       "title": "Bölüm başına öğrenci sayısı (ad ile)",
       "prompt": "students ve departments tablolarını birleştir (s.department_id = departments.id). Her bölümün adını ve öğrenci sayısını getir. Sonuçta iki sütun olsun, bu sırayla: bolum (departments.name) ve ogrenci_sayisi. Sonucu departments.id'ye göre artan sırala.",
       "hint1": "JOIN departments, GROUP BY d.id, d.name, COUNT(*).",
       "answerExplanation": "Öğrencileri bölümlerine bağlayıp bölüme göre gruplayarak her bölümün öğrenci sayısını adıyla buluruz."
     },
-    "assessment": { "referenceSql": "SELECT d.name AS bolum, COUNT(*) AS ogrenci_sayisi FROM students s JOIN departments d ON d.id = s.department_id GROUP BY d.id, d.name ORDER BY d.id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["bolum", "ogrenci_sayisi"], "requiredConcepts": ["join", "group-by", "count"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT d.name AS bolum, COUNT(*) AS ogrenci_sayisi FROM students s JOIN departments d ON d.id = s.department_id GROUP BY d.id, d.name ORDER BY d.id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "bolum",
+        "ogrenci_sayisi"
+      ],
+      "requiredConcepts": [
+        "join",
+        "group-by",
+        "count"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "8.1"
   },
   {
-    "id": "q-u8-members-per-club-name-001", "type": "write_sql", "unit": "U8", "lessonId": "U8-join-aggregate", "conceptTags": ["join", "group-by", "count"], "difficulty": 3,
+    "id": "q-u8-members-per-club-name-001",
+    "type": "write_sql",
+    "unit": "U8",
+    "lessonId": "U8-join-aggregate",
+    "conceptTags": [
+      "join",
+      "group-by",
+      "count"
+    ],
+    "difficulty": 3,
     "tr": {
       "title": "Kulüp başına üye sayısı (üyesi olanlar)",
       "prompt": "club_memberships ve clubs tablolarını birleştir (cm.club_id = clubs.id). Her kulübün adını ve üye sayısını getir. (Bu INNER JOIN olduğu için yalnızca en az bir üyesi olan kulüpler gelir.) Sonuçta iki sütun olsun, bu sırayla: kulup (clubs.name) ve uye_sayisi. Sonucu clubs.id'ye göre artan sırala.",
       "hint1": "JOIN clubs, GROUP BY cl.id, cl.name, COUNT(*).",
       "answerExplanation": "INNER JOIN üyesiz kulüpleri düşürür; bu yüzden burada yalnız üyesi olan kulüpler görünür. (Üyesiz kulüpleri de 0 ile görmek için LEFT JOIN gerekirdi.)"
     },
-    "assessment": { "referenceSql": "SELECT cl.name AS kulup, COUNT(*) AS uye_sayisi FROM club_memberships cm JOIN clubs cl ON cl.id = cm.club_id GROUP BY cl.id, cl.name ORDER BY cl.id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["kulup", "uye_sayisi"], "requiredConcepts": ["join", "group-by", "count"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT cl.name AS kulup, COUNT(*) AS uye_sayisi FROM club_memberships cm JOIN clubs cl ON cl.id = cm.club_id GROUP BY cl.id, cl.name ORDER BY cl.id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "kulup",
+        "uye_sayisi"
+      ],
+      "requiredConcepts": [
+        "join",
+        "group-by",
+        "count"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "8.2"
   },
   {
-    "id": "q-u8-revenue-per-category-001", "type": "write_sql", "unit": "U8", "lessonId": "U8-join-aggregate", "conceptTags": ["join", "group-by", "sum"], "difficulty": 3,
+    "id": "q-u8-revenue-per-category-001",
+    "type": "write_sql",
+    "unit": "U8",
+    "lessonId": "U8-join-aggregate",
+    "conceptTags": [
+      "join",
+      "group-by",
+      "sum"
+    ],
+    "difficulty": 3,
     "tr": {
       "title": "Kategori başına ciro",
       "prompt": "order_items ve products tablolarını birleştir (oi.product_id = products.id). Her ürün KATEGORİSİNİN toplam cirosunu hesapla (quantity çarpı unit_price toplamı, 2 ondalık). Sonuçta iki sütun olsun, bu sırayla: category ve ciro. Sonucu category'ye göre artan sırala.",
       "hint1": "JOIN products, GROUP BY p.category, ROUND(SUM(oi.quantity*oi.unit_price),2).",
       "answerExplanation": "Satışları ürün üzerinden kategoriye bağlar, kategoriye göre gruplayıp ciroları toplarız."
     },
-    "assessment": { "referenceSql": "SELECT p.category, ROUND(SUM(oi.quantity * oi.unit_price), 2) AS ciro FROM order_items oi JOIN products p ON p.id = oi.product_id GROUP BY p.category ORDER BY p.category ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["category", "ciro"], "numericTolerance": 0.01, "requiredConcepts": ["join", "group-by", "sum"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT p.category, ROUND(SUM(oi.quantity * oi.unit_price), 2) AS ciro FROM order_items oi JOIN products p ON p.id = oi.product_id GROUP BY p.category ORDER BY p.category ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "category",
+        "ciro"
+      ],
+      "numericTolerance": 0.01,
+      "requiredConcepts": [
+        "join",
+        "group-by",
+        "sum"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "8.4"
   },
   {
-    "id": "q-u8-orders-per-student-completed-001", "type": "write_sql", "unit": "U8", "lessonId": "U8-join-aggregate", "conceptTags": ["join", "group-by", "count", "where"], "difficulty": 3,
+    "id": "q-u8-orders-per-student-completed-001",
+    "type": "write_sql",
+    "unit": "U8",
+    "lessonId": "U8-join-aggregate",
+    "conceptTags": [
+      "join",
+      "group-by",
+      "count",
+      "where"
+    ],
+    "difficulty": 3,
     "tr": {
       "title": "Öğrenci başına tamamlanmış sipariş sayısı",
       "prompt": "orders ve students tablolarını birleştir (o.student_id = students.id). Yalnızca status'u 'completed' olan siparişleri dikkate alarak, her öğrencinin adını ve tamamlanmış sipariş sayısını getir. Sonuçta iki sütun olsun, bu sırayla: first_name ve siparis_sayisi. Sonucu students.id'ye göre artan sırala.",
       "hint1": "JOIN students, WHERE o.status = 'completed', GROUP BY s.id, s.first_name, COUNT(*).",
       "answerExplanation": "Önce WHERE ile tamamlanmışları süzeriz, sonra öğrenciye göre gruplayıp sayarız. Tamamlanmış siparişi olmayan öğrenci listede olmaz (INNER)."
     },
-    "assessment": { "referenceSql": "SELECT s.first_name, COUNT(*) AS siparis_sayisi FROM orders o JOIN students s ON s.id = o.student_id WHERE o.status = 'completed' GROUP BY s.id, s.first_name ORDER BY s.id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["first_name", "siparis_sayisi"], "requiredConcepts": ["join", "group-by", "count"], "allowedLiterals": ["completed"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT s.first_name, COUNT(*) AS siparis_sayisi FROM orders o JOIN students s ON s.id = o.student_id WHERE o.status = 'completed' GROUP BY s.id, s.first_name ORDER BY s.id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "first_name",
+        "siparis_sayisi"
+      ],
+      "requiredConcepts": [
+        "join",
+        "group-by",
+        "count"
+      ],
+      "allowedLiterals": [
+        "completed"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "8.1"
   },
   {
-    "id": "q-u8-left-count-col-001", "type": "write_sql", "unit": "U8", "lessonId": "U8-join-aggregate", "conceptTags": ["join", "left-join", "group-by", "count", "null", "trap"], "difficulty": 4,
+    "id": "q-u8-left-count-col-001",
+    "type": "write_sql",
+    "unit": "U8",
+    "lessonId": "U8-join-aggregate",
+    "conceptTags": [
+      "join",
+      "left-join",
+      "group-by",
+      "count",
+      "null",
+      "trap"
+    ],
+    "difficulty": 4,
     "tr": {
       "title": "TUZAK: LEFT JOIN'de COUNT(*) mı COUNT(sütun) mu?",
       "prompt": "TÜM kulüpleri göster (üyesi olmayanlar da 0 ile). clubs'tan club_memberships'e LEFT JOIN yap (cm.club_id = clubs.id). Üye sayısını COUNT(*) DEĞİL, COUNT(cm.student_id) ile hesapla (üyesiz kulüpte 0 çıksın). Sonuçta üç sütun olsun, bu sırayla: club_id (clubs.id), kulup (clubs.name), uye_sayisi. Sonucu clubs.id'ye göre artan sırala.",
       "hint1": "LEFT JOIN'de eşleşmeyen kulüpte 1 NULL satır olur; COUNT(*) onu 1 sayar (yanlış), COUNT(cm.student_id) NULL'ı saymaz (0 = doğru).",
       "answerExplanation": "LEFT JOIN üyesiz kulüpte tek bir 'NULL eşleşme' satırı üretir. COUNT(*) satır saydığı için 1 der; COUNT(cm.student_id) NULL'ı saymadığı için doğru şekilde 0 verir. Bu, LEFT JOIN + aggregate'in en sık tuzağıdır."
     },
-    "assessment": { "referenceSql": "SELECT cl.id AS club_id, cl.name AS kulup, COUNT(cm.student_id) AS uye_sayisi FROM clubs cl LEFT JOIN club_memberships cm ON cm.club_id = cl.id GROUP BY cl.id, cl.name ORDER BY cl.id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["club_id", "kulup", "uye_sayisi"], "requiredConcepts": ["left-join", "group-by", "count"], "forbiddenPatterns": ["select_star"] },
+    "assessment": {
+      "referenceSql": "SELECT cl.id AS club_id, cl.name AS kulup, COUNT(cm.student_id) AS uye_sayisi FROM clubs cl LEFT JOIN club_memberships cm ON cm.club_id = cl.id GROUP BY cl.id, cl.name ORDER BY cl.id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "club_id",
+        "kulup",
+        "uye_sayisi"
+      ],
+      "requiredConcepts": [
+        "left-join",
+        "group-by",
+        "count"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
     "commonWrongPatterns": [
-      { "id": "count_star_in_left_join", "sqlRegex": "COUNT\\s*\\(\\s*\\*\\s*\\)", "feedback": "LEFT JOIN'de COUNT(*) üyesiz kulübe 1 der. Doğru sayım için COUNT(cm.student_id) kullan." }
-    ]
+      {
+        "id": "count_star_in_left_join",
+        "sqlRegex": "COUNT\\s*\\(\\s*\\*\\s*\\)",
+        "feedback": "LEFT JOIN'de COUNT(*) üyesiz kulübe 1 der. Doğru sayım için COUNT(cm.student_id) kullan."
+      }
+    ],
+    "section": "8.2"
   },
   {
-    "id": "q-u8-sum-inflation-observe-001", "type": "write_sql", "unit": "U8", "lessonId": "U8-join-aggregate", "conceptTags": ["join", "grain", "sum", "trap"], "difficulty": 4,
+    "id": "q-u8-sum-inflation-observe-001",
+    "type": "write_sql",
+    "unit": "U8",
+    "lessonId": "U8-join-aggregate",
+    "conceptTags": [
+      "join",
+      "grain",
+      "sum",
+      "trap"
+    ],
+    "difficulty": 4,
     "tr": {
       "title": "TUZAK: JOIN sonrası SUM şişmesi (gözlemle)",
       "prompt": "students ile enrollments'ı birleştir (e.student_id = students.id) ve birleşik sonuçta SUM(s.scholarship_amount) hesapla. Sonuç tek sütun olsun, adı sisik_toplam olsun. Çalıştır ve değeri aklında tut; bir sonraki soruda doğru toplamla karşılaştıracağız.",
       "hint1": "SELECT SUM(s.scholarship_amount) AS sisik_toplam FROM students s JOIN enrollments e ON e.student_id = s.id;",
       "answerExplanation": "JOIN her öğrenciyi kayıt sayısı kadar çoğalttığı için, her öğrencinin bursu kayıt sayısı kadar TEKRAR toplanır; sonuç gerçek burs toplamından büyük (şişik) çıkar. Bu, JOIN + SUM'ın klasik tuzağıdır."
     },
-    "assessment": { "referenceSql": "SELECT SUM(s.scholarship_amount) AS sisik_toplam FROM students s JOIN enrollments e ON e.student_id = s.id;", "compareMode": "multiset", "expectedColumns": ["sisik_toplam"], "numericTolerance": 0.01, "requiredConcepts": ["join", "sum"] }
+    "assessment": {
+      "referenceSql": "SELECT SUM(s.scholarship_amount) AS sisik_toplam FROM students s JOIN enrollments e ON e.student_id = s.id;",
+      "compareMode": "multiset",
+      "expectedColumns": [
+        "sisik_toplam"
+      ],
+      "numericTolerance": 0.01,
+      "requiredConcepts": [
+        "join",
+        "sum"
+      ]
+    },
+    "section": "8.3"
   },
   {
-    "id": "q-u8-sum-correct-001", "type": "write_sql", "unit": "U8", "lessonId": "U8-join-aggregate", "conceptTags": ["sum", "coalesce", "grain"], "difficulty": 4,
+    "id": "q-u8-sum-correct-001",
+    "type": "write_sql",
+    "unit": "U8",
+    "lessonId": "U8-join-aggregate",
+    "conceptTags": [
+      "sum",
+      "coalesce",
+      "grain"
+    ],
+    "difficulty": 4,
     "tr": {
       "title": "Doğru burs toplamı (şişmeyen)",
       "prompt": "Tüm öğrencilerin gerçek toplam bursunu hesapla; her öğrenci YALNIZCA BİR kez sayılsın. Bursu NULL olanları 0 say. JOIN YAPMA; doğrudan students tablosundan hesapla. Sonuç tek sütun olsun, adı dogru_toplam olsun.",
       "hint1": "JOIN olmadan, students tablosunda: SUM(COALESCE(scholarship_amount, 0)).",
       "answerExplanation": "Burs öğrencinin özelliğidir; öğrenci seviyesinde (JOIN'siz) toplanmalı. Bir önceki sorudaki şişik değerle karşılaştır: JOIN eklemek toplamı çoğaltıyordu. Kural: bir değeri ait olduğu grain'de topla."
     },
-    "assessment": { "referenceSql": "SELECT SUM(COALESCE(scholarship_amount, 0)) AS dogru_toplam FROM students;", "compareMode": "multiset", "expectedColumns": ["dogru_toplam"], "numericTolerance": 0.01, "requiredConcepts": ["sum", "coalesce"] }
+    "assessment": {
+      "referenceSql": "SELECT SUM(COALESCE(scholarship_amount, 0)) AS dogru_toplam FROM students;",
+      "compareMode": "multiset",
+      "expectedColumns": [
+        "dogru_toplam"
+      ],
+      "numericTolerance": 0.01,
+      "requiredConcepts": [
+        "sum",
+        "coalesce"
+      ]
+    },
+    "section": "8.3"
   },
   {
-    "id": "q-u8-having-joined-001", "type": "write_sql", "unit": "U8", "lessonId": "U8-join-aggregate", "conceptTags": ["join", "group-by", "having", "count"], "difficulty": 4,
+    "id": "q-u8-having-joined-001",
+    "type": "write_sql",
+    "unit": "U8",
+    "lessonId": "U8-join-aggregate",
+    "conceptTags": [
+      "join",
+      "group-by",
+      "having",
+      "count"
+    ],
+    "difficulty": 4,
     "tr": {
       "title": "En az 3 kaydı olan dersler (JOIN + HAVING)",
       "prompt": "enrollments ve courses'u birleştir (e.course_id = courses.id). Yalnızca EN AZ 3 kaydı olan dersleri, adlarıyla ve kayıt sayılarıyla getir. Sonuçta iki sütun olsun, bu sırayla: ders (courses.name) ve kayit. Sonucu courses.id'ye göre artan sırala.",
       "hint1": "JOIN courses, GROUP BY c.id, c.name, HAVING COUNT(*) >= 3.",
       "answerExplanation": "Önce join + gruplama, sonra HAVING COUNT(*) >= 3 ile grupları süzeriz. HAVING aggregate sonucuna göre çalışır; WHERE bunu yapamaz."
     },
-    "assessment": { "referenceSql": "SELECT c.name AS ders, COUNT(*) AS kayit FROM enrollments e JOIN courses c ON c.id = e.course_id GROUP BY c.id, c.name HAVING COUNT(*) >= 3 ORDER BY c.id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["ders", "kayit"], "requiredConcepts": ["join", "group-by", "having", "count"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT c.name AS ders, COUNT(*) AS kayit FROM enrollments e JOIN courses c ON c.id = e.course_id GROUP BY c.id, c.name HAVING COUNT(*) >= 3 ORDER BY c.id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "ders",
+        "kayit"
+      ],
+      "requiredConcepts": [
+        "join",
+        "group-by",
+        "having",
+        "count"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "8.1"
   },
   {
-    "id": "q-u8-three-table-revenue-001", "type": "write_sql", "unit": "U8", "lessonId": "U8-join-aggregate", "conceptTags": ["join", "group-by", "sum", "where"], "difficulty": 4,
+    "id": "q-u8-three-table-revenue-001",
+    "type": "write_sql",
+    "unit": "U8",
+    "lessonId": "U8-join-aggregate",
+    "conceptTags": [
+      "join",
+      "group-by",
+      "sum",
+      "where"
+    ],
+    "difficulty": 4,
     "tr": {
       "title": "3 tablo + WHERE: tamamlanan siparişlerde ürün cirosu",
       "prompt": "order_items, orders ve products tablolarını birleştir (oi.order_id = orders.id, oi.product_id = products.id). YALNIZCA status'u 'completed' olan siparişlerdeki satışları say. Her ürünün bu tamamlanmış siparişlerdeki toplam cirosunu (quantity çarpı unit_price toplamı, 2 ondalık) getir. Sonuçta iki sütun olsun, bu sırayla: urun (products.name) ve ciro. Sonucu ciro'ya göre büyükten küçüğe; eşitlikte products.id'ye göre artan sırala.",
       "hint1": "İki JOIN (orders ve products), WHERE o.status = 'completed', GROUP BY p.id, p.name, ROUND(SUM(oi.quantity*oi.unit_price),2).",
       "answerExplanation": "order_items'i hem orders'a (durum filtresi için) hem products'a (ürün adı için) bağlarız; WHERE ile completed'ı süzer, ürüne göre gruplayıp ciroyu toplarız. Çok tablolu ciro hesabının tipik kalıbı."
     },
-    "assessment": { "referenceSql": "SELECT p.name AS urun, ROUND(SUM(oi.quantity * oi.unit_price), 2) AS ciro FROM order_items oi JOIN orders o ON o.id = oi.order_id JOIN products p ON p.id = oi.product_id WHERE o.status = 'completed' GROUP BY p.id, p.name ORDER BY ciro DESC, p.id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["urun", "ciro"], "numericTolerance": 0.01, "requiredConcepts": ["join", "group-by", "sum"], "allowedLiterals": ["completed"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT p.name AS urun, ROUND(SUM(oi.quantity * oi.unit_price), 2) AS ciro FROM order_items oi JOIN orders o ON o.id = oi.order_id JOIN products p ON p.id = oi.product_id WHERE o.status = 'completed' GROUP BY p.id, p.name ORDER BY ciro DESC, p.id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "urun",
+        "ciro"
+      ],
+      "numericTolerance": 0.01,
+      "requiredConcepts": [
+        "join",
+        "group-by",
+        "sum"
+      ],
+      "allowedLiterals": [
+        "completed"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "8.4"
   },
   {
-    "id": "q-u8-mc-left-count-001", "type": "multiple_choice", "unit": "U8", "lessonId": "U8-join-aggregate", "conceptTags": ["left-join", "count", "null"], "difficulty": 4,
+    "id": "q-u8-mc-left-count-001",
+    "type": "multiple_choice",
+    "unit": "U8",
+    "lessonId": "U8-join-aggregate",
+    "conceptTags": [
+      "left-join",
+      "count",
+      "null"
+    ],
+    "difficulty": 4,
     "tr": {
       "title": "LEFT JOIN'de üyesiz grubu doğru saymak",
       "prompt": "clubs LEFT JOIN club_memberships yaptın ve üyesi olmayan kulüplerin üye sayısının 0 çıkmasını istiyorsun. Hangisini kullanmalısın?",
       "hint1": "Üyesiz kulüpte LEFT JOIN tek bir NULL satır üretir; COUNT(*) ne sayar?",
       "answerExplanation": "COUNT(cm.student_id) kullanmalısın: LEFT JOIN üyesiz kulüpte bir NULL satır üretir; COUNT(*) o satırı 1 sayar (yanlış), COUNT(cm.student_id) NULL'ı saymaz ve doğru şekilde 0 verir."
     },
-    "choices": ["COUNT(*) (her zaman doğrudur)", "SUM(cm.student_id)", "COUNT(DISTINCT *)", "COUNT(cm.student_id) (NULL'ı saymaz, üyesiz kulüpte 0 verir)"], "correctIndex": 3
+    "choices": [
+      "COUNT(*) (her zaman doğrudur)",
+      "SUM(cm.student_id)",
+      "COUNT(DISTINCT *)",
+      "COUNT(cm.student_id) (NULL'ı saymaz, üyesiz kulüpte 0 verir)"
+    ],
+    "correctIndex": 3,
+    "section": "8.2"
   },
   {
-    "id": "q-u8-mc-sum-inflation-fix-001", "type": "multiple_choice", "unit": "U8", "lessonId": "U8-join-aggregate", "conceptTags": ["grain", "sum", "trap"], "difficulty": 4,
+    "id": "q-u8-mc-sum-inflation-fix-001",
+    "type": "multiple_choice",
+    "unit": "U8",
+    "lessonId": "U8-join-aggregate",
+    "conceptTags": [
+      "grain",
+      "sum",
+      "trap"
+    ],
+    "difficulty": 4,
     "tr": {
       "title": "SUM şişmesini önlemenin yolu",
       "prompt": "students ile enrollments'ı JOIN edip SUM(scholarship_amount) hesaplayınca toplam, gerçek burs toplamından büyük (şişik) çıkıyor. En sağlam çözüm hangisidir?",
       "hint1": "Burs hangi seviyenin (grain) değeri? Öğrencinin mi, kaydın mı?",
       "answerExplanation": "Burs öğrenci seviyesinin değeridir; bu yüzden JOIN'siz, doğrudan öğrenci seviyesinde toplanmalı (ya da JOIN'den önce öğrenci başına teklenmelidir). JOIN, öğrenciyi kayıt sayısı kadar çoğaltıp bursu tekrar tekrar topladığı için şişmeye yol açar."
     },
-    "choices": ["Bursu öğrenci seviyesinde (JOIN'siz) toplamak", "DISTINCT SUM kullanmak", "WHERE eklemek", "ORDER BY ile düzeltmek"], "correctIndex": 0
+    "choices": [
+      "Bursu öğrenci seviyesinde (JOIN'siz) toplamak",
+      "DISTINCT SUM kullanmak",
+      "WHERE eklemek",
+      "ORDER BY ile düzeltmek"
+    ],
+    "correctIndex": 0,
+    "section": "8.3"
   }
 ]

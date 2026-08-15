@@ -1,6 +1,15 @@
 [
   {
-    "id": "q-u7-mm-students-clubs-001", "type": "write_sql", "unit": "U7", "lessonId": "U7-join2", "conceptTags": ["join", "many-to-many", "bridge"], "difficulty": 2,
+    "id": "q-u7-mm-students-clubs-001",
+    "type": "write_sql",
+    "unit": "U7",
+    "lessonId": "U7-join2",
+    "conceptTags": [
+      "join",
+      "many-to-many",
+      "bridge"
+    ],
+    "difficulty": 2,
     "tr": {
       "title": "Öğrenci-kulüp üyelikleri (köprü tablo)",
       "prompt": "students, club_memberships ve clubs tablolarını birleştir. club_memberships bir KÖPRÜ (ara) tablodur: hangi öğrencinin hangi kulüpte olduğunu tutar (cm.student_id = students.id, cm.club_id = clubs.id). Her üyelik için öğrencinin adını ve kulübün adını getir. Sonuçta iki sütun olsun, bu sırayla: first_name ve kulup (clubs.name). Sonucu önce student_id'ye göre artan, sonra club_id'ye göre artan sırala.",
@@ -8,30 +17,100 @@
       "hint2": "FROM club_memberships cm JOIN students s ON s.id = cm.student_id JOIN clubs cl ON cl.id = cm.club_id",
       "answerExplanation": "Çok-çoğa ilişki (bir öğrenci çok kulüpte, bir kulüpte çok öğrenci) köprü tabloyla çözülür. Köprüden iki ana tabloya JOIN yaparak isimleri yan yana getiririz."
     },
-    "assessment": { "referenceSql": "SELECT s.first_name, cl.name AS kulup FROM club_memberships cm JOIN students s ON s.id = cm.student_id JOIN clubs cl ON cl.id = cm.club_id ORDER BY cm.student_id ASC, cm.club_id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["first_name", "kulup"], "requiredConcepts": ["join"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT s.first_name, cl.name AS kulup FROM club_memberships cm JOIN students s ON s.id = cm.student_id JOIN clubs cl ON cl.id = cm.club_id ORDER BY cm.student_id ASC, cm.club_id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "first_name",
+        "kulup"
+      ],
+      "requiredConcepts": [
+        "join"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "7.2"
   },
   {
-    "id": "q-u7-mm-students-courses-001", "type": "write_sql", "unit": "U7", "lessonId": "U7-join2", "conceptTags": ["join", "many-to-many", "bridge"], "difficulty": 2,
+    "id": "q-u7-mm-students-courses-001",
+    "type": "write_sql",
+    "unit": "U7",
+    "lessonId": "U7-join2",
+    "conceptTags": [
+      "join",
+      "many-to-many",
+      "bridge"
+    ],
+    "difficulty": 2,
     "tr": {
       "title": "Öğrenci-ders kayıtları (köprü tablo)",
       "prompt": "enrollments köprü tablosunu kullanarak students ve courses'u birleştir (e.student_id = students.id, e.course_id = courses.id). Her kayıt için öğrencinin adını ve dersin adını getir. Sonuçta iki sütun olsun, bu sırayla: first_name ve ders (courses.name). Sonucu önce student_id'ye göre artan, sonra course_id'ye göre artan sırala.",
       "hint1": "FROM enrollments e JOIN students s ON s.id = e.student_id JOIN courses c ON c.id = e.course_id.",
       "answerExplanation": "Öğrenci-ders çok-çoğa ilişkisi enrollments köprüsüyle tutulur; iki JOIN ile her kaydın öğrenci ve ders adını birlikte getiririz."
     },
-    "assessment": { "referenceSql": "SELECT s.first_name, c.name AS ders FROM enrollments e JOIN students s ON s.id = e.student_id JOIN courses c ON c.id = e.course_id ORDER BY e.student_id ASC, e.course_id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["first_name", "ders"], "requiredConcepts": ["join"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT s.first_name, c.name AS ders FROM enrollments e JOIN students s ON s.id = e.student_id JOIN courses c ON c.id = e.course_id ORDER BY e.student_id ASC, e.course_id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "first_name",
+        "ders"
+      ],
+      "requiredConcepts": [
+        "join"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "7.2"
   },
   {
-    "id": "q-u7-events-clubs-001", "type": "write_sql", "unit": "U7", "lessonId": "U7-join2", "conceptTags": ["join", "inner-join"], "difficulty": 2,
+    "id": "q-u7-events-clubs-001",
+    "type": "write_sql",
+    "unit": "U7",
+    "lessonId": "U7-join2",
+    "conceptTags": [
+      "join",
+      "inner-join"
+    ],
+    "difficulty": 2,
     "tr": {
       "title": "Etkinlik ve düzenleyen kulüp",
       "prompt": "events ve clubs tablolarını birleştir (events.club_id = clubs.id). Her etkinliğin başlığını ve onu düzenleyen kulübün adını getir. Sonuçta iki sütun olsun, bu sırayla: baslik (events.title) ve kulup (clubs.name). Sonucu events.id'ye göre artan sırala.",
       "hint1": "JOIN clubs cl ON cl.id = ev.club_id.",
       "answerExplanation": "Her etkinlik bir kulübe bağlıdır; club_id ile clubs.id eşleştirilerek kulüp adı etkinliğe eklenir."
     },
-    "assessment": { "referenceSql": "SELECT ev.title AS baslik, cl.name AS kulup FROM events ev JOIN clubs cl ON cl.id = ev.club_id ORDER BY ev.id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["baslik", "kulup"], "requiredConcepts": ["join"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT ev.title AS baslik, cl.name AS kulup FROM events ev JOIN clubs cl ON cl.id = ev.club_id ORDER BY ev.id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "baslik",
+        "kulup"
+      ],
+      "requiredConcepts": [
+        "join"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "7.1"
   },
   {
-    "id": "q-u7-self-mentor-inner-001", "type": "write_sql", "unit": "U7", "lessonId": "U7-join2", "conceptTags": ["join", "self-join"], "difficulty": 3,
+    "id": "q-u7-self-mentor-inner-001",
+    "type": "write_sql",
+    "unit": "U7",
+    "lessonId": "U7-join2",
+    "conceptTags": [
+      "join",
+      "self-join"
+    ],
+    "difficulty": 3,
     "tr": {
       "title": "Eğitmen ve mentoru (self-join)",
       "prompt": "instructors tablosunu KENDİSİYLE birleştir (self-join): her eğitmenin mentor_id'si yine bir eğitmenin id'sidir (instructors.mentor_id = instructors.id). Mentoru olan her eğitmen için, eğitmenin adını ve mentorunun adını getir. Mentoru olmayanlar gelmesin (INNER JOIN). Sonuçta iki sütun olsun, bu sırayla: egitmen (eğitmenin first_name'i) ve mentor (mentorun first_name'i). Sonucu eğitmenin id'sine göre artan sırala.",
@@ -39,70 +118,242 @@
       "hint2": "i 'çalışan eğitmen', m 'mentor' rolünde aynı tablodur.",
       "answerExplanation": "Self-join, bir tabloyu kendisiyle birleştirmektir; iki farklı takma ad (i ve m) ile aynı tabloyu iki rolde kullanırız. i.mentor_id, m.id ile eşleşir. INNER olduğu için mentoru olmayan eğitmenler gelmez."
     },
-    "assessment": { "referenceSql": "SELECT i.first_name AS egitmen, m.first_name AS mentor FROM instructors i JOIN instructors m ON m.id = i.mentor_id ORDER BY i.id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["egitmen", "mentor"], "requiredConcepts": ["join"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT i.first_name AS egitmen, m.first_name AS mentor FROM instructors i JOIN instructors m ON m.id = i.mentor_id ORDER BY i.id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "egitmen",
+        "mentor"
+      ],
+      "requiredConcepts": [
+        "join"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "7.3"
   },
   {
-    "id": "q-u7-self-mentor-left-001", "type": "write_sql", "unit": "U7", "lessonId": "U7-join2", "conceptTags": ["join", "self-join", "left-join", "null"], "difficulty": 3,
+    "id": "q-u7-self-mentor-left-001",
+    "type": "write_sql",
+    "unit": "U7",
+    "lessonId": "U7-join2",
+    "conceptTags": [
+      "join",
+      "self-join",
+      "left-join",
+      "null"
+    ],
+    "difficulty": 3,
     "tr": {
       "title": "TÜM eğitmenler + (varsa) mentor",
       "prompt": "instructors tablosunu kendisiyle LEFT JOIN ile birleştir: TÜM eğitmenleri getir, mentoru olmayan eğitmende mentor adı NULL olsun. Sonuçta iki sütun olsun, bu sırayla: egitmen (i.first_name) ve mentor (m.first_name). Sonucu eğitmenin id'sine göre artan sırala.",
       "hint1": "FROM instructors i LEFT JOIN instructors m ON m.id = i.mentor_id.",
       "answerExplanation": "LEFT self-join, eğitmenlerin hepsini korur; mentoru olmayanda (mentor_id NULL) mentor sütunu NULL gelir. Bir önceki INNER soruda kaybolan eğitmenler burada geri gelir."
     },
-    "assessment": { "referenceSql": "SELECT i.first_name AS egitmen, m.first_name AS mentor FROM instructors i LEFT JOIN instructors m ON m.id = i.mentor_id ORDER BY i.id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["egitmen", "mentor"], "requiredConcepts": ["left-join"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT i.first_name AS egitmen, m.first_name AS mentor FROM instructors i LEFT JOIN instructors m ON m.id = i.mentor_id ORDER BY i.id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "egitmen",
+        "mentor"
+      ],
+      "requiredConcepts": [
+        "left-join"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "7.3"
   },
   {
-    "id": "q-u7-student-courses-where-001", "type": "write_sql", "unit": "U7", "lessonId": "U7-join2", "conceptTags": ["join", "many-to-many", "where"], "difficulty": 3,
+    "id": "q-u7-student-courses-where-001",
+    "type": "write_sql",
+    "unit": "U7",
+    "lessonId": "U7-join2",
+    "conceptTags": [
+      "join",
+      "many-to-many",
+      "where"
+    ],
+    "difficulty": 3,
     "tr": {
       "title": "Bir öğrencinin dersleri",
       "prompt": "id'si 1 olan öğrencinin kayıtlı olduğu derslerin adlarını getir. enrollments ve courses'u birleştir (e.course_id = courses.id) ve yalnız e.student_id = 1 olan kayıtları al. Sonuçta tek sütun olsun: ders (courses.name). Sonucu course_id'ye göre artan sırala.",
       "hint1": "JOIN courses c ON c.id = e.course_id, sonra WHERE e.student_id = 1.",
       "answerExplanation": "Köprü tablodan (enrollments) tek bir öğrenciye süzüp courses ile birleştirerek o öğrencinin derslerini buluruz."
     },
-    "assessment": { "referenceSql": "SELECT c.name AS ders FROM enrollments e JOIN courses c ON c.id = e.course_id WHERE e.student_id = 1 ORDER BY e.course_id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["ders"], "requiredConcepts": ["join"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT c.name AS ders FROM enrollments e JOIN courses c ON c.id = e.course_id WHERE e.student_id = 1 ORDER BY e.course_id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "ders"
+      ],
+      "requiredConcepts": [
+        "join"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "7.2"
   },
   {
-    "id": "q-u7-clubs-per-student-001", "type": "write_sql", "unit": "U7", "lessonId": "U7-join2", "conceptTags": ["join", "many-to-many", "group-by", "count"], "difficulty": 3,
+    "id": "q-u7-clubs-per-student-001",
+    "type": "write_sql",
+    "unit": "U7",
+    "lessonId": "U7-join2",
+    "conceptTags": [
+      "join",
+      "many-to-many",
+      "group-by",
+      "count"
+    ],
+    "difficulty": 3,
     "tr": {
       "title": "Öğrenci başına kulüp sayısı",
       "prompt": "Her öğrencinin KAÇ kulübe üye olduğunu bul. club_memberships ile students'ı birleştir (cm.student_id = students.id), öğrenciye göre grupla ve üyelik say. Sonuçta iki sütun olsun, bu sırayla: first_name ve kulup_sayisi. (Hiç kulübe üye olmayan öğrenciler bu listede olmayabilir; INNER yeterli.) Sonucu öğrencinin id'sine göre artan sırala.",
       "hint1": "JOIN students, GROUP BY s.id, s.first_name, COUNT(*).",
       "answerExplanation": "Köprü tabloyu öğrenciye göre gruplayıp sayınca, her öğrencinin üyelik sayısını buluruz. Bu, çok-çoğa ilişkide 'her birinin kaç bağlantısı var' sorusudur."
     },
-    "assessment": { "referenceSql": "SELECT s.first_name, COUNT(*) AS kulup_sayisi FROM club_memberships cm JOIN students s ON s.id = cm.student_id GROUP BY s.id, s.first_name ORDER BY s.id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["first_name", "kulup_sayisi"], "requiredConcepts": ["join", "group-by", "count"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT s.first_name, COUNT(*) AS kulup_sayisi FROM club_memberships cm JOIN students s ON s.id = cm.student_id GROUP BY s.id, s.first_name ORDER BY s.id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "first_name",
+        "kulup_sayisi"
+      ],
+      "requiredConcepts": [
+        "join",
+        "group-by",
+        "count"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "7.2"
   },
   {
-    "id": "q-u7-courses-per-student-001", "type": "write_sql", "unit": "U7", "lessonId": "U7-join2", "conceptTags": ["join", "many-to-many", "group-by", "count"], "difficulty": 3,
+    "id": "q-u7-courses-per-student-001",
+    "type": "write_sql",
+    "unit": "U7",
+    "lessonId": "U7-join2",
+    "conceptTags": [
+      "join",
+      "many-to-many",
+      "group-by",
+      "count"
+    ],
+    "difficulty": 3,
     "tr": {
       "title": "Öğrenci başına ders sayısı",
       "prompt": "Her öğrencinin KAÇ derse kayıtlı olduğunu bul. enrollments ile students'ı birleştir (e.student_id = students.id), öğrenciye göre grupla ve kayıt say. Sonuçta iki sütun olsun, bu sırayla: first_name ve ders_sayisi. Sonucu öğrencinin id'sine göre artan sırala.",
       "hint1": "JOIN students, GROUP BY s.id, s.first_name, COUNT(*).",
       "answerExplanation": "enrollments köprüsünü öğrenciye göre gruplayıp sayarak her öğrencinin ders sayısını buluruz."
     },
-    "assessment": { "referenceSql": "SELECT s.first_name, COUNT(*) AS ders_sayisi FROM enrollments e JOIN students s ON s.id = e.student_id GROUP BY s.id, s.first_name ORDER BY s.id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["first_name", "ders_sayisi"], "requiredConcepts": ["join", "group-by", "count"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT s.first_name, COUNT(*) AS ders_sayisi FROM enrollments e JOIN students s ON s.id = e.student_id GROUP BY s.id, s.first_name ORDER BY s.id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "first_name",
+        "ders_sayisi"
+      ],
+      "requiredConcepts": [
+        "join",
+        "group-by",
+        "count"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "7.2"
   },
   {
-    "id": "q-u7-fanout-rows-001", "type": "write_sql", "unit": "U7", "lessonId": "U7-join2", "conceptTags": ["join", "grain", "fan-out"], "difficulty": 4,
+    "id": "q-u7-fanout-rows-001",
+    "type": "write_sql",
+    "unit": "U7",
+    "lessonId": "U7-join2",
+    "conceptTags": [
+      "join",
+      "grain",
+      "fan-out"
+    ],
+    "difficulty": 4,
     "tr": {
       "title": "Satır çoğalmasını gözlemle",
       "prompt": "students ile club_memberships'i birleştir (cm.student_id = students.id). Her öğrenci, üye OLDUĞU kulüp SAYISI kadar satır olarak görünür (çok kulüplü öğrencinin adı birden çok kez gelir). Sonuçta iki sütun olsun, bu sırayla: first_name ve club_id. Sonucu önce student_id'ye göre artan, sonra club_id'ye göre artan sırala. Çalıştır ve aynı adın nasıl tekrarlandığını gözlemle.",
       "hint1": "Basit bir JOIN yeter: JOIN club_memberships cm ON cm.student_id = s.id.",
       "answerExplanation": "JOIN, sol tablonun bir satırını sağda eşleşen HER satır için tekrarlar (fan-out / satır çoğalması). 3 kulüpte olan öğrenci 3 satır olur. Bu yüzden JOIN sonrası 'satır sayısı' artık 'öğrenci sayısı' değildir; bir sonraki sorularda buna dikkat."
     },
-    "assessment": { "referenceSql": "SELECT s.first_name, cm.club_id FROM students s JOIN club_memberships cm ON cm.student_id = s.id ORDER BY s.id ASC, cm.club_id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["first_name", "club_id"], "requiredConcepts": ["join"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT s.first_name, cm.club_id FROM students s JOIN club_memberships cm ON cm.student_id = s.id ORDER BY s.id ASC, cm.club_id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "first_name",
+        "club_id"
+      ],
+      "requiredConcepts": [
+        "join"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "7.4"
   },
   {
-    "id": "q-u7-double-count-trap-001", "type": "write_sql", "unit": "U7", "lessonId": "U7-join2", "conceptTags": ["join", "grain", "count", "trap"], "difficulty": 4,
+    "id": "q-u7-double-count-trap-001",
+    "type": "write_sql",
+    "unit": "U7",
+    "lessonId": "U7-join2",
+    "conceptTags": [
+      "join",
+      "grain",
+      "count",
+      "trap"
+    ],
+    "difficulty": 4,
     "tr": {
       "title": "TUZAK: JOIN sonrası COUNT(*) neyi sayar?",
       "prompt": "students ile enrollments'ı birleştir (e.student_id = students.id) ve oluşan TOPLAM satır sayısını getir (COUNT(*)). Sonuç tek sütun olsun, adı satir_sayisi olsun. Sonra düşün: bu sayı öğrenci sayısı mı, yoksa kayıt sayısı mı?",
       "hint1": "SELECT COUNT(*) AS satir_sayisi FROM students s JOIN enrollments e ON e.student_id = s.id.",
       "answerExplanation": "JOIN her öğrenciyi kayıt sayısı kadar çoğalttığı için, COUNT(*) ÖĞRENCİ sayısını değil KAYIT sayısını verir. Birden çok derse kayıtlı öğrenci defalarca sayılır. 'Kaç öğrenci' istiyorsan COUNT(DISTINCT s.id) kullanmalısın (sonraki soru)."
     },
-    "assessment": { "referenceSql": "SELECT COUNT(*) AS satir_sayisi FROM students s JOIN enrollments e ON e.student_id = s.id;", "compareMode": "multiset", "expectedColumns": ["satir_sayisi"], "requiredConcepts": ["join", "count"] }
+    "assessment": {
+      "referenceSql": "SELECT COUNT(*) AS satir_sayisi FROM students s JOIN enrollments e ON e.student_id = s.id;",
+      "compareMode": "multiset",
+      "expectedColumns": [
+        "satir_sayisi"
+      ],
+      "requiredConcepts": [
+        "join",
+        "count"
+      ]
+    },
+    "section": "7.4"
   },
   {
-    "id": "q-u7-distinct-fix-001", "type": "write_sql", "unit": "U7", "lessonId": "U7-join2", "conceptTags": ["join", "grain", "count", "distinct"], "difficulty": 4,
+    "id": "q-u7-distinct-fix-001",
+    "type": "write_sql",
+    "unit": "U7",
+    "lessonId": "U7-join2",
+    "conceptTags": [
+      "join",
+      "grain",
+      "count",
+      "distinct"
+    ],
+    "difficulty": 4,
     "tr": {
       "title": "Çift saymayı DISTINCT ile düzelt",
       "prompt": "students ile enrollments'ı birleştirdikten sonra, kaç FARKLI öğrencinin en az bir kaydı olduğunu bul (yani gerçek öğrenci sayısı, çoğalmadan etkilenmeden). Sonuç tek sütun olsun, adı kayitli_ogrenci olsun.",
@@ -110,20 +361,68 @@
       "hint2": "SELECT COUNT(DISTINCT s.id) AS kayitli_ogrenci FROM students s JOIN enrollments e ON e.student_id = s.id;",
       "answerExplanation": "COUNT(DISTINCT s.id), aynı öğrenci kaç kez çoğalmış olursa olsun onu BİR kez sayar. Böylece JOIN'in satır çoğaltma etkisini düzeltip gerçek öğrenci sayısını buluruz."
     },
-    "assessment": { "referenceSql": "SELECT COUNT(DISTINCT s.id) AS kayitli_ogrenci FROM students s JOIN enrollments e ON e.student_id = s.id;", "compareMode": "multiset", "expectedColumns": ["kayitli_ogrenci"], "requiredConcepts": ["join", "count", "distinct"] }
+    "assessment": {
+      "referenceSql": "SELECT COUNT(DISTINCT s.id) AS kayitli_ogrenci FROM students s JOIN enrollments e ON e.student_id = s.id;",
+      "compareMode": "multiset",
+      "expectedColumns": [
+        "kayitli_ogrenci"
+      ],
+      "requiredConcepts": [
+        "join",
+        "count",
+        "distinct"
+      ]
+    },
+    "section": "7.4"
   },
   {
-    "id": "q-u7-self-mentee-count-001", "type": "write_sql", "unit": "U7", "lessonId": "U7-join2", "conceptTags": ["join", "self-join", "group-by", "count"], "difficulty": 4,
+    "id": "q-u7-self-mentee-count-001",
+    "type": "write_sql",
+    "unit": "U7",
+    "lessonId": "U7-join2",
+    "conceptTags": [
+      "join",
+      "self-join",
+      "group-by",
+      "count"
+    ],
+    "difficulty": 4,
     "tr": {
       "title": "Mentor başına öğrenci sayısı (self-join + grup)",
       "prompt": "Her mentorun KAÇ eğitmene mentorluk ettiğini bul. instructors'ı kendisiyle birleştir (i.mentor_id = m.id, m mentor rolünde), mentora göre grupla ve say. Sonuçta iki sütun olsun, bu sırayla: mentor (m.first_name) ve mentee_sayisi. Sonucu mentorun id'sine göre artan sırala.",
       "hint1": "instructors i JOIN instructors m ON m.id = i.mentor_id, sonra GROUP BY m.id, m.first_name.",
       "answerExplanation": "Self-join'de m mentor rolündedir; ona bağlı (i) eğitmenleri gruplayıp sayarsak her mentorun kaç öğrencisi olduğunu buluruz."
     },
-    "assessment": { "referenceSql": "SELECT m.first_name AS mentor, COUNT(*) AS mentee_sayisi FROM instructors i JOIN instructors m ON m.id = i.mentor_id GROUP BY m.id, m.first_name ORDER BY m.id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["mentor", "mentee_sayisi"], "requiredConcepts": ["join", "group-by", "count"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT m.first_name AS mentor, COUNT(*) AS mentee_sayisi FROM instructors i JOIN instructors m ON m.id = i.mentor_id GROUP BY m.id, m.first_name ORDER BY m.id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "mentor",
+        "mentee_sayisi"
+      ],
+      "requiredConcepts": [
+        "join",
+        "group-by",
+        "count"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "7.3"
   },
   {
-    "id": "q-u7-distinct-members-001", "type": "write_sql", "unit": "U7", "lessonId": "U7-join2", "conceptTags": ["join", "distinct", "grain"], "difficulty": 4,
+    "id": "q-u7-distinct-members-001",
+    "type": "write_sql",
+    "unit": "U7",
+    "lessonId": "U7-join2",
+    "conceptTags": [
+      "join",
+      "distinct",
+      "grain"
+    ],
+    "difficulty": 4,
     "tr": {
       "title": "Üye olan öğrenciler (tekrarsız)",
       "prompt": "En az bir kulübe üye olan öğrencilerin TEKRARSIZ listesini getir. club_memberships ile students'ı birleştir; çok kulüplü öğrenci bir kez görünsün. Sonuçta iki sütun olsun, bu sırayla: student_id (s.id) ve first_name. Sonucu student_id'ye göre artan sırala.",
@@ -131,26 +430,72 @@
       "hint2": "SELECT DISTINCT s.id AS student_id, s.first_name FROM club_memberships cm JOIN students s ON s.id = cm.student_id ORDER BY s.id;",
       "answerExplanation": "JOIN çok kulüplü öğrenciyi birden çok satıra çoğaltır; DISTINCT bu tekrarları teke indirir, böylece 'üye olan öğrenciler' listesi her öğrenciyi bir kez içerir."
     },
-    "assessment": { "referenceSql": "SELECT DISTINCT s.id AS student_id, s.first_name FROM club_memberships cm JOIN students s ON s.id = cm.student_id ORDER BY s.id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["student_id", "first_name"], "requiredConcepts": ["join", "distinct"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT DISTINCT s.id AS student_id, s.first_name FROM club_memberships cm JOIN students s ON s.id = cm.student_id ORDER BY s.id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "student_id",
+        "first_name"
+      ],
+      "requiredConcepts": [
+        "join",
+        "distinct"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "7.4"
   },
   {
-    "id": "q-u7-mc-row-meaning-001", "type": "multiple_choice", "unit": "U7", "lessonId": "U7-join2", "conceptTags": ["grain"], "difficulty": 3,
+    "id": "q-u7-mc-row-meaning-001",
+    "type": "multiple_choice",
+    "unit": "U7",
+    "lessonId": "U7-join2",
+    "conceptTags": [
+      "grain"
+    ],
+    "difficulty": 3,
     "tr": {
       "title": "JOIN sonrası bir satır neyi temsil eder?",
       "prompt": "students INNER JOIN enrollments yaptın. Sonuçtaki BİR satır neyi temsil eder?",
       "hint1": "Eşleşme hangi seviyede oluyor?",
       "answerExplanation": "Her satır bir öğrenci-ders KAYDINI (tek bir enrollment'ı) temsil eder, tek bir öğrenciyi değil. Bir öğrenci birden çok derse kayıtlıysa o öğrenci birden çok satırda görünür. Bu 'grain' (seviye) farkı, JOIN'lerde en kritik kavramdır."
     },
-    "choices": ["Tek bir öğrenciyi", "Bir öğrenci-ders kaydını (tek bir enrollment'ı)", "Tek bir dersi", "Tüm öğrencilerin özetini"], "correctIndex": 1
+    "choices": [
+      "Tek bir öğrenciyi",
+      "Bir öğrenci-ders kaydını (tek bir enrollment'ı)",
+      "Tek bir dersi",
+      "Tüm öğrencilerin özetini"
+    ],
+    "correctIndex": 1,
+    "section": "7.4"
   },
   {
-    "id": "q-u7-mc-sum-inflation-001", "type": "multiple_choice", "unit": "U7", "lessonId": "U7-join2", "conceptTags": ["grain", "sum", "trap"], "difficulty": 4,
+    "id": "q-u7-mc-sum-inflation-001",
+    "type": "multiple_choice",
+    "unit": "U7",
+    "lessonId": "U7-join2",
+    "conceptTags": [
+      "grain",
+      "sum",
+      "trap"
+    ],
+    "difficulty": 4,
     "tr": {
       "title": "TUZAK: JOIN sonrası SUM şişmesi",
       "prompt": "Bir öğrenciyi club_memberships ile JOIN ettin (öğrenci 3 kulüpte). Sonra SUM(s.scholarship_amount) hesapladın. Bu öğrencinin bursuna ne olur?",
       "hint1": "Öğrenci kaç satıra çoğaldıysa bursu kaç kez toplanır?",
       "answerExplanation": "JOIN öğrenciyi 3 satıra çoğalttığı için bursu 3 KEZ toplanır; toplam yapay olarak şişer. Bu klasik bir hatadır. Çözüm: ya önce öğrenci seviyesinde topla (subquery/CTE), ya da çoğalmayan bir grain kullan."
     },
-    "choices": ["Bursu doğru bir kez toplanır", "SUM hata verir", "Bursu 3 kez toplanır; SUM yapay olarak şişer", "Bursu 3'e bölünür"], "correctIndex": 2
+    "choices": [
+      "Bursu doğru bir kez toplanır",
+      "SUM hata verir",
+      "Bursu 3 kez toplanır; SUM yapay olarak şişer",
+      "Bursu 3'e bölünür"
+    ],
+    "correctIndex": 2,
+    "section": "7.4"
   }
 ]

@@ -39,6 +39,11 @@ export const questionSchema = z
     type: z.enum(QUESTION_TYPES),
     unit: z.enum(UNITS),
     lessonId: z.string(),
+    // Alt ders numarası ("G.2", "6.1"): ders dosyasındaki "## Ders G.2 — ..." ile aynı.
+    // Öğretmen sadece işlediği konuların ödevini gönderebilsin diye var. Opsiyonel,
+    // çünkü henüz tüm ünitelerde doldurulmadı; dolu olmayan ünitede konu seçimi
+    // kapalıdır ve arayüz bunu SÖYLER (sessizce tüm üniteyi göndermez).
+    section: z.string().optional(),
     conceptTags: z.array(z.string()).default([]),
     difficulty: z.number().int().min(1).max(4),
     tr: localeText,

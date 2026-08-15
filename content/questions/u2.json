@@ -1,6 +1,14 @@
 [
   {
-    "id": "q-u2-where-istanbul-001", "type": "write_sql", "unit": "U2", "lessonId": "U2-where", "conceptTags": ["where", "equals"], "difficulty": 1,
+    "id": "q-u2-where-istanbul-001",
+    "type": "write_sql",
+    "unit": "U2",
+    "lessonId": "U2-where",
+    "conceptTags": [
+      "where",
+      "equals"
+    ],
+    "difficulty": 1,
     "tr": {
       "title": "Tek koşulla süzmek",
       "prompt": "students tablosundan, city değeri tam olarak 'İstanbul' olan öğrencileri getir. Sonuçta sadece şu iki sütun olsun, bu sırayla: first_name, last_name. Sonucu id sütununa göre küçükten büyüğe sırala.",
@@ -8,10 +16,36 @@
       "hint2": "WHERE city = 'İstanbul' ... ORDER BY id ASC",
       "answerExplanation": "WHERE city = 'İstanbul' yalnız şehri İstanbul olan satırları bırakır. id çıktı sütunu olmasa da onunla sıralayabilirsin."
     },
-    "assessment": { "referenceSql": "SELECT first_name, last_name FROM students WHERE city = 'İstanbul' ORDER BY id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["first_name", "last_name"], "allowedLiterals": ["İstanbul"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT first_name, last_name FROM students WHERE city = 'İstanbul' ORDER BY id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "first_name",
+        "last_name"
+      ],
+      "allowedLiterals": [
+        "İstanbul"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "2.1"
   },
   {
-    "id": "q-u2-null-city-is-null-001", "type": "write_sql", "unit": "U2", "lessonId": "U2-where", "conceptTags": ["where", "null", "is-null", "order-by"], "difficulty": 2, "variantFamily": "null-filtering-basic",
+    "id": "q-u2-null-city-is-null-001",
+    "type": "write_sql",
+    "unit": "U2",
+    "lessonId": "U2-where",
+    "conceptTags": [
+      "where",
+      "null",
+      "is-null",
+      "order-by"
+    ],
+    "difficulty": 2,
+    "variantFamily": "null-filtering-basic",
     "tr": {
       "title": "Şehri bilinmeyen (NULL) öğrenciler",
       "prompt": "students tablosundan, city değeri NULL olan (yani şehri bilinmeyen) öğrencileri getir. Sonuçta sadece şu dört sütun olsun, bu sırayla: id, first_name, last_name, city. Dikkat: boş string ('') olanları değil, gerçekten NULL olanları istiyoruz. Sonucu id'ye göre küçükten büyüğe sırala.",
@@ -19,14 +53,49 @@
       "hint2": "Postgres'te NULL kontrolü IS NULL ile yapılır: WHERE city IS NULL.",
       "answerExplanation": "Doğru çözüm city IS NULL kullanır. city = NULL hiçbir satır döndürmez, çünkü NULL 'bilinmeyen' demektir ve hiçbir şeye (NULL'a bile) eşit sayılmaz."
     },
-    "assessment": { "referenceSql": "SELECT id, first_name, last_name, city FROM students WHERE city IS NULL ORDER BY id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["id", "first_name", "last_name", "city"], "requiredConcepts": ["is-null"], "forbiddenPatterns": ["select_star"] },
+    "assessment": {
+      "referenceSql": "SELECT id, first_name, last_name, city FROM students WHERE city IS NULL ORDER BY id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "first_name",
+        "last_name",
+        "city"
+      ],
+      "requiredConcepts": [
+        "is-null"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
     "commonWrongPatterns": [
-      { "id": "equals_null", "sqlRegex": "=\\s*NULL", "feedback": "NULL değeri = ile kontrol edilmez. 'city = NULL' hiçbir satır getirmez; 'city IS NULL' kullanmalısın." },
-      { "id": "empty_string_instead_of_null", "sqlRegex": "city\\s*=\\s*''", "feedback": "Boş string ('') ile NULL aynı şey değildir. Bu soru gerçekten NULL olan satırları istiyor: city IS NULL." }
-    ]
+      {
+        "id": "equals_null",
+        "sqlRegex": "=\\s*NULL",
+        "feedback": "NULL değeri = ile kontrol edilmez. 'city = NULL' hiçbir satır getirmez; 'city IS NULL' kullanmalısın."
+      },
+      {
+        "id": "empty_string_instead_of_null",
+        "sqlRegex": "city\\s*=\\s*''",
+        "feedback": "Boş string ('') ile NULL aynı şey değildir. Bu soru gerçekten NULL olan satırları istiyor: city IS NULL."
+      }
+    ],
+    "section": "2.5"
   },
   {
-    "id": "q-u2-scholarship-not-null-001", "type": "write_sql", "unit": "U2", "lessonId": "U2-where", "conceptTags": ["where", "null", "is-not-null"], "difficulty": 2, "variantFamily": "null-filtering-basic",
+    "id": "q-u2-scholarship-not-null-001",
+    "type": "write_sql",
+    "unit": "U2",
+    "lessonId": "U2-where",
+    "conceptTags": [
+      "where",
+      "null",
+      "is-not-null"
+    ],
+    "difficulty": 2,
+    "variantFamily": "null-filtering-basic",
     "tr": {
       "title": "Bursu bilinen öğrenciler",
       "prompt": "students tablosundan, scholarship_amount değeri NULL OLMAYAN (yani burs bilgisi girilmiş) öğrencileri getir. Sonuçta sadece id ve first_name sütunları olsun, bu sırayla. Sonucu id'ye göre küçükten büyüğe sırala.",
@@ -34,53 +103,169 @@
       "hint2": "WHERE scholarship_amount IS NOT NULL",
       "answerExplanation": "IS NOT NULL, değeri girilmiş (bilinen) satırları bırakır; NULL (bilinmeyen) olanları eler."
     },
-    "assessment": { "referenceSql": "SELECT id, first_name FROM students WHERE scholarship_amount IS NOT NULL ORDER BY id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["id", "first_name"], "requiredConcepts": ["is-not-null"], "forbiddenPatterns": ["select_star"] },
+    "assessment": {
+      "referenceSql": "SELECT id, first_name FROM students WHERE scholarship_amount IS NOT NULL ORDER BY id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "first_name"
+      ],
+      "requiredConcepts": [
+        "is-not-null"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
     "commonWrongPatterns": [
-      { "id": "not_equals_null", "sqlRegex": "(!=|<>)\\s*NULL", "feedback": "'!= NULL' veya '<> NULL' çalışmaz. 'IS NOT NULL' kullan." }
-    ]
+      {
+        "id": "not_equals_null",
+        "sqlRegex": "(!=|<>)\\s*NULL",
+        "feedback": "'!= NULL' veya '<> NULL' çalışmaz. 'IS NOT NULL' kullan."
+      }
+    ],
+    "section": "2.5"
   },
   {
-    "id": "q-u2-cat-yiyecek-001", "type": "write_sql", "unit": "U2", "lessonId": "U2-where", "conceptTags": ["where", "equals"], "difficulty": 1,
+    "id": "q-u2-cat-yiyecek-001",
+    "type": "write_sql",
+    "unit": "U2",
+    "lessonId": "U2-where",
+    "conceptTags": [
+      "where",
+      "equals"
+    ],
+    "difficulty": 1,
     "tr": {
       "title": "Belirli kategorideki ürünler",
       "prompt": "products tablosundan, category değeri tam olarak 'Yiyecek' olan ürünleri getir. Sonuçta sadece name ve price sütunları olsun, bu sırayla. Sonucu name'e göre A'dan Z'ye sırala.",
       "hint1": "Metin eşitliği: category = 'Yiyecek'.",
       "answerExplanation": "WHERE category = 'Yiyecek' yalnız yiyecek kategorisindeki satırları bırakır; ORDER BY name alfabetik sıralar."
     },
-    "assessment": { "referenceSql": "SELECT name, price FROM products WHERE category = 'Yiyecek' ORDER BY name ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["name", "price"], "allowedLiterals": ["Yiyecek"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT name, price FROM products WHERE category = 'Yiyecek' ORDER BY name ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "name",
+        "price"
+      ],
+      "allowedLiterals": [
+        "Yiyecek"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "2.1"
   },
   {
-    "id": "q-u2-status-completed-001", "type": "write_sql", "unit": "U2", "lessonId": "U2-where", "conceptTags": ["where", "equals"], "difficulty": 1,
+    "id": "q-u2-status-completed-001",
+    "type": "write_sql",
+    "unit": "U2",
+    "lessonId": "U2-where",
+    "conceptTags": [
+      "where",
+      "equals"
+    ],
+    "difficulty": 1,
     "tr": {
       "title": "Tamamlanmış siparişler",
       "prompt": "orders tablosundan, status değeri tam olarak 'completed' olan siparişleri getir. Sonuçta sadece id ve student_id sütunları olsun, bu sırayla. Sonucu id'ye göre küçükten büyüğe sırala.",
       "hint1": "WHERE status = 'completed'",
       "answerExplanation": "Sadece tamamlanmış (completed) siparişleri süzeriz."
     },
-    "assessment": { "referenceSql": "SELECT id, student_id FROM orders WHERE status = 'completed' ORDER BY id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["id", "student_id"], "allowedLiterals": ["completed"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT id, student_id FROM orders WHERE status = 'completed' ORDER BY id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "student_id"
+      ],
+      "allowedLiterals": [
+        "completed"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "2.1"
   },
   {
-    "id": "q-u2-price-gt50-001", "type": "write_sql", "unit": "U2", "lessonId": "U2-where", "conceptTags": ["where", "comparison"], "difficulty": 1,
+    "id": "q-u2-price-gt50-001",
+    "type": "write_sql",
+    "unit": "U2",
+    "lessonId": "U2-where",
+    "conceptTags": [
+      "where",
+      "comparison"
+    ],
+    "difficulty": 1,
     "tr": {
       "title": "Fiyatı 50'den büyük ürünler",
       "prompt": "products tablosundan, price değeri 50'den BÜYÜK (50 dahil değil) olan ürünleri getir. Sonuçta sadece name ve price olsun, bu sırayla. Sonucu price'a göre büyükten küçüğe; fiyatı eşit olanlarda name'e göre artan sırala.",
       "hint1": "Büyüktür işareti: price > 50.",
       "answerExplanation": "price > 50 tam 50 olanı dışarıda bırakır (büyük-eşit için >= kullanılırdı)."
     },
-    "assessment": { "referenceSql": "SELECT name, price FROM products WHERE price > 50 ORDER BY price DESC, name ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["name", "price"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT name, price FROM products WHERE price > 50 ORDER BY price DESC, name ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "name",
+        "price"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "2.1"
   },
   {
-    "id": "q-u2-city-ankara-001", "type": "write_sql", "unit": "U2", "lessonId": "U2-where", "conceptTags": ["where", "equals"], "difficulty": 1,
+    "id": "q-u2-city-ankara-001",
+    "type": "write_sql",
+    "unit": "U2",
+    "lessonId": "U2-where",
+    "conceptTags": [
+      "where",
+      "equals"
+    ],
+    "difficulty": 1,
     "tr": {
       "title": "Ankara'daki öğrenciler",
       "prompt": "students tablosundan, city değeri tam olarak 'Ankara' olan öğrencileri getir. Sonuçta sadece id ve first_name olsun, bu sırayla. Sonucu id'ye göre artan sırala.",
       "hint1": "WHERE city = 'Ankara'",
       "answerExplanation": "Şehri Ankara olan satırları süzeriz."
     },
-    "assessment": { "referenceSql": "SELECT id, first_name FROM students WHERE city = 'Ankara' ORDER BY id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["id", "first_name"], "allowedLiterals": ["Ankara"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT id, first_name FROM students WHERE city = 'Ankara' ORDER BY id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "first_name"
+      ],
+      "allowedLiterals": [
+        "Ankara"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "2.1"
   },
   {
-    "id": "q-u2-between-price-001", "type": "write_sql", "unit": "U2", "lessonId": "U2-where", "conceptTags": ["where", "between"], "difficulty": 2,
+    "id": "q-u2-between-price-001",
+    "type": "write_sql",
+    "unit": "U2",
+    "lessonId": "U2-where",
+    "conceptTags": [
+      "where",
+      "between"
+    ],
+    "difficulty": 2,
     "tr": {
       "title": "Fiyat aralığı (BETWEEN)",
       "prompt": "products tablosundan, price değeri 20 ile 60 ARASINDA olan (her iki uç da dahil: 20 ve 60 da gelsin) ürünleri getir. Sonuçta sadece name ve price olsun, bu sırayla. Sonucu price'a göre artan; fiyat eşitse name'e göre artan sırala.",
@@ -88,20 +273,65 @@
       "hint2": "WHERE price BETWEEN 20 AND 60",
       "answerExplanation": "BETWEEN 20 AND 60, price >= 20 AND price <= 60 ile aynıdır; her iki sınır da dahildir."
     },
-    "assessment": { "referenceSql": "SELECT name, price FROM products WHERE price BETWEEN 20 AND 60 ORDER BY price ASC, name ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["name", "price"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT name, price FROM products WHERE price BETWEEN 20 AND 60 ORDER BY price ASC, name ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "name",
+        "price"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "2.3"
   },
   {
-    "id": "q-u2-in-cities-001", "type": "write_sql", "unit": "U2", "lessonId": "U2-where", "conceptTags": ["where", "in"], "difficulty": 2,
+    "id": "q-u2-in-cities-001",
+    "type": "write_sql",
+    "unit": "U2",
+    "lessonId": "U2-where",
+    "conceptTags": [
+      "where",
+      "in"
+    ],
+    "difficulty": 2,
     "tr": {
       "title": "Birden çok şehir (IN)",
       "prompt": "students tablosundan, city değeri 'İstanbul' VEYA 'Ankara' olan öğrencileri getir. Bunu IN listesiyle yaz. Sonuçta sadece id, first_name, city olsun, bu sırayla. Sonucu id'ye göre artan sırala.",
       "hint1": "WHERE city IN ('İstanbul', 'Ankara') birden çok değeri tek seferde kontrol eder.",
       "answerExplanation": "IN ('İstanbul','Ankara'), city = 'İstanbul' OR city = 'Ankara' ile aynı işi yapar, daha kısadır."
     },
-    "assessment": { "referenceSql": "SELECT id, first_name, city FROM students WHERE city IN ('İstanbul', 'Ankara') ORDER BY id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["id", "first_name", "city"], "allowedLiterals": ["İstanbul", "Ankara"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT id, first_name, city FROM students WHERE city IN ('İstanbul', 'Ankara') ORDER BY id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "first_name",
+        "city"
+      ],
+      "allowedLiterals": [
+        "İstanbul",
+        "Ankara"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "2.3"
   },
   {
-    "id": "q-u2-like-prefix-a-001", "type": "write_sql", "unit": "U2", "lessonId": "U2-where", "conceptTags": ["where", "like"], "difficulty": 2,
+    "id": "q-u2-like-prefix-a-001",
+    "type": "write_sql",
+    "unit": "U2",
+    "lessonId": "U2-where",
+    "conceptTags": [
+      "where",
+      "like"
+    ],
+    "difficulty": 2,
     "tr": {
       "title": "Adı A ile başlayanlar (LIKE)",
       "prompt": "students tablosundan, first_name değeri 'A' harfiyle BAŞLAYAN öğrencileri getir. Sonuçta sadece id ve first_name olsun, bu sırayla. Sonucu id'ye göre artan sırala. (Büyük 'A' ile başlayanlar.)",
@@ -109,40 +339,128 @@
       "hint2": "WHERE first_name LIKE 'A%'",
       "answerExplanation": "'A%' deseni: 'A' ile başlayan ve arkasından herhangi bir şey gelen değerler. LIKE büyük/küçük harfe duyarlıdır."
     },
-    "assessment": { "referenceSql": "SELECT id, first_name FROM students WHERE first_name LIKE 'A%' ORDER BY id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["id", "first_name"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT id, first_name FROM students WHERE first_name LIKE 'A%' ORDER BY id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "first_name"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "2.4"
   },
   {
-    "id": "q-u2-like-city-i-001", "type": "write_sql", "unit": "U2", "lessonId": "U2-where", "conceptTags": ["where", "like"], "difficulty": 2,
+    "id": "q-u2-like-city-i-001",
+    "type": "write_sql",
+    "unit": "U2",
+    "lessonId": "U2-where",
+    "conceptTags": [
+      "where",
+      "like"
+    ],
+    "difficulty": 2,
     "tr": {
       "title": "Şehri 'İ' ile başlayanlar",
       "prompt": "students tablosundan, city değeri 'İ' harfiyle başlayan (İstanbul, İzmir gibi) öğrencileri getir. Sonuçta sadece id, first_name, city olsun, bu sırayla. Sonucu id'ye göre artan sırala.",
       "hint1": "WHERE city LIKE 'İ%'",
       "answerExplanation": "'İ%' deseni şehir adı büyük 'İ' ile başlayan satırları getirir. NULL şehirler bu koşulu sağlamaz, gelmez."
     },
-    "assessment": { "referenceSql": "SELECT id, first_name, city FROM students WHERE city LIKE 'İ%' ORDER BY id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["id", "first_name", "city"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT id, first_name, city FROM students WHERE city LIKE 'İ%' ORDER BY id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "first_name",
+        "city"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "2.4"
   },
   {
-    "id": "q-u2-not-yiyecek-001", "type": "write_sql", "unit": "U2", "lessonId": "U2-where", "conceptTags": ["where", "not", "comparison"], "difficulty": 2,
+    "id": "q-u2-not-yiyecek-001",
+    "type": "write_sql",
+    "unit": "U2",
+    "lessonId": "U2-where",
+    "conceptTags": [
+      "where",
+      "not",
+      "comparison"
+    ],
+    "difficulty": 2,
     "tr": {
       "title": "Yiyecek olmayan ürünler",
       "prompt": "products tablosundan, category değeri 'Yiyecek' OLMAYAN ürünleri getir (eşit değil). Sonuçta sadece name ve category olsun, bu sırayla. Sonucu name'e göre artan sırala. (Bu tabloda category sütunu doludur, NULL yoktur.)",
       "hint1": "Eşit değil işareti <> (veya !=) kullanılır: category <> 'Yiyecek'.",
       "answerExplanation": "category <> 'Yiyecek' yiyecek dışındaki kategorileri bırakır. Not: eğer category NULL olsaydı, <> o NULL satırları getirmezdi."
     },
-    "assessment": { "referenceSql": "SELECT name, category FROM products WHERE category <> 'Yiyecek' ORDER BY name ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["name", "category"], "allowedLiterals": ["Yiyecek"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT name, category FROM products WHERE category <> 'Yiyecek' ORDER BY name ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "name",
+        "category"
+      ],
+      "allowedLiterals": [
+        "Yiyecek"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "2.2"
   },
   {
-    "id": "q-u2-credits-gte3-001", "type": "write_sql", "unit": "U2", "lessonId": "U2-where", "conceptTags": ["where", "comparison"], "difficulty": 2,
+    "id": "q-u2-credits-gte3-001",
+    "type": "write_sql",
+    "unit": "U2",
+    "lessonId": "U2-where",
+    "conceptTags": [
+      "where",
+      "comparison"
+    ],
+    "difficulty": 2,
     "tr": {
       "title": "Kredisi 3 ve üzeri dersler",
       "prompt": "courses tablosundan, credits değeri 3'e EŞİT veya 3'ten BÜYÜK olan dersleri getir. Sonuçta sadece code, name, credits olsun, bu sırayla. Sonucu code'a göre artan sırala.",
       "hint1": "Büyük-eşit için >= kullanılır: credits >= 3.",
       "answerExplanation": "credits >= 3, kredisi 3 ve daha fazla olan dersleri bırakır (3 dahildir)."
     },
-    "assessment": { "referenceSql": "SELECT code, name, credits FROM courses WHERE credits >= 3 ORDER BY code ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["code", "name", "credits"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT code, name, credits FROM courses WHERE credits >= 3 ORDER BY code ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "code",
+        "name",
+        "credits"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "2.1"
   },
   {
-    "id": "q-u2-or-istanbul-izmir-001", "type": "write_sql", "unit": "U2", "lessonId": "U2-where", "conceptTags": ["where", "and", "or", "is-not-null"], "difficulty": 3,
+    "id": "q-u2-or-istanbul-izmir-001",
+    "type": "write_sql",
+    "unit": "U2",
+    "lessonId": "U2-where",
+    "conceptTags": [
+      "where",
+      "and",
+      "or",
+      "is-not-null"
+    ],
+    "difficulty": 3,
     "tr": {
       "title": "İstanbul veya Ankara'lı, bursu bilinen",
       "prompt": "students tablosundan, ŞU İKİ koşulu birden sağlayan öğrencileri getir: (a) city değeri 'İstanbul' VEYA 'Ankara' olsun, (b) AYNI ZAMANDA scholarship_amount değeri NULL olmasın (bursu bilinsin). Sonuçta sadece id, first_name, city olsun, bu sırayla. Sonucu id'ye göre artan sırala.",
@@ -150,70 +468,244 @@
       "hint2": "WHERE (city = 'İstanbul' OR city = 'Ankara') AND scholarship_amount IS NOT NULL",
       "answerExplanation": "OR ile AND birlikteyse parantez şart; (A OR B) AND C demek istiyoruz. Parantezsiz A OR (B AND C) gibi yanlış yorumlanabilir."
     },
-    "assessment": { "referenceSql": "SELECT id, first_name, city FROM students WHERE (city = 'İstanbul' OR city = 'Ankara') AND scholarship_amount IS NOT NULL ORDER BY id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["id", "first_name", "city"], "requiredConcepts": ["is-not-null"], "allowedLiterals": ["İstanbul", "Ankara"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT id, first_name, city FROM students WHERE (city = 'İstanbul' OR city = 'Ankara') AND scholarship_amount IS NOT NULL ORDER BY id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "first_name",
+        "city"
+      ],
+      "requiredConcepts": [
+        "is-not-null"
+      ],
+      "allowedLiterals": [
+        "İstanbul",
+        "Ankara"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "2.2"
   },
   {
-    "id": "q-u2-between-limit-001", "type": "write_sql", "unit": "U2", "lessonId": "U2-where", "conceptTags": ["where", "between", "order-by", "limit"], "difficulty": 3,
+    "id": "q-u2-between-limit-001",
+    "type": "write_sql",
+    "unit": "U2",
+    "lessonId": "U2-where",
+    "conceptTags": [
+      "where",
+      "between",
+      "order-by",
+      "limit"
+    ],
+    "difficulty": 3,
     "tr": {
       "title": "Aralıktaki en pahalı 3 ürün",
       "prompt": "products tablosundan, price değeri 10 ile 100 arasında (iki uç dahil) olan ürünler içinden, EN PAHALI 3 tanesini getir. Sonuçta sadece name ve price olsun, bu sırayla. Sonucu price'a göre büyükten küçüğe; eşit fiyatta name'e göre artan sırala ve yalnızca ilk 3 satırı getir.",
       "hint1": "Önce WHERE price BETWEEN 10 AND 100 ile süz, sonra ORDER BY price DESC, sonra LIMIT 3.",
       "answerExplanation": "Sıralama mantığı: önce aralığı süz, sonra pahalıdan ucuza sırala, sonra ilk 3'ü al. Eşitlikte name ile belirsizliği kırarız."
     },
-    "assessment": { "referenceSql": "SELECT name, price FROM products WHERE price BETWEEN 10 AND 100 ORDER BY price DESC, name ASC LIMIT 3;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["name", "price"], "requiredConcepts": ["limit"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT name, price FROM products WHERE price BETWEEN 10 AND 100 ORDER BY price DESC, name ASC LIMIT 3;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "name",
+        "price"
+      ],
+      "requiredConcepts": [
+        "limit"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "2.3"
   },
   {
-    "id": "q-u2-not-in-status-001", "type": "write_sql", "unit": "U2", "lessonId": "U2-where", "conceptTags": ["where", "not-in"], "difficulty": 3,
+    "id": "q-u2-not-in-status-001",
+    "type": "write_sql",
+    "unit": "U2",
+    "lessonId": "U2-where",
+    "conceptTags": [
+      "where",
+      "not-in"
+    ],
+    "difficulty": 3,
     "tr": {
       "title": "Belirli durumlar HARİÇ (NOT IN)",
       "prompt": "orders tablosundan, status değeri 'cancelled' VE 'pending' OLMAYAN siparişleri getir (yani bu iki durumu hariç tut). Sonuçta sadece id ve status olsun, bu sırayla. Sonucu id'ye göre artan sırala. (Bu tabloda status sütunu doludur, NULL yoktur; bu yüzden NOT IN güvenle kullanılabilir.)",
       "hint1": "WHERE status NOT IN ('cancelled', 'pending')",
       "answerExplanation": "NOT IN listedeki değerleri eler. NOT IN'in NULL ile tehlikeli bir tuzağı vardır (Ü9), ama burada status hiç NULL olmadığı için güvenlidir."
     },
-    "assessment": { "referenceSql": "SELECT id, status FROM orders WHERE status NOT IN ('cancelled', 'pending') ORDER BY id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["id", "status"], "allowedLiterals": ["cancelled", "pending"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT id, status FROM orders WHERE status NOT IN ('cancelled', 'pending') ORDER BY id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "status"
+      ],
+      "allowedLiterals": [
+        "cancelled",
+        "pending"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "2.3"
   },
   {
-    "id": "q-u2-grade-gte80-001", "type": "write_sql", "unit": "U2", "lessonId": "U2-where", "conceptTags": ["where", "comparison", "null"], "difficulty": 3,
+    "id": "q-u2-grade-gte80-001",
+    "type": "write_sql",
+    "unit": "U2",
+    "lessonId": "U2-where",
+    "conceptTags": [
+      "where",
+      "comparison",
+      "null"
+    ],
+    "difficulty": 3,
     "tr": {
       "title": "Notu 80 ve üzeri kayıtlar",
       "prompt": "enrollments tablosundan, grade değeri 80'e eşit veya 80'den büyük olan kayıtları getir. Sonuçta sadece student_id, course_id, grade olsun, bu sırayla. Sonucu grade'e göre büyükten küçüğe; eşit notta student_id'ye göre artan, sonra course_id'ye göre artan sırala. (Notu NULL olan devam eden kayıtlar bu koşulu sağlamaz, gelmez.)",
       "hint1": "WHERE grade >= 80",
       "answerExplanation": "grade >= 80 yüksek notları bırakır. grade NULL olan satırlarda 'NULL >= 80' sonucu bilinmeyen (true değil) olduğu için onlar otomatik elenir."
     },
-    "assessment": { "referenceSql": "SELECT student_id, course_id, grade FROM enrollments WHERE grade >= 80 ORDER BY grade DESC, student_id ASC, course_id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["student_id", "course_id", "grade"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT student_id, course_id, grade FROM enrollments WHERE grade >= 80 ORDER BY grade DESC, student_id ASC, course_id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "student_id",
+        "course_id",
+        "grade"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "2.1"
   },
   {
-    "id": "q-u2-and-completed-001", "type": "write_sql", "unit": "U2", "lessonId": "U2-where", "conceptTags": ["where", "and"], "difficulty": 3,
+    "id": "q-u2-and-completed-001",
+    "type": "write_sql",
+    "unit": "U2",
+    "lessonId": "U2-where",
+    "conceptTags": [
+      "where",
+      "and"
+    ],
+    "difficulty": 3,
     "tr": {
       "title": "İki koşul birden (AND)",
       "prompt": "orders tablosundan, status değeri 'completed' OLAN VE AYNI ZAMANDA student_id değeri 5'e eşit veya 5'ten küçük olan siparişleri getir. Sonuçta sadece id ve student_id olsun, bu sırayla. Sonucu id'ye göre artan sırala.",
       "hint1": "İki koşulu AND ile birleştir: status = 'completed' AND student_id <= 5.",
       "answerExplanation": "AND iki koşulun da aynı anda doğru olmasını ister. Burada hem tamamlanmış hem de student_id'si 5 ve altı olan siparişler kalır."
     },
-    "assessment": { "referenceSql": "SELECT id, student_id FROM orders WHERE status = 'completed' AND student_id <= 5 ORDER BY id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["id", "student_id"], "allowedLiterals": ["completed"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT id, student_id FROM orders WHERE status = 'completed' AND student_id <= 5 ORDER BY id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "student_id"
+      ],
+      "allowedLiterals": [
+        "completed"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "2.2"
   },
   {
-    "id": "q-u2-date-birth-001", "type": "write_sql", "unit": "U2", "lessonId": "U2-where", "conceptTags": ["where", "comparison", "date"], "difficulty": 3,
+    "id": "q-u2-date-birth-001",
+    "type": "write_sql",
+    "unit": "U2",
+    "lessonId": "U2-where",
+    "conceptTags": [
+      "where",
+      "comparison",
+      "date"
+    ],
+    "difficulty": 3,
     "tr": {
       "title": "Belirli tarihten önce doğanlar",
       "prompt": "students tablosundan, birth_date değeri '2005-01-01' tarihinden ÖNCE olan öğrencileri getir. Sonuçta sadece id, first_name, birth_date olsun, bu sırayla. Sonucu birth_date'e göre eskiden yeniye (artan); aynı tarihte id'ye göre artan sırala.",
       "hint1": "Tarihi tek tırnak içinde yazıp karşılaştır: birth_date < '2005-01-01'.",
       "answerExplanation": "Tarihler de < > ile karşılaştırılır. '2005-01-01'den küçük, bu tarihten önce demektir."
     },
-    "assessment": { "referenceSql": "SELECT id, first_name, birth_date FROM students WHERE birth_date < '2005-01-01' ORDER BY birth_date ASC, id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["id", "first_name", "birth_date"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT id, first_name, birth_date FROM students WHERE birth_date < '2005-01-01' ORDER BY birth_date ASC, id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "first_name",
+        "birth_date"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "2.1"
   },
   {
-    "id": "q-u2-trap-neq-excludes-null-001", "type": "write_sql", "unit": "U2", "lessonId": "U2-where", "conceptTags": ["where", "not", "null"], "difficulty": 4, "variantFamily": "neq-null-trap",
+    "id": "q-u2-trap-neq-excludes-null-001",
+    "type": "write_sql",
+    "unit": "U2",
+    "lessonId": "U2-where",
+    "conceptTags": [
+      "where",
+      "not",
+      "null"
+    ],
+    "difficulty": 4,
+    "variantFamily": "neq-null-trap",
     "tr": {
       "title": "TUZAK: '<>' NULL'ları eler",
       "prompt": "students tablosundan, city değeri 'İstanbul' OLMAYAN öğrencileri getir (city <> 'İstanbul'). Sonuçta sadece id, first_name, city olsun, bu sırayla. Sonucu id'ye göre artan sırala. DİKKAT ET: bu koşul şehri NULL olan öğrencileri getirir mi? Çalıştır ve sonucu gözlemle.",
       "hint1": "city <> 'İstanbul' yaz; sonra NULL şehirli öğrencilerin gelip gelmediğine bak.",
       "answerExplanation": "city <> 'İstanbul' NULL şehirli öğrencileri GETİRMEZ. Çünkü 'NULL <> İstanbul' sonucu true değil, bilinmeyendir; WHERE yalnızca true olan satırları geçirir. NULL'ları da istiyorsan ayrıca 'OR city IS NULL' eklemelisin."
     },
-    "assessment": { "referenceSql": "SELECT id, first_name, city FROM students WHERE city <> 'İstanbul' ORDER BY id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["id", "first_name", "city"], "allowedLiterals": ["İstanbul"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT id, first_name, city FROM students WHERE city <> 'İstanbul' ORDER BY id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "first_name",
+        "city"
+      ],
+      "allowedLiterals": [
+        "İstanbul"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "2.5"
   },
   {
-    "id": "q-u2-neq-or-null-001", "type": "write_sql", "unit": "U2", "lessonId": "U2-where", "conceptTags": ["where", "not", "null", "or", "is-null"], "difficulty": 4, "variantFamily": "neq-null-trap",
+    "id": "q-u2-neq-or-null-001",
+    "type": "write_sql",
+    "unit": "U2",
+    "lessonId": "U2-where",
+    "conceptTags": [
+      "where",
+      "not",
+      "null",
+      "or",
+      "is-null"
+    ],
+    "difficulty": 4,
+    "variantFamily": "neq-null-trap",
     "tr": {
       "title": "'İstanbul dışı' VE bilinmeyenler de gelsin",
       "prompt": "students tablosundan, city değeri 'İstanbul' OLMAYAN öğrencilerin yanı sıra şehri BİLİNMEYEN (NULL) öğrencileri DE getir. Yani 'İstanbul dışındakiler + şehri NULL olanlar'. Sonuçta sadece id, first_name, city olsun, bu sırayla. Sonucu id'ye göre artan sırala.",
@@ -221,49 +713,140 @@
       "hint2": "WHERE city <> 'İstanbul' OR city IS NULL",
       "answerExplanation": "Bir önceki sorudaki tuzağın çözümü: <> NULL'ları elediği için, NULL'ları da istiyorsak açıkça 'OR city IS NULL' yazarız."
     },
-    "assessment": { "referenceSql": "SELECT id, first_name, city FROM students WHERE city <> 'İstanbul' OR city IS NULL ORDER BY id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["id", "first_name", "city"], "requiredConcepts": ["is-null"], "allowedLiterals": ["İstanbul"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT id, first_name, city FROM students WHERE city <> 'İstanbul' OR city IS NULL ORDER BY id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "first_name",
+        "city"
+      ],
+      "requiredConcepts": [
+        "is-null"
+      ],
+      "allowedLiterals": [
+        "İstanbul"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "2.5"
   },
   {
-    "id": "q-u2-grade-is-null-001", "type": "write_sql", "unit": "U2", "lessonId": "U2-where", "conceptTags": ["where", "null", "is-null"], "difficulty": 4,
+    "id": "q-u2-grade-is-null-001",
+    "type": "write_sql",
+    "unit": "U2",
+    "lessonId": "U2-where",
+    "conceptTags": [
+      "where",
+      "null",
+      "is-null"
+    ],
+    "difficulty": 4,
     "tr": {
       "title": "Devam eden kayıtlar (notu NULL)",
       "prompt": "enrollments tablosundan, grade değeri NULL olan (yani notu henüz girilmemiş, devam eden) kayıtları getir. Sonuçta sadece student_id ve course_id olsun, bu sırayla. Sonucu önce student_id'ye göre artan, sonra course_id'ye göre artan sırala.",
       "hint1": "Notu olmayan = grade IS NULL.",
       "answerExplanation": "grade IS NULL devam eden (not girilmemiş) kayıtları yakalar. grade = NULL yazsaydın hiçbir şey gelmezdi."
     },
-    "assessment": { "referenceSql": "SELECT student_id, course_id FROM enrollments WHERE grade IS NULL ORDER BY student_id ASC, course_id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["student_id", "course_id"], "requiredConcepts": ["is-null"], "forbiddenPatterns": ["select_star"] },
+    "assessment": {
+      "referenceSql": "SELECT student_id, course_id FROM enrollments WHERE grade IS NULL ORDER BY student_id ASC, course_id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "student_id",
+        "course_id"
+      ],
+      "requiredConcepts": [
+        "is-null"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
     "commonWrongPatterns": [
-      { "id": "equals_null", "sqlRegex": "grade\\s*=\\s*NULL", "feedback": "'grade = NULL' hiçbir satır getirmez. 'grade IS NULL' kullan." }
-    ]
+      {
+        "id": "equals_null",
+        "sqlRegex": "grade\\s*=\\s*NULL",
+        "feedback": "'grade = NULL' hiçbir satır getirmez. 'grade IS NULL' kullan."
+      }
+    ],
+    "section": "2.5"
   },
   {
-    "id": "q-u2-mc-equals-null-001", "type": "multiple_choice", "unit": "U2", "lessonId": "U2-where", "conceptTags": ["null", "is-null"], "difficulty": 2,
+    "id": "q-u2-mc-equals-null-001",
+    "type": "multiple_choice",
+    "unit": "U2",
+    "lessonId": "U2-where",
+    "conceptTags": [
+      "null",
+      "is-null"
+    ],
+    "difficulty": 2,
     "tr": {
       "title": "WHERE city = NULL neden boş döner?",
       "prompt": "Bir öğrenci 'şehri olmayan öğrenciler' için WHERE city = NULL yazdı ama hiç satır gelmedi. Neden?",
       "hint1": "NULL bir değer mi, yoksa 'bilinmeyen' mi?",
       "answerExplanation": "NULL 'bilinmeyen' demektir ve hiçbir şeye (NULL'a bile) eşit sayılmaz; 'NULL = NULL' bile true değil, bilinmeyendir. Bu yüzden = NULL hep boş döner; doğrusu IS NULL'dır."
     },
-    "choices": ["city sütunu yoktur", "= yerine == yazmalıydı", "NULL hiçbir şeye eşit sayılmaz; doğrusu IS NULL kullanmaktır", "NULL yalnızca sayılarla çalışır"], "correctIndex": 2
+    "choices": [
+      "city sütunu yoktur",
+      "= yerine == yazmalıydı",
+      "NULL hiçbir şeye eşit sayılmaz; doğrusu IS NULL kullanmaktır",
+      "NULL yalnızca sayılarla çalışır"
+    ],
+    "correctIndex": 2,
+    "section": "2.5"
   },
   {
-    "id": "q-u2-mc-between-001", "type": "multiple_choice", "unit": "U2", "lessonId": "U2-where", "conceptTags": ["between"], "difficulty": 2,
+    "id": "q-u2-mc-between-001",
+    "type": "multiple_choice",
+    "unit": "U2",
+    "lessonId": "U2-where",
+    "conceptTags": [
+      "between"
+    ],
+    "difficulty": 2,
     "tr": {
       "title": "BETWEEN uçları dahil mi?",
       "prompt": "price BETWEEN 20 AND 60 koşulunda, fiyatı tam 20 veya tam 60 olan ürünler sonuca dahil olur mu?",
       "hint1": "BETWEEN, >= ve <= ile aynı mıdır?",
       "answerExplanation": "Evet, BETWEEN her iki uç değeri de KAPSAR: price BETWEEN 20 AND 60 ile price >= 20 AND price <= 60 aynıdır. Yani 20 ve 60 da dahildir."
     },
-    "choices": ["Hayır, iki uç da hariçtir", "Sadece alt uç (20) dahildir", "Sadece üst uç (60) dahildir", "Evet, iki uç da dahildir (20 ve 60 gelir)"], "correctIndex": 3
+    "choices": [
+      "Hayır, iki uç da hariçtir",
+      "Sadece alt uç (20) dahildir",
+      "Sadece üst uç (60) dahildir",
+      "Evet, iki uç da dahildir (20 ve 60 gelir)"
+    ],
+    "correctIndex": 3,
+    "section": "2.3"
   },
   {
-    "id": "q-u2-mc-neq-null-001", "type": "multiple_choice", "unit": "U2", "lessonId": "U2-where", "conceptTags": ["not", "null"], "difficulty": 4,
+    "id": "q-u2-mc-neq-null-001",
+    "type": "multiple_choice",
+    "unit": "U2",
+    "lessonId": "U2-where",
+    "conceptTags": [
+      "not",
+      "null"
+    ],
+    "difficulty": 4,
     "tr": {
       "title": "'<>' NULL satırları getirir mi?",
       "prompt": "WHERE city <> 'İstanbul' koşulu, şehri NULL (bilinmeyen) olan öğrencileri sonuca dahil eder mi?",
       "hint1": "'NULL <> İstanbul' sonucu nedir: true mu, bilinmeyen mi?",
       "answerExplanation": "Hayır. 'NULL <> İstanbul' sonucu true değil, bilinmeyendir; WHERE yalnız true satırları geçirir. NULL'ları da istiyorsan 'OR city IS NULL' eklemelisin."
     },
-    "choices": ["Hayır; NULL satırlar bu koşulu sağlamaz, gelmez", "Evet; NULL İstanbul'dan farklı olduğu için gelir", "Hata verir", "Sadece bazen, rastgele"], "correctIndex": 0
+    "choices": [
+      "Hayır; NULL satırlar bu koşulu sağlamaz, gelmez",
+      "Evet; NULL İstanbul'dan farklı olduğu için gelir",
+      "Hata verir",
+      "Sadece bazen, rastgele"
+    ],
+    "correctIndex": 0,
+    "section": "2.5"
   }
 ]

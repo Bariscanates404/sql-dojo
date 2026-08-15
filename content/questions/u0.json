@@ -1,56 +1,139 @@
 [
   {
-    "id": "q-u0-mc-row-001", "type": "multiple_choice", "unit": "U0", "lessonId": "U0-temeller", "conceptTags": ["basics", "row"], "difficulty": 1,
+    "id": "q-u0-mc-row-001",
+    "type": "multiple_choice",
+    "unit": "U0",
+    "lessonId": "U0-temeller",
+    "conceptTags": [
+      "basics",
+      "row"
+    ],
+    "difficulty": 1,
     "tr": {
       "title": "Satır (row) nedir?",
       "prompt": "students tablosunda bir SATIR (row) neyi temsil eder?",
       "hint1": "Tabloyu bir liste/çizelge gibi düşün; her satır...",
       "answerExplanation": "Bir satır, tablodaki TEK bir kaydı/varlığı temsil eder: örneğin tek bir öğrenciyi. Tüm bilgileri (adı, şehri, e-postası...) o öğrencinin satırında yan yana durur."
     },
-    "choices": ["Tek bir öğrenciyi (tek bir kaydı)", "Tüm öğrencilerin adlarını", "Bir sütunu", "Tablonun adını"], "correctIndex": 0
+    "choices": [
+      "Tek bir öğrenciyi (tek bir kaydı)",
+      "Tüm öğrencilerin adlarını",
+      "Bir sütunu",
+      "Tablonun adını"
+    ],
+    "correctIndex": 0,
+    "section": "0.1"
   },
   {
-    "id": "q-u0-mc-column-001", "type": "multiple_choice", "unit": "U0", "lessonId": "U0-temeller", "conceptTags": ["basics", "column"], "difficulty": 1,
+    "id": "q-u0-mc-column-001",
+    "type": "multiple_choice",
+    "unit": "U0",
+    "lessonId": "U0-temeller",
+    "conceptTags": [
+      "basics",
+      "column"
+    ],
+    "difficulty": 1,
     "tr": {
       "title": "Sütun (column) nedir?",
       "prompt": "students tablosunda bir SÜTUN (column), örneğin first_name, neyi temsil eder?",
       "hint1": "Sütun, tüm satırlarda ortak olan bir...",
       "answerExplanation": "Bir sütun, tüm kayıtların ORTAK bir özelliğidir: örneğin first_name sütunu, her öğrencinin adını tutar. Satır bir kaydı, sütun bir özelliği temsil eder."
     },
-    "choices": ["Tek bir öğrenciyi", "Tüm öğrencilerin ortak bir özelliğini (herkesin adı)", "Tablodaki satır sayısını", "Veritabanının adını"], "correctIndex": 1
+    "choices": [
+      "Tek bir öğrenciyi",
+      "Tüm öğrencilerin ortak bir özelliğini (herkesin adı)",
+      "Tablodaki satır sayısını",
+      "Veritabanının adını"
+    ],
+    "correctIndex": 1,
+    "section": "0.1"
   },
   {
-    "id": "q-u0-mc-select-star-001", "type": "multiple_choice", "unit": "U0", "lessonId": "U0-temeller", "conceptTags": ["basics", "select"], "difficulty": 1,
+    "id": "q-u0-mc-select-star-001",
+    "type": "multiple_choice",
+    "unit": "U0",
+    "lessonId": "U0-temeller",
+    "conceptTags": [
+      "basics",
+      "select"
+    ],
+    "difficulty": 1,
     "tr": {
       "title": "SELECT * ne yapar?",
       "prompt": "SELECT * FROM students; komutu ne yapar?",
       "hint1": "* yıldızı 'hepsi' anlamına gelir.",
       "answerExplanation": "SELECT * FROM students, students tablosundaki TÜM sütunları ve TÜM satırları getirir. Yıldız (*) 'bütün sütunlar' demektir."
     },
-    "choices": ["Sadece ilk satırı getirir", "Tabloyu siler", "students tablosundaki tüm sütunları ve tüm satırları getirir", "Sadece sütun adlarını getirir"], "correctIndex": 2
+    "choices": [
+      "Sadece ilk satırı getirir",
+      "Tabloyu siler",
+      "students tablosundaki tüm sütunları ve tüm satırları getirir",
+      "Sadece sütun adlarını getirir"
+    ],
+    "correctIndex": 2,
+    "section": "0.3"
   },
   {
-    "id": "q-u0-mc-from-001", "type": "multiple_choice", "unit": "U0", "lessonId": "U0-temeller", "conceptTags": ["basics", "from"], "difficulty": 1,
+    "id": "q-u0-mc-from-001",
+    "type": "multiple_choice",
+    "unit": "U0",
+    "lessonId": "U0-temeller",
+    "conceptTags": [
+      "basics",
+      "from"
+    ],
+    "difficulty": 1,
     "tr": {
       "title": "FROM ne belirtir?",
       "prompt": "Bir SELECT sorgusunda FROM kısmı neyi belirtir?",
       "hint1": "Veri nereden gelecek?",
       "answerExplanation": "FROM, verinin HANGİ TABLODAN geleceğini belirtir. Örneğin FROM students, verinin students tablosundan okunacağını söyler."
     },
-    "choices": ["Hangi sütunların seçileceğini", "Kaç satır geleceğini", "Sonucun nasıl sıralanacağını", "Verinin hangi tablodan geleceğini"], "correctIndex": 3
+    "choices": [
+      "Hangi sütunların seçileceğini",
+      "Kaç satır geleceğini",
+      "Sonucun nasıl sıralanacağını",
+      "Verinin hangi tablodan geleceğini"
+    ],
+    "correctIndex": 3,
+    "section": "0.2"
   },
   {
-    "id": "q-u0-mc-query-returns-001", "type": "multiple_choice", "unit": "U0", "lessonId": "U0-temeller", "conceptTags": ["basics", "select"], "difficulty": 1,
+    "id": "q-u0-mc-query-returns-001",
+    "type": "multiple_choice",
+    "unit": "U0",
+    "lessonId": "U0-temeller",
+    "conceptTags": [
+      "basics",
+      "select"
+    ],
+    "difficulty": 1,
     "tr": {
       "title": "SELECT ne döndürür?",
       "prompt": "Bir SELECT sorgusu çalıştırınca ne elde edersin ve tabloya ne olur?",
       "hint1": "SELECT okur mu, değiştirir mi?",
       "answerExplanation": "SELECT, satır ve sütunlardan oluşan bir SONUÇ TABLOSU döndürür ve orijinal tabloyu DEĞİŞTİRMEZ; sadece okur. Veriyi değiştirenler INSERT/UPDATE/DELETE'tir."
     },
-    "choices": ["Bir sonuç tablosu döndürür; orijinal tabloyu değiştirmez (sadece okur)", "Tabloyu kalıcı olarak değiştirir", "Hiçbir şey döndürmez", "Tabloyu siler"], "correctIndex": 0
+    "choices": [
+      "Bir sonuç tablosu döndürür; orijinal tabloyu değiştirmez (sadece okur)",
+      "Tabloyu kalıcı olarak değiştirir",
+      "Hiçbir şey döndürmez",
+      "Tabloyu siler"
+    ],
+    "correctIndex": 0,
+    "section": "0.4"
   },
   {
-    "id": "q-u0-select-all-students-001", "type": "write_sql", "unit": "U0", "lessonId": "U0-temeller", "conceptTags": ["basics", "select"], "difficulty": 1,
+    "id": "q-u0-select-all-students-001",
+    "type": "write_sql",
+    "unit": "U0",
+    "lessonId": "U0-temeller",
+    "conceptTags": [
+      "basics",
+      "select"
+    ],
+    "difficulty": 1,
     "tr": {
       "title": "Bir tablodaki her şeyi getir",
       "prompt": "students tablosundaki HER ŞEYİ getir: tüm sütunlar ve tüm satırlar. (İpucu: bütün sütunlar için yıldız * kullanabilirsin.) Sonucu id'ye göre küçükten büyüğe sırala.",
@@ -58,46 +141,129 @@
       "hint2": "SELECT * FROM students ORDER BY id;",
       "answerExplanation": "SELECT * FROM students tüm sütunları ve satırları getirir. ORDER BY id sonucu öğrenci id'sine göre sıralar. (İleride * yerine ihtiyacın olan sütunları tek tek seçmeyi öğreneceksin.)"
     },
-    "assessment": { "referenceSql": "SELECT * FROM students ORDER BY id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["id", "first_name", "last_name", "city", "department_id", "birth_date", "email", "scholarship_amount", "created_at"] }
+    "assessment": {
+      "referenceSql": "SELECT * FROM students ORDER BY id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "first_name",
+        "last_name",
+        "city",
+        "department_id",
+        "birth_date",
+        "email",
+        "scholarship_amount",
+        "created_at"
+      ]
+    },
+    "section": "0.3"
   },
   {
-    "id": "q-u0-select-all-departments-001", "type": "write_sql", "unit": "U0", "lessonId": "U0-temeller", "conceptTags": ["basics", "select"], "difficulty": 1,
+    "id": "q-u0-select-all-departments-001",
+    "type": "write_sql",
+    "unit": "U0",
+    "lessonId": "U0-temeller",
+    "conceptTags": [
+      "basics",
+      "select"
+    ],
+    "difficulty": 1,
     "tr": {
       "title": "Bölümlerin hepsini getir",
       "prompt": "departments tablosundaki tüm sütunları ve tüm satırları getir. Sonucu id'ye göre küçükten büyüğe sırala.",
       "hint1": "SELECT * FROM departments ORDER BY id;",
       "answerExplanation": "SELECT * departments tablosunun tüm sütunlarını (id, name, faculty) ve tüm satırlarını getirir."
     },
-    "assessment": { "referenceSql": "SELECT * FROM departments ORDER BY id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["id", "name", "faculty"] }
+    "assessment": {
+      "referenceSql": "SELECT * FROM departments ORDER BY id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "name",
+        "faculty"
+      ]
+    },
+    "section": "0.3"
   },
   {
-    "id": "q-u0-select-one-col-001", "type": "write_sql", "unit": "U0", "lessonId": "U0-temeller", "conceptTags": ["basics", "select-columns"], "difficulty": 1,
+    "id": "q-u0-select-one-col-001",
+    "type": "write_sql",
+    "unit": "U0",
+    "lessonId": "U0-temeller",
+    "conceptTags": [
+      "basics",
+      "select-columns"
+    ],
+    "difficulty": 1,
     "tr": {
       "title": "Tek bir sütun getir",
       "prompt": "students tablosundan yalnızca first_name sütununu getir (sadece adlar). Sonucu id'ye göre küçükten büyüğe sırala.",
       "hint1": "Yıldız yerine sütun adını yaz: SELECT first_name FROM students ...",
       "answerExplanation": "İstediğin tek sütunu SELECT'ten sonra yazarsın: SELECT first_name. Böylece sadece adlar gelir, diğer sütunlar gelmez."
     },
-    "assessment": { "referenceSql": "SELECT first_name FROM students ORDER BY id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["first_name"] }
+    "assessment": {
+      "referenceSql": "SELECT first_name FROM students ORDER BY id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "first_name"
+      ]
+    },
+    "section": "0.2"
   },
   {
-    "id": "q-u0-select-two-cols-001", "type": "write_sql", "unit": "U0", "lessonId": "U0-temeller", "conceptTags": ["basics", "select-columns"], "difficulty": 1,
+    "id": "q-u0-select-two-cols-001",
+    "type": "write_sql",
+    "unit": "U0",
+    "lessonId": "U0-temeller",
+    "conceptTags": [
+      "basics",
+      "select-columns"
+    ],
+    "difficulty": 1,
     "tr": {
       "title": "İki sütun getir",
       "prompt": "courses tablosundan code ve name sütunlarını, bu sırayla getir. Sonucu id'ye göre küçükten büyüğe sırala.",
       "hint1": "İki sütunu virgülle ayır: SELECT code, name FROM courses ...",
       "answerExplanation": "SELECT code, name ile yalnız bu iki sütun gelir; yazdığın sıra sonuçtaki sıradır."
     },
-    "assessment": { "referenceSql": "SELECT code, name FROM courses ORDER BY id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["code", "name"] }
+    "assessment": {
+      "referenceSql": "SELECT code, name FROM courses ORDER BY id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "code",
+        "name"
+      ]
+    },
+    "section": "0.2"
   },
   {
-    "id": "q-u0-select-name-products-001", "type": "write_sql", "unit": "U0", "lessonId": "U0-temeller", "conceptTags": ["basics", "select-columns"], "difficulty": 1,
+    "id": "q-u0-select-name-products-001",
+    "type": "write_sql",
+    "unit": "U0",
+    "lessonId": "U0-temeller",
+    "conceptTags": [
+      "basics",
+      "select-columns"
+    ],
+    "difficulty": 1,
     "tr": {
       "title": "Ürün adlarını getir",
       "prompt": "products tablosundan yalnızca name sütununu (ürün adları) getir. Sonucu id'ye göre küçükten büyüğe sırala.",
       "hint1": "SELECT name FROM products ORDER BY id;",
       "answerExplanation": "Sadece name sütununu seçeriz; ORDER BY id sonucu ürün id'sine göre sıralar."
     },
-    "assessment": { "referenceSql": "SELECT name FROM products ORDER BY id ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["name"] }
+    "assessment": {
+      "referenceSql": "SELECT name FROM products ORDER BY id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "name"
+      ]
+    },
+    "section": "0.2"
   }
 ]

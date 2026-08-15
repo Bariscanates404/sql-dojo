@@ -1,102 +1,276 @@
 [
   {
-    "id": "q-u12-mc-create-table-001", "type": "multiple_choice", "unit": "U12", "lessonId": "U12-ddl", "conceptTags": ["create-table", "ddl"], "difficulty": 2,
+    "id": "q-u12-mc-create-table-001",
+    "type": "multiple_choice",
+    "unit": "U12",
+    "lessonId": "U12-ddl",
+    "conceptTags": [
+      "create-table",
+      "ddl"
+    ],
+    "difficulty": 2,
     "tr": {
       "title": "CREATE TABLE iskeleti",
       "prompt": "Bir 'kitaplar' tablosu oluşturmak istiyorsun: id (tam sayı, birincil anahtar) ve baslik (metin, boş olamaz). Tüm gereksinimleri karşılayan doğru komut hangisidir?",
       "hint1": "CREATE TABLE ad (sütun TİP kısıtlar, ...);",
       "answerExplanation": "Doğru: CREATE TABLE kitaplar (id INTEGER PRIMARY KEY, baslik TEXT NOT NULL); — her sütunun adı, tipi ve (varsa) kısıtı yazılır. PRIMARY KEY id'yi benzersiz+zorunlu yapar, NOT NULL baslik'in boş kalmasını engeller."
     },
-    "choices": ["CREATE TABLE kitaplar (id INTEGER, baslik TEXT);", "MAKE TABLE kitaplar (id INTEGER PRIMARY KEY, baslik TEXT NOT NULL);", "CREATE kitaplar (id INTEGER PRIMARY KEY, baslik TEXT NOT NULL);", "CREATE TABLE kitaplar (id INTEGER PRIMARY KEY, baslik TEXT NOT NULL);"], "correctIndex": 3
+    "choices": [
+      "CREATE TABLE kitaplar (id INTEGER, baslik TEXT);",
+      "MAKE TABLE kitaplar (id INTEGER PRIMARY KEY, baslik TEXT NOT NULL);",
+      "CREATE kitaplar (id INTEGER PRIMARY KEY, baslik TEXT NOT NULL);",
+      "CREATE TABLE kitaplar (id INTEGER PRIMARY KEY, baslik TEXT NOT NULL);"
+    ],
+    "correctIndex": 3,
+    "section": "12.1"
   },
   {
-    "id": "q-u12-mc-not-null-001", "type": "multiple_choice", "unit": "U12", "lessonId": "U12-ddl", "conceptTags": ["constraint", "not-null"], "difficulty": 2,
+    "id": "q-u12-mc-not-null-001",
+    "type": "multiple_choice",
+    "unit": "U12",
+    "lessonId": "U12-ddl",
+    "conceptTags": [
+      "constraint",
+      "not-null"
+    ],
+    "difficulty": 2,
     "tr": {
       "title": "NOT NULL kısıtı",
       "prompt": "Bir sütun tanımına NOT NULL eklemek ne sağlar?",
       "hint1": "O sütun boş bırakılabilir mi?",
       "answerExplanation": "NOT NULL, o sütunun NULL (boş) bırakılamayacağını garanti eder; INSERT/UPDATE'te değer vermek zorunludur. Zorunlu alanları (örn. baslik) güvence altına alır."
     },
-    "choices": ["O sütun NULL bırakılamaz; değer vermek zorunlu olur", "O sütun otomatik artar", "O sütun benzersiz olur", "O sütun varsayılan 0 alır"], "correctIndex": 0
+    "choices": [
+      "O sütun NULL bırakılamaz; değer vermek zorunlu olur",
+      "O sütun otomatik artar",
+      "O sütun benzersiz olur",
+      "O sütun varsayılan 0 alır"
+    ],
+    "correctIndex": 0,
+    "section": "12.2"
   },
   {
-    "id": "q-u12-mc-default-001", "type": "multiple_choice", "unit": "U12", "lessonId": "U12-ddl", "conceptTags": ["constraint", "default"], "difficulty": 2,
+    "id": "q-u12-mc-default-001",
+    "type": "multiple_choice",
+    "unit": "U12",
+    "lessonId": "U12-ddl",
+    "conceptTags": [
+      "constraint",
+      "default"
+    ],
+    "difficulty": 2,
     "tr": {
       "title": "DEFAULT kısıtı",
       "prompt": "Bir sütun 'created_at DATE DEFAULT CURRENT_DATE' şeklinde tanımlanmış. INSERT'te bu sütuna değer vermezsen ne olur?",
       "hint1": "DEFAULT, değer verilmediğinde devreye girer.",
       "answerExplanation": "DEFAULT, INSERT'te o sütun belirtilmezse otomatik olarak varsayılan değeri (burada CURRENT_DATE = bugünün tarihi) kullanır. Sık tekrar eden değerleri elle yazmaktan kurtarır."
     },
-    "choices": ["Hata verir çünkü değer eksik", "Otomatik olarak bugünün tarihi yazılır", "NULL kalır", "Satır eklenmez"], "correctIndex": 1
+    "choices": [
+      "Hata verir çünkü değer eksik",
+      "Otomatik olarak bugünün tarihi yazılır",
+      "NULL kalır",
+      "Satır eklenmez"
+    ],
+    "correctIndex": 1,
+    "section": "12.2"
   },
   {
-    "id": "q-u12-mc-unique-001", "type": "multiple_choice", "unit": "U12", "lessonId": "U12-ddl", "conceptTags": ["constraint", "unique"], "difficulty": 2,
+    "id": "q-u12-mc-unique-001",
+    "type": "multiple_choice",
+    "unit": "U12",
+    "lessonId": "U12-ddl",
+    "conceptTags": [
+      "constraint",
+      "unique"
+    ],
+    "difficulty": 2,
     "tr": {
       "title": "UNIQUE kısıtı",
       "prompt": "students tablosunda email sütununa UNIQUE kısıtı koyarsan ne sağlanır?",
       "hint1": "Aynı e-posta iki kez girilebilir mi?",
       "answerExplanation": "UNIQUE, o sütunda aynı değerin birden çok satırda bulunmasını engeller; iki öğrenci aynı e-postayı alamaz. (PRIMARY KEY de benzersizdir ama ek olarak NOT NULL'dur ve tablo başına bir tanedir.)"
     },
-    "choices": ["E-posta boş bırakılamaz", "E-posta otomatik üretilir", "Aynı e-posta iki farklı satırda olamaz (tekrarsız)", "E-posta küçük harfe çevrilir"], "correctIndex": 2
+    "choices": [
+      "E-posta boş bırakılamaz",
+      "E-posta otomatik üretilir",
+      "Aynı e-posta iki farklı satırda olamaz (tekrarsız)",
+      "E-posta küçük harfe çevrilir"
+    ],
+    "correctIndex": 2,
+    "section": "12.2"
   },
   {
-    "id": "q-u12-mc-check-001", "type": "multiple_choice", "unit": "U12", "lessonId": "U12-ddl", "conceptTags": ["constraint", "check"], "difficulty": 3,
+    "id": "q-u12-mc-check-001",
+    "type": "multiple_choice",
+    "unit": "U12",
+    "lessonId": "U12-ddl",
+    "conceptTags": [
+      "constraint",
+      "check"
+    ],
+    "difficulty": 3,
     "tr": {
       "title": "CHECK kısıtı",
       "prompt": "Bir products tablosunda 'price NUMERIC CHECK (price >= 0)' tanımı var. price = -5 ile satır eklemeye çalışırsan ne olur?",
       "hint1": "CHECK koşulu sağlanmazsa ne yapar?",
       "answerExplanation": "CHECK, her INSERT/UPDATE'te koşulu denetler; koşul (price >= 0) sağlanmazsa işlem REDDEDİLİR (hata). Böylece negatif fiyat gibi geçersiz veriler tabloya hiç giremez."
     },
-    "choices": ["Eklenir ama 0'a yuvarlanır", "Eklenir, CHECK sadece uyarı verir", "price NULL olur", "Komut reddedilir (CHECK ihlali); negatif fiyat eklenemez"], "correctIndex": 3
+    "choices": [
+      "Eklenir ama 0'a yuvarlanır",
+      "Eklenir, CHECK sadece uyarı verir",
+      "price NULL olur",
+      "Komut reddedilir (CHECK ihlali); negatif fiyat eklenemez"
+    ],
+    "correctIndex": 3,
+    "section": "12.2"
   },
   {
-    "id": "q-u12-mc-pk-vs-fk-001", "type": "multiple_choice", "unit": "U12", "lessonId": "U12-ddl", "conceptTags": ["primary-key", "foreign-key"], "difficulty": 3,
+    "id": "q-u12-mc-pk-vs-fk-001",
+    "type": "multiple_choice",
+    "unit": "U12",
+    "lessonId": "U12-ddl",
+    "conceptTags": [
+      "primary-key",
+      "foreign-key"
+    ],
+    "difficulty": 3,
     "tr": {
       "title": "PRIMARY KEY ile FOREIGN KEY",
       "prompt": "PRIMARY KEY (birincil anahtar) ile FOREIGN KEY (yabancı anahtar) arasındaki temel fark nedir?",
       "hint1": "Biri satırı tanımlar, diğeri başka tabloya işaret eder.",
       "answerExplanation": "PRIMARY KEY bir satırı tabloda benzersiz biçimde tanımlar (tek + NOT NULL, tablo başına bir tane). FOREIGN KEY ise bir sütunun başka bir tablonun anahtarına işaret etmesini sağlar; tablolar arası ilişkiyi ve bütünlüğü kurar."
     },
-    "choices": ["PK satırı benzersiz tanımlar; FK başka tablonun anahtarına işaret edip ilişki/bütünlük kurar", "İkisi de aynıdır", "FK satırı benzersiz yapar, PK ilişki kurar", "PK birden çok tabloda olur, FK tek tabloda"], "correctIndex": 0
+    "choices": [
+      "PK satırı benzersiz tanımlar; FK başka tablonun anahtarına işaret edip ilişki/bütünlük kurar",
+      "İkisi de aynıdır",
+      "FK satırı benzersiz yapar, PK ilişki kurar",
+      "PK birden çok tabloda olur, FK tek tabloda"
+    ],
+    "correctIndex": 0,
+    "section": "12.3"
   },
   {
-    "id": "q-u12-mc-referential-001", "type": "multiple_choice", "unit": "U12", "lessonId": "U12-ddl", "conceptTags": ["foreign-key", "referential-integrity"], "difficulty": 4,
+    "id": "q-u12-mc-referential-001",
+    "type": "multiple_choice",
+    "unit": "U12",
+    "lessonId": "U12-ddl",
+    "conceptTags": [
+      "foreign-key",
+      "referential-integrity"
+    ],
+    "difficulty": 4,
     "tr": {
       "title": "İlişkisel bütünlük (FK)",
       "prompt": "odunc (ödünç) tablosunda kitap_id sütunu, kitaplar(id)'ye FOREIGN KEY ile bağlı. kitaplar tablosunda HİÇ olmayan bir kitap_id ile odunc'a satır eklemeye çalışırsan ne olur?",
       "hint1": "FK, işaret edilen satırın var olmasını şart koşar.",
       "answerExplanation": "FOREIGN KEY ilişkisel bütünlüğü zorlar: kitap_id, kitaplar tablosunda gerçekten var olan bir id olmalıdır. Olmayan bir kitaba referans veren INSERT REDDEDİLİR; böylece 'öksüz' (karşılığı olmayan) kayıtlar engellenir."
     },
-    "choices": ["Eklenir, kitap_id NULL olur", "INSERT reddedilir (FK ihlali); olmayan kitaba referans verilemez", "kitaplar tablosuna otomatik o kitap eklenir", "Eklenir, FK sadece tavsiyedir"], "correctIndex": 1
+    "choices": [
+      "Eklenir, kitap_id NULL olur",
+      "INSERT reddedilir (FK ihlali); olmayan kitaba referans verilemez",
+      "kitaplar tablosuna otomatik o kitap eklenir",
+      "Eklenir, FK sadece tavsiyedir"
+    ],
+    "correctIndex": 1,
+    "section": "12.3"
   },
   {
-    "id": "q-u12-introspect-columns-001", "type": "write_sql", "unit": "U12", "lessonId": "U12-ddl", "conceptTags": ["introspection", "information-schema"], "difficulty": 3,
+    "id": "q-u12-introspect-columns-001",
+    "type": "write_sql",
+    "unit": "U12",
+    "lessonId": "U12-ddl",
+    "conceptTags": [
+      "introspection",
+      "information-schema"
+    ],
+    "difficulty": 3,
     "tr": {
       "title": "Bir tablonun sütunlarını incele",
       "prompt": "students tablosunun sütunlarını ve veri tiplerini incele (tabloyu DEĞİŞTİRMEDEN). information_schema.columns sistem görünümünü kullan: table_schema = 'public' ve table_name = 'students' olan satırları getir. Sonuçta iki sütun olsun, bu sırayla: column_name ve data_type. Sonucu ordinal_position'a (sütunun tablodaki sırasına) göre artan sırala.",
       "hint1": "SELECT column_name, data_type FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'students' ORDER BY ordinal_position;",
       "answerExplanation": "information_schema, veritabanının yapısını (tablolar, sütunlar, tipler) okumanı sağlayan sistem görünümleridir. Şemayı değiştirmeden 'bu tabloda hangi sütunlar var' diye bakmanın güvenli yoludur."
     },
-    "assessment": { "referenceSql": "SELECT column_name, data_type FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'students' ORDER BY ordinal_position;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["column_name", "data_type"], "allowedLiterals": ["public", "students"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT column_name, data_type FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'students' ORDER BY ordinal_position;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "column_name",
+        "data_type"
+      ],
+      "allowedLiterals": [
+        "public",
+        "students"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "12.1"
   },
   {
-    "id": "q-u12-introspect-tables-001", "type": "write_sql", "unit": "U12", "lessonId": "U12-ddl", "conceptTags": ["introspection", "information-schema"], "difficulty": 2,
+    "id": "q-u12-introspect-tables-001",
+    "type": "write_sql",
+    "unit": "U12",
+    "lessonId": "U12-ddl",
+    "conceptTags": [
+      "introspection",
+      "information-schema"
+    ],
+    "difficulty": 2,
     "tr": {
       "title": "Veritabanındaki tabloları listele",
       "prompt": "Veritabanındaki (public şemasındaki) tüm tabloların adlarını listele. information_schema.tables görünümünü kullan: table_schema = 'public' olan satırları getir. Sonuçta tek sütun olsun: table_name. Sonucu table_name'e göre artan sırala.",
       "hint1": "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' ORDER BY table_name;",
       "answerExplanation": "information_schema.tables, şemadaki tabloları listeler. 'Bu veritabanında hangi tablolar var' sorusunu, hiçbir şeyi değiştirmeden cevaplar."
     },
-    "assessment": { "referenceSql": "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' ORDER BY table_name;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["table_name"], "allowedLiterals": ["public"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' ORDER BY table_name;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "table_name"
+      ],
+      "allowedLiterals": [
+        "public"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "12.1"
   },
   {
-    "id": "q-u12-introspect-colcount-001", "type": "write_sql", "unit": "U12", "lessonId": "U12-ddl", "conceptTags": ["introspection", "information-schema", "count"], "difficulty": 3,
+    "id": "q-u12-introspect-colcount-001",
+    "type": "write_sql",
+    "unit": "U12",
+    "lessonId": "U12-ddl",
+    "conceptTags": [
+      "introspection",
+      "information-schema",
+      "count"
+    ],
+    "difficulty": 3,
     "tr": {
       "title": "Bir tablonun sütun sayısı",
       "prompt": "courses tablosunun KAÇ sütunu olduğunu bul (şemayı değiştirmeden). information_schema.columns'ta table_schema = 'public' ve table_name = 'courses' olan satırları say. Sonuç tek sütun olsun, adı sutun_sayisi olsun.",
       "hint1": "SELECT COUNT(*) AS sutun_sayisi FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'courses';",
       "answerExplanation": "Her sütun, information_schema.columns'ta bir satırdır; o tabloya ait satırları sayınca sütun sayısını buluruz."
     },
-    "assessment": { "referenceSql": "SELECT COUNT(*) AS sutun_sayisi FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'courses';", "compareMode": "multiset", "expectedColumns": ["sutun_sayisi"], "requiredConcepts": ["count"], "allowedLiterals": ["public", "courses"] }
+    "assessment": {
+      "referenceSql": "SELECT COUNT(*) AS sutun_sayisi FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'courses';",
+      "compareMode": "multiset",
+      "expectedColumns": [
+        "sutun_sayisi"
+      ],
+      "requiredConcepts": [
+        "count"
+      ],
+      "allowedLiterals": [
+        "public",
+        "courses"
+      ]
+    },
+    "section": "12.1"
   }
 ]

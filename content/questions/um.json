@@ -1,96 +1,248 @@
 [
   {
-    "id": "q-um-mc-entity-attribute-001", "type": "multiple_choice", "unit": "UM", "lessonId": "UM-veri-modelleme", "conceptTags": ["data-modeling", "entity-attribute-relationship"], "difficulty": 2,
+    "id": "q-um-mc-entity-attribute-001",
+    "type": "multiple_choice",
+    "unit": "UM",
+    "lessonId": "UM-veri-modelleme",
+    "conceptTags": [
+      "data-modeling",
+      "entity-attribute-relationship"
+    ],
+    "difficulty": 2,
     "tr": {
       "title": "Varlık mı, nitelik mi?",
       "prompt": "Veri modellemede varlık (entity) bir tabloya, nitelik (attribute) bir sütuna karşılık gelir. Kampüs modelinde courses ile credits için hangisi doğrudur?",
       "hint1": "Hangisi kendi başına bir 'şey', hangisi o şeyin bir özelliği?",
       "answerExplanation": "courses bir varlıktır (hakkında bağımsız veri tuttuğumuz bir şey; kendi tablosu var), credits ise o varlığın bir niteliğidir (dersi anlatan bir özellik; courses tablosunda bir sütun). Ayraç: 'bunun kendisi hakkında veri tutmak istiyor muyum?' Evet ise varlık, hayır ise nitelik."
     },
-    "choices": ["courses bir varlıktır (tablo), credits onun bir niteliğidir (sütun)", "credits bir varlıktır (tablo), courses onun bir niteliğidir", "İkisi de varlıktır; ayrı tablolar olmalı", "İkisi de niteliktir; ikisi de tek bir sütun olmalı"], "correctIndex": 0
+    "choices": [
+      "courses bir varlıktır (tablo), credits onun bir niteliğidir (sütun)",
+      "credits bir varlıktır (tablo), courses onun bir niteliğidir",
+      "İkisi de varlıktır; ayrı tablolar olmalı",
+      "İkisi de niteliktir; ikisi de tek bir sütun olmalı"
+    ],
+    "correctIndex": 0,
+    "section": "M.1"
   },
   {
-    "id": "q-um-mc-one-to-many-fk-001", "type": "multiple_choice", "unit": "UM", "lessonId": "UM-veri-modelleme", "conceptTags": ["one-to-many", "foreign-key"], "difficulty": 2,
+    "id": "q-um-mc-one-to-many-fk-001",
+    "type": "multiple_choice",
+    "unit": "UM",
+    "lessonId": "UM-veri-modelleme",
+    "conceptTags": [
+      "one-to-many",
+      "foreign-key"
+    ],
+    "difficulty": 2,
     "tr": {
       "title": "Bir-çok ilişkide FK nereye?",
       "prompt": "Bir bölümde çok öğrenci vardır ama her öğrenci tek bir bölüme aittir (bir-çok ilişki). Bu ilişkiyi kurmak için yabancı anahtar (FK) nereye konur?",
       "hint1": "Çokluk hangi tarafta? FK 'çok' tarafına konur.",
       "answerExplanation": "FK 'çok' tarafına konur: students tablosundaki department_id sütunu. Her öğrenci tek bir bölüme işaret eder; bir bölüm birçok öğrenci tarafından işaret edilir. Kampüs tam olarak böyle kurulmuş."
     },
-    "choices": ["departments tablosuna bir student_id sütunu koyarak", "students tablosuna bir department_id sütunu koyarak", "Ayrı bir ara (junction) tabloya koyarak", "Hiçbir yere; JOIN tek başına yeterlidir"], "correctIndex": 1
+    "choices": [
+      "departments tablosuna bir student_id sütunu koyarak",
+      "students tablosuna bir department_id sütunu koyarak",
+      "Ayrı bir ara (junction) tabloya koyarak",
+      "Hiçbir yere; JOIN tek başına yeterlidir"
+    ],
+    "correctIndex": 1,
+    "section": "M.3"
   },
   {
-    "id": "q-um-mc-many-to-many-junction-001", "type": "multiple_choice", "unit": "UM", "lessonId": "UM-veri-modelleme", "conceptTags": ["many-to-many", "junction-table"], "difficulty": 2,
+    "id": "q-um-mc-many-to-many-junction-001",
+    "type": "multiple_choice",
+    "unit": "UM",
+    "lessonId": "UM-veri-modelleme",
+    "conceptTags": [
+      "many-to-many",
+      "junction-table"
+    ],
+    "difficulty": 2,
     "tr": {
       "title": "Çok-çok ilişki nasıl modellenir?",
       "prompt": "Bir öğrenci birden çok derse, bir ders birden çok öğrenciye sahip olabilir (çok-çok ilişki). Bu ilişki en doğru nasıl modellenir?",
       "hint1": "İki tarafta da çokluk var; tek bir FK'ya sığar mı?",
       "answerExplanation": "Çok-çok ilişki tek bir FK'ya sığmaz. İki tarafın anahtarını (student_id, course_id) taşıyan ayrı bir ara (junction) tablo gerekir: enrollments. Her satır 'şu öğrenci şu derse yazıldı' der ve ilişkinin niteliklerini (not, dönem) de taşıyabilir."
     },
-    "choices": ["students tablosuna bir course_id sütunu ekleyerek", "courses tablosuna bir student_id sütunu ekleyerek", "student_id ve course_id taşıyan ayrı bir ara tablo (enrollments) ile", "students ve courses'u tek bir büyük tabloda birleştirerek"], "correctIndex": 2
+    "choices": [
+      "students tablosuna bir course_id sütunu ekleyerek",
+      "courses tablosuna bir student_id sütunu ekleyerek",
+      "student_id ve course_id taşıyan ayrı bir ara tablo (enrollments) ile",
+      "students ve courses'u tek bir büyük tabloda birleştirerek"
+    ],
+    "correctIndex": 2,
+    "section": "M.3"
   },
   {
-    "id": "q-um-mc-identify-junction-001", "type": "multiple_choice", "unit": "UM", "lessonId": "UM-veri-modelleme", "conceptTags": ["junction-table", "many-to-many"], "difficulty": 2,
+    "id": "q-um-mc-identify-junction-001",
+    "type": "multiple_choice",
+    "unit": "UM",
+    "lessonId": "UM-veri-modelleme",
+    "conceptTags": [
+      "junction-table",
+      "many-to-many"
+    ],
+    "difficulty": 2,
     "tr": {
       "title": "Bu ara tablo neyi bağlıyor?",
       "prompt": "Kampüs şemasındaki enrollments tablosu, hangi iki varlık arasındaki çok-çok ilişkinin ara (junction) tablosudur?",
       "hint1": "enrollments hangi iki id sütununu taşıyor?",
       "answerExplanation": "enrollments, students ile courses arasındaki çok-çok ilişkinin ara tablosudur: her satır bir öğrencinin bir derse yazılışını temsil eder (student_id + course_id), üstüne notu ve dönemi taşır."
     },
-    "choices": ["departments ile courses", "students ile clubs", "courses ile instructors", "students ile courses"], "correctIndex": 3
+    "choices": [
+      "departments ile courses",
+      "students ile clubs",
+      "courses ile instructors",
+      "students ile courses"
+    ],
+    "correctIndex": 3,
+    "section": "M.3"
   },
   {
-    "id": "q-um-mc-redundancy-anomaly-001", "type": "multiple_choice", "unit": "UM", "lessonId": "UM-veri-modelleme", "conceptTags": ["redundancy", "anomaly", "normalization"], "difficulty": 3,
+    "id": "q-um-mc-redundancy-anomaly-001",
+    "type": "multiple_choice",
+    "unit": "UM",
+    "lessonId": "UM-veri-modelleme",
+    "conceptTags": [
+      "redundancy",
+      "anomaly",
+      "normalization"
+    ],
+    "difficulty": 3,
     "tr": {
       "title": "Tekrar eden bilginin bedeli",
       "prompt": "Bölüm adını (örn. 'İşletme') her öğrenci satırında tekrar tekrar saklasaydık, bölümün adını değiştirmek çok satırı güncellemeyi gerektirir ve biri atlanırsa veri tutarsızlaşır. Bu soruna ne denir ve kampüs bunu nasıl çözmüş?",
       "hint1": "Aynı bilgi tekrarlanınca güncelleme neden tehlikeli olur?",
       "answerExplanation": "Bu bir güncelleme anomalisidir (redundansın sonucu). Kampüs bunu normalleştirerek çözer: bölüm bilgisini ayrı departments tablosuna alır, students yalnızca department_id tutar. Böylece bölüm adı tek yerde durur (tek doğru kaynak) ve tek bir UPDATE ile değişir."
     },
-    "choices": ["Güncelleme anomalisi; bölümü ayrı departments tablosuna alıp students'ta yalnızca department_id tutarak", "Sıfıra bölme hatası; bir CHECK kısıtı ekleyerek", "Referans bütünlüğü ihlali; bir UNIQUE kısıtı ekleyerek", "Hiçbir sorun yoktur; bilgiyi tekrarlamak tamamen zararsızdır"], "correctIndex": 0
+    "choices": [
+      "Güncelleme anomalisi; bölümü ayrı departments tablosuna alıp students'ta yalnızca department_id tutarak",
+      "Sıfıra bölme hatası; bir CHECK kısıtı ekleyerek",
+      "Referans bütünlüğü ihlali; bir UNIQUE kısıtı ekleyerek",
+      "Hiçbir sorun yoktur; bilgiyi tekrarlamak tamamen zararsızdır"
+    ],
+    "correctIndex": 0,
+    "section": "M.2"
   },
   {
-    "id": "q-um-mc-natural-vs-surrogate-001", "type": "multiple_choice", "unit": "UM", "lessonId": "UM-veri-modelleme", "conceptTags": ["natural-vs-surrogate-key", "primary-key"], "difficulty": 3,
+    "id": "q-um-mc-natural-vs-surrogate-001",
+    "type": "multiple_choice",
+    "unit": "UM",
+    "lessonId": "UM-veri-modelleme",
+    "conceptTags": [
+      "natural-vs-surrogate-key",
+      "primary-key"
+    ],
+    "difficulty": 3,
     "tr": {
       "title": "Neden anlamsız bir id?",
       "prompt": "Öğrencinin e-postasını (email) PRIMARY KEY yapmak yerine anlamsız bir id (surrogate anahtar) kullanmanın temel sebebi nedir?",
       "hint1": "E-posta zamanla değişebilir mi? Değişirse ona bağlı FK'lara ne olur?",
       "answerExplanation": "email bir doğal anahtardır ve değişebilir; değişince ona işaret eden tüm yabancı anahtarları da güncellemek gerekir (biri atlanırsa bütünlük kırılır). Surrogate id anlamsız ve sabittir: hiç değişmez, kısadır, FK'lar rahat bağlanır. E-postanın benzersizliğini istiyorsak onu PK değil UNIQUE yaparız."
     },
-    "choices": ["email daha kısa olduğu için yer kazandırır", "email zamanla değişebilir; değişince ona bağlı tüm FK'lar kırılır, oysa id hiç değişmez", "Bir e-posta sütununu PRIMARY KEY yapmak SQL'de yasak olduğu için", "id kullanınca email'i ayrıca UNIQUE yapmaya hiç gerek kalmadığı için"], "correctIndex": 1
+    "choices": [
+      "email daha kısa olduğu için yer kazandırır",
+      "email zamanla değişebilir; değişince ona bağlı tüm FK'lar kırılır, oysa id hiç değişmez",
+      "Bir e-posta sütununu PRIMARY KEY yapmak SQL'de yasak olduğu için",
+      "id kullanınca email'i ayrıca UNIQUE yapmaya hiç gerek kalmadığı için"
+    ],
+    "correctIndex": 1,
+    "section": "M.4"
   },
   {
-    "id": "q-um-mc-composite-key-001", "type": "multiple_choice", "unit": "UM", "lessonId": "UM-veri-modelleme", "conceptTags": ["composite-key", "junction-table"], "difficulty": 4,
+    "id": "q-um-mc-composite-key-001",
+    "type": "multiple_choice",
+    "unit": "UM",
+    "lessonId": "UM-veri-modelleme",
+    "conceptTags": [
+      "composite-key",
+      "junction-table"
+    ],
+    "difficulty": 4,
     "tr": {
       "title": "Bileşik anahtarda semester ne işe yarar?",
       "prompt": "enrollments tablosunun birincil anahtarı (student_id, course_id, semester) şeklinde bileşiktir (üç sütun birlikte kimlik). semester'ın anahtara dahil edilmesinin sebebi nedir?",
       "hint1": "Bir öğrenci aynı dersi ikinci bir dönem tekrar alabilir mi? semester olmasa ne olurdu?",
       "answerExplanation": "semester, aynı öğrencinin aynı dersi farklı bir dönemde tekrar alabilmesini sağlar. PK (student_id, course_id) olsaydı bir öğrenci-ders çifti yalnızca bir kez var olabilir, ikinci dönem kaydı PK'yı çiğnerdi. semester'ı eklemek bu ikinci kaydı meşru ve benzersiz kılar."
     },
-    "choices": ["semester bir yabancı anahtar olduğu için anahtara girmesi zorunludur", "Bileşik anahtarlar her zaman tam üç sütundan oluşmak zorunda olduğu için", "Bir öğrenci aynı dersi farklı dönemlerde tekrar alabilsin diye; semester olmadan ikinci kayıt eklenemezdi", "semester olmadan sorgular yavaşladığı için performans amacıyla"], "correctIndex": 2
+    "choices": [
+      "semester bir yabancı anahtar olduğu için anahtara girmesi zorunludur",
+      "Bileşik anahtarlar her zaman tam üç sütundan oluşmak zorunda olduğu için",
+      "Bir öğrenci aynı dersi farklı dönemlerde tekrar alabilsin diye; semester olmadan ikinci kayıt eklenemezdi",
+      "semester olmadan sorgular yavaşladığı için performans amacıyla"
+    ],
+    "correctIndex": 2,
+    "section": "M.4"
   },
   {
-    "id": "q-um-mc-normalization-purpose-001", "type": "multiple_choice", "unit": "UM", "lessonId": "UM-veri-modelleme", "conceptTags": ["normalization", "redundancy"], "difficulty": 2,
+    "id": "q-um-mc-normalization-purpose-001",
+    "type": "multiple_choice",
+    "unit": "UM",
+    "lessonId": "UM-veri-modelleme",
+    "conceptTags": [
+      "normalization",
+      "redundancy"
+    ],
+    "difficulty": 2,
     "tr": {
       "title": "Normalleştirme tek cümleyle",
       "prompt": "Veri modellemede 'normalleştirme' (normalization) tek cümleyle neyi amaçlar?",
       "hint1": "Derdimiz aynı bilgiyi iki yere yazmaktı; çözüm ne?",
       "answerExplanation": "Normalleştirme, tekrarlayan bilgiyi ayrı tablolara ayırıp FK ile bağlayarak redundansı ve onun doğurduğu anomalileri (güncelleme/silme/ekleme) engellemeyi amaçlar. Tek fikir: her bilgiyi tek bir doğru kaynakta tut."
     },
-    "choices": ["Tablo sayısını olabildiğince azaltmayı", "Her sorgunun tek bir tabloda çalışabilmesini", "Tüm sütunları tek bir dev tabloda toplamayı", "Tekrarlayan bilgiyi ayrı tablolara ayırarak redundansı ve anomalileri engellemeyi"], "correctIndex": 3
+    "choices": [
+      "Tablo sayısını olabildiğince azaltmayı",
+      "Her sorgunun tek bir tabloda çalışabilmesini",
+      "Tüm sütunları tek bir dev tabloda toplamayı",
+      "Tekrarlayan bilgiyi ayrı tablolara ayırarak redundansı ve anomalileri engellemeyi"
+    ],
+    "correctIndex": 3,
+    "section": "M.2"
   },
   {
-    "id": "q-um-one-to-many-count-001", "type": "write_sql", "unit": "UM", "lessonId": "UM-veri-modelleme", "conceptTags": ["one-to-many", "group-by", "count"], "difficulty": 2,
+    "id": "q-um-one-to-many-count-001",
+    "type": "write_sql",
+    "unit": "UM",
+    "lessonId": "UM-veri-modelleme",
+    "conceptTags": [
+      "one-to-many",
+      "group-by",
+      "count"
+    ],
+    "difficulty": 2,
     "tr": {
       "title": "Bir-çok: bölüm başına öğrenci",
       "prompt": "Her bölümde kaç öğrenci olduğunu bul. students tablosunu department_id'ye göre grupla ve say. Sonuçta iki sütun olsun: department_id ve ogrenci_sayisi. department_id'ye göre artan sırala. (Bir-çok ilişkinin 'çok' tarafını sayıyorsun; FK department_id öğrencilerde.)",
       "hint1": "SELECT department_id, COUNT(*) AS ogrenci_sayisi FROM students GROUP BY department_id ORDER BY department_id;",
       "answerExplanation": "Bir-çok (1:N) ilişkide FK 'çok' tarafında (students.department_id) durur, bu yüzden bölüm başına öğrenciyi tek bir GROUP BY ile sayabiliriz. Bölüm 1'de 5, 2'de 3, 3'te 3, 4'te 2, 5'te 1 öğrenci var."
     },
-    "assessment": { "referenceSql": "SELECT department_id, COUNT(*) AS ogrenci_sayisi FROM students GROUP BY department_id ORDER BY department_id;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["department_id", "ogrenci_sayisi"], "requiredConcepts": ["group-by", "count"] }
+    "assessment": {
+      "referenceSql": "SELECT department_id, COUNT(*) AS ogrenci_sayisi FROM students GROUP BY department_id ORDER BY department_id;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "department_id",
+        "ogrenci_sayisi"
+      ],
+      "requiredConcepts": [
+        "group-by",
+        "count"
+      ]
+    },
+    "section": "M.3"
   },
   {
-    "id": "q-um-many-to-many-courses-001", "type": "write_sql", "unit": "UM", "lessonId": "UM-veri-modelleme", "conceptTags": ["many-to-many", "group-by", "having"], "difficulty": 3,
+    "id": "q-um-many-to-many-courses-001",
+    "type": "write_sql",
+    "unit": "UM",
+    "lessonId": "UM-veri-modelleme",
+    "conceptTags": [
+      "many-to-many",
+      "group-by",
+      "having"
+    ],
+    "difficulty": 3,
     "tr": {
       "title": "Çok-çok kanıtı: birden çok derse yazılı öğrenciler",
       "prompt": "Birden fazla farklı derse yazılmış öğrencilerin id'lerini bul (enrollments üzerinden). Tek sütun döndür: student_id. student_id'ye göre artan sırala. (Bu sonuç boş değilse, öğrenci-ders ilişkisi çok-çoktur ve ara tablo gerektirir.)",
@@ -98,26 +250,84 @@
       "hint2": "SELECT student_id FROM enrollments GROUP BY student_id HAVING COUNT(DISTINCT course_id) > 1 ORDER BY student_id;",
       "answerExplanation": "student 1, 2, 6, 8, 9 birden çok derse yazılı. Sonucun boş olmaması, öğrenci-ders ilişkisinin çok-çok olduğunu kanıtlar: bu yüzden students'a course_id ya da courses'a student_id koymak yerine, enrollments ara tablosunu kullanıyoruz."
     },
-    "assessment": { "referenceSql": "SELECT student_id FROM enrollments GROUP BY student_id HAVING COUNT(DISTINCT course_id) > 1 ORDER BY student_id;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["student_id"], "requiredConcepts": ["group-by", "having"] }
+    "assessment": {
+      "referenceSql": "SELECT student_id FROM enrollments GROUP BY student_id HAVING COUNT(DISTINCT course_id) > 1 ORDER BY student_id;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "student_id"
+      ],
+      "requiredConcepts": [
+        "group-by",
+        "having"
+      ]
+    },
+    "section": "M.3"
   },
   {
-    "id": "q-um-many-to-many-clubs-001", "type": "write_sql", "unit": "UM", "lessonId": "UM-veri-modelleme", "conceptTags": ["many-to-many", "junction-table", "having"], "difficulty": 3,
+    "id": "q-um-many-to-many-clubs-001",
+    "type": "write_sql",
+    "unit": "UM",
+    "lessonId": "UM-veri-modelleme",
+    "conceptTags": [
+      "many-to-many",
+      "junction-table",
+      "having"
+    ],
+    "difficulty": 3,
     "tr": {
       "title": "Ara tablo iş başında: çok kulüplü öğrenciler",
       "prompt": "Birden fazla kulübe üye olan öğrencilerin id'lerini bul (club_memberships ara tablosu üzerinden). Tek sütun döndür: student_id. student_id'ye göre artan sırala.",
       "hint1": "club_memberships'ta student_id'ye göre grupla, üyelik sayısı 1'den büyük olanları HAVING ile süz.",
       "answerExplanation": "student 1 (Ayşe) ve 5 (Elif) döner; ikisi de iki kulübe üye. club_memberships bir ara tablodur: her satır bir öğrenci-kulüp üyeliğini temsil eder. Bu sonuç, öğrenci-kulüp ilişkisinin de çok-çok olduğunu ve ara tablonun neden gerekli olduğunu gösterir."
     },
-    "assessment": { "referenceSql": "SELECT student_id FROM club_memberships GROUP BY student_id HAVING COUNT(*) > 1 ORDER BY student_id;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["student_id"], "requiredConcepts": ["group-by", "having"] }
+    "assessment": {
+      "referenceSql": "SELECT student_id FROM club_memberships GROUP BY student_id HAVING COUNT(*) > 1 ORDER BY student_id;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "student_id"
+      ],
+      "requiredConcepts": [
+        "group-by",
+        "having"
+      ]
+    },
+    "section": "M.3"
   },
   {
-    "id": "q-um-introspect-junction-001", "type": "write_sql", "unit": "UM", "lessonId": "UM-veri-modelleme", "conceptTags": ["junction-table", "introspection", "information-schema"], "difficulty": 3,
+    "id": "q-um-introspect-junction-001",
+    "type": "write_sql",
+    "unit": "UM",
+    "lessonId": "UM-veri-modelleme",
+    "conceptTags": [
+      "junction-table",
+      "introspection",
+      "information-schema"
+    ],
+    "difficulty": 3,
     "tr": {
       "title": "Bir ara tablonun anatomisi",
       "prompt": "enrollments ara tablosunun sütunlarını ve veri tiplerini incele (şemayı DEĞİŞTİRMEDEN). information_schema.columns'ta table_schema = 'public' ve table_name = 'enrollments' olan satırları getir. İki sütun olsun, bu sırayla: column_name ve data_type. ordinal_position'a göre artan sırala.",
       "hint1": "SELECT column_name, data_type FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'enrollments' ORDER BY ordinal_position;",
       "answerExplanation": "Beş sütun döner: student_id, course_id (iki varlığa işaret eden FK'lar), semester (ilişkiyi benzersizleştiren bileşik anahtar parçası), grade ve attendance_rate (ilişkinin kendi nitelikleri). Bir ara tablonun tipik anatomisi: FK'lar + ilişkiye ait nitelikler. information_schema, tabloya dokunmadan yapısını okumanın güvenli yoludur."
     },
-    "assessment": { "referenceSql": "SELECT column_name, data_type FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'enrollments' ORDER BY ordinal_position;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["column_name", "data_type"], "allowedLiterals": ["public", "enrollments"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT column_name, data_type FROM information_schema.columns WHERE table_schema = 'public' AND table_name = 'enrollments' ORDER BY ordinal_position;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "column_name",
+        "data_type"
+      ],
+      "allowedLiterals": [
+        "public",
+        "enrollments"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "M.4"
   }
 ]

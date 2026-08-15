@@ -1,102 +1,272 @@
 [
   {
-    "id": "q-u11-mc-insert-syntax-001", "type": "multiple_choice", "unit": "U11", "lessonId": "U11-dml", "conceptTags": ["insert"], "difficulty": 2,
+    "id": "q-u11-mc-insert-syntax-001",
+    "type": "multiple_choice",
+    "unit": "U11",
+    "lessonId": "U11-dml",
+    "conceptTags": [
+      "insert"
+    ],
+    "difficulty": 2,
     "tr": {
       "title": "INSERT söz dizimi",
       "prompt": "clubs tablosuna yeni bir kulüp (name = 'Robotik', founded_year = 2024) eklemek için doğru Postgres komutu hangisidir?",
       "hint1": "INSERT INTO tablo (sütunlar) VALUES (değerler);",
       "answerExplanation": "Doğru yapı: INSERT INTO clubs (name, founded_year) VALUES ('Robotik', 2024); Önce hangi sütunlara, sonra VALUES ile hangi değerlerin gireceğini yazarsın."
     },
-    "choices": ["INSERT clubs SET name = 'Robotik', founded_year = 2024;", "INSERT INTO clubs (name, founded_year) VALUES ('Robotik', 2024);", "ADD INTO clubs VALUES ('Robotik', 2024);", "UPDATE clubs SET name = 'Robotik', founded_year = 2024;"], "correctIndex": 1
+    "choices": [
+      "INSERT clubs SET name = 'Robotik', founded_year = 2024;",
+      "INSERT INTO clubs (name, founded_year) VALUES ('Robotik', 2024);",
+      "ADD INTO clubs VALUES ('Robotik', 2024);",
+      "UPDATE clubs SET name = 'Robotik', founded_year = 2024;"
+    ],
+    "correctIndex": 1,
+    "section": "11.1"
   },
   {
-    "id": "q-u11-mc-insert-multi-001", "type": "multiple_choice", "unit": "U11", "lessonId": "U11-dml", "conceptTags": ["insert"], "difficulty": 2,
+    "id": "q-u11-mc-insert-multi-001",
+    "type": "multiple_choice",
+    "unit": "U11",
+    "lessonId": "U11-dml",
+    "conceptTags": [
+      "insert"
+    ],
+    "difficulty": 2,
     "tr": {
       "title": "Tek INSERT ile çok satır",
       "prompt": "Tek bir INSERT komutuyla products tablosuna AYNI ANDA 3 ürün eklemek için doğru yapı nedir?",
       "hint1": "VALUES'tan sonra parantezli grupları virgülle ayır.",
       "answerExplanation": "VALUES'tan sonra her satır bir parantez grubudur ve gruplar virgülle ayrılır: VALUES (...), (...), (...). Tek komut, çok satır."
     },
-    "choices": ["Üç kez VALUES anahtar kelimesi yazarım", "INSERT INTO products VALUES (...) AND (...) AND (...);", "INSERT INTO products (...) VALUES (...), (...), (...);", "Tek INSERT ile birden fazla satır eklenemez"], "correctIndex": 2
+    "choices": [
+      "Üç kez VALUES anahtar kelimesi yazarım",
+      "INSERT INTO products VALUES (...) AND (...) AND (...);",
+      "INSERT INTO products (...) VALUES (...), (...), (...);",
+      "Tek INSERT ile birden fazla satır eklenemez"
+    ],
+    "correctIndex": 2,
+    "section": "11.1"
   },
   {
-    "id": "q-u11-mc-returning-001", "type": "multiple_choice", "unit": "U11", "lessonId": "U11-dml", "conceptTags": ["insert", "returning"], "difficulty": 3,
+    "id": "q-u11-mc-returning-001",
+    "type": "multiple_choice",
+    "unit": "U11",
+    "lessonId": "U11-dml",
+    "conceptTags": [
+      "insert",
+      "returning"
+    ],
+    "difficulty": 3,
     "tr": {
       "title": "RETURNING ne yapar?",
       "prompt": "INSERT INTO students (first_name, last_name) VALUES ('Ada', 'Yıldız') RETURNING id; komutundaki RETURNING id ne işe yarar?",
       "hint1": "Eklenen satırla ilgili bir bilgiyi geri ister.",
       "answerExplanation": "RETURNING id, yeni eklenen satırın id değerini (çoğunlukla otomatik üretilen anahtarı) komutun sonucu olarak geri döndürür. Böylece eklediğin kaydın id'sini ayrı bir SELECT'e gerek kalmadan öğrenirsin."
     },
-    "choices": ["id sütununu tablodan siler", "Yalnızca id'si dolu satırları ekler", "Komutu geri alır (rollback)", "Yeni eklenen satırın id değerini geri döndürür"], "correctIndex": 3
+    "choices": [
+      "id sütununu tablodan siler",
+      "Yalnızca id'si dolu satırları ekler",
+      "Komutu geri alır (rollback)",
+      "Yeni eklenen satırın id değerini geri döndürür"
+    ],
+    "correctIndex": 3,
+    "section": "11.1"
   },
   {
-    "id": "q-u11-mc-update-where-001", "type": "multiple_choice", "unit": "U11", "lessonId": "U11-dml", "conceptTags": ["update", "where"], "difficulty": 2,
+    "id": "q-u11-mc-update-where-001",
+    "type": "multiple_choice",
+    "unit": "U11",
+    "lessonId": "U11-dml",
+    "conceptTags": [
+      "update",
+      "where"
+    ],
+    "difficulty": 2,
     "tr": {
       "title": "Tek satırı güncelleyen UPDATE",
       "prompt": "Yalnızca id'si 5 olan öğrencinin şehrini 'Bursa' yapmak için doğru komut hangisidir?",
       "hint1": "UPDATE tablo SET sütun = değer WHERE koşul; sıralamasına dikkat.",
       "answerExplanation": "Doğru: UPDATE students SET city = 'Bursa' WHERE id = 5; WHERE'i unutursan TÜM öğrenciler güncellenir. WHERE, UPDATE'i tek satıra sınırlar."
     },
-    "choices": ["UPDATE students SET city = 'Bursa' WHERE id = 5;", "UPDATE students SET city = 'Bursa';", "UPDATE students WHERE id = 5 SET city = 'Bursa';", "SET students.city = 'Bursa' WHERE id = 5;"], "correctIndex": 0
+    "choices": [
+      "UPDATE students SET city = 'Bursa' WHERE id = 5;",
+      "UPDATE students SET city = 'Bursa';",
+      "UPDATE students WHERE id = 5 SET city = 'Bursa';",
+      "SET students.city = 'Bursa' WHERE id = 5;"
+    ],
+    "correctIndex": 0,
+    "section": "11.2"
   },
   {
-    "id": "q-u11-mc-transaction-001", "type": "multiple_choice", "unit": "U11", "lessonId": "U11-dml", "conceptTags": ["transaction", "atomicity"], "difficulty": 3,
+    "id": "q-u11-mc-transaction-001",
+    "type": "multiple_choice",
+    "unit": "U11",
+    "lessonId": "U11-dml",
+    "conceptTags": [
+      "transaction",
+      "atomicity"
+    ],
+    "difficulty": 3,
     "tr": {
       "title": "Transaction atomikliği",
       "prompt": "Bir para transferinde önce bir hesaptan düşüp sonra diğerine ekliyorsun. İki UPDATE'i BEGIN; ... COMMIT; arasına almak ne sağlar?",
       "hint1": "Arada hata olursa ne olmasını istersin?",
       "answerExplanation": "Atomiklik: ya iki UPDATE de uygulanır ya da (arada hata olur veya ROLLBACK yaparsan) HİÇBİRİ uygulanmaz. Böylece 'paradan düştü ama eklenmedi' gibi yarım/tutarsız durum oluşmaz."
     },
-    "choices": ["Sadece ilk UPDATE uygulanır", "Ya ikisi de uygulanır ya da hiçbiri (hepsi-veya-hiçbiri)", "UPDATE'leri hızlandırır", "İkinci UPDATE'i otomatik geri alır"], "correctIndex": 1
+    "choices": [
+      "Sadece ilk UPDATE uygulanır",
+      "Ya ikisi de uygulanır ya da hiçbiri (hepsi-veya-hiçbiri)",
+      "UPDATE'leri hızlandırır",
+      "İkinci UPDATE'i otomatik geri alır"
+    ],
+    "correctIndex": 1,
+    "section": "11.4"
   },
   {
-    "id": "q-u11-mc-delete-001", "type": "multiple_choice", "unit": "U11", "lessonId": "U11-dml", "conceptTags": ["delete", "where"], "difficulty": 2,
+    "id": "q-u11-mc-delete-001",
+    "type": "multiple_choice",
+    "unit": "U11",
+    "lessonId": "U11-dml",
+    "conceptTags": [
+      "delete",
+      "where"
+    ],
+    "difficulty": 2,
     "tr": {
       "title": "Belirli satırları silen DELETE",
       "prompt": "Yalnızca status'u 'cancelled' olan siparişleri silmek için doğru komut hangisidir?",
       "hint1": "DELETE FROM tablo WHERE koşul;",
       "answerExplanation": "Doğru: DELETE FROM orders WHERE status = 'cancelled'; FROM şarttır ve WHERE silmeyi yalnız iptal siparişlere sınırlar. WHERE'siz DELETE tüm satırları siler."
     },
-    "choices": ["DELETE orders WHERE status = 'cancelled';", "DELETE FROM orders;", "DELETE FROM orders WHERE status = 'cancelled';", "DROP FROM orders WHERE status = 'cancelled';"], "correctIndex": 2
+    "choices": [
+      "DELETE orders WHERE status = 'cancelled';",
+      "DELETE FROM orders;",
+      "DELETE FROM orders WHERE status = 'cancelled';",
+      "DROP FROM orders WHERE status = 'cancelled';"
+    ],
+    "correctIndex": 2,
+    "section": "11.3"
   },
   {
-    "id": "q-u11-preview-max-id-001", "type": "write_sql", "unit": "U11", "lessonId": "U11-dml", "conceptTags": ["safe-habit", "max", "insert"], "difficulty": 1,
+    "id": "q-u11-preview-max-id-001",
+    "type": "write_sql",
+    "unit": "U11",
+    "lessonId": "U11-dml",
+    "conceptTags": [
+      "safe-habit",
+      "max",
+      "insert"
+    ],
+    "difficulty": 1,
     "tr": {
       "title": "Eklemeden önce mevcut en büyük id",
       "prompt": "products tablosuna yeni bir ürün ekleyeceksin ve id çakışması olmasın istiyorsun. Önce mevcut EN BÜYÜK id'yi gör. Sonuç tek sütun olsun, adı max_id olsun.",
       "hint1": "SELECT MAX(id) AS max_id FROM products;",
       "answerExplanation": "INSERT öncesi mevcut en büyük id'yi görmek, elle id verirken çakışmayı önlemenin basit bir kontrolüdür (id otomatik üretiliyorsa bu adım gerekmez)."
     },
-    "assessment": { "referenceSql": "SELECT MAX(id) AS max_id FROM products;", "compareMode": "multiset", "expectedColumns": ["max_id"] }
+    "assessment": {
+      "referenceSql": "SELECT MAX(id) AS max_id FROM products;",
+      "compareMode": "multiset",
+      "expectedColumns": [
+        "max_id"
+      ]
+    },
+    "section": "11.1"
   },
   {
-    "id": "q-u11-preview-update-effect-001", "type": "write_sql", "unit": "U11", "lessonId": "U11-dml", "conceptTags": ["safe-habit", "arithmetic", "update"], "difficulty": 2,
+    "id": "q-u11-preview-update-effect-001",
+    "type": "write_sql",
+    "unit": "U11",
+    "lessonId": "U11-dml",
+    "conceptTags": [
+      "safe-habit",
+      "arithmetic",
+      "update"
+    ],
+    "difficulty": 2,
     "tr": {
       "title": "UPDATE'in etkisini önce gör",
       "prompt": "Tüm ürünlerin fiyatını %10 ARTIRACAKSIN (UPDATE ... SET price = price * 1.1). Güncellemeyi YAPMA; önce etkiyi bir SELECT ile önizle: her ürünün name'i, mevcut price'ı ve %10 artmış halini (2 ondalık) yeni_fiyat adıyla getir. Sonuçta üç sütun olsun, bu sırayla: name, price, yeni_fiyat. Sonucu name'e göre artan sırala.",
       "hint1": "SELECT name, price, ROUND(price * 1.1, 2) AS yeni_fiyat FROM products ORDER BY name;",
       "answerExplanation": "UPDATE'ten önce aynı ifadeyi SELECT ile çalıştırıp yeni değerleri görmek, yanlış bir hesabı tabloya yazmadan yakalamanın güvenli yoludur."
     },
-    "assessment": { "referenceSql": "SELECT name, price, ROUND(price * 1.1, 2) AS yeni_fiyat FROM products ORDER BY name ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["name", "price", "yeni_fiyat"], "numericTolerance": 0.01, "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT name, price, ROUND(price * 1.1, 2) AS yeni_fiyat FROM products ORDER BY name ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "name",
+        "price",
+        "yeni_fiyat"
+      ],
+      "numericTolerance": 0.01,
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "11.2"
   },
   {
-    "id": "q-u11-count-before-delete-001", "type": "write_sql", "unit": "U11", "lessonId": "U11-dml", "conceptTags": ["safe-habit", "count", "delete"], "difficulty": 2,
+    "id": "q-u11-count-before-delete-001",
+    "type": "write_sql",
+    "unit": "U11",
+    "lessonId": "U11-dml",
+    "conceptTags": [
+      "safe-habit",
+      "count",
+      "delete"
+    ],
+    "difficulty": 2,
     "tr": {
       "title": "Silmeden önce say",
       "prompt": "status'u 'cancelled' olan siparişleri SİLECEKSİN. Silme YAPMA; önce kaç siparişin etkileneceğini say. Sonuç tek sütun olsun, adı silinecek olsun.",
       "hint1": "SELECT COUNT(*) AS silinecek FROM orders WHERE status = 'cancelled';",
       "answerExplanation": "DELETE öncesi aynı WHERE ile sayım yapmak, beklenenden fazla satır silmeyi fark etmenin güvenli yoludur."
     },
-    "assessment": { "referenceSql": "SELECT COUNT(*) AS silinecek FROM orders WHERE status = 'cancelled';", "compareMode": "multiset", "expectedColumns": ["silinecek"], "requiredConcepts": ["count"], "allowedLiterals": ["cancelled"] }
+    "assessment": {
+      "referenceSql": "SELECT COUNT(*) AS silinecek FROM orders WHERE status = 'cancelled';",
+      "compareMode": "multiset",
+      "expectedColumns": [
+        "silinecek"
+      ],
+      "requiredConcepts": [
+        "count"
+      ],
+      "allowedLiterals": [
+        "cancelled"
+      ]
+    },
+    "section": "11.3"
   },
   {
-    "id": "q-u11-verify-update-rows-001", "type": "write_sql", "unit": "U11", "lessonId": "U11-dml", "conceptTags": ["safe-habit", "where", "update"], "difficulty": 2,
+    "id": "q-u11-verify-update-rows-001",
+    "type": "write_sql",
+    "unit": "U11",
+    "lessonId": "U11-dml",
+    "conceptTags": [
+      "safe-habit",
+      "where",
+      "update"
+    ],
+    "difficulty": 2,
     "tr": {
       "title": "UPDATE'ten önce hedef satırları gör",
       "prompt": "Fiyatı 50'den büyük ürünlere zam yapacaksın (UPDATE ... WHERE price > 50). Güncellemeyi YAPMA; önce hangi ürünlerin etkileneceğini gör: price'ı 50'den büyük ürünlerin name ve price'ını getir. Sonuçta iki sütun olsun, bu sırayla: name ve price. Sonucu price'a göre büyükten küçüğe; eşitlikte name'e göre artan sırala.",
       "hint1": "SELECT name, price FROM products WHERE price > 50 ORDER BY price DESC, name;",
       "answerExplanation": "UPDATE ile aynı WHERE'i önce SELECT'te kullanıp etkilenecek satırları görürsün; doğruysa UPDATE'i aynı WHERE ile çalıştırırsın."
     },
-    "assessment": { "referenceSql": "SELECT name, price FROM products WHERE price > 50 ORDER BY price DESC, name ASC;", "orderMatters": true, "compareMode": "ordered_multiset", "expectedColumns": ["name", "price"], "forbiddenPatterns": ["select_star"] }
+    "assessment": {
+      "referenceSql": "SELECT name, price FROM products WHERE price > 50 ORDER BY price DESC, name ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "name",
+        "price"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    },
+    "section": "11.2"
   }
 ]
