@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react';
 
 import { listTables } from '@lib/db/pglite';
 import { downloadHtml, fetchExportCss, todayLabel } from '@lib/export/download';
+import { exportFilename } from '@lib/export/filename';
 import { buildHomeworkDocument } from '@lib/export/homework';
 import { buildLessonDocument } from '@lib/export/lesson';
 import { lessonTitle } from '@lib/export/lesson-text';
@@ -50,11 +51,12 @@ export function ExportButtons({ slug, markdown, unit }: ExportButtonsProps) {
   const toggle = (id: string) =>
     setSelected((cur) => (cur.includes(id) ? cur.filter((x) => x !== id) : [...cur, id]));
 
-  const coveredLabel = () =>
-    parts.sections
-      .filter((s) => selected.includes(s.id))
-      .map((s) => s.id)
-      .join(', ');
+  // Kutulara tıklama sırası değil, DERSTEKİ sıra. Dosya adı ve kapak buna göre
+  // yazılır; aynı konuları farklı sırayla seçmek farklı dosya adı üretmesin.
+  const orderedIds = useMemo(
+    () => parts.sections.filter((s) => selected.includes(s.id)).map((s) => s.id),
+    [parts, selected],
+  );
 
   async function exportLesson() {
     setBusy('ogrenci');
@@ -68,7 +70,7 @@ export function ExportButtons({ slug, markdown, unit }: ExportButtonsProps) {
         dateLabel: todayLabel(),
         sectionIds: selected,
       });
-      downloadHtml(html, slug, 'ogrenci');
+      downloadHtml(html, slug, 'ogrenci', orderedIds);
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));
     } finally {
@@ -88,9 +90,9 @@ export function ExportButtons({ slug, markdown, unit }: ExportButtonsProps) {
         tables,
         css,
         dateLabel: todayLabel(),
-        coveredLabel: allSelected ? undefined : `konular: ${coveredLabel()}`,
+        coveredLabel: allSelected ? undefined : `konular: ${orderedIds.join(', ')}`,
       });
-      downloadHtml(html, slug, 'odev');
+      downloadHtml(html, slug, 'odev', orderedIds);
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));
     } finally {
@@ -150,6 +152,14 @@ export function ExportButtons({ slug, markdown, unit }: ExportButtonsProps) {
           {busy === 'odev' ? 'Hazırlanıyor…' : `📝 Ödev kağıdı (${Math.min(5, selectedQuestions.length)} soru)`}
         </button>
       </div>
+
+      {!noneSelected && (
+        <p className="text-xs text-muted">
+          İnecek dosyalar:{' '}
+          <code className="font-mono">{exportFilename(slug, 'ogrenci', orderedIds)}</code>{' '}
+          <code className="font-mono">{exportFilename(slug, 'odev', orderedIds)}</code>
+        </p>
+      )}
 
       <p className="text-xs text-muted">
         Seçili konular: {selected.length}/{parts.sections.length} · ödev havuzunda{' '}

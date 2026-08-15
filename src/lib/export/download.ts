@@ -8,12 +8,12 @@ export async function fetchExportCss(): Promise<string> {
 }
 
 /** Tarayıcıya tek dosya HTML'i indirtir. Sunucu yok, her şey istemcide. */
-export function downloadHtml(html: string, lessonSlug: string, kind: ExportKind): void {
+export function downloadHtml(html: string, lessonSlug: string, kind: ExportKind, sectionIds: string[] = []): void {
   const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = exportFilename(lessonSlug, kind);
+  a.download = exportFilename(lessonSlug, kind, sectionIds);
   document.body.appendChild(a);
   a.click();
   a.remove();

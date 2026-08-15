@@ -34,6 +34,9 @@ const { selectHomeworkQuestions, homeworkHint, HOMEWORK_QUESTION_COUNT } = await
 const { exportFilename } = await import(path.join(root, 'src/lib/export/filename.ts'));
 const { buildLessonDocument } = await import(path.join(root, 'src/lib/export/lesson.ts'));
 const { buildHomeworkDocument } = await import(path.join(root, 'src/lib/export/homework.ts'));
+const { splitLesson, selectQuestionsForSections, questionCountsBySection } = await import(
+  path.join(root, 'src/lib/export/sections.ts')
+);
 
 const css = await readFile(path.join(root, 'public/export/lesson-export.css'), 'utf8');
 const DATE = '01 Ocak 2000'; // sabit: kapı çıktısı tarihe göre değişmesin
@@ -129,8 +132,22 @@ console.log('\n--- Dosya adları ---');
 for (const meta of index.slice(0, 3)) {
   const a = exportFilename(meta.slug, 'ogrenci');
   const b = exportFilename(meta.slug, 'odev');
-  ok(a.endsWith('-ogrenci.html') && b.endsWith('-odev.html'), `${meta.slug}: sürüm etiketi dosya adında (${a} / ${b})`);
+  ok(
+    a.endsWith('-ogrenci-konu-tekrari.html') && b.endsWith('-ogrenci-odev.html'),
+    `${meta.slug}: sürüm etiketi dosya adında (${a} / ${b})`,
+  );
+  ok(a !== b, `${meta.slug}: iki çıktının adı farklı`);
   ok(!/[^\x20-\x7e]/.test(a + b), `${meta.slug}: dosya adı ASCII (Türkçe karakter dönüştürüldü)`);
+
+  // Konu kodları adda: aynı üniteden farklı konu setleri farklı dosya olsun,
+  // yoksa ikinci indirme tarayıcıda "(1)" olur ve hangisi hangisi belli olmaz.
+  const raw = await readFile(path.join(root, 'content/lessons', meta.file), 'utf8');
+  const ids = splitLesson(raw).sections.map((s) => s.id);
+  const withCodes = exportFilename(meta.slug, 'odev', ids.slice(0, 2));
+  const otherCodes = exportFilename(meta.slug, 'odev', ids.slice(-2));
+  ok(withCodes.includes(`(${ids.slice(0, 2).join('-')})`), `${meta.slug}: konu kodları adda (${withCodes})`);
+  ok(withCodes !== otherCodes, `${meta.slug}: farklı konu seçimi farklı dosya adı üretiyor`);
+  ok(withCodes.endsWith('.html'), `${meta.slug}: uzantı hâlâ .html`);
 }
 
 // --- 4) Kaynak kilidi: ödev üreticisi yasak alanlara DOKUNMAMALI ----------
@@ -150,10 +167,6 @@ for (const field of ['hint2', 'answerExplanation', 'referenceSql', 'correctIndex
 // --- 5) Konu seçimi: öğretmen sadece işlediği konuyu gönderebilmeli -------
 // Bu kapı olmadan, seçim sessizce yanlış çalışırsa öğrenciye işlenmemiş konu gider.
 console.log('\n--- Konu seçimi (checkbox) ---');
-const { splitLesson, selectQuestionsForSections, questionCountsBySection } = await import(
-  path.join(root, 'src/lib/export/sections.ts')
-);
-
 let emptySections = [];
 for (const meta of index) {
   const raw = await readFile(path.join(root, 'content/lessons', meta.file), 'utf8');
