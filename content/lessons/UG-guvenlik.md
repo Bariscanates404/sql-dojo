@@ -22,9 +22,59 @@ sol taraftaydık, hiçbir şeyi bozmadık. Bugün sağ tarafa geçiyoruz ve orad
 geri dönülmez sonuçlar doğurabilir." Sonra rahatlat: "Ama burada kum havuzundayız, Sıfırla butonumuz
 var, o yüzden korkmadan deneyeceğiz; korkmayı değil, dikkati öğreneceğiz."
 - Sor: "Sizce `SELECT` bir satırı silebilir mi?" (Hayır, sadece okur, Ü0.4'te demiştik.)
-- Gerçek hayat hikâyesi anlat (klişe ama etkili): "Bir geliştirici `WHERE` koymayı unutup tüm müşteri
-  tablosunu güncellemiş..." Bu dersin neden var olduğunu hissettirir.
 - Anahtar cümle: **"Sağ taraftaki komutları çalıştırmadan önce bir saniye dur ve düşün."**
+
+#### 🧑‍🏫 Sınıfta anlatılacak gerçek olay: GitLab, 31 Ocak 2017
+
+Bu üniteye başlarken uydurma bir örnek verme. Gerçeğini anlat; çocuklar "abartıyor" diyemesin.
+Olay herkese açık: GitLab kendi hata raporunu yayımladı, hatta kurtarma çalışmasını YouTube'dan
+**canlı yayınladı.** Aşağıdaki anlatımı sahne sahne kur, aralarda sınıfa sor.
+
+**Sahne 1: Sıradan bir gece.** GitLab, dünyada milyonlarca yazılımcının kodunu tuttuğu bir şirket.
+31 Ocak 2017 gecesi veritabanı aşırı yükleniyor. Nöbetteki mühendis saatlerdir uğraşıyor, gece
+yarısını geçmiş, yorgun. İki veritabanı sunucusu var: **db1** asıl sunucu (canlı veri burada),
+**db2** yedek kopya. db2'nin kopyalaması bozulmuş, düzeltmek için db2'nin klasörünü silip sıfırdan
+kopyalamaya karar veriyor. Gayet makul bir plan.
+
+> Sor: "Yorgunken, gece yarısı, iki tane birbirine çok benzeyen sunucu... Sizce ne olabilir?"
+
+**Sahne 2: Yanlış pencere.** Mühendis silme komutunu çalıştırıyor. Ama komutu db2'ye değil,
+**db1'e** yazıyor. Yani yedeği değil, canlının kendisini siliyor. Yaklaşık 300 gigabaytlık
+veritabanı silinmeye başlıyor. Birkaç saniye içinde fark edip durduruyor, ama iş işten geçmiş:
+geriye neredeyse hiçbir şey kalmamış.
+
+> Sor: "Bir saniye durup 'ben hangi sunucudayım?' diye baksaydı ne değişirdi?"
+> Cevap: her şey. Bizim `SELECT` provasının yaptığı tam olarak bu, sadece komut yerine hedefi kontrol.
+
+**Sahne 3: Asıl felaket burada başlıyor.** "Olsun, yedekten döneriz" diyorlar. GitLab'ın **beş ayrı**
+yedekleme yöntemi vardı. O gece beşini de denediler:
+- Düzenli yedek alan program aylardır **sessizce boş dosya üretiyormuş** (sürüm uyuşmazlığı). Hata
+  bildirimi e-postaları da kimseye ulaşmıyormuş.
+- Bulut disk anlık görüntüsü veritabanı sunucularında **açık değilmiş**.
+- Yedeklerin gideceği bulut klasörü **bomboşmuş**.
+- Kopyalama (replication) zaten yedek değil; silinen şey anında kopyaya da yansır.
+- Beş yöntemin **hiçbiri** işe yaramadı.
+
+> Sor sınıfa: "Yedeğiniz var mı diye sorulsa, GitLab 'evet, beş tane' derdi. Kaç tanesi çalışıyormuş?"
+> Vurgula: **Denenmemiş yedek, yedek değildir. Sadece yedek olduğunu sandığın bir şeydir.**
+
+**Sahne 4: Şans eseri kurtuluş.** Tesadüfen, o gün başka bir test için alınmış yaklaşık **6 saat
+öncesine ait** bir kopya bulunuyor. Tek kurtaran o oluyor. Sistem saatlerce kapalı kalıyor ve o 6
+saatte yapılan işler geri gelmiyor: binlerce proje, binlerce yorum, yüzlerce yeni kullanıcı hesabı.
+Hepsi kayıp. Şirket bunu gizlemiyor, olayı bütün ayrıntısıyla yayımlıyor.
+
+**Kapanış (tahtaya yaz).** Bu hikâyeden çocuğun aklında kalması gereken üç cümle:
+1. Hatayı yapan **beceriksiz biri değildi**; yorgun, acele eden, dikkatli bir mühendisti. Bu bizim de
+   başımıza gelir.
+2. Komut çalıştı, hata vermedi, tam istendiği gibi çalıştı. **Yanlış olan komut değil, hedefti.**
+3. Kurtaran şey zekâ değil, **tesadüftü.** Tesadüfe güvenmemek için: önce bak, sonra yap.
+
+> Bir dürüstlük notu (sorarlarsa söyle): oradaki komut SQL değil, dosya silme komutuydu. Ama hatanın
+> cinsi birebir aynı: geri dönüşü olmayan bir komut, yanlış hedefe. Bizim ünitede bunun SQL'deki
+> karşılığı `WHERE`'siz `DELETE` ve `DROP TABLE`.
+>
+> Sınıfa göstermek istersen olay raporu ve canlı yayın hâlâ internette; "GitLab database incident
+> 2017" diye aratman yeterli.
 
 ### Neden / nerede işime yarar
 Bir gün gerçek bir veritabanında çalışacaksın: müşteri, sipariş, kullanıcı verisi. Orada yanlış bir
