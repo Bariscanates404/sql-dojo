@@ -115,6 +115,12 @@ for (const meta of index) {
     }
   }
 
+  // Hata avı / boşluk doldurma sorusu seçildiyse başlangıç SQL'i kağıtta OLMALI:
+  // yoksa "editördeki komutu düzelt" diyen bir soru kağıtta çözülemez.
+  for (const q of picked.filter((x) => x.starterSql)) {
+    ok(sheetText.includes(q.starterSql.split('\n')[0].trim()), `${q.id}: başlangıç SQL'i kağıda basıldı`);
+  }
+
   ok(/Ad Soyad:/.test(sheet), `${unit}: kağıtta "Ad Soyad" satırı var`);
   ok(/Tablolar \(yanında bulunsun\)/.test(sheet), `${unit}: çevrimdışı öğrenci için tablo şeması basılı`);
   ok(!/(src|href)\s*=\s*["']https?:/i.test(sheet), `${unit}: ödev kağıdında dışarıya giden adres yok`);

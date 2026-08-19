@@ -15,6 +15,11 @@ const localeText = z.object({
 
 const assessmentSchema = z.object({
   referenceSql: z.string(),
+  // Doluysa soru VERİYİ DEĞİŞTİREN bir sorudur (DML/DDL). Hem öğrencinin hem
+  // referansın SQL'i BEGIN...ROLLBACK içinde koşar ve karşılaştırma bu SELECT'in
+  // sonucu üzerinden yapılır. Böylece seed bozulmadan gerçek DELETE/UPDATE/DROP
+  // pratiği yaptırılabilir (bkz. execSandboxed).
+  verifySql: z.string().optional(),
   orderMatters: z.boolean().default(false),
   compareMode: z.enum(COMPARE_MODES).default('multiset'),
   expectedColumns: z.array(z.string()).optional(),
@@ -47,6 +52,12 @@ export const questionSchema = z
     conceptTags: z.array(z.string()).default([]),
     difficulty: z.number().int().min(1).max(4),
     tr: localeText,
+    // Editöre önceden dolan SQL. İki soru biçimini mümkün kılar ve tek düze
+    // "sıfırdan sorgu yaz" akışını kırar:
+    //   - hata avı: bozuk bir sorgu verilir, öğrenci düzeltir
+    //   - boşluk doldurma: ___ içeren şablon verilir
+    // Değerlendirme değişmez; sonuç kümesi karşılaştırması aynen çalışır.
+    starterSql: z.string().optional(),
     assessment: assessmentSchema.optional(),
     choices: z.array(z.string()).optional(),
     correctIndex: z.number().int().optional(),

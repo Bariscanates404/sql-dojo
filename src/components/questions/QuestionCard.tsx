@@ -6,8 +6,9 @@ import { QueryResultView } from '@/components/sql/QueryResultView';
 import { SqlEditor } from '@/components/sql/SqlEditor';
 import { Button } from '@ui/Button';
 import { toSqlError, type SqlError } from '@lib/db/errors';
-import { ensureSeed, execSql, type DisplayResult } from '@lib/db/pglite';
+import { ensureSeed, execSandboxed, execSql, type DisplayResult } from '@lib/db/pglite';
 import { gradeQuestion, type GradeResult } from '@lib/questions/grade';
+import { SchemaPanel } from '@/components/db/SchemaPanel';
 import { DIFFICULTY_LABEL, type Question } from '@lib/questions/schema';
 import { cn } from '@utils/cn';
 
@@ -31,7 +32,9 @@ const RESULT_LABEL: Record<GradeResult['result'], string> = {
 };
 
 export function QuestionCard({ question: q, onGraded, onNext }: Props) {
-  const [sql, setSql] = useState('');
+  const [schemaOpen, setSchemaOpen] = useState(true);
+  // Bozuk sorgu / boşluk şablonu varsa editör dolu başlar (bkz. schema.starterSql).
+  const [sql, setSql] = useState(q.starterSql ?? '');
   const [choiceIndex, setChoiceIndex] = useState<number | null>(null);
   const [runResult, setRunResult] = useState<DisplayResult | null>(null);
   const [runError, setRunError] = useState<SqlError | null>(null);
@@ -45,12 +48,15 @@ export function QuestionCard({ question: q, onGraded, onNext }: Props) {
   }, []);
 
   const isSql = q.type === 'write_sql';
+  // verifySql dolu = soru veriyi değiştiriyor; hem Çalıştır hem Gönder
+  // BEGIN...ROLLBACK içinde koşar, kum havuzu bozulmaz.
+  const mutating = q.assessment?.verifySql;
 
   async function run() {
     setBusy(true);
     setRunError(null);
     try {
-      setRunResult(await execSql(sql));
+      setRunResult(mutating ? await execSandboxed(sql, mutating) : await execSql(sql));
     } catch (e) {
       setRunError(toSqlError(e));
       setRunResult(null);
@@ -89,6 +95,34 @@ export function QuestionCard({ question: q, onGraded, onNext }: Props) {
 
       {isSql ? (
         <>
+          {/* Sorgu yazarken sutun adlarini bilmek sart; ogrenci tabloyu ezberlemek
+              zorunda kalmasin diye sema burada, sorunun hemen altinda duruyor. */}
+          <div className="rounded-xl border border-border bg-surface">
+            <button
+              onClick={() => setSchemaOpen((o) => !o)}
+              className="flex w-full items-center justify-between px-3 py-2 text-sm font-semibold"
+            >
+              <span>🗂️ Bu sorunun tabloları</span>
+              <span className="text-xs text-muted">{schemaOpen ? 'gizle' : 'göster'}</span>
+            </button>
+            {schemaOpen && (
+              <div className="border-t border-border px-3 py-2.5">
+                <SchemaPanel
+                  relevantTo={`${q.tr.title} ${q.tr.prompt}`}
+                  onPick={(table) => setSql((cur) => (cur.trim() ? cur : `SELECT * FROM ${table} LIMIT 10;`))}
+                />
+              </div>
+            )}
+          </div>
+
+          {mutating && (
+            <p className="rounded-lg border border-accent/40 bg-accent/10 px-3 py-2 text-xs text-accent">
+              🛡️ Bu soru veriyi <strong>değiştiren</strong> bir komut istiyor. Gönül rahatlığıyla dene:
+              çalıştırdığın her şey otomatik geri alınıyor, kum havuzu bozulmuyor. Çalıştırınca
+              aşağıda komutun <strong>sonrasındaki</strong> tablo durumunu göreceksin.
+            </p>
+          )}
+
           <SqlEditor value={sql} onChange={setSql} onRun={run} minHeight="120px" />
           <div className="flex flex-wrap items-center gap-2">
             <Button size="sm" variant="secondary" onClick={run} disabled={busy || !sql.trim()}>

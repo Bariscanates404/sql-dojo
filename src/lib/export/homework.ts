@@ -30,6 +30,14 @@ async function renderQuestion(q: Question, index: number): Promise<string> {
     `<div class="hw-prompt">${prompt}</div>`,
   ];
 
+  // Hata avı / boşluk doldurma sorularında asıl soru BU metindedir; kağıtta
+  // editör olmadığı için basılmazsa prompt ("editördeki komutu düzelt") anlamsız
+  // kalır ve soru çözülemez hale gelir.
+  if (q.starterSql) {
+    body.push('<p class="hw-meta">Aşağıdaki komut üzerinde çalış:</p>');
+    body.push(`<pre><code>${escapeHtml(q.starterSql)}</code></pre>`);
+  }
+
   if (q.type === 'multiple_choice' && q.choices) {
     body.push('<ul class="hw-choices">');
     q.choices.forEach((c, i) => {

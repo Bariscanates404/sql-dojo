@@ -685,5 +685,335 @@
       ]
     },
     "section": "G.2"
+  },
+  {
+    "id": "q-ug-insert-club-001",
+    "type": "write_sql",
+    "unit": "UG",
+    "lessonId": "UG-guvenlik",
+    "conceptTags": [
+      "insert",
+      "write-world"
+    ],
+    "difficulty": 1,
+    "section": "G.1",
+    "tr": {
+      "title": "Değiştiren dünyaya ilk adım: yeni kulüp ekle",
+      "prompt": "Şimdi ilk kez veriyi DEĞİŞTİREN bir komut yazacaksın. clubs tablosuna yeni bir satır ekle: id 6, name 'Tiyatro', founded_year 2024. Sadece ekleme yap, başka bir şeye dokunma. (Yaptığın değişiklik otomatik geri alınır, korkma.)",
+      "hint1": "Kalıp: INSERT INTO tablo (sütunlar) VALUES (değerler);",
+      "answerExplanation": "INSERT var olan satırlara dokunmaz, sona yeni bir satır ekler. İlk parantezteki sütun sırası ile VALUES'taki değer sırası birebir eşleşmeli. 5 kulüp 6 olur."
+    },
+    "assessment": {
+      "referenceSql": "INSERT INTO clubs (id, name, founded_year) VALUES (6, 'Tiyatro', 2024);",
+      "verifySql": "SELECT id, name, founded_year FROM clubs ORDER BY id;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "name",
+        "founded_year"
+      ],
+      "allowedLiterals": [
+        "Tiyatro"
+      ]
+    }
+  },
+  {
+    "id": "q-ug-alter-add-column-001",
+    "type": "write_sql",
+    "unit": "UG",
+    "lessonId": "UG-guvenlik",
+    "conceptTags": [
+      "alter",
+      "structure"
+    ],
+    "difficulty": 2,
+    "section": "G.1",
+    "tr": {
+      "title": "Yapıyı değiştir: clubs tablosuna sütun ekle",
+      "prompt": "clubs tablosuna 'aciklama' adında, metin (text) tipinde yeni bir sütun ekle. Dikkat: bu komut veriyi değil YAPIYI değiştirir; satır sayısı değişmemeli.",
+      "hint1": "Kalıp: ALTER TABLE tablo ADD COLUMN ad tip;",
+      "answerExplanation": "ALTER içeriğe değil yapıya dokunur. Satır sayısı aynı kalır ama her satırda artık bir aciklama alanı vardır ve hepsi NULL'dır, çünkü henüz kimse bir şey yazmadı."
+    },
+    "assessment": {
+      "referenceSql": "ALTER TABLE clubs ADD COLUMN aciklama text;",
+      "verifySql": "SELECT column_name FROM information_schema.columns WHERE table_name = 'clubs' ORDER BY ordinal_position;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "column_name"
+      ],
+      "allowedLiterals": [
+        "aciklama",
+        "clubs"
+      ]
+    }
+  },
+  {
+    "id": "q-ug-delete-targeted-001",
+    "type": "write_sql",
+    "unit": "UG",
+    "lessonId": "UG-guvenlik",
+    "conceptTags": [
+      "delete",
+      "where",
+      "danger"
+    ],
+    "difficulty": 2,
+    "section": "G.2",
+    "tr": {
+      "title": "Gerçek silme: SADECE Satranç kulübünü sil",
+      "prompt": "Bu sefer prova değil, gerçekten sileceksin. clubs tablosundan sadece id'si 3 olan kulübü (Satranç) sil. Diğer 4 kulüp yerinde kalmalı. WHERE'i yazmayı unutma; unutursan 5 kulübün hepsi gider.",
+      "hint1": "Kalıp: DELETE FROM tablo WHERE koşul; Koşulu id üzerinden kur.",
+      "hint2": "WHERE'i yazmazsan komut yine çalışır ama hepsini siler. Bu ünitenin ana dersi bu.",
+      "answerExplanation": "DELETE FROM clubs WHERE id = 3; sadece hedeflediğin satırı siler, tablo yerinde kalır. WHERE olmasaydı 5 kulübün hepsi silinirdi ve komut yine hata vermezdi."
+    },
+    "assessment": {
+      "referenceSql": "DELETE FROM clubs WHERE id = 3;",
+      "verifySql": "SELECT id, name FROM clubs ORDER BY id;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "name"
+      ]
+    }
+  },
+  {
+    "id": "q-ug-fix-update-no-where-001",
+    "type": "write_sql",
+    "unit": "UG",
+    "lessonId": "UG-guvenlik",
+    "conceptTags": [
+      "update",
+      "where",
+      "danger",
+      "bug-hunt"
+    ],
+    "difficulty": 3,
+    "section": "G.2",
+    "tr": {
+      "title": "Hata avı: bu UPDATE herkesi etkiliyor",
+      "prompt": "Aşağıdaki komut editörde hazır duruyor. Amaç Ali Vural'ın (id 7) şehrini 'İzmir' yapmaktı, ama bu haliyle 14 öğrencinin HEPSİNİN şehrini değiştiriyor. Komutu düzelt: sadece id'si 7 olan öğrenci etkilensin.",
+      "hint1": "Cümlede eksik olan tek parça var ve o parça hedefi belirliyor.",
+      "answerExplanation": "Eksik olan WHERE. WHERE olmadan UPDATE tablodaki TÜM satırlara uygulanır; bu en sık ve en pahalı SQL hatasıdır. Doğrusu: UPDATE students SET city = 'İzmir' WHERE id = 7;"
+    },
+    "starterSql": "UPDATE students SET city = 'İzmir';",
+    "assessment": {
+      "referenceSql": "UPDATE students SET city = 'İzmir' WHERE id = 7;",
+      "verifySql": "SELECT id, city FROM students ORDER BY id;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "city"
+      ],
+      "allowedLiterals": [
+        "İzmir"
+      ]
+    }
+  },
+  {
+    "id": "q-ug-fill-delete-001",
+    "type": "write_sql",
+    "unit": "UG",
+    "lessonId": "UG-guvenlik",
+    "conceptTags": [
+      "delete",
+      "where",
+      "fill-blank"
+    ],
+    "difficulty": 1,
+    "section": "G.2",
+    "tr": {
+      "title": "Boşlukları doldur: bir dönemin kayıtlarını sil",
+      "prompt": "Editörde eksik bir DELETE komutu var. İki boşluğu (___) doldur: enrollments tablosundan, semester değeri '2025-Bahar' olan kayıtlar silinsin. Boşluk işaretlerini silip yerine doğru parçayı yaz.",
+      "hint1": "İlk boşluk hangi tablodan sileceğin, ikincisi hangi değeri aradığın. Metin değerleri tek tırnak içinde yazılır.",
+      "answerExplanation": "DELETE FROM enrollments WHERE semester = '2025-Bahar'; İlk boşluk tabloyu, ikincisi koşulun karşılaştırdığı metin değerini verir. 20 kayıttan 5'i gider, 15'i kalır."
+    },
+    "starterSql": "DELETE FROM ___ WHERE semester = ___;",
+    "assessment": {
+      "referenceSql": "DELETE FROM enrollments WHERE semester = '2025-Bahar';",
+      "verifySql": "SELECT semester, COUNT(*) AS adet FROM enrollments GROUP BY semester ORDER BY semester;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "semester",
+        "adet"
+      ],
+      "allowedLiterals": [
+        "2025-Bahar"
+      ]
+    }
+  },
+  {
+    "id": "q-ug-transaction-rollback-001",
+    "type": "write_sql",
+    "unit": "UG",
+    "lessonId": "UG-guvenlik",
+    "conceptTags": [
+      "transaction",
+      "rollback",
+      "safe-habit"
+    ],
+    "difficulty": 3,
+    "section": "G.3",
+    "tr": {
+      "title": "Kalkanı kur: sil, sonra geri al",
+      "prompt": "Transaction'ı gerçekten kullanacaksın. Üç komut yaz: (1) BEGIN ile işlemi başlat, (2) enrollments tablosundaki TÜM kayıtları sil, (3) ROLLBACK ile geri al. Doğru yaptıysan sonuçta 20 kayıt hâlâ yerinde olacak.",
+      "hint1": "Üç satır: BEGIN; sonra WHERE'siz DELETE; sonra ROLLBACK; Her birinin sonunda noktalı virgül var.",
+      "answerExplanation": "BEGIN ile açılan işlemde yapılan değişiklikler COMMIT'e kadar geçicidir. DELETE 20 kaydı sildi ama ROLLBACK hepsini geri getirdi, sanki hiç olmamış gibi. Transaction, tehlikeli bir işlemden önce kurabileceğin güvenlik ağıdır."
+    },
+    "assessment": {
+      "referenceSql": "BEGIN; DELETE FROM enrollments; ROLLBACK;",
+      "verifySql": "SELECT COUNT(*) AS kayit_sayisi FROM enrollments;",
+      "compareMode": "multiset",
+      "expectedColumns": [
+        "kayit_sayisi"
+      ]
+    }
+  },
+  {
+    "id": "q-ug-transaction-commit-001",
+    "type": "write_sql",
+    "unit": "UG",
+    "lessonId": "UG-guvenlik",
+    "conceptTags": [
+      "transaction",
+      "commit",
+      "danger"
+    ],
+    "difficulty": 3,
+    "section": "G.3",
+    "tr": {
+      "title": "COMMIT kalıcı yapar: aynı silme, farklı son",
+      "prompt": "Bir öncekiyle aynı üç adımı yaz, ama son adımda ROLLBACK yerine COMMIT kullan: (1) BEGIN, (2) enrollments tablosundaki tüm kayıtları sil, (3) COMMIT. Bu sefer sonuçta 0 kayıt kalmalı. Ne olduğunu gözünle gör: aynı komutlar, tek kelime fark, taban tabana zıt sonuç.",
+      "hint1": "Sadece son satır değişiyor: ROLLBACK yerine COMMIT.",
+      "answerExplanation": "COMMIT, transaction içinde yapılan her şeyi KALICI yapar; artık ROLLBACK seni kurtaramaz, geri alma penceresi kapanmıştır. Bir önceki soruyla arasındaki tek fark son kelimeydi ve sonuç 20 kayıt ile 0 kayıt kadar farklı."
+    },
+    "assessment": {
+      "referenceSql": "BEGIN; DELETE FROM enrollments; COMMIT;",
+      "verifySql": "SELECT COUNT(*) AS kayit_sayisi FROM enrollments;",
+      "compareMode": "multiset",
+      "expectedColumns": [
+        "kayit_sayisi"
+      ]
+    }
+  },
+  {
+    "id": "q-ug-fix-missing-rollback-001",
+    "type": "write_sql",
+    "unit": "UG",
+    "lessonId": "UG-guvenlik",
+    "conceptTags": [
+      "transaction",
+      "rollback",
+      "bug-hunt"
+    ],
+    "difficulty": 3,
+    "section": "G.3",
+    "tr": {
+      "title": "Hata avı: kalkan kurulmuş ama kapatılmamış",
+      "prompt": "Editördeki komut bir transaction açıyor ve tüm öğrencilerin bursunu sıfırlıyor, ama işlemi kapatan satır eksik. Öğrenci bu değişikliği İSTEMİYOR. Eksik satırı ekle ki burslar eski haline dönsün (14 öğrencinin bursu değişmemiş olmalı).",
+      "hint1": "İki kapatma komutu var: biri kalıcı yapar, diğeri geri alır. Burada geri almak istiyoruz.",
+      "answerExplanation": "Eksik olan ROLLBACK. BEGIN ile açılmış bir işlem COMMIT veya ROLLBACK ile kapatılmalıdır; kapatılmazsa işlem askıda kalır. Burada değişikliği istemediğimiz için doğru kapatma ROLLBACK'tir."
+    },
+    "starterSql": "BEGIN;\nUPDATE students SET scholarship_amount = 0;",
+    "assessment": {
+      "referenceSql": "BEGIN; UPDATE students SET scholarship_amount = 0; ROLLBACK;",
+      "verifySql": "SELECT id, scholarship_amount FROM students ORDER BY id;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "scholarship_amount"
+      ]
+    }
+  },
+  {
+    "id": "q-ug-truncate-001",
+    "type": "write_sql",
+    "unit": "UG",
+    "lessonId": "UG-guvenlik",
+    "conceptTags": [
+      "truncate",
+      "danger"
+    ],
+    "difficulty": 2,
+    "section": "G.4",
+    "tr": {
+      "title": "TRUNCATE: tabloyu bir anda boşalt",
+      "prompt": "event_attendance tablosundaki TÜM satırları TRUNCATE komutuyla boşalt. Tablo silinmemeli, sadece içi boşalmalı. TRUNCATE WHERE almaz; ya hep ya hiç çalışır.",
+      "hint1": "Kalıp: TRUNCATE tablo; Tek satır, koşul yok.",
+      "answerExplanation": "TRUNCATE tablodaki tüm satırları tek seferde ve hızlıca boşaltır. Tablo yerinde kalır (SELECT hata vermez, 0 döner) ama içi bomboştur. WHERE alamadığı için seçici silme yapamazsın; onun için DELETE gerekir."
+    },
+    "assessment": {
+      "referenceSql": "TRUNCATE event_attendance;",
+      "verifySql": "SELECT COUNT(*) AS kalan FROM event_attendance;",
+      "compareMode": "multiset",
+      "expectedColumns": [
+        "kalan"
+      ]
+    }
+  },
+  {
+    "id": "q-ug-drop-cascade-001",
+    "type": "write_sql",
+    "unit": "UG",
+    "lessonId": "UG-guvenlik",
+    "conceptTags": [
+      "drop",
+      "cascade",
+      "danger"
+    ],
+    "difficulty": 4,
+    "section": "G.4",
+    "tr": {
+      "title": "DROP reddedilince: korumayı bilerek kapatmak",
+      "prompt": "events tablosunu düz 'DROP TABLE events;' ile silmeye çalışırsan veritabanı seni durdurur, çünkü event_attendance tablosu ona bağlıdır. Bu korumayı bilerek kapatarak tabloyu gerçekten sil. Sonuçta veritabanında events adında bir tablo kalmamalı.",
+      "hint1": "Postgres'in verdiği hata mesajının son satırı sana hangi kelimeyi ekleyeceğini zaten söylüyor.",
+      "answerExplanation": "DROP TABLE events CASCADE; CASCADE, 'bana bağlı olan şeyleri de hallet' demektir ve veritabanının koruma mekanizmasını devre dışı bırakır. Gerçek hayatta bu kelimeyi yazmadan önce iki kez düşün: aldığın hata bir engel değil, son uyarıdır."
+    },
+    "assessment": {
+      "referenceSql": "DROP TABLE events CASCADE;",
+      "verifySql": "SELECT COUNT(*) AS events_tablosu FROM information_schema.tables WHERE table_name = 'events';",
+      "compareMode": "multiset",
+      "expectedColumns": [
+        "events_tablosu"
+      ],
+      "allowedLiterals": [
+        "events"
+      ]
+    }
+  },
+  {
+    "id": "q-ug-delete-vs-truncate-001",
+    "type": "write_sql",
+    "unit": "UG",
+    "lessonId": "UG-guvenlik",
+    "conceptTags": [
+      "delete",
+      "truncate",
+      "where"
+    ],
+    "difficulty": 3,
+    "section": "G.4",
+    "tr": {
+      "title": "TRUNCATE yapamaz, DELETE yapar: seçici silme",
+      "prompt": "event_attendance tablosundan SADECE attended değeri false olan katılım kayıtlarını sil. Bunu TRUNCATE ile yapamazsın, çünkü TRUNCATE koşul almaz; doğru komutu seç ve koşulu yaz.",
+      "hint1": "Seçici silme = DELETE + WHERE. Koşul: attended = false.",
+      "answerExplanation": "TRUNCATE topludur, WHERE almaz; 'şu satırları sil' diyemezsin. Seçici silme DELETE ile yapılır. İkisinin farkı hız değil, KONTROL: DELETE hedef seçebilir, TRUNCATE seçemez."
+    },
+    "assessment": {
+      "referenceSql": "DELETE FROM event_attendance WHERE attended = false;",
+      "verifySql": "SELECT event_id, student_id, attended FROM event_attendance ORDER BY event_id, student_id;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "event_id",
+        "student_id",
+        "attended"
+      ]
+    }
   }
 ]

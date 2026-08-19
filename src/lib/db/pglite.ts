@@ -18,6 +18,10 @@ export interface DisplayResult {
 
 let dbPromise: Promise<PGlite> | null = null;
 let currentSeedKey: string | null = null;
+
+// Veriyi DEĞİŞTİREN sorular için AYRI, tek kullanımlık bir veritabanı.
+// Ana kum havuzuyla aynı instance'ı paylaşmıyor; sebebi aşağıda execSandboxed'da.
+let sandboxPromise: Promise<PGlite> | null = null;
 const seedCache = new Map<string, string>();
 
 // --- operation queue (mutex) ---------------------------------------------
@@ -69,6 +73,51 @@ export function ensureSeed(seedKey: string): Promise<void> {
 /** Force-reload the seed (the "↺ Sıfırla" button). */
 export function resetSeed(seedKey: string): Promise<void> {
   return enqueue(() => applySeed(getSeed(seedKey)));
+}
+
+/**
+ * Kullanıcı SQL'ini TEK KULLANIMLIK ayrı bir veritabanında çalıştırır ve
+ * `verifySql`'in sonucunu döndürür. Ana kum havuzuna hiçbir etkisi olmaz.
+ *
+ * Neden var: ÜG (güvenlik), Ü11 (DML) ve Ü12 (DDL) ünitelerinin asıl konusu
+ * veriyi DEĞİŞTİREN komutlar. Bunlar paylaşılan kum havuzunda düz çalıştırılırsa
+ * seed bozulur ve sonraki sorular yanlış cevap verir; bu yüzden o ünitelerin
+ * soruları bugüne kadar sadece salt-okunur SELECT olarak yazılabiliyordu.
+ *
+ * NEDEN BEGIN...ROLLBACK DEĞİL: ilk tasarım buydu ve ÖLÇÜLDÜ, delikti. Öğrenci
+ * `COMMIT;` yazarsa (ki ÜG'de tam olarak bunu yazmayı öğretiyoruz) dıştaki
+ * transaction kapanır ve değişiklik GERÇEKTEN kalıcı olur; testte enrollments
+ * 20'den 0'a düştü ve öyle kaldı. Ayrı instance bu sınıfın tamamını kapatır:
+ * öğrenci ne yazarsa yazsın (COMMIT, DROP, ne olursa) sadece kendi kopyasını
+ * etkiler.
+ *
+ * Maliyet ölçüldü: instance ilk kurulum ~600ms (bir kez, tembel), her koşumdan
+ * önce yeniden tohumlama ~37ms.
+ */
+export function execSandboxed(sql: string, verifySql: string): Promise<DisplayResult> {
+  return enqueue(async () => {
+    const seed = getSeed(currentSeedKey ?? 'campus');
+    const seedSql = await fetchSeedSql(seed);
+
+    if (!sandboxPromise) sandboxPromise = createDb();
+    const db = await sandboxPromise;
+
+    // Her koşum temiz başlar: bir önceki sorunun bıraktığı hiçbir şey taşınmaz.
+    await db.exec('DROP SCHEMA IF EXISTS public CASCADE; CREATE SCHEMA public;');
+    await db.exec(seedSql);
+
+    const t0 = performance.now();
+    await db.exec(sql);
+    const results = await db.exec(verifySql, { rowMode: 'array' });
+    const chosen = results[results.length - 1];
+    return {
+      fields: (chosen?.fields ?? []).map((f) => ({ name: f.name })),
+      rows: (chosen?.rows ?? []) as unknown as unknown[][],
+      affectedRows: chosen?.affectedRows ?? 0,
+      statements: results.length,
+      durationMs: performance.now() - t0,
+    };
+  });
 }
 
 /** Run user SQL (may contain multiple statements / DDL) and return a display result. */
