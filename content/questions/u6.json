@@ -505,5 +505,97 @@
       }
     ],
     "section": "6.4"
+  },
+  {
+    "id": "q-u6-pk-inspect-001",
+    "type": "write_sql",
+    "unit": "U6",
+    "lessonId": "U6-join",
+    "conceptTags": [
+      "primary-key",
+      "keys",
+      "introspection"
+    ],
+    "difficulty": 2,
+    "section": "6.1",
+    "tr": {
+      "title": "Anahtarı gör: students tablosunun kimlik sütunu",
+      "prompt": "students tablosunun sütun adlarını ve boş bırakılıp bırakılamayacağını getir. Sonuçta iki sütun olsun, bu sırayla: column_name ve is_nullable. information_schema.columns görünümünü kullan, table_name = 'students' koşuluyla süz, ordinal_position'a göre sırala.",
+      "hint1": "SELECT column_name, is_nullable FROM information_schema.columns WHERE table_name = 'students' ORDER BY ordinal_position;",
+      "answerExplanation": "id sütunu 'NO' döner, yani boş bırakılamaz; çünkü o birincil anahtar (PK). PK bir satırı benzersiz tanımlar ve asla boş olamaz. Diğer tablolar bu tabloya işte bu sütun üzerinden bağlanır."
+    },
+    "assessment": {
+      "referenceSql": "SELECT column_name, is_nullable FROM information_schema.columns WHERE table_name = 'students' ORDER BY ordinal_position;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "column_name",
+        "is_nullable"
+      ],
+      "allowedLiterals": [
+        "students"
+      ]
+    }
+  },
+  {
+    "id": "q-u6-fk-match-001",
+    "type": "write_sql",
+    "unit": "U6",
+    "lessonId": "U6-join",
+    "conceptTags": [
+      "foreign-key",
+      "keys"
+    ],
+    "difficulty": 2,
+    "section": "6.1",
+    "tr": {
+      "title": "Yabancı anahtar iş başında: FK değerleri PK'da var mı?",
+      "prompt": "students tablosundaki her öğrencinin id'sini ve department_id'sini getir. Sonuçta iki sütun olsun, bu sırayla: id ve department_id. id'ye göre artan sırala. Sonuca bakınca department_id değerlerinin departments tablosundaki id'lerle eşleştiğini göreceksin; bağlantı buradan kurulur.",
+      "hint1": "Tek tablodan iki sütun: SELECT id, department_id FROM students ORDER BY id;",
+      "answerExplanation": "department_id bir YABANCI ANAHTARDIR (FK): kendi tablosunda anlam taşımaz, departments tablosundaki bir id'yi işaret eder. JOIN tam olarak bu eşleşmeyi kullanır. Bazı öğrencilerde NULL görürsün: o öğrencinin bölümü henüz belli değil demektir."
+    },
+    "assessment": {
+      "referenceSql": "SELECT id, department_id FROM students ORDER BY id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "department_id"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    }
+  },
+  {
+    "id": "q-u6-fk-null-course-001",
+    "type": "write_sql",
+    "unit": "U6",
+    "lessonId": "U6-join",
+    "conceptTags": [
+      "foreign-key",
+      "keys",
+      "null"
+    ],
+    "difficulty": 3,
+    "section": "6.1",
+    "tr": {
+      "title": "Eğitmeni atanmamış ders (FK boş olabilir)",
+      "prompt": "courses tablosunda instructor_id değeri NULL olan, yani henüz bir eğitmene bağlanmamış dersleri getir. Sonuçta iki sütun olsun, bu sırayla: code ve name. code'a göre artan sırala.",
+      "hint1": "NULL kontrolü '=' ile yapılmaz: WHERE instructor_id IS NULL.",
+      "answerExplanation": "MATH101 dersinin eğitmeni yok. Yabancı anahtar NULL olabilir; bu 'bağlantı henüz kurulmamış' demektir. Bu ders INNER JOIN ile instructors tablosuna bağlandığında sonuçtan DÜŞER, çünkü eşleşecek eğitmen yok. Ü6.4'te LEFT JOIN'i, Ü6.5'te anti-join'i öğrenmenin sebebi tam olarak bu satırdır."
+    },
+    "assessment": {
+      "referenceSql": "SELECT code, name FROM courses WHERE instructor_id IS NULL ORDER BY code ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "code",
+        "name"
+      ],
+      "requiredConcepts": [
+        "is-null"
+      ]
+    }
   }
 ]

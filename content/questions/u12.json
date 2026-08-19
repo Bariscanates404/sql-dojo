@@ -272,5 +272,322 @@
       ]
     },
     "section": "12.1"
+  },
+  {
+    "id": "q-u12-create-kitaplar-001",
+    "type": "write_sql",
+    "unit": "U12",
+    "lessonId": "U12-ddl",
+    "conceptTags": [
+      "create-table",
+      "types"
+    ],
+    "difficulty": 2,
+    "section": "12.1",
+    "tr": {
+      "title": "Gerçek tablo kur: kitaplar",
+      "prompt": "'kitaplar' adında yeni bir tablo oluştur. Üç sütunu olsun, bu sırayla: id (integer), baslik (text), yil (integer). Kısıt eklemene gerek yok, sadece sütunlar ve tipleri.",
+      "hint1": "CREATE TABLE ad (sutun1 tip1, sutun2 tip2, ...);",
+      "answerExplanation": "CREATE TABLE tabloyu ve sütunlarını tanımlar. Her sütunun bir adı ve bir tipi vardır; tip, o sütuna hangi değerlerin girebileceğini belirler. Tablo boş olarak oluşur, satır eklemek INSERT'in işidir."
+    },
+    "assessment": {
+      "referenceSql": "CREATE TABLE kitaplar (id integer, baslik text, yil integer);",
+      "verifySql": "SELECT column_name, data_type FROM information_schema.columns WHERE table_name = 'kitaplar' ORDER BY ordinal_position;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "column_name",
+        "data_type"
+      ],
+      "allowedLiterals": [
+        "kitaplar"
+      ]
+    }
+  },
+  {
+    "id": "q-u12-fill-create-001",
+    "type": "write_sql",
+    "unit": "U12",
+    "lessonId": "U12-ddl",
+    "conceptTags": [
+      "create-table",
+      "fill-blank"
+    ],
+    "difficulty": 1,
+    "section": "12.1",
+    "tr": {
+      "title": "Boşlukları doldur: tablo iskeleti",
+      "prompt": "Editördeki eksik CREATE TABLE komutunu tamamla. 'notlar' adında bir tablo olsun; sütunları sırayla id (integer) ve icerik (text). Boşlukları (___) doğru parçalarla değiştir.",
+      "hint1": "İlk boşluk tablonun adı, sonrakiler sütun tipleri.",
+      "answerExplanation": "CREATE TABLE notlar (id integer, icerik text); Tablo adı parantezden önce, sütun tanımları parantez içinde virgülle ayrılarak yazılır."
+    },
+    "starterSql": "CREATE TABLE ___ (id ___, icerik ___);",
+    "assessment": {
+      "referenceSql": "CREATE TABLE notlar (id integer, icerik text);",
+      "verifySql": "SELECT column_name, data_type FROM information_schema.columns WHERE table_name = 'notlar' ORDER BY ordinal_position;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "column_name",
+        "data_type"
+      ],
+      "allowedLiterals": [
+        "notlar"
+      ]
+    }
+  },
+  {
+    "id": "q-u12-create-notnull-001",
+    "type": "write_sql",
+    "unit": "U12",
+    "lessonId": "U12-ddl",
+    "conceptTags": [
+      "create-table",
+      "not-null",
+      "constraint"
+    ],
+    "difficulty": 2,
+    "section": "12.2",
+    "tr": {
+      "title": "NOT NULL kısıtı ile tablo kur",
+      "prompt": "'uyeler' adında bir tablo oluştur: id (integer) ve ad (text) sütunları olsun, ve ad sütunu BOŞ BIRAKILAMASIN (NOT NULL). id'ye kısıt koyma.",
+      "hint1": "Kısıt sütun tipinden hemen sonra yazılır: ad text NOT NULL",
+      "answerExplanation": "NOT NULL, o sütuna NULL yazılmasını engeller. Böyle bir sütunu boş bırakan INSERT reddedilir. Kısıtlar veritabanının kural bekçileridir: yanlış veriyi daha girerken durdururlar."
+    },
+    "assessment": {
+      "referenceSql": "CREATE TABLE uyeler (id integer, ad text NOT NULL);",
+      "verifySql": "SELECT column_name, is_nullable FROM information_schema.columns WHERE table_name = 'uyeler' ORDER BY ordinal_position;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "column_name",
+        "is_nullable"
+      ],
+      "allowedLiterals": [
+        "uyeler"
+      ]
+    }
+  },
+  {
+    "id": "q-u12-create-default-001",
+    "type": "write_sql",
+    "unit": "U12",
+    "lessonId": "U12-ddl",
+    "conceptTags": [
+      "create-table",
+      "default",
+      "constraint"
+    ],
+    "difficulty": 2,
+    "section": "12.2",
+    "tr": {
+      "title": "DEFAULT ile varsayılan değer",
+      "prompt": "'gorevler' adında bir tablo oluştur: id (integer) ve durum (text) sütunları olsun; durum sütununun VARSAYILAN değeri 'yeni' olsun. Böylece durum yazılmadan satır eklenirse otomatik 'yeni' olur.",
+      "hint1": "durum text DEFAULT 'yeni'",
+      "answerExplanation": "DEFAULT, sütun yazılmadığında hangi değerin konacağını söyler. NOT NULL'dan farkı: NOT NULL boş bırakmayı YASAKLAR, DEFAULT boş bırakılırsa yerine bir değer KOYAR."
+    },
+    "assessment": {
+      "referenceSql": "CREATE TABLE gorevler (id integer, durum text DEFAULT 'yeni');",
+      "verifySql": "SELECT column_name, column_default FROM information_schema.columns WHERE table_name = 'gorevler' ORDER BY ordinal_position;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "column_name",
+        "column_default"
+      ],
+      "allowedLiterals": [
+        "gorevler",
+        "yeni"
+      ]
+    }
+  },
+  {
+    "id": "q-u12-create-pk-001",
+    "type": "write_sql",
+    "unit": "U12",
+    "lessonId": "U12-ddl",
+    "conceptTags": [
+      "create-table",
+      "primary-key",
+      "constraint"
+    ],
+    "difficulty": 3,
+    "section": "12.3",
+    "tr": {
+      "title": "PRIMARY KEY: satırın kimliği",
+      "prompt": "'salonlar' adında bir tablo oluştur: id (integer) ve ad (text). id sütunu PRIMARY KEY olsun, yani her satırı benzersiz olarak tanımlasın.",
+      "hint1": "id integer PRIMARY KEY",
+      "answerExplanation": "PRIMARY KEY iki şeyi birden söyler: bu sütun boş olamaz (NOT NULL) ve aynı değer iki satırda tekrar edemez (UNIQUE). Bir tablonun kimlik sütunudur; diğer tablolar bu tabloya buradan bağlanır."
+    },
+    "assessment": {
+      "referenceSql": "CREATE TABLE salonlar (id integer PRIMARY KEY, ad text);",
+      "verifySql": "SELECT column_name, is_nullable FROM information_schema.columns WHERE table_name = 'salonlar' ORDER BY ordinal_position;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "column_name",
+        "is_nullable"
+      ],
+      "allowedLiterals": [
+        "salonlar"
+      ]
+    }
+  },
+  {
+    "id": "q-u12-alter-add-001",
+    "type": "write_sql",
+    "unit": "U12",
+    "lessonId": "U12-ddl",
+    "conceptTags": [
+      "alter",
+      "add-column"
+    ],
+    "difficulty": 1,
+    "section": "12.4",
+    "tr": {
+      "title": "ALTER: var olan tabloya sütun ekle",
+      "prompt": "products tablosuna 'stok' adında, integer tipinde yeni bir sütun ekle. Var olan 8 satır silinmemeli; sadece yeni bir sütun belirmeli.",
+      "hint1": "ALTER TABLE tablo ADD COLUMN ad tip;",
+      "answerExplanation": "ALTER içeriğe değil YAPIYA dokunur. Satır sayısı değişmez, ama artık her satırda bir stok alanı vardır ve hepsi NULL'dır çünkü henüz kimse değer yazmadı."
+    },
+    "assessment": {
+      "referenceSql": "ALTER TABLE products ADD COLUMN stok integer;",
+      "verifySql": "SELECT column_name FROM information_schema.columns WHERE table_name = 'products' ORDER BY ordinal_position;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "column_name"
+      ],
+      "allowedLiterals": [
+        "products",
+        "stok"
+      ]
+    }
+  },
+  {
+    "id": "q-u12-alter-drop-column-001",
+    "type": "write_sql",
+    "unit": "U12",
+    "lessonId": "U12-ddl",
+    "conceptTags": [
+      "alter",
+      "drop-column",
+      "danger"
+    ],
+    "difficulty": 2,
+    "section": "12.4",
+    "tr": {
+      "title": "ALTER: sütun düşür (ve bedeli)",
+      "prompt": "products tablosundan 'category' sütununu tamamen kaldır. Dikkat: bu sütunda VERİ var; kaldırınca 8 satırın kategorisi de gider.",
+      "hint1": "ALTER TABLE tablo DROP COLUMN ad;",
+      "answerExplanation": "DROP COLUMN sütunu ve içindeki bütün değerleri siler. ALTER masum görünür çünkü satır saymaz; oysa bir sütunu düşürmek, o sütundaki her satırın verisini yok etmektir. Gerçek hayatta geri getirmek için yedekten dönmek gerekir."
+    },
+    "assessment": {
+      "referenceSql": "ALTER TABLE products DROP COLUMN category;",
+      "verifySql": "SELECT column_name FROM information_schema.columns WHERE table_name = 'products' ORDER BY ordinal_position;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "column_name"
+      ],
+      "allowedLiterals": [
+        "products",
+        "category"
+      ]
+    }
+  },
+  {
+    "id": "q-u12-alter-rename-001",
+    "type": "write_sql",
+    "unit": "U12",
+    "lessonId": "U12-ddl",
+    "conceptTags": [
+      "alter",
+      "rename"
+    ],
+    "difficulty": 2,
+    "section": "12.4",
+    "tr": {
+      "title": "ALTER: sütunun adını değiştir",
+      "prompt": "clubs tablosundaki 'founded_year' sütununun adını 'kurulus_yili' olarak değiştir. Veriler aynı kalmalı, sadece sütunun adı değişmeli.",
+      "hint1": "ALTER TABLE tablo RENAME COLUMN eski TO yeni;",
+      "answerExplanation": "RENAME COLUMN sadece adı değiştirir, veriye dokunmaz. Ama dikkat: o sütun adını kullanan her sorgu, her rapor, her program artık kırılır. Ad değiştirmek teknik olarak ucuz, pratikte pahalıdır."
+    },
+    "assessment": {
+      "referenceSql": "ALTER TABLE clubs RENAME COLUMN founded_year TO kurulus_yili;",
+      "verifySql": "SELECT column_name FROM information_schema.columns WHERE table_name = 'clubs' ORDER BY ordinal_position;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "column_name"
+      ],
+      "allowedLiterals": [
+        "clubs",
+        "founded_year",
+        "kurulus_yili"
+      ]
+    }
+  },
+  {
+    "id": "q-u12-drop-table-001",
+    "type": "write_sql",
+    "unit": "U12",
+    "lessonId": "U12-ddl",
+    "conceptTags": [
+      "drop",
+      "danger"
+    ],
+    "difficulty": 2,
+    "section": "12.4",
+    "tr": {
+      "title": "DROP TABLE: tabloyu tamamen yok et",
+      "prompt": "event_attendance tablosunu tamamen sil. Sadece satırları değil, tablonun kendisini de. Sonrasında veritabanında bu adda bir tablo kalmamalı.",
+      "hint1": "DROP TABLE tablo;",
+      "answerExplanation": "DROP TABLE satırları, sütunları ve tablonun yapısını birlikte yok eder. DELETE'ten farkı bu: DELETE satır siler tablo kalır, DROP tablonun kendisini yok eder. Bu tablo başka tabloya bağlı olmadığı için CASCADE gerekmedi."
+    },
+    "assessment": {
+      "referenceSql": "DROP TABLE event_attendance;",
+      "verifySql": "SELECT COUNT(*) AS tablo_sayisi FROM information_schema.tables WHERE table_name = 'event_attendance';",
+      "compareMode": "multiset",
+      "expectedColumns": [
+        "tablo_sayisi"
+      ],
+      "allowedLiterals": [
+        "event_attendance"
+      ]
+    }
+  },
+  {
+    "id": "q-u12-fix-missing-type-001",
+    "type": "write_sql",
+    "unit": "U12",
+    "lessonId": "U12-ddl",
+    "conceptTags": [
+      "create-table",
+      "types",
+      "bug-hunt"
+    ],
+    "difficulty": 3,
+    "section": "12.1",
+    "tr": {
+      "title": "Hata avı: eksik tanımlı tablo",
+      "prompt": "Editördeki CREATE TABLE komutu çalışmıyor. Sorunu bul ve düzelt: 'raflar' tablosu id (integer) ve etiket (text) sütunlarına sahip olmalı.",
+      "hint1": "Her sütunun bir adı VE bir tipi olmak zorunda. Birinde eksik olan ne?",
+      "answerExplanation": "etiket sütununun tipi yazılmamış. SQL'de her sütun 'ad tip' ikilisiyle tanımlanır; tip olmadan sütun tanımlanamaz çünkü veritabanı o alana ne konacağını bilemez. Doğrusu: CREATE TABLE raflar (id integer, etiket text);"
+    },
+    "starterSql": "CREATE TABLE raflar (id integer, etiket);",
+    "assessment": {
+      "referenceSql": "CREATE TABLE raflar (id integer, etiket text);",
+      "verifySql": "SELECT column_name, data_type FROM information_schema.columns WHERE table_name = 'raflar' ORDER BY ordinal_position;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "column_name",
+        "data_type"
+      ],
+      "allowedLiterals": [
+        "raflar"
+      ]
+    }
   }
 ]

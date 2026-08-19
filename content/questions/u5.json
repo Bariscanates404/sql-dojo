@@ -522,5 +522,90 @@
     ],
     "correctIndex": 2,
     "section": "5.4"
+  },
+  {
+    "id": "q-u5-grain-rows-mean-001",
+    "type": "write_sql",
+    "unit": "U5",
+    "lessonId": "U5-groupby",
+    "conceptTags": [
+      "grain",
+      "count"
+    ],
+    "difficulty": 1,
+    "section": "5.1",
+    "tr": {
+      "title": "Grain: bir satır neyi temsil ediyor?",
+      "prompt": "enrollments tablosunda bir satır 'bir öğrencinin bir derse bir dönemde kaydı' demektir. Bu tablodaki toplam satır sayısını getir. Sonuç tek sütun olsun, adı kayit_sayisi olsun. Bu sayı öğrenci sayısı DEĞİL, kayıt sayısıdır; farkı aklında tut.",
+      "hint1": "COUNT(*) tüm satırları sayar.",
+      "answerExplanation": "20 satır var, ama 14 öğrenci ve 8 ders var. Çünkü bir satır ne öğrenciyi ne dersi temsil eder; ikisinin BULUŞMASINI temsil eder. Bir tabloda 'bir satır ne demek' sorusunun cevabına grain denir ve GROUP BY'ı doğru kurmanın anahtarıdır."
+    },
+    "assessment": {
+      "referenceSql": "SELECT COUNT(*) AS kayit_sayisi FROM enrollments;",
+      "compareMode": "multiset",
+      "expectedColumns": [
+        "kayit_sayisi"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    }
+  },
+  {
+    "id": "q-u5-grain-distinct-001",
+    "type": "write_sql",
+    "unit": "U5",
+    "lessonId": "U5-groupby",
+    "conceptTags": [
+      "grain",
+      "distinct",
+      "count"
+    ],
+    "difficulty": 2,
+    "section": "5.1",
+    "tr": {
+      "title": "Grain kanıtı: satır sayısı ile öğrenci sayısı aynı değil",
+      "prompt": "enrollments tablosunda KAÇ FARKLI öğrenci olduğunu getir (aynı öğrenci birden çok derse kayıtlı olabilir, o yüzden tekrarları sayma). Sonuç tek sütun olsun, adı ogrenci_sayisi olsun. Bir önceki sorudaki 20 ile karşılaştır.",
+      "hint1": "COUNT(DISTINCT student_id) tekrarları eler.",
+      "answerExplanation": "13 farklı öğrenci çıkar, oysa 20 satır vardı. Aradaki fark tam olarak grain meselesidir: satırı saymak ile öğrenciyi saymak farklı sorulardır. Bu ayrımı kaçırmak, ilerideki JOIN + COUNT tuzaklarının (Ü7, Ü8) kaynağıdır."
+    },
+    "assessment": {
+      "referenceSql": "SELECT COUNT(DISTINCT student_id) AS ogrenci_sayisi FROM enrollments;",
+      "compareMode": "multiset",
+      "expectedColumns": [
+        "ogrenci_sayisi"
+      ],
+      "requiredConcepts": [
+        "distinct"
+      ]
+    }
+  },
+  {
+    "id": "q-u5-grain-per-student-001",
+    "type": "write_sql",
+    "unit": "U5",
+    "lessonId": "U5-groupby",
+    "conceptTags": [
+      "grain",
+      "group-by",
+      "count"
+    ],
+    "difficulty": 2,
+    "section": "5.1",
+    "tr": {
+      "title": "Grain'i değiştir: satır başına değil öğrenci başına",
+      "prompt": "enrollments tablosunda her öğrencinin kaç kaydı olduğunu getir. Sonuçta iki sütun olsun, bu sırayla: student_id ve kayit_sayisi. Sonucu student_id'ye göre artan sırala. Dikkat: sonucun grain'i artık 'bir kayıt' değil, 'bir öğrenci'.",
+      "hint1": "GROUP BY student_id ile grupla, COUNT(*) ile say.",
+      "answerExplanation": "GROUP BY yaptığın anda sonucun grain'i değişir: girdi tablosunda bir satır bir kayıttı, çıktıda bir satır bir ÖĞRENCİ. GROUP BY'ın ne yaptığını tek cümleyle böyle anlatabilirsin: grain'i değiştirir."
+    },
+    "assessment": {
+      "referenceSql": "SELECT student_id, COUNT(*) AS kayit_sayisi FROM enrollments GROUP BY student_id ORDER BY student_id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "student_id",
+        "kayit_sayisi"
+      ]
+    }
   }
 ]

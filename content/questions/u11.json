@@ -268,5 +268,357 @@
       ]
     },
     "section": "11.2"
+  },
+  {
+    "id": "q-u11-insert-product-001",
+    "type": "write_sql",
+    "unit": "U11",
+    "lessonId": "U11-dml",
+    "conceptTags": [
+      "insert"
+    ],
+    "difficulty": 1,
+    "section": "11.1",
+    "tr": {
+      "title": "Gerçek ekleme: yeni ürün",
+      "prompt": "products tablosuna yeni bir ürün ekle: id 9, name 'Ayran', category 'İçecek', price 18. Sadece bu satırı ekle. (Değişiklik otomatik geri alınır.)",
+      "hint1": "INSERT INTO products (id, name, category, price) VALUES (...);",
+      "answerExplanation": "INSERT sona yeni bir satır ekler, var olanlara dokunmaz. 8 ürün 9 olur. Sütun listesi ile VALUES listesi aynı sırada olmalı."
+    },
+    "assessment": {
+      "referenceSql": "INSERT INTO products (id, name, category, price) VALUES (9, 'Ayran', 'İçecek', 18);",
+      "verifySql": "SELECT id, name, category, price FROM products ORDER BY id;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "name",
+        "category",
+        "price"
+      ],
+      "allowedLiterals": [
+        "Ayran",
+        "İçecek"
+      ]
+    }
+  },
+  {
+    "id": "q-u11-insert-multi-001",
+    "type": "write_sql",
+    "unit": "U11",
+    "lessonId": "U11-dml",
+    "conceptTags": [
+      "insert",
+      "multi-row"
+    ],
+    "difficulty": 2,
+    "section": "11.1",
+    "tr": {
+      "title": "Tek komutla iki satır ekle",
+      "prompt": "products tablosuna TEK bir INSERT komutuyla iki ürün birden ekle: (id 9, 'Ayran', 'İçecek', 18) ve (id 10, 'Poğaça', 'Yiyecek', 22). İki ayrı komut yazma, tek komut olsun.",
+      "hint1": "VALUES'tan sonra parantezleri virgülle çoğaltabilirsin: VALUES (...), (...);",
+      "answerExplanation": "VALUES'tan sonra virgülle ayrılmış her parantez bir satırdır. Tek komut, iki satır. Bu, 100 satır eklerken de aynı şekilde çalışır."
+    },
+    "assessment": {
+      "referenceSql": "INSERT INTO products (id, name, category, price) VALUES (9, 'Ayran', 'İçecek', 18), (10, 'Poğaça', 'Yiyecek', 22);",
+      "verifySql": "SELECT id, name, category FROM products ORDER BY id;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "name",
+        "category"
+      ],
+      "allowedLiterals": [
+        "Ayran",
+        "Poğaça",
+        "İçecek",
+        "Yiyecek"
+      ]
+    }
+  },
+  {
+    "id": "q-u11-insert-partial-001",
+    "type": "write_sql",
+    "unit": "U11",
+    "lessonId": "U11-dml",
+    "conceptTags": [
+      "insert",
+      "null"
+    ],
+    "difficulty": 2,
+    "section": "11.1",
+    "tr": {
+      "title": "Sütun yazmazsan ne olur?",
+      "prompt": "products tablosuna SADECE id ve name vererek bir satır ekle: id 9, name 'Ayran'. category ve price sütunlarını hiç yazma. Sonra ne olduklarına bak.",
+      "hint1": "Sütun listesine sadece yazacaklarını koy: INSERT INTO products (id, name) VALUES (...);",
+      "answerExplanation": "Yazmadığın sütunlar NULL kalır (varsayılan değeri yoksa). SQL 'eksik bıraktın' demez, 'bilinmiyor' diye işaretler. NOT NULL kısıtı olsaydı komut reddedilirdi."
+    },
+    "assessment": {
+      "referenceSql": "INSERT INTO products (id, name) VALUES (9, 'Ayran');",
+      "verifySql": "SELECT id, name, category, price FROM products WHERE id = 9;",
+      "compareMode": "multiset",
+      "expectedColumns": [
+        "id",
+        "name",
+        "category",
+        "price"
+      ],
+      "allowedLiterals": [
+        "Ayran"
+      ]
+    }
+  },
+  {
+    "id": "q-u11-update-price-001",
+    "type": "write_sql",
+    "unit": "U11",
+    "lessonId": "U11-dml",
+    "conceptTags": [
+      "update",
+      "where"
+    ],
+    "difficulty": 1,
+    "section": "11.2",
+    "tr": {
+      "title": "Gerçek güncelleme: tek ürünün fiyatı",
+      "prompt": "products tablosunda id'si 3 olan ürünün (Su) fiyatını 12 yap. Sadece o satır etkilensin, diğer 7 ürünün fiyatı değişmesin.",
+      "hint1": "UPDATE products SET price = ... WHERE id = ...;",
+      "answerExplanation": "SET neyi ne yapacağını, WHERE hangi satırlarda yapacağını söyler. WHERE olmasaydı 8 ürünün hepsinin fiyatı 12 olurdu."
+    },
+    "assessment": {
+      "referenceSql": "UPDATE products SET price = 12 WHERE id = 3;",
+      "verifySql": "SELECT id, name, price FROM products ORDER BY id;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "name",
+        "price"
+      ]
+    }
+  },
+  {
+    "id": "q-u11-update-expression-001",
+    "type": "write_sql",
+    "unit": "U11",
+    "lessonId": "U11-dml",
+    "conceptTags": [
+      "update",
+      "arithmetic"
+    ],
+    "difficulty": 2,
+    "section": "11.2",
+    "tr": {
+      "title": "Eski değerden hesapla: içeceklere %10 zam",
+      "prompt": "products tablosunda category değeri 'İçecek' olan ürünlerin fiyatını %10 artır. Yeni fiyatı elle yazma; her ürünün KENDİ fiyatından hesapla.",
+      "hint1": "SET price = price * 1.10 yazabilirsin; eşitliğin sağındaki price, o satırın şu anki değeridir.",
+      "answerExplanation": "SET price = price * 1.10 ifadesindeki sağdaki price, o satırın mevcut değeri demektir. Böylece her satır kendi fiyatına göre güncellenir, tek tek yazmana gerek kalmaz. 4 içecek etkilenir."
+    },
+    "assessment": {
+      "referenceSql": "UPDATE products SET price = price * 1.10 WHERE category = 'İçecek';",
+      "verifySql": "SELECT id, name, category, ROUND(price, 2) AS price FROM products ORDER BY id;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "name",
+        "category",
+        "price"
+      ],
+      "allowedLiterals": [
+        "İçecek"
+      ]
+    }
+  },
+  {
+    "id": "q-u11-update-multi-001",
+    "type": "write_sql",
+    "unit": "U11",
+    "lessonId": "U11-dml",
+    "conceptTags": [
+      "update",
+      "where",
+      "multi-row"
+    ],
+    "difficulty": 3,
+    "section": "11.2",
+    "tr": {
+      "title": "Koşula uyan birden çok satırı güncelle",
+      "prompt": "products tablosunda fiyatı 20'den KÜÇÜK olan ürünlerin kategorisini 'Ucuz' yap. Kaç satırın etkilendiğine dikkat et: bu komut tek satırlık değil, koşula kaç satır uyuyorsa hepsine uygulanır.",
+      "hint1": "WHERE price < 20 koşulunu kullan.",
+      "answerExplanation": "UPDATE tek satırlık bir komut değildir; koşula uyan HER satıra uygulanır. Burada Su (10) ve Çay (15) etkilenir, yani 2 satır. Koşulu hiç yazmasaydın 8 ürünün hepsi 'Ucuz' olurdu."
+    },
+    "assessment": {
+      "referenceSql": "UPDATE products SET category = 'Ucuz' WHERE price < 20;",
+      "verifySql": "SELECT id, name, category FROM products ORDER BY id;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "name",
+        "category"
+      ],
+      "allowedLiterals": [
+        "Ucuz"
+      ]
+    }
+  },
+  {
+    "id": "q-u11-fix-update-all-001",
+    "type": "write_sql",
+    "unit": "U11",
+    "lessonId": "U11-dml",
+    "conceptTags": [
+      "update",
+      "where",
+      "bug-hunt",
+      "danger"
+    ],
+    "difficulty": 3,
+    "section": "11.2",
+    "tr": {
+      "title": "Hata avı: bu zam herkesi vurdu",
+      "prompt": "Editördeki komut SADECE 'Tatlı' kategorisindeki ürünlere %20 zam yapmalıydı, ama bu haliyle 8 ürünün hepsini zamlıyor. Komutu düzelt.",
+      "hint1": "Hedefi belirleyen parça eksik. Kategoriye göre süz.",
+      "answerExplanation": "Eksik olan WHERE category = 'Tatlı'. WHERE'siz UPDATE tablodaki tüm satırlara uygulanır. Doğrusu: UPDATE products SET price = price * 1.20 WHERE category = 'Tatlı'; Bu 2 ürünü (Kek, Çikolata) etkiler."
+    },
+    "starterSql": "UPDATE products SET price = price * 1.20;",
+    "assessment": {
+      "referenceSql": "UPDATE products SET price = price * 1.20 WHERE category = 'Tatlı';",
+      "verifySql": "SELECT id, name, ROUND(price, 2) AS price FROM products ORDER BY id;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "name",
+        "price"
+      ],
+      "allowedLiterals": [
+        "Tatlı"
+      ]
+    }
+  },
+  {
+    "id": "q-u11-delete-condition-001",
+    "type": "write_sql",
+    "unit": "U11",
+    "lessonId": "U11-dml",
+    "conceptTags": [
+      "delete",
+      "where",
+      "null"
+    ],
+    "difficulty": 2,
+    "section": "11.3",
+    "tr": {
+      "title": "Gerçek silme: notu girilmemiş kayıtları temizle",
+      "prompt": "enrollments tablosundan notu henüz girilmemiş (grade değeri NULL, yani devam eden) kayıtları sil. Notu olan kayıtlar kalsın.",
+      "hint1": "NULL kontrolü '=' ile yapılmaz: WHERE grade IS NULL.",
+      "answerExplanation": "DELETE FROM enrollments WHERE grade IS NULL; 20 kayıttan 4'ü gider, 16'sı kalır. NULL'ı '= NULL' ile arayamazsın, IS NULL kullanmalısın (Ü2.5)."
+    },
+    "assessment": {
+      "referenceSql": "DELETE FROM enrollments WHERE grade IS NULL;",
+      "verifySql": "SELECT COUNT(*) AS kalan FROM enrollments;",
+      "compareMode": "multiset",
+      "expectedColumns": [
+        "kalan"
+      ],
+      "requiredConcepts": [
+        "is-null"
+      ]
+    }
+  },
+  {
+    "id": "q-u11-fill-delete-001",
+    "type": "write_sql",
+    "unit": "U11",
+    "lessonId": "U11-dml",
+    "conceptTags": [
+      "delete",
+      "where",
+      "fill-blank"
+    ],
+    "difficulty": 1,
+    "section": "11.3",
+    "tr": {
+      "title": "Boşlukları doldur: bir rolü temizle",
+      "prompt": "Editördeki eksik DELETE komutunun iki boşluğunu (___) doldur: club_memberships tablosundan rolü 'üye' olan üyelikler silinsin, başkanlar kalsın.",
+      "hint1": "İlk boşluk hangi sütuna bakacağın, ikincisi hangi değeri aradığın. Metin değeri tek tırnak içinde.",
+      "answerExplanation": "DELETE FROM club_memberships WHERE role = 'üye'; 10 üyelikten 7'si gider, 3 başkan kalır."
+    },
+    "starterSql": "DELETE FROM club_memberships WHERE ___ = ___;",
+    "assessment": {
+      "referenceSql": "DELETE FROM club_memberships WHERE role = 'üye';",
+      "verifySql": "SELECT role, COUNT(*) AS adet FROM club_memberships GROUP BY role ORDER BY role;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "role",
+        "adet"
+      ],
+      "allowedLiterals": [
+        "üye"
+      ]
+    }
+  },
+  {
+    "id": "q-u11-tx-atomic-001",
+    "type": "write_sql",
+    "unit": "U11",
+    "lessonId": "U11-dml",
+    "conceptTags": [
+      "transaction",
+      "rollback",
+      "atomicity"
+    ],
+    "difficulty": 3,
+    "section": "11.4",
+    "tr": {
+      "title": "Ya hep ya hiç: iki güncelleme, sonra geri al",
+      "prompt": "Bir transaction aç, İÇİNDE iki ayrı güncelleme yap (id 1 olan ürünün fiyatını 99, id 2 olan ürünün fiyatını 88 yap), sonra ROLLBACK ile hepsini geri al. Sonuçta iki fiyat da eski hâlinde olmalı.",
+      "hint1": "BEGIN; sonra iki UPDATE; sonra ROLLBACK; Hepsi ayrı satır, her birinin sonunda noktalı virgül.",
+      "answerExplanation": "Transaction 'ya hep ya hiç' demektir: ROLLBACK ikisini birden geri aldı, biri olup diğeri olmadı diye bir durum oluşmaz. Atomiklik budur ve para transferi gibi işlerde hayati önemdedir."
+    },
+    "assessment": {
+      "referenceSql": "BEGIN; UPDATE products SET price = 99 WHERE id = 1; UPDATE products SET price = 88 WHERE id = 2; ROLLBACK;",
+      "verifySql": "SELECT id, name, price FROM products ORDER BY id;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "name",
+        "price"
+      ]
+    }
+  },
+  {
+    "id": "q-u11-tx-commit-001",
+    "type": "write_sql",
+    "unit": "U11",
+    "lessonId": "U11-dml",
+    "conceptTags": [
+      "transaction",
+      "commit"
+    ],
+    "difficulty": 3,
+    "section": "11.4",
+    "tr": {
+      "title": "Aynı iki güncelleme, bu sefer COMMIT",
+      "prompt": "Bir öncekiyle birebir aynı transaction'ı yaz (id 1 -> 99, id 2 -> 88), ama sonunda ROLLBACK yerine COMMIT kullan. Bu sefer iki fiyat da yeni değerinde kalmalı. Tek kelime farkın sonucu nasıl değiştirdiğine bak.",
+      "hint1": "Sadece son satır değişiyor: ROLLBACK yerine COMMIT.",
+      "answerExplanation": "COMMIT değişiklikleri kalıcı yapar; artık ROLLBACK kurtarmaz. Bir önceki soruyla tek farkı son kelimeydi ve sonuç taban tabana zıt. Gerçek hayatta COMMIT demeden önce SELECT ile kontrol et."
+    },
+    "assessment": {
+      "referenceSql": "BEGIN; UPDATE products SET price = 99 WHERE id = 1; UPDATE products SET price = 88 WHERE id = 2; COMMIT;",
+      "verifySql": "SELECT id, name, price FROM products ORDER BY id;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "name",
+        "price"
+      ]
+    }
   }
 ]
