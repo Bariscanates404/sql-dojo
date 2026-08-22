@@ -7,6 +7,13 @@ import type { PGlite } from '@electric-sql/pglite';
 import { getSeed, type SeedDef } from './seeds';
 
 export interface DisplayResult {
+  /**
+   * Kum havuzunda çalışan sorularda bu sonuç NEYİ gösteriyor:
+   *  'query' = kullanıcının kendi sorgusunun çıktısı
+   *  'after' = komut çalıştıktan SONRAKİ tablo durumu (kullanıcının komutu satır üretmedi)
+   * Arayüz bunu yazmazsa öğrenci, ekrandaki tabloyu kendi sorgusunun sonucu sanar.
+   */
+  sandboxView?: 'query' | 'after';
   fields: { name: string }[];
   // Pozisyonel: Postgres aynı adı taşıyan iki kolon döndürebilir (örn. iki kez last_name),
   // isim bazlı bir obje bu durumda ikinci değeri birinciye ezdirir.
@@ -94,7 +101,11 @@ export function resetSeed(seedKey: string): Promise<void> {
  * Maliyet ölçüldü: instance ilk kurulum ~600ms (bir kez, tembel), her koşumdan
  * önce yeniden tohumlama ~37ms.
  */
-export function execSandboxed(sql: string, verifySql: string): Promise<DisplayResult> {
+export function execSandboxed(
+  sql: string,
+  verifySql: string,
+  opts: { alwaysVerify?: boolean } = {},
+): Promise<DisplayResult> {
   return enqueue(async () => {
     const seed = getSeed(currentSeedKey ?? 'campus');
     const seedSql = await fetchSeedSql(seed);
@@ -102,11 +113,10 @@ export function execSandboxed(sql: string, verifySql: string): Promise<DisplayRe
     if (!sandboxPromise) sandboxPromise = createDb();
     const db = await sandboxPromise;
 
-    // Bir önceki koşumda öğrencinin SQL'i bir transaction içinde patladıysa
+    // Bir önceki koşumda kullanıcının SQL'i bir transaction içinde patladıysa
     // bağlantı "aborted" durumda kalır ve sonraki her komut 25P02 ile reddedilir
     // (ölçüldü: bir soru patlayınca sıradaki soru da patlıyordu). Açıkta kalmış
-    // transaction'ı kapatarak başlıyoruz; açık transaction yoksa bu sadece bir
-    // uyarıdır, zararsızdır.
+    // transaction'ı kapatarak başlıyoruz; açık transaction yoksa zararsızdır.
     await db.exec('ROLLBACK;').catch(() => {});
 
     // Her koşum temiz başlar: bir önceki sorunun bıraktığı hiçbir şey taşınmaz.
@@ -114,14 +124,23 @@ export function execSandboxed(sql: string, verifySql: string): Promise<DisplayRe
     await db.exec(seedSql);
 
     const t0 = performance.now();
-    await db.exec(sql);
-    const results = await db.exec(verifySql, { rowMode: 'array' });
-    const chosen = results[results.length - 1];
+    const own = await db.exec(sql, { rowMode: 'array' });
+
+    // Kullanıcı bir SELECT yazdıysa KENDİ sonucunu görmeli. Aksi halde
+    // (DELETE/UPDATE/DDL) gösterilecek bir satır yoktur, o zaman komutun
+    // sonrasındaki tablo durumunu gösteririz.
+    //
+    // Değerlendirme bu seçime bırakılamaz: karşılaştırma her zaman aynı
+    // ölçüye bakmalı, o yüzden grade tarafı alwaysVerify ile çağırır.
+    const ownRows = opts.alwaysVerify ? undefined : [...own].reverse().find((r) => r.fields?.length);
+    const chosen = ownRows ?? (await db.exec(verifySql, { rowMode: 'array' })).at(-1);
+
     return {
+      sandboxView: ownRows ? 'query' : 'after',
       fields: (chosen?.fields ?? []).map((f) => ({ name: f.name })),
       rows: (chosen?.rows ?? []) as unknown as unknown[][],
       affectedRows: chosen?.affectedRows ?? 0,
-      statements: results.length,
+      statements: own.length,
       durationMs: performance.now() - t0,
     };
   });

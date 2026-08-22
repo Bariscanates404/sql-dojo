@@ -118,8 +118,8 @@ export function QuestionCard({ question: q, onGraded, onNext }: Props) {
           {mutating && (
             <p className="rounded-lg border border-accent/40 bg-accent/10 px-3 py-2 text-xs text-accent">
               🛡️ Bu soru veriyi <strong>değiştiren</strong> bir komut istiyor. Gönül rahatlığıyla dene:
-              çalıştırdığın her şey otomatik geri alınıyor, kum havuzu bozulmuyor. Çalıştırınca
-              aşağıda komutun <strong>sonrasındaki</strong> tablo durumunu göreceksin.
+              çalıştırdığın her şey otomatik geri alınıyor, kum havuzu bozulmuyor. Keşfetmek için
+              serbestçe <code>SELECT</code> de yazabilirsin.
             </p>
           )}
 
@@ -155,6 +155,12 @@ export function QuestionCard({ question: q, onGraded, onNext }: Props) {
               </Button>
             )}
           </div>
+          {runResult?.sandboxView === 'after' && (
+            <p className="text-xs text-muted">
+              📋 Komutun <strong>sonrasındaki</strong> tablo durumu (komutun kendisi satır
+              döndürmediği için tablonun son hâli gösteriliyor).
+            </p>
+          )}
           {(runResult || runError) && <QueryResultView result={runResult} error={runError} />}
         </>
       ) : (
