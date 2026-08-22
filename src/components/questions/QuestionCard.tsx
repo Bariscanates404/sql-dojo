@@ -124,11 +124,23 @@ export function QuestionCard({ question: q, onGraded, onNext }: Props) {
           )}
 
           <SqlEditor value={sql} onChange={setSql} onRun={run} minHeight="120px" />
+
+          {/* Editör boşken Çalıştır ve Gönder kapalı. Sebebini yazmazsak öğrenci
+              gri butonlara bakıp "sorgu çalıştıramıyorum" diye düşünüyor;
+              kapalı bir düğme, sebebini söylemediği sürece bozuk görünür. */}
+          {!sql.trim() && (
+            <p className="text-xs text-muted">
+              ✍️ Sorguyu yukarıdaki kutuya yaz; yazmaya başlayınca <strong>Çalıştır</strong> ve{' '}
+              <strong>Gönder</strong> düğmeleri açılır. Sütun adlarını yukarıdaki tablo listesinden
+              alabilirsin.
+            </p>
+          )}
+
           <div className="flex flex-wrap items-center gap-2">
-            <Button size="sm" variant="secondary" onClick={run} disabled={busy || !sql.trim()}>
+            <Button size="sm" variant="secondary" onClick={run} disabled={busy || !sql.trim()} title={!sql.trim() ? 'Önce sorguyu yaz' : 'Sorguyu çalıştır'}>
               ▶ Çalıştır <span className="text-xs opacity-60">⌘↵</span>
             </Button>
-            <Button size="sm" onClick={submit} disabled={busy || !sql.trim()}>
+            <Button size="sm" onClick={submit} disabled={busy || !sql.trim()} title={!sql.trim() ? 'Önce sorguyu yaz' : 'Cevabını değerlendir'}>
               Gönder &amp; değerlendir
             </Button>
             <div className="flex-1" />
