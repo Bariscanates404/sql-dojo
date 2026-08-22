@@ -102,6 +102,13 @@ export function execSandboxed(sql: string, verifySql: string): Promise<DisplayRe
     if (!sandboxPromise) sandboxPromise = createDb();
     const db = await sandboxPromise;
 
+    // Bir önceki koşumda öğrencinin SQL'i bir transaction içinde patladıysa
+    // bağlantı "aborted" durumda kalır ve sonraki her komut 25P02 ile reddedilir
+    // (ölçüldü: bir soru patlayınca sıradaki soru da patlıyordu). Açıkta kalmış
+    // transaction'ı kapatarak başlıyoruz; açık transaction yoksa bu sadece bir
+    // uyarıdır, zararsızdır.
+    await db.exec('ROLLBACK;').catch(() => {});
+
     // Her koşum temiz başlar: bir önceki sorunun bıraktığı hiçbir şey taşınmaz.
     await db.exec('DROP SCHEMA IF EXISTS public CASCADE; CREATE SCHEMA public;');
     await db.exec(seedSql);

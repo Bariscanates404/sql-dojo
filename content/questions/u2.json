@@ -848,5 +848,150 @@
     ],
     "correctIndex": 0,
     "section": "2.5"
+  },
+  {
+    "id": "q-u2-and-three-001",
+    "type": "write_sql",
+    "unit": "U2",
+    "lessonId": "U2-where",
+    "conceptTags": [
+      "where",
+      "and",
+      "comparison"
+    ],
+    "difficulty": 2,
+    "section": "2.2",
+    "tr": {
+      "title": "Üç koşulu birden bağla (AND)",
+      "prompt": "products tablosundan kategorisi 'İçecek' OLAN, fiyatı 10'dan BÜYÜK ve 40'tan KÜÇÜK ürünleri getir. Sonuçta iki sütun olsun, bu sırayla: name ve price. Sonucu price'a göre artan sırala.",
+      "hint1": "AND ile üç koşulu bağla: category = 'İçecek' AND price > 10 AND price < 40",
+      "answerExplanation": "AND ile bağlanan koşulların HEPSİ doğru olmalı. Filtre daraldıkça sonuç küçülür. Burada Filtre Kahve (25) ve Çay (15) kalır; Su (10) ve Latte (40) uçlarda olduğu için elenir."
+    },
+    "assessment": {
+      "referenceSql": "SELECT name, price FROM products WHERE category = 'İçecek' AND price > 10 AND price < 40 ORDER BY price ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "name",
+        "price"
+      ],
+      "allowedLiterals": [
+        "İçecek"
+      ]
+    }
+  },
+  {
+    "id": "q-u2-parens-001",
+    "type": "write_sql",
+    "unit": "U2",
+    "lessonId": "U2-where",
+    "conceptTags": [
+      "where",
+      "and",
+      "or",
+      "parentheses"
+    ],
+    "difficulty": 3,
+    "section": "2.2",
+    "tr": {
+      "title": "Parantez şart: (A veya B) ve C",
+      "prompt": "products tablosundan, kategorisi 'Yiyecek' VEYA 'Tatlı' olan VE fiyatı 30'dan büyük olan ürünleri getir. Sonuçta iki sütun olsun, bu sırayla: name ve category. Sonucu name'e göre artan sırala. Parantezi doğru yere koy.",
+      "hint1": "(category = 'Yiyecek' OR category = 'Tatlı') AND price > 30",
+      "answerExplanation": "AND, OR'dan önce çalışır. Parantez koymazsan SQL cümleyi 'Yiyecek ol VEYA (Tatlı ol ve 30'dan pahalı ol)' diye okur ve ucuz yiyecekler de gelir. Parantez burada bir süs değil, anlamı belirleyen şeydir."
+    },
+    "assessment": {
+      "referenceSql": "SELECT name, category FROM products WHERE (category = 'Yiyecek' OR category = 'Tatlı') AND price > 30 ORDER BY name ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "name",
+        "category"
+      ],
+      "allowedLiterals": [
+        "Yiyecek",
+        "Tatlı"
+      ]
+    }
+  },
+  {
+    "id": "q-u2-like-suffix-001",
+    "type": "write_sql",
+    "unit": "U2",
+    "lessonId": "U2-where",
+    "conceptTags": [
+      "where",
+      "like"
+    ],
+    "difficulty": 2,
+    "section": "2.4",
+    "tr": {
+      "title": "LIKE: sonu belli harfle bitenler",
+      "prompt": "students tablosundan adı 'e' harfiyle BİTEN öğrencileri getir. Sonuçta iki sütun olsun, bu sırayla: id ve first_name. id'ye göre artan sırala.",
+      "hint1": "% herhangi bir karakter dizisi demektir. Sonu 'e' ise desen '%e' olur.",
+      "answerExplanation": "LIKE '%e' → 'e' ile biten her şey; Ayşe, Merve ve Emre gelir. % joker karakterdir, sıfır veya daha fazla karakterin yerini tutar. Başta kullanırsan 'ile biten', sonda kullanırsan 'ile başlayan' ararsın."
+    },
+    "assessment": {
+      "referenceSql": "SELECT id, first_name FROM students WHERE first_name LIKE '%e' ORDER BY id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "first_name"
+      ]
+    }
+  },
+  {
+    "id": "q-u2-like-contains-001",
+    "type": "write_sql",
+    "unit": "U2",
+    "lessonId": "U2-where",
+    "conceptTags": [
+      "where",
+      "like"
+    ],
+    "difficulty": 2,
+    "section": "2.4",
+    "tr": {
+      "title": "LIKE: içinde geçenler",
+      "prompt": "products tablosundan adının İÇİNDE 'a' harfi geçen ürünleri getir (başta, ortada ya da sonda, fark etmez). Sonuçta iki sütun olsun, bu sırayla: id ve name. id'ye göre artan sırala.",
+      "hint1": "İki yana da % koy: LIKE '%a%'",
+      "answerExplanation": "'%a%' deseni 'a'nın önünde ve arkasında herhangi bir şey olabilir demektir, yani 'içinde a geçen'. Arama kutularının arkasındaki mantık çoğunlukla budur."
+    },
+    "assessment": {
+      "referenceSql": "SELECT id, name FROM products WHERE name LIKE '%a%' ORDER BY id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "name"
+      ]
+    }
+  },
+  {
+    "id": "q-u2-like-underscore-001",
+    "type": "write_sql",
+    "unit": "U2",
+    "lessonId": "U2-where",
+    "conceptTags": [
+      "where",
+      "like"
+    ],
+    "difficulty": 3,
+    "section": "2.4",
+    "tr": {
+      "title": "LIKE: alt çizgi tam bir karakter demek",
+      "prompt": "students tablosundan adı TAM 3 harfli olan öğrencileri getir. Sonuçta iki sütun olsun, bu sırayla: id ve first_name. id'ye göre artan sırala. İpucu: LIKE'ta alt çizgi (_) tam olarak bir karakterin yerini tutar.",
+      "hint1": "Üç alt çizgi tam üç karakter demektir: LIKE '___'",
+      "answerExplanation": "% 'kaç karakter olursa olsun' derken, _ 'tam olarak bir karakter' der. '___' üç harfli adları bulur. İkisini birlikte de kullanabilirsin: 'A__' → A ile başlayan üç harfli."
+    },
+    "assessment": {
+      "referenceSql": "SELECT id, first_name FROM students WHERE first_name LIKE '___' ORDER BY id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "first_name"
+      ]
+    }
   }
 ]

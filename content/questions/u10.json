@@ -335,5 +335,157 @@
     ],
     "correctIndex": 0,
     "section": "10.1"
+  },
+  {
+    "id": "q-u10-cte-simple-001",
+    "type": "write_sql",
+    "unit": "U10",
+    "lessonId": "U10-cte",
+    "conceptTags": [
+      "cte",
+      "with"
+    ],
+    "difficulty": 2,
+    "section": "10.1",
+    "tr": {
+      "title": "CTE: ucuz ürünlere isim ver",
+      "prompt": "WITH kullanarak 'ucuz' adında bir CTE tanımla: fiyatı 25'ten küçük ürünlerin name ve price sütunlarını içersin. Sonra bu CTE'den tüm satırları getir. Sonuçta iki sütun olsun, bu sırayla: name ve price. price'a göre artan sırala.",
+      "hint1": "WITH ucuz AS (SELECT name, price FROM products WHERE price < 25) SELECT * FROM ucuz ORDER BY price;",
+      "answerExplanation": "CTE, bir ara sonuca isim vermektir. Sorguyu adımlara böler ve okunur hale getirir. Alt sorgudan farkı yok denecek kadar azdır; asıl kazanç, karmaşık sorguyu insanın takip edebileceği parçalara ayırmaktır."
+    },
+    "assessment": {
+      "referenceSql": "WITH ucuz AS (SELECT name, price FROM products WHERE price < 25) SELECT name, price FROM ucuz ORDER BY price ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "name",
+        "price"
+      ],
+      "requiredConcepts": [
+        "with"
+      ]
+    }
+  },
+  {
+    "id": "q-u10-cte-chain-001",
+    "type": "write_sql",
+    "unit": "U10",
+    "lessonId": "U10-cte",
+    "conceptTags": [
+      "cte",
+      "with",
+      "chained"
+    ],
+    "difficulty": 4,
+    "section": "10.2",
+    "tr": {
+      "title": "Zincirleme CTE: iki adımda çöz",
+      "prompt": "İki CTE tanımla: birincisi (sayim) her dersin kayıt sayısını hesaplasın; ikincisi (kalabalik) sayim'den 3 ve üzeri olanları seçsin. Sonra kalabalik'ten tüm satırları getir. Sonuçta iki sütun olsun, bu sırayla: course_id ve adet. course_id'ye göre artan sırala.",
+      "hint1": "WITH sayim AS (...), kalabalik AS (SELECT * FROM sayim WHERE adet >= 3) SELECT ... FROM kalabalik",
+      "answerExplanation": "İkinci CTE birincisini kullanabilir; virgülle ayırarak istediğin kadar zincirleyebilirsin. Her adım kendi başına okunabilir olduğu için karmaşık raporlar böyle kurulur ve hata ayıklaması kolaylaşır."
+    },
+    "assessment": {
+      "referenceSql": "WITH sayim AS (SELECT course_id, COUNT(*) AS adet FROM enrollments GROUP BY course_id), kalabalik AS (SELECT course_id, adet FROM sayim WHERE adet >= 3) SELECT course_id, adet FROM kalabalik ORDER BY course_id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "course_id",
+        "adet"
+      ],
+      "requiredConcepts": [
+        "with"
+      ]
+    }
+  },
+  {
+    "id": "q-u10-cte-distinct-001",
+    "type": "write_sql",
+    "unit": "U10",
+    "lessonId": "U10-cte",
+    "conceptTags": [
+      "cte",
+      "with",
+      "distinct",
+      "fan-out"
+    ],
+    "difficulty": 4,
+    "section": "10.3",
+    "tr": {
+      "title": "CTE ile çift saymayı temizle",
+      "prompt": "WITH kullanarak 'uyeler' adında bir CTE tanımla: club_memberships tablosundaki FARKLI student_id değerlerini içersin. Sonra bu CTE'deki satır sayısını getir. Sonuç tek sütun olsun, adı ogrenci_sayisi olsun.",
+      "hint1": "WITH uyeler AS (SELECT DISTINCT student_id FROM club_memberships) SELECT COUNT(*) AS ogrenci_sayisi FROM uyeler;",
+      "answerExplanation": "8 çıkar. Tekilleştirmeyi ayrı bir adıma çekmek, 'önce tekilleştir, sonra say' niyetini gözle görünür yapar. COUNT(DISTINCT ...) ile aynı sonucu verir ama karmaşık sorgularda CTE'li hâli çok daha okunurdur."
+    },
+    "assessment": {
+      "referenceSql": "WITH uyeler AS (SELECT DISTINCT student_id FROM club_memberships) SELECT COUNT(*) AS ogrenci_sayisi FROM uyeler;",
+      "compareMode": "multiset",
+      "expectedColumns": [
+        "ogrenci_sayisi"
+      ],
+      "requiredConcepts": [
+        "with"
+      ]
+    }
+  },
+  {
+    "id": "q-u10-cte-join-001",
+    "type": "write_sql",
+    "unit": "U10",
+    "lessonId": "U10-cte",
+    "conceptTags": [
+      "cte",
+      "with",
+      "join"
+    ],
+    "difficulty": 4,
+    "section": "10.3",
+    "tr": {
+      "title": "CTE'yi JOIN ile kullan",
+      "prompt": "Önce 'sayim' adında bir CTE tanımla: her kulübün üye sayısını (club_id, adet) hesaplasın. Sonra bu CTE'yi clubs tablosuyla JOIN ederek kulüp ADIYLA birlikte üye sayısını getir. Sonuçta iki sütun olsun, bu sırayla: kulup ve adet. kulup adına göre artan sırala.",
+      "hint1": "WITH sayim AS (SELECT club_id, COUNT(*) AS adet FROM club_memberships GROUP BY club_id) SELECT c.name AS kulup, s.adet FROM sayim s JOIN clubs c ON c.id = s.club_id ...",
+      "answerExplanation": "CTE gerçek bir tablo gibi JOIN'e girebilir. Önce sayıyı hesaplayıp SONRA ada bağlamak, tek adımda her şeyi yapmaya çalışan sorgudan çok daha anlaşılırdır ve çift sayma riskini de azaltır."
+    },
+    "assessment": {
+      "referenceSql": "WITH sayim AS (SELECT club_id, COUNT(*) AS adet FROM club_memberships GROUP BY club_id) SELECT c.name AS kulup, s.adet FROM sayim s JOIN clubs c ON c.id = s.club_id ORDER BY c.name ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "kulup",
+        "adet"
+      ],
+      "requiredConcepts": [
+        "with"
+      ]
+    }
+  },
+  {
+    "id": "q-u10-cte-sum-fix-001",
+    "type": "write_sql",
+    "unit": "U10",
+    "lessonId": "U10-cte",
+    "conceptTags": [
+      "cte",
+      "with",
+      "fan-out",
+      "sum"
+    ],
+    "difficulty": 4,
+    "section": "10.3",
+    "tr": {
+      "title": "CTE ile şişmeyen toplam",
+      "prompt": "Önce 'siparis_tutar' adında bir CTE tanımla: her siparişin toplam tutarını (order_id, tutar) hesaplasın; tutar = quantity * unit_price toplamı. Sonra bu CTE'den TÜM siparişlerin genel toplamını getir. Sonuç tek sütun olsun, adı genel_toplam olsun.",
+      "hint1": "WITH siparis_tutar AS (SELECT order_id, SUM(quantity * unit_price) AS tutar FROM order_items GROUP BY order_id) SELECT SUM(tutar) AS genel_toplam FROM siparis_tutar;",
+      "answerExplanation": "Önce sipariş seviyesinde topla, sonra o toplamları topla. İki adıma bölmek burada sadece okunurluk değil, doğruluk meselesidir: doğrudan JOIN'leyip SUM alsaydın çoğalan satırlar yüzünden toplam şişerdi. CTE, hangi grain'de topladığını gözle görünür kılar."
+    },
+    "assessment": {
+      "referenceSql": "WITH siparis_tutar AS (SELECT order_id, SUM(quantity * unit_price) AS tutar FROM order_items GROUP BY order_id) SELECT SUM(tutar) AS genel_toplam FROM siparis_tutar;",
+      "compareMode": "multiset",
+      "expectedColumns": [
+        "genel_toplam"
+      ],
+      "requiredConcepts": [
+        "with"
+      ]
+    }
   }
 ]

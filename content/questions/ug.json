@@ -1015,5 +1015,30 @@
         "attended"
       ]
     }
+  },
+  {
+    "id": "q-ug-read-vs-write-count-001",
+    "type": "write_sql",
+    "unit": "UG",
+    "lessonId": "UG-guvenlik",
+    "conceptTags": [
+      "read-vs-write",
+      "safe-habit"
+    ],
+    "difficulty": 1,
+    "section": "G.1",
+    "tr": {
+      "title": "Okuyan dünya bedava: aynı sorgu, aynı sonuç",
+      "prompt": "students tablosundaki satır sayısını getir. Sonuç tek sütun olsun, adı ogrenci_sayisi olsun. Bu sorgu SELECT olduğu için tabloya dokunmaz; kaç kez çalıştırırsan çalıştır sonuç değişmez.",
+      "hint1": "SELECT COUNT(*) AS ogrenci_sayisi FROM students;",
+      "answerExplanation": "14 döner ve hep 14 kalır. SELECT okuyan dünyaya aittir: risksizdir, tekrarlanabilir, denemesi bedavadır. Bu ünitenin geri kalanında öğreneceğin komutlar için aynısı geçerli DEĞİL."
+    },
+    "assessment": {
+      "referenceSql": "SELECT COUNT(*) AS ogrenci_sayisi FROM students;",
+      "compareMode": "multiset",
+      "expectedColumns": [
+        "ogrenci_sayisi"
+      ]
+    }
   }
 ]

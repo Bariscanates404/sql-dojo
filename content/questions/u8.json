@@ -549,5 +549,202 @@
     ],
     "correctIndex": 0,
     "section": "8.3"
+  },
+  {
+    "id": "q-u8-left-count-clubs-001",
+    "type": "write_sql",
+    "unit": "U8",
+    "lessonId": "U8-join-aggregate",
+    "conceptTags": [
+      "left-join",
+      "count",
+      "null"
+    ],
+    "difficulty": 3,
+    "section": "8.2",
+    "tr": {
+      "title": "LEFT JOIN + COUNT: sıfırı doğru saymak",
+      "prompt": "Her kulübün üye sayısını getir; ÜYESİ OLMAYAN kulüpler de 0 ile görünsün. Sonuçta üç sütun olsun, bu sırayla: id, name ve uye_sayisi. id'ye göre artan sırala. Dikkat: COUNT(*) burada yanlış cevap verir.",
+      "hint1": "LEFT JOIN kur, sonra COUNT(cm.student_id) yaz. COUNT(*) satırı sayar, eşleşmeyen kulüpte de 1 satır vardır.",
+      "answerExplanation": "LEFT JOIN'de eşleşmeyen kulüp için de bir satır üretilir ama sağ tarafı NULL'dır. COUNT(*) o satırı sayar ve 0 yerine 1 yazar. COUNT(sütun) ise NULL'ları saymaz, doğru cevabı verir. Bu, LEFT JOIN'in en klasik tuzağıdır."
+    },
+    "assessment": {
+      "referenceSql": "SELECT c.id, c.name, COUNT(cm.student_id) AS uye_sayisi FROM clubs c LEFT JOIN club_memberships cm ON cm.club_id = c.id GROUP BY c.id, c.name ORDER BY c.id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "name",
+        "uye_sayisi"
+      ]
+    }
+  },
+  {
+    "id": "q-u8-left-count-events-001",
+    "type": "write_sql",
+    "unit": "U8",
+    "lessonId": "U8-join-aggregate",
+    "conceptTags": [
+      "left-join",
+      "count",
+      "null"
+    ],
+    "difficulty": 3,
+    "section": "8.2",
+    "tr": {
+      "title": "Aynı tuzak, başka tablo: etkinlik sayısı",
+      "prompt": "Her kulübün kaç etkinliği olduğunu getir; hiç etkinliği olmayan kulüpler 0 ile görünsün. Sonuçta üç sütun olsun, bu sırayla: id, name ve etkinlik_sayisi. id'ye göre artan sırala.",
+      "hint1": "LEFT JOIN events, sonra COUNT(ev.id). Yine COUNT(*) değil.",
+      "answerExplanation": "Kural aynı: LEFT JOIN'den sonra 0 görmek istiyorsan sağ tablodan bir SÜTUNU say, satırı değil. Bu iki soruyu üst üste çözdüysen desen artık refleks olmalı."
+    },
+    "assessment": {
+      "referenceSql": "SELECT c.id, c.name, COUNT(ev.id) AS etkinlik_sayisi FROM clubs c LEFT JOIN events ev ON ev.club_id = c.id GROUP BY c.id, c.name ORDER BY c.id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "name",
+        "etkinlik_sayisi"
+      ]
+    }
+  },
+  {
+    "id": "q-u8-double-count-rows-001",
+    "type": "write_sql",
+    "unit": "U8",
+    "lessonId": "U8-join-aggregate",
+    "conceptTags": [
+      "fan-out",
+      "join",
+      "count"
+    ],
+    "difficulty": 3,
+    "section": "8.3",
+    "tr": {
+      "title": "Çoğalmayı gözle gör: JOIN öncesi ve sonrası",
+      "prompt": "students tablosunu club_memberships ile INNER JOIN yaptığında kaç satır oluştuğunu getir. Sonuç tek sütun olsun, adı satir_sayisi olsun. Bu sayıyı 14 (öğrenci sayısı) ile karşılaştır.",
+      "hint1": "JOIN kur ve COUNT(*) ile satırları say.",
+      "answerExplanation": "10 satır çıkar, oysa 14 öğrenci var. JOIN satır sayısını hem artırabilir hem azaltabilir: üyeliği olmayan öğrenciler düşer, birden çok üyeliği olanlar çoğalır. JOIN'den sonra 'bir satır ne demek' sorusunu YENİDEN sormak zorundasın."
+    },
+    "assessment": {
+      "referenceSql": "SELECT COUNT(*) AS satir_sayisi FROM students s JOIN club_memberships cm ON cm.student_id = s.id;",
+      "compareMode": "multiset",
+      "expectedColumns": [
+        "satir_sayisi"
+      ]
+    }
+  },
+  {
+    "id": "q-u8-double-count-fix-001",
+    "type": "write_sql",
+    "unit": "U8",
+    "lessonId": "U8-join-aggregate",
+    "conceptTags": [
+      "fan-out",
+      "distinct",
+      "count"
+    ],
+    "difficulty": 4,
+    "section": "8.3",
+    "tr": {
+      "title": "Şişmeyi DISTINCT ile düzelt",
+      "prompt": "En az bir kulübe üye olan KAÇ FARKLI öğrenci olduğunu getir; students ve club_memberships tablolarını JOIN ile birleştir ama aynı öğrenciyi birden çok saymamaya dikkat et. Sonuç tek sütun olsun, adı ogrenci_sayisi olsun.",
+      "hint1": "COUNT(*) yerine COUNT(DISTINCT s.id) yaz.",
+      "answerExplanation": "8 öğrenci. JOIN 10 satır üretti çünkü bazı öğrencilerin birden çok üyeliği var; COUNT(*) onları iki kez saydı. DISTINCT, çoğalmayı sayarken geri alır. Şişmenin çaresi JOIN'i kaldırmak değil, neyi saydığını netleştirmektir."
+    },
+    "assessment": {
+      "referenceSql": "SELECT COUNT(DISTINCT s.id) AS ogrenci_sayisi FROM students s JOIN club_memberships cm ON cm.student_id = s.id;",
+      "compareMode": "multiset",
+      "expectedColumns": [
+        "ogrenci_sayisi"
+      ],
+      "requiredConcepts": [
+        "distinct"
+      ]
+    }
+  },
+  {
+    "id": "q-u8-three-table-club-001",
+    "type": "write_sql",
+    "unit": "U8",
+    "lessonId": "U8-join-aggregate",
+    "conceptTags": [
+      "multi-join",
+      "group-by",
+      "count"
+    ],
+    "difficulty": 4,
+    "section": "8.4",
+    "tr": {
+      "title": "Üç tablo: kulüp başına üye adlarının sayısı",
+      "prompt": "Her kulübün adını ve üye sayısını getir; sadece üyesi OLAN kulüpler görünsün. clubs ve club_memberships tablolarını INNER JOIN ile birleştir. Sonuçta iki sütun olsun, bu sırayla: kulup (clubs.name) ve uye_sayisi. kulup adına göre artan sırala.",
+      "hint1": "JOIN kur, GROUP BY c.name, COUNT(*) ile say.",
+      "answerExplanation": "INNER JOIN kullandığın için üyesi olmayan kulüp hiç görünmez; bu bilinçli bir tercihtir. 'Sıfırları da göreyim' deseydin LEFT JOIN gerekirdi. Hangi JOIN'i seçtiğin, sorunun cevabını değiştirir."
+    },
+    "assessment": {
+      "referenceSql": "SELECT c.name AS kulup, COUNT(*) AS uye_sayisi FROM clubs c JOIN club_memberships cm ON cm.club_id = c.id GROUP BY c.name ORDER BY c.name ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "kulup",
+        "uye_sayisi"
+      ]
+    }
+  },
+  {
+    "id": "q-u8-three-table-dept-001",
+    "type": "write_sql",
+    "unit": "U8",
+    "lessonId": "U8-join-aggregate",
+    "conceptTags": [
+      "multi-join",
+      "group-by",
+      "avg"
+    ],
+    "difficulty": 4,
+    "section": "8.4",
+    "tr": {
+      "title": "Üç tablo: ders adıyla ortalama not",
+      "prompt": "Her dersin ADIYLA birlikte ortalama notunu getir. enrollments ve courses tablolarını birleştir, notu NULL olanları dikkate alma. Sonuçta iki sütun olsun, bu sırayla: ders (courses.name) ve ort. ders adına göre artan sırala.",
+      "hint1": "JOIN courses c ON c.id = e.course_id, WHERE e.grade IS NOT NULL, GROUP BY c.name.",
+      "answerExplanation": "Gruplamayı id yerine ADA göre yapınca sonuç insanın okuyabileceği bir rapor olur. Sıra önemli: WHERE önce süzer, sonra GROUP BY gruplar, sonra AVG hesaplanır."
+    },
+    "assessment": {
+      "referenceSql": "SELECT c.name AS ders, AVG(e.grade) AS ort FROM enrollments e JOIN courses c ON c.id = e.course_id WHERE e.grade IS NOT NULL GROUP BY c.name ORDER BY c.name ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "ders",
+        "ort"
+      ]
+    }
+  },
+  {
+    "id": "q-u8-three-table-order-001",
+    "type": "write_sql",
+    "unit": "U8",
+    "lessonId": "U8-join-aggregate",
+    "conceptTags": [
+      "multi-join",
+      "group-by",
+      "sum"
+    ],
+    "difficulty": 4,
+    "section": "8.4",
+    "tr": {
+      "title": "Üç tablo: öğrenci başına harcama",
+      "prompt": "Her öğrencinin adıyla birlikte toplam harcamasını getir. students, orders ve order_items tablolarını birleştir; tutar = quantity * unit_price. Sonuçta iki sütun olsun, bu sırayla: ogrenci (students.first_name) ve toplam. toplam'a göre büyükten küçüğe, eşitlikte ogrenci adına göre artan sırala.",
+      "hint1": "İki JOIN gerekir: orders o ON o.student_id = s.id, order_items oi ON oi.order_id = o.id. Sonra SUM(oi.quantity * oi.unit_price).",
+      "answerExplanation": "Üç tablo zinciri: öğrenci → sipariş → sipariş satırı. Toplam, en alttaki satır tablosunda hesaplanır çünkü tutar orada. Zincirin her halkasında ON koşulunu doğru kurmak şart; biri eksikse sonuç sessizce şişer."
+    },
+    "assessment": {
+      "referenceSql": "SELECT s.first_name AS ogrenci, SUM(oi.quantity * oi.unit_price) AS toplam FROM students s JOIN orders o ON o.student_id = s.id JOIN order_items oi ON oi.order_id = o.id GROUP BY s.first_name ORDER BY toplam DESC, ogrenci ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "ogrenci",
+        "toplam"
+      ]
+    }
   }
 ]

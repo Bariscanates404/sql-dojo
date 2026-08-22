@@ -785,5 +785,214 @@
     ],
     "correctIndex": 3,
     "section": "1.6"
+  },
+  {
+    "id": "q-u1-alias-price-001",
+    "type": "write_sql",
+    "unit": "U1",
+    "lessonId": "U1-select",
+    "conceptTags": [
+      "column-alias"
+    ],
+    "difficulty": 1,
+    "section": "1.2",
+    "tr": {
+      "title": "Takma ad: fiyat sütununu Türkçeleştir",
+      "prompt": "products tablosundan name ve price sütunlarını getir; başlıklar sonuçta urun_adi ve fiyat olarak görünsün.",
+      "hint1": "Her sütuna ayrı ayrı AS verebilirsin: name AS urun_adi, price AS fiyat",
+      "answerExplanation": "AS sonuçtaki sütun başlığını değiştirir. Uzun ya da yabancı sütun adlarını okunur hale getirmek için kullanılır; tablodaki gerçek ad değişmez."
+    },
+    "assessment": {
+      "referenceSql": "SELECT name AS urun_adi, price AS fiyat FROM products;",
+      "compareMode": "multiset",
+      "expectedColumns": [
+        "urun_adi",
+        "fiyat"
+      ]
+    }
+  },
+  {
+    "id": "q-u1-alias-without-as-001",
+    "type": "write_sql",
+    "unit": "U1",
+    "lessonId": "U1-select",
+    "conceptTags": [
+      "column-alias"
+    ],
+    "difficulty": 2,
+    "section": "1.2",
+    "tr": {
+      "title": "AS yazmadan takma ad",
+      "prompt": "clubs tablosundan name sütununu getir, sonuçtaki başlığı kulup olsun. Bu soruda AS kelimesini KULLANMA: SQL'de takma ad AS olmadan da verilebilir.",
+      "hint1": "Sütun adından sonra boşluk bırakıp takma adı yazman yeterli: name kulup",
+      "answerExplanation": "AS isteğe bağlıdır; 'name kulup' ile 'name AS kulup' aynı şeydir. Yine de AS yazmak okunurluğu artırır, çünkü takma adın nerede başladığı gözle daha net görünür."
+    },
+    "assessment": {
+      "referenceSql": "SELECT name kulup FROM clubs;",
+      "compareMode": "multiset",
+      "expectedColumns": [
+        "kulup"
+      ]
+    }
+  },
+  {
+    "id": "q-u1-alias-quoted-001",
+    "type": "write_sql",
+    "unit": "U1",
+    "lessonId": "U1-select",
+    "conceptTags": [
+      "column-alias"
+    ],
+    "difficulty": 3,
+    "section": "1.2",
+    "tr": {
+      "title": "Boşluklu takma ad",
+      "prompt": "products tablosundan name sütununu getir; sonuçtaki başlık iki kelimeden oluşsun: Urun Adi (arada boşluk var). Boşluk içeren takma adlar ÇİFT tırnak ister.",
+      "hint1": "Çift tırnak sütun/başlık adları içindir: name AS \"Urun Adi\"",
+      "answerExplanation": "Tek tırnak metin DEĞERİ, çift tırnak sütun/başlık ADI içindir. Boşluk ya da büyük harf içeren bir başlık istiyorsan çift tırnak şart; yoksa SQL onu iki ayrı parça sanar."
+    },
+    "assessment": {
+      "referenceSql": "SELECT name AS \"Urun Adi\" FROM products;",
+      "compareMode": "multiset",
+      "expectedColumns": [
+        "Urun Adi"
+      ]
+    }
+  },
+  {
+    "id": "q-u1-alias-expression-001",
+    "type": "write_sql",
+    "unit": "U1",
+    "lessonId": "U1-select",
+    "conceptTags": [
+      "column-alias",
+      "computed-column"
+    ],
+    "difficulty": 2,
+    "section": "1.2",
+    "tr": {
+      "title": "Hesaplanan sütuna takma ad şart",
+      "prompt": "products tablosundan name sütununu ve fiyatın iki katını getir. İkinci sütunun adı iki_kat olsun. (Takma ad vermezsen başlık okunaksız çıkar.)",
+      "hint1": "price * 2 AS iki_kat",
+      "answerExplanation": "Hesaplanan bir sütunun doğal bir adı yoktur; takma ad vermezsen veritabanı '?column?' gibi bir şey yazar. Bu yüzden ifadelerde AS neredeyse zorunludur."
+    },
+    "assessment": {
+      "referenceSql": "SELECT name, price * 2 AS iki_kat FROM products;",
+      "compareMode": "multiset",
+      "expectedColumns": [
+        "name",
+        "iki_kat"
+      ]
+    }
+  },
+  {
+    "id": "q-u1-computed-kdv-001",
+    "type": "write_sql",
+    "unit": "U1",
+    "lessonId": "U1-select",
+    "conceptTags": [
+      "computed-column",
+      "arithmetic"
+    ],
+    "difficulty": 2,
+    "section": "1.3",
+    "tr": {
+      "title": "Hesaplanan sütun: KDV'li fiyat",
+      "prompt": "products tablosundan name ve price sütunlarını, bir de fiyatın %20 fazlasını getir. Üçüncü sütunun adı kdvli olsun. Sonucu id'ye göre artan sırala.",
+      "hint1": "price * 1.20 AS kdvli",
+      "answerExplanation": "SELECT içinde aritmetik yapabilirsin; sonuç her satır için ayrı ayrı hesaplanır. Tabloya yeni bir sütun EKLENMEZ, sadece bu sonuçta görünür."
+    },
+    "assessment": {
+      "referenceSql": "SELECT name, price, price * 1.20 AS kdvli FROM products ORDER BY id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "name",
+        "price",
+        "kdvli"
+      ]
+    }
+  },
+  {
+    "id": "q-u1-computed-concat-001",
+    "type": "write_sql",
+    "unit": "U1",
+    "lessonId": "U1-select",
+    "conceptTags": [
+      "computed-column",
+      "concat"
+    ],
+    "difficulty": 2,
+    "section": "1.3",
+    "tr": {
+      "title": "Hesaplanan sütun: metin birleştirme",
+      "prompt": "courses tablosundan, ders kodunu ve adını tek bir sütunda birleştirerek getir; aralarında bir boşluk olsun. Sütunun adı etiket olsun. Sonucu id'ye göre artan sırala.",
+      "hint1": "Metinleri || ile birleştirirsin: code || ' ' || name",
+      "answerExplanation": "|| operatörü metinleri yan yana ekler. Sayılarda + toplama yapar ama metinlerde || birleştirme yapar; ikisini karıştırma."
+    },
+    "assessment": {
+      "referenceSql": "SELECT code || ' ' || name AS etiket FROM courses ORDER BY id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "etiket"
+      ]
+    }
+  },
+  {
+    "id": "q-u1-computed-diff-001",
+    "type": "write_sql",
+    "unit": "U1",
+    "lessonId": "U1-select",
+    "conceptTags": [
+      "computed-column",
+      "arithmetic"
+    ],
+    "difficulty": 2,
+    "section": "1.3",
+    "tr": {
+      "title": "Hesaplanan sütun: iki sütunu birlikte kullan",
+      "prompt": "order_items tablosundan order_id, product_id ve satır tutarını getir. Tutar = quantity * unit_price. Üçüncü sütunun adı tutar olsun. Sonucu order_id sonra product_id'ye göre artan sırala.",
+      "hint1": "quantity * unit_price AS tutar",
+      "answerExplanation": "Hesap aynı satırdaki iki sütunu kullanabilir. Her satır için ayrı hesaplanır: 3 adet × 25 TL = 75 TL. Bu, ileride SUM ile toplayacağın 'satır tutarı' kavramının ta kendisidir."
+    },
+    "assessment": {
+      "referenceSql": "SELECT order_id, product_id, quantity * unit_price AS tutar FROM order_items ORDER BY order_id ASC, product_id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "order_id",
+        "product_id",
+        "tutar"
+      ]
+    }
+  },
+  {
+    "id": "q-u1-limit-offset-001",
+    "type": "write_sql",
+    "unit": "U1",
+    "lessonId": "U1-select",
+    "conceptTags": [
+      "limit",
+      "offset",
+      "order-by"
+    ],
+    "difficulty": 3,
+    "section": "1.6",
+    "tr": {
+      "title": "OFFSET: baştan birkaçını atla",
+      "prompt": "products tablosundan ürünleri fiyata göre pahalıdan ucuza sırala, ilk 2 tanesini ATLA ve sonraki 3 ürünü getir. Sonuçta iki sütun olsun, bu sırayla: name ve price.",
+      "hint1": "ORDER BY price DESC ile sırala, sonra LIMIT 3 OFFSET 2 kullan.",
+      "answerExplanation": "OFFSET kaç satır atlanacağını, LIMIT kaç satır alınacağını söyler. Sayfalama (1. sayfa, 2. sayfa) tam olarak böyle yapılır. OFFSET'in anlamlı olması için ORDER BY şarttır, yoksa hangi satırların atlandığı belirsizdir."
+    },
+    "assessment": {
+      "referenceSql": "SELECT name, price FROM products ORDER BY price DESC LIMIT 3 OFFSET 2;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "name",
+        "price"
+      ]
+    }
   }
 ]

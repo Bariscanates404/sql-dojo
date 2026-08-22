@@ -371,5 +371,164 @@
       }
     ],
     "section": "13.2"
+  },
+  {
+    "id": "q-u13-over-avg-001",
+    "type": "write_sql",
+    "unit": "U13",
+    "lessonId": "U13-window",
+    "conceptTags": [
+      "window",
+      "over"
+    ],
+    "difficulty": 3,
+    "section": "13.1",
+    "tr": {
+      "title": "OVER: satırı koru, yanına genel ortalamayı yaz",
+      "prompt": "products tablosundan her ürünün adını, fiyatını ve TÜM ürünlerin ortalama fiyatını getir. Ortalama her satırda tekrar edecek ama satırlar kaybolmayacak. Sonuçta üç sütun olsun, bu sırayla: name, price ve genel_ort. id'ye göre artan sırala.",
+      "hint1": "AVG(price) OVER () — boş parantez 'tüm satırlar üzerinde' demektir.",
+      "answerExplanation": "GROUP BY satırları birleştirip yok eder; window function satırları KORUR ve yanına hesabı ekler. OVER () boş bırakıldığında pencere tüm tablodur. 'Her ürün genel ortalamanın ne kadar üstünde' gibi sorular böyle cevaplanır."
+    },
+    "assessment": {
+      "referenceSql": "SELECT name, price, AVG(price) OVER () AS genel_ort FROM products ORDER BY id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "name",
+        "price",
+        "genel_ort"
+      ],
+      "requiredConcepts": [
+        "over"
+      ]
+    }
+  },
+  {
+    "id": "q-u13-partition-avg-001",
+    "type": "write_sql",
+    "unit": "U13",
+    "lessonId": "U13-window",
+    "conceptTags": [
+      "window",
+      "partition-by"
+    ],
+    "difficulty": 3,
+    "section": "13.1",
+    "tr": {
+      "title": "PARTITION BY: kendi kategorisinin ortalaması",
+      "prompt": "products tablosundan her ürünün adını, kategorisini, fiyatını ve KENDİ KATEGORİSİNİN ortalama fiyatını getir. Sonuçta dört sütun olsun, bu sırayla: name, category, price ve kat_ort. id'ye göre artan sırala.",
+      "hint1": "AVG(price) OVER (PARTITION BY category)",
+      "answerExplanation": "PARTITION BY pencereyi gruplara böler: her satır kendi kategorisinin ortalamasını görür. GROUP BY ile farkı şu: burada 8 ürünün 8'i de sonuçta duruyor, sadece yanlarına grup hesabı eklendi."
+    },
+    "assessment": {
+      "referenceSql": "SELECT name, category, price, AVG(price) OVER (PARTITION BY category) AS kat_ort FROM products ORDER BY id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "name",
+        "category",
+        "price",
+        "kat_ort"
+      ],
+      "requiredConcepts": [
+        "partition-by"
+      ]
+    }
+  },
+  {
+    "id": "q-u13-partition-count-001",
+    "type": "write_sql",
+    "unit": "U13",
+    "lessonId": "U13-window",
+    "conceptTags": [
+      "window",
+      "partition-by",
+      "count"
+    ],
+    "difficulty": 3,
+    "section": "13.1",
+    "tr": {
+      "title": "PARTITION BY ile sayım",
+      "prompt": "products tablosundan her ürünün adını, kategorisini ve o kategoride KAÇ ürün olduğunu getir. Sonuçta üç sütun olsun, bu sırayla: name, category ve kat_adet. id'ye göre artan sırala.",
+      "hint1": "COUNT(*) OVER (PARTITION BY category)",
+      "answerExplanation": "Window function'lar COUNT, SUM, AVG, MIN, MAX ile de çalışır. 'Bu ürün, kategorisindeki kaç üründen biri' sorusunu satır kaybetmeden cevaplarsın; GROUP BY ile yapsaydın ürün adlarını kaybederdin."
+    },
+    "assessment": {
+      "referenceSql": "SELECT name, category, COUNT(*) OVER (PARTITION BY category) AS kat_adet FROM products ORDER BY id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "name",
+        "category",
+        "kat_adet"
+      ],
+      "requiredConcepts": [
+        "partition-by"
+      ]
+    }
+  },
+  {
+    "id": "q-u13-rank-price-001",
+    "type": "write_sql",
+    "unit": "U13",
+    "lessonId": "U13-window",
+    "conceptTags": [
+      "window",
+      "rank",
+      "row-number"
+    ],
+    "difficulty": 3,
+    "section": "13.2",
+    "tr": {
+      "title": "ROW_NUMBER: kategori içinde sıra numarası",
+      "prompt": "products tablosundan her ürünün adını, kategorisini, fiyatını ve KENDİ KATEGORİSİ İÇİNDE pahalıdan ucuza sıra numarasını getir. Sonuçta dört sütun olsun, bu sırayla: name, category, price ve sira. category sonra sira'ya göre artan sırala.",
+      "hint1": "ROW_NUMBER() OVER (PARTITION BY category ORDER BY price DESC) AS sira",
+      "answerExplanation": "ROW_NUMBER her satıra 1'den başlayan benzersiz bir numara verir; PARTITION BY ile numaralandırma her grupta yeniden başlar. 'Her kategorinin en pahalı 2 ürünü' gibi sorular bu numarayı süzerek çözülür."
+    },
+    "assessment": {
+      "referenceSql": "SELECT name, category, price, ROW_NUMBER() OVER (PARTITION BY category ORDER BY price DESC) AS sira FROM products ORDER BY category ASC, sira ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "name",
+        "category",
+        "price",
+        "sira"
+      ],
+      "requiredConcepts": [
+        "row-number"
+      ]
+    }
+  },
+  {
+    "id": "q-u13-lag-price-001",
+    "type": "write_sql",
+    "unit": "U13",
+    "lessonId": "U13-window",
+    "conceptTags": [
+      "window",
+      "lag"
+    ],
+    "difficulty": 4,
+    "section": "13.3",
+    "tr": {
+      "title": "LAG: bir önceki satırın değeri",
+      "prompt": "products tablosundan ürünleri id sırasına göre listele; her satırda ürünün adını, fiyatını ve BİR ÖNCEKİ ürünün fiyatını getir. Sonuçta üç sütun olsun, bu sırayla: name, price ve onceki_fiyat. id'ye göre artan sırala.",
+      "hint1": "LAG(price) OVER (ORDER BY id) AS onceki_fiyat",
+      "answerExplanation": "LAG bir önceki satıra bakar; ilk satırda önceki olmadığı için NULL döner. 'Bu ay geçen aya göre ne kadar arttı' türü karşılaştırmalar böyle yapılır, kendi kendine JOIN yapmaya gerek kalmadan."
+    },
+    "assessment": {
+      "referenceSql": "SELECT name, price, LAG(price) OVER (ORDER BY id) AS onceki_fiyat FROM products ORDER BY id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "name",
+        "price",
+        "onceki_fiyat"
+      ],
+      "requiredConcepts": [
+        "lag"
+      ]
+    }
   }
 ]

@@ -272,5 +272,34 @@
       ]
     },
     "section": "14.1"
+  },
+  {
+    "id": "q-u14-index-columns-001",
+    "type": "write_sql",
+    "unit": "U14",
+    "lessonId": "U14-view-index",
+    "conceptTags": [
+      "index",
+      "introspection"
+    ],
+    "difficulty": 3,
+    "section": "14.2",
+    "tr": {
+      "title": "Bu veritabanında hangi indeksler var?",
+      "prompt": "Veritabanındaki indekslerin adlarını getir. pg_indexes görünümünü kullan, schemaname = 'public' ile süz. Sonuç tek sütun olsun: indexname. Ada göre artan sırala.",
+      "hint1": "SELECT indexname FROM pg_indexes WHERE schemaname = 'public' ORDER BY indexname;",
+      "answerExplanation": "Gördüğün indekslerin çoğunu sen oluşturmadın: her PRIMARY KEY otomatik olarak bir indeks yaratır, çünkü benzersizliği hızlıca kontrol edebilmesi gerekir. İndeks okumayı hızlandırır ama her yazmada güncellenmesi gerektiği için yazmayı yavaşlatır; bedeli budur."
+    },
+    "assessment": {
+      "referenceSql": "SELECT indexname FROM pg_indexes WHERE schemaname = 'public' ORDER BY indexname ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "indexname"
+      ],
+      "allowedLiterals": [
+        "public"
+      ]
+    }
   }
 ]

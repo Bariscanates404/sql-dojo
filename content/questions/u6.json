@@ -597,5 +597,208 @@
         "is-null"
       ]
     }
+  },
+  {
+    "id": "q-u6-pk-unique-001",
+    "type": "write_sql",
+    "unit": "U6",
+    "lessonId": "U6-join",
+    "conceptTags": [
+      "primary-key",
+      "keys",
+      "count"
+    ],
+    "difficulty": 2,
+    "section": "6.1",
+    "tr": {
+      "title": "PK benzersizdir: kanıtla",
+      "prompt": "departments tablosunda satır sayısı ile FARKLI id sayısını tek sorguda getir, bu sırayla: satir ve farkli_id. İki sayı eşit çıkmalı; birincil anahtarın anlamı budur.",
+      "hint1": "COUNT(*) ve COUNT(DISTINCT id) yan yana yazılabilir.",
+      "answerExplanation": "İkisi de 5. Birincil anahtar her satırda FARKLI olmak zorundadır; bu yüzden satır sayısı ile farklı id sayısı hep eşittir. Eşit olmasaydı o sütun kimlik olarak kullanılamazdı."
+    },
+    "assessment": {
+      "referenceSql": "SELECT COUNT(*) AS satir, COUNT(DISTINCT id) AS farkli_id FROM departments;",
+      "compareMode": "multiset",
+      "expectedColumns": [
+        "satir",
+        "farkli_id"
+      ]
+    }
+  },
+  {
+    "id": "q-u6-fk-distinct-001",
+    "type": "write_sql",
+    "unit": "U6",
+    "lessonId": "U6-join",
+    "conceptTags": [
+      "foreign-key",
+      "keys",
+      "distinct"
+    ],
+    "difficulty": 2,
+    "section": "6.1",
+    "tr": {
+      "title": "FK tekrar edebilir: bir bölüme çok öğrenci",
+      "prompt": "students tablosunda kaç FARKLI department_id kullanıldığını getir. Sonuç tek sütun olsun, adı farkli_bolum olsun. 14 öğrenci var ama bu sayı çok daha küçük çıkacak.",
+      "hint1": "COUNT(DISTINCT department_id)",
+      "answerExplanation": "5 farklı bölüm. Yabancı anahtar birincil anahtarın aksine TEKRAR EDEBİLİR: aynı bölüme çok öğrenci bağlanır. 'Bir bölümün çok öğrencisi, bir öğrencinin bir bölümü' ilişkisi işte budur."
+    },
+    "assessment": {
+      "referenceSql": "SELECT COUNT(DISTINCT department_id) AS farkli_bolum FROM students;",
+      "compareMode": "multiset",
+      "expectedColumns": [
+        "farkli_bolum"
+      ],
+      "requiredConcepts": [
+        "distinct"
+      ]
+    }
+  },
+  {
+    "id": "q-u6-alias-three-001",
+    "type": "write_sql",
+    "unit": "U6",
+    "lessonId": "U6-join",
+    "conceptTags": [
+      "join",
+      "alias",
+      "multi-join"
+    ],
+    "difficulty": 3,
+    "section": "6.3",
+    "tr": {
+      "title": "Üç tabloyu takma adlarla birleştir",
+      "prompt": "Her kaydın öğrenci adını ve ders adını getir. enrollments, students ve courses tablolarını birleştir. Sonuçta iki sütun olsun, bu sırayla: ogrenci (students.first_name) ve ders (courses.name). Tablolara s, c, e gibi takma adlar ver. student_id sonra course_id'ye göre artan sırala.",
+      "hint1": "FROM enrollments e JOIN students s ON s.id = e.student_id JOIN courses c ON c.id = e.course_id",
+      "answerExplanation": "Her JOIN kendi ON'unu ister. Takma adlar (e, s, c) sorguyu kısaltır ve aynı adlı sütunlar (id, name) hangi tablodan geliyor belirsiz kalmaz. Üç tabloda da 'name' var; takma ad olmasa 'ambiguous column' hatası alırdın."
+    },
+    "assessment": {
+      "referenceSql": "SELECT s.first_name AS ogrenci, c.name AS ders FROM enrollments e JOIN students s ON s.id = e.student_id JOIN courses c ON c.id = e.course_id ORDER BY e.student_id ASC, e.course_id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "ogrenci",
+        "ders"
+      ]
+    }
+  },
+  {
+    "id": "q-u6-antijoin-clubs-001",
+    "type": "write_sql",
+    "unit": "U6",
+    "lessonId": "U6-join",
+    "conceptTags": [
+      "anti-join",
+      "left-join",
+      "is-null"
+    ],
+    "difficulty": 3,
+    "section": "6.5",
+    "tr": {
+      "title": "Anti-join: hiç üyesi olmayan kulüpler",
+      "prompt": "Hiç üyesi olmayan kulüpleri getir. clubs tablosunu club_memberships ile LEFT JOIN yap ve eşleşmeyenleri seç. Sonuçta iki sütun olsun, bu sırayla: id ve name. id'ye göre artan sırala.",
+      "hint1": "LEFT JOIN sonrası WHERE cm.club_id IS NULL yaz: eşleşmeyen satırlarda sağ taraf NULL olur.",
+      "answerExplanation": "LEFT JOIN sol tablonun her satırını korur; eşleşme yoksa sağ tablonun sütunları NULL gelir. Bu NULL'ı yakalayarak 'karşılığı olmayanları' bulursun. Bu desene anti-join denir ve 'siparişi olmayan müşteri', 'ödevi teslim etmeyen öğrenci' gibi soruların standart cevabıdır."
+    },
+    "assessment": {
+      "referenceSql": "SELECT c.id, c.name FROM clubs c LEFT JOIN club_memberships cm ON cm.club_id = c.id WHERE cm.club_id IS NULL ORDER BY c.id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "name"
+      ],
+      "requiredConcepts": [
+        "is-null"
+      ]
+    }
+  },
+  {
+    "id": "q-u6-antijoin-students-001",
+    "type": "write_sql",
+    "unit": "U6",
+    "lessonId": "U6-join",
+    "conceptTags": [
+      "anti-join",
+      "left-join",
+      "is-null"
+    ],
+    "difficulty": 3,
+    "section": "6.5",
+    "tr": {
+      "title": "Anti-join: hiç kulübe üye olmayan öğrenciler",
+      "prompt": "Hiçbir kulübe üye olmayan öğrencileri getir. students tablosunu club_memberships ile LEFT JOIN yap, eşleşmeyenleri seç. Sonuçta iki sütun olsun, bu sırayla: id ve first_name. id'ye göre artan sırala.",
+      "hint1": "LEFT JOIN club_memberships cm ON cm.student_id = s.id, sonra WHERE cm.student_id IS NULL.",
+      "answerExplanation": "Aynı desen, ters yön: bu sefer sol taraf öğrenciler. Anti-join'in gücü, 'olmayan'ı sorabilmesidir; INNER JOIN sadece OLAN eşleşmeleri gösterir, olmayanı asla göremezsin."
+    },
+    "assessment": {
+      "referenceSql": "SELECT s.id, s.first_name FROM students s LEFT JOIN club_memberships cm ON cm.student_id = s.id WHERE cm.student_id IS NULL ORDER BY s.id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "first_name"
+      ],
+      "requiredConcepts": [
+        "is-null"
+      ]
+    }
+  },
+  {
+    "id": "q-u6-antijoin-products-001",
+    "type": "write_sql",
+    "unit": "U6",
+    "lessonId": "U6-join",
+    "conceptTags": [
+      "anti-join",
+      "left-join",
+      "is-null"
+    ],
+    "difficulty": 4,
+    "section": "6.5",
+    "tr": {
+      "title": "Anti-join: hiç etkinliği olmayan kulüpler",
+      "prompt": "Hiç etkinlik düzenlememiş kulüpleri getir. clubs tablosunu events ile LEFT JOIN yap ve eşleşmeyenleri seç. Sonuçta iki sütun olsun, bu sırayla: id ve name. id'ye göre artan sırala.",
+      "hint1": "LEFT JOIN events ev ON ev.club_id = c.id, sonra WHERE ev.club_id IS NULL.",
+      "answerExplanation": "Aynı kalıbı üçüncü kez uyguladın; artık desen tanıdık olmalı: LEFT JOIN + sağ taraf IS NULL. Hangi tablolar olursa olsun 'karşılığı olmayanlar' sorusunun cevabı budur."
+    },
+    "assessment": {
+      "referenceSql": "SELECT c.id, c.name FROM clubs c LEFT JOIN events ev ON ev.club_id = c.id WHERE ev.club_id IS NULL ORDER BY c.id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "name"
+      ],
+      "requiredConcepts": [
+        "is-null"
+      ]
+    }
+  },
+  {
+    "id": "q-u6-antijoin-count-001",
+    "type": "write_sql",
+    "unit": "U6",
+    "lessonId": "U6-join",
+    "conceptTags": [
+      "anti-join",
+      "left-join",
+      "count"
+    ],
+    "difficulty": 3,
+    "section": "6.5",
+    "tr": {
+      "title": "Kaç tane eşleşmeyen var?",
+      "prompt": "Hiç kulübe üye olmayan öğrencilerin SAYISINI getir. Sonuç tek sütun olsun, adı uyesiz olsun. Yine LEFT JOIN + IS NULL desenini kullan.",
+      "hint1": "Aynı anti-join'i kur, sonra COUNT(*) ile say.",
+      "answerExplanation": "Anti-join'in sonucunu saymak da sık kullanılır: 'kaç müşteri hiç alışveriş yapmamış', 'kaç öğrenci hiç kayıt olmamış'. Desen aynı, sadece satırları listelemek yerine sayıyorsun."
+    },
+    "assessment": {
+      "referenceSql": "SELECT COUNT(*) AS uyesiz FROM students s LEFT JOIN club_memberships cm ON cm.student_id = s.id WHERE cm.student_id IS NULL;",
+      "compareMode": "multiset",
+      "expectedColumns": [
+        "uyesiz"
+      ]
+    }
   }
 ]

@@ -330,5 +330,421 @@
     ],
     "correctIndex": 1,
     "section": "9.4"
+  },
+  {
+    "id": "q-u9-scalar-max-001",
+    "type": "write_sql",
+    "unit": "U9",
+    "lessonId": "U9-subquery",
+    "conceptTags": [
+      "scalar-subquery",
+      "max"
+    ],
+    "difficulty": 2,
+    "section": "9.1",
+    "tr": {
+      "title": "Skaler alt sorgu: en pahalı ürünü bul",
+      "prompt": "products tablosundan fiyatı EN YÜKSEK olan ürünü getir. Fiyatı elle yazma; bir alt sorgu ile hesapla. Sonuçta iki sütun olsun, bu sırayla: name ve price.",
+      "hint1": "WHERE price = (SELECT MAX(price) FROM products)",
+      "answerExplanation": "Parantez içindeki alt sorgu TEK bir değer döndürür (55.00) ve dış sorgu onu sabit gibi kullanır. Buna skaler alt sorgu denir. Fiyatı elle yazsaydın veri değiştiğinde sorgu yanlış cevap vermeye başlardı."
+    },
+    "assessment": {
+      "referenceSql": "SELECT name, price FROM products WHERE price = (SELECT MAX(price) FROM products);",
+      "compareMode": "multiset",
+      "expectedColumns": [
+        "name",
+        "price"
+      ]
+    }
+  },
+  {
+    "id": "q-u9-scalar-count-001",
+    "type": "write_sql",
+    "unit": "U9",
+    "lessonId": "U9-subquery",
+    "conceptTags": [
+      "scalar-subquery",
+      "count"
+    ],
+    "difficulty": 3,
+    "section": "9.1",
+    "tr": {
+      "title": "Skaler alt sorgu SELECT içinde de olur",
+      "prompt": "clubs tablosundan her kulübün adını ve TOPLAM kulüp sayısını getir. İkinci sütun her satırda aynı sayıyı gösterecek. Sonuçta iki sütun olsun, bu sırayla: name ve toplam_kulup. id'ye göre artan sırala.",
+      "hint1": "(SELECT COUNT(*) FROM clubs) AS toplam_kulup — alt sorgu SELECT listesinde de yazılabilir.",
+      "answerExplanation": "Skaler alt sorgu tek değer döndürdüğü için SELECT listesine de konabilir; o değer her satırda tekrarlanır. 'Bu satırın değeri ile genel toplamı yan yana göster' türü raporlar böyle yapılır."
+    },
+    "assessment": {
+      "referenceSql": "SELECT name, (SELECT COUNT(*) FROM clubs) AS toplam_kulup FROM clubs ORDER BY id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "name",
+        "toplam_kulup"
+      ]
+    }
+  },
+  {
+    "id": "q-u9-scalar-below-avg-001",
+    "type": "write_sql",
+    "unit": "U9",
+    "lessonId": "U9-subquery",
+    "conceptTags": [
+      "scalar-subquery",
+      "avg"
+    ],
+    "difficulty": 3,
+    "section": "9.1",
+    "tr": {
+      "title": "Ortalamanın altındaki notlar",
+      "prompt": "enrollments tablosundan, notu genel ortalamanın ALTINDA olan kayıtları getir. Ortalamayı alt sorguyla hesapla, notu NULL olanları dikkate alma. Sonuçta üç sütun olsun, bu sırayla: student_id, course_id ve grade. student_id sonra course_id'ye göre artan sırala.",
+      "hint1": "WHERE grade < (SELECT AVG(grade) FROM enrollments) ve ayrıca grade IS NOT NULL.",
+      "answerExplanation": "Alt sorgu genel ortalamayı hesaplar, dış sorgu her satırı onunla kıyaslar. AVG zaten NULL'ları saymaz ama dış WHERE'de de IS NOT NULL yazmak sonucun net olmasını sağlar."
+    },
+    "assessment": {
+      "referenceSql": "SELECT student_id, course_id, grade FROM enrollments WHERE grade IS NOT NULL AND grade < (SELECT AVG(grade) FROM enrollments) ORDER BY student_id ASC, course_id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "student_id",
+        "course_id",
+        "grade"
+      ]
+    }
+  },
+  {
+    "id": "q-u9-in-clubs-001",
+    "type": "write_sql",
+    "unit": "U9",
+    "lessonId": "U9-subquery",
+    "conceptTags": [
+      "in",
+      "subquery"
+    ],
+    "difficulty": 2,
+    "section": "9.2",
+    "tr": {
+      "title": "IN ile alt sorgu: kulübe üye olan öğrenciler",
+      "prompt": "En az bir kulübe üye olan öğrencileri getir. club_memberships tablosundaki student_id listesini alt sorgu olarak kullan. Sonuçta iki sütun olsun, bu sırayla: id ve first_name. id'ye göre artan sırala.",
+      "hint1": "WHERE id IN (SELECT student_id FROM club_memberships)",
+      "answerExplanation": "IN'in sağındaki alt sorgu tek değil, ÇOK değer döndürür ve bir liste gibi davranır. 'Şu listedekilerden biri mi?' sorusunun cevabıdır. Listeyi elle yazmak yerine sorguyla üretmek, veri değiştikçe sorgunun doğru kalmasını sağlar."
+    },
+    "assessment": {
+      "referenceSql": "SELECT id, first_name FROM students WHERE id IN (SELECT student_id FROM club_memberships) ORDER BY id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "first_name"
+      ]
+    }
+  },
+  {
+    "id": "q-u9-in-courses-001",
+    "type": "write_sql",
+    "unit": "U9",
+    "lessonId": "U9-subquery",
+    "conceptTags": [
+      "in",
+      "subquery"
+    ],
+    "difficulty": 2,
+    "section": "9.2",
+    "tr": {
+      "title": "IN: kaydı olan dersler",
+      "prompt": "En az bir öğrenci kaydı olan dersleri getir. enrollments tablosundaki course_id listesini alt sorgu olarak kullan. Sonuçta iki sütun olsun, bu sırayla: id ve name. id'ye göre artan sırala.",
+      "hint1": "WHERE id IN (SELECT course_id FROM enrollments)",
+      "answerExplanation": "Aynı desen, başka tablo. IN alt sorgusu tekrarlı değerler döndürse bile sorun olmaz; IN sadece 'içinde var mı' diye bakar, kaç kez olduğuna bakmaz."
+    },
+    "assessment": {
+      "referenceSql": "SELECT id, name FROM courses WHERE id IN (SELECT course_id FROM enrollments) ORDER BY id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "name"
+      ]
+    }
+  },
+  {
+    "id": "q-u9-in-filtered-001",
+    "type": "write_sql",
+    "unit": "U9",
+    "lessonId": "U9-subquery",
+    "conceptTags": [
+      "in",
+      "subquery",
+      "where"
+    ],
+    "difficulty": 3,
+    "section": "9.2",
+    "tr": {
+      "title": "IN: koşullu alt sorgu",
+      "prompt": "Kulüpte BAŞKAN olan öğrencileri getir. club_memberships tablosunda role değeri 'başkan' olan student_id'leri alt sorgu olarak kullan. Sonuçta iki sütun olsun, bu sırayla: id ve first_name. id'ye göre artan sırala.",
+      "hint1": "Alt sorgunun içine de WHERE yazılabilir: (SELECT student_id FROM club_memberships WHERE role = 'başkan')",
+      "answerExplanation": "Alt sorgu kendi başına tam bir sorgudur; WHERE, ORDER BY, hatta GROUP BY içerebilir. Burada önce başkanların listesi üretiliyor, sonra dış sorgu o listeye göre süzüyor."
+    },
+    "assessment": {
+      "referenceSql": "SELECT id, first_name FROM students WHERE id IN (SELECT student_id FROM club_memberships WHERE role = 'başkan') ORDER BY id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "first_name"
+      ],
+      "allowedLiterals": [
+        "başkan"
+      ]
+    }
+  },
+  {
+    "id": "q-u9-in-vs-join-001",
+    "type": "write_sql",
+    "unit": "U9",
+    "lessonId": "U9-subquery",
+    "conceptTags": [
+      "in",
+      "subquery",
+      "count"
+    ],
+    "difficulty": 3,
+    "section": "9.2",
+    "tr": {
+      "title": "IN çoğaltmaz: JOIN'den farkı",
+      "prompt": "En az bir kulübe üye olan öğrencilerin SAYISINI, IN alt sorgusu kullanarak getir. Sonuç tek sütun olsun, adı adet olsun.",
+      "hint1": "COUNT(*) ile say, WHERE id IN (SELECT student_id FROM club_memberships) ile süz.",
+      "answerExplanation": "8 çıkar. JOIN kullansaydın 10 satır oluşurdu (çok üyeliği olanlar çoğalırdı) ve DISTINCT gerekirdi. IN çoğaltmaz, sadece süzer; 'sadece var mı diye bakacaksam' IN çoğu zaman daha güvenlidir."
+    },
+    "assessment": {
+      "referenceSql": "SELECT COUNT(*) AS adet FROM students WHERE id IN (SELECT student_id FROM club_memberships);",
+      "compareMode": "multiset",
+      "expectedColumns": [
+        "adet"
+      ]
+    }
+  },
+  {
+    "id": "q-u9-exists-events-001",
+    "type": "write_sql",
+    "unit": "U9",
+    "lessonId": "U9-subquery",
+    "conceptTags": [
+      "exists",
+      "subquery"
+    ],
+    "difficulty": 3,
+    "section": "9.3",
+    "tr": {
+      "title": "EXISTS: etkinliği olan kulüpler",
+      "prompt": "En az bir etkinliği olan kulüpleri EXISTS kullanarak getir. Sonuçta iki sütun olsun, bu sırayla: id ve name. id'ye göre artan sırala.",
+      "hint1": "WHERE EXISTS (SELECT 1 FROM events ev WHERE ev.club_id = c.id) — alt sorgu dış sorgunun satırına atıf yapar.",
+      "answerExplanation": "EXISTS 'böyle bir satır var mı' diye sorar ve ilk eşleşmeyi bulunca durur; ne döndürdüğü önemsizdir, o yüzden SELECT 1 yazılır. IN'den farkı: alt sorgu dış satıra bağlıdır (correlated), yani her satır için ayrı çalışır."
+    },
+    "assessment": {
+      "referenceSql": "SELECT c.id, c.name FROM clubs c WHERE EXISTS (SELECT 1 FROM events ev WHERE ev.club_id = c.id) ORDER BY c.id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "name"
+      ],
+      "requiredConcepts": [
+        "exists"
+      ]
+    }
+  },
+  {
+    "id": "q-u9-not-exists-events-001",
+    "type": "write_sql",
+    "unit": "U9",
+    "lessonId": "U9-subquery",
+    "conceptTags": [
+      "not-exists",
+      "subquery"
+    ],
+    "difficulty": 3,
+    "section": "9.3",
+    "tr": {
+      "title": "NOT EXISTS: hiç etkinliği olmayan kulüpler",
+      "prompt": "Hiç etkinliği olmayan kulüpleri NOT EXISTS kullanarak getir. Sonuçta iki sütun olsun, bu sırayla: id ve name. id'ye göre artan sırala.",
+      "hint1": "WHERE NOT EXISTS (SELECT 1 FROM events ev WHERE ev.club_id = c.id)",
+      "answerExplanation": "NOT EXISTS, EXISTS'in tersidir: 'böyle bir satır YOKSA al'. Ü6'daki LEFT JOIN + IS NULL deseniyle aynı sonucu verir; ikisi arasındaki seçim çoğu zaman okunurluk meselesidir."
+    },
+    "assessment": {
+      "referenceSql": "SELECT c.id, c.name FROM clubs c WHERE NOT EXISTS (SELECT 1 FROM events ev WHERE ev.club_id = c.id) ORDER BY c.id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "name"
+      ]
+    }
+  },
+  {
+    "id": "q-u9-exists-graded-001",
+    "type": "write_sql",
+    "unit": "U9",
+    "lessonId": "U9-subquery",
+    "conceptTags": [
+      "exists",
+      "subquery",
+      "null"
+    ],
+    "difficulty": 4,
+    "section": "9.3",
+    "tr": {
+      "title": "EXISTS + koşul: notu girilmiş kaydı olan öğrenciler",
+      "prompt": "En az bir dersten NOTU GİRİLMİŞ kaydı olan öğrencileri EXISTS ile getir. Sonuçta iki sütun olsun, bu sırayla: id ve first_name. id'ye göre artan sırala.",
+      "hint1": "EXISTS (SELECT 1 FROM enrollments e WHERE e.student_id = s.id AND e.grade IS NOT NULL)",
+      "answerExplanation": "EXISTS'in alt sorgusuna ek koşul yazabilirsin; 'şu şartı sağlayan bir satırı var mı' sorusuna dönüşür. Bunu IN ile yapmak da mümkündür ama EXISTS niyeti daha net anlatır."
+    },
+    "assessment": {
+      "referenceSql": "SELECT s.id, s.first_name FROM students s WHERE EXISTS (SELECT 1 FROM enrollments e WHERE e.student_id = s.id AND e.grade IS NOT NULL) ORDER BY s.id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "first_name"
+      ],
+      "requiredConcepts": [
+        "exists"
+      ]
+    }
+  },
+  {
+    "id": "q-u9-not-in-mentor-safe-001",
+    "type": "write_sql",
+    "unit": "U9",
+    "lessonId": "U9-subquery",
+    "conceptTags": [
+      "not-in",
+      "null",
+      "subquery"
+    ],
+    "difficulty": 4,
+    "section": "9.4",
+    "tr": {
+      "title": "NOT IN güvenli kullanım: NULL’ları ele",
+      "prompt": "Hiç kimsenin mentoru OLMAYAN eğitmenleri getir. instructors tablosundaki mentor_id listesini kullan ama NULL'ları alt sorguda ele (elemezsen sonuç boş gelir). Sonuçta iki sütun olsun, bu sırayla: id ve last_name. id'ye göre artan sırala.",
+      "hint1": "WHERE id NOT IN (SELECT mentor_id FROM instructors WHERE mentor_id IS NOT NULL)",
+      "answerExplanation": "4 eğitmen çıkar. NOT IN listesinde tek bir NULL varsa sonuç HER ZAMAN boş gelir, çünkü 'x, NULL'a eşit değil mi' sorusunun cevabı doğru da değildir yanlış da; BİLİNMİYOR'dur. Alt sorguya IS NOT NULL eklemek bu tuzağı kapatır."
+    },
+    "assessment": {
+      "referenceSql": "SELECT id, last_name FROM instructors WHERE id NOT IN (SELECT mentor_id FROM instructors WHERE mentor_id IS NOT NULL) ORDER BY id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "last_name"
+      ]
+    }
+  },
+  {
+    "id": "q-u9-not-in-count-001",
+    "type": "write_sql",
+    "unit": "U9",
+    "lessonId": "U9-subquery",
+    "conceptTags": [
+      "not-in",
+      "null",
+      "count"
+    ],
+    "difficulty": 4,
+    "section": "9.4",
+    "tr": {
+      "title": "NOT IN tuzağını sayıyla gör",
+      "prompt": "Bir önceki sorunun NULL'ları ELEMEDEN yazılmış hâlinin kaç satır döndürdüğünü getir: instructors tablosundan, id değeri mentor_id listesinde OLMAYANLARI say (alt sorguda IS NOT NULL YAZMA). Sonuç tek sütun olsun, adı adet olsun. Cevabın 0 çıkması bekleniyor; sebebini açıklamada oku.",
+      "hint1": "COUNT(*) ile say: WHERE id NOT IN (SELECT mentor_id FROM instructors)",
+      "answerExplanation": "0 çıkar, oysa bir önceki soruda 4 eğitmen bulmuştuk. Sebep: mentor_id içinde NULL var ve 'x <> NULL' hiçbir zaman doğru olmaz, hep BİLİNMİYOR kalır. NOT IN tüm karşılaştırmaların doğru olmasını beklediği için her satırı eler. Aynı veri, tek fark bir IS NOT NULL: 4 satır ile 0 satır."
+    },
+    "assessment": {
+      "referenceSql": "SELECT COUNT(*) AS adet FROM instructors WHERE id NOT IN (SELECT mentor_id FROM instructors);",
+      "compareMode": "multiset",
+      "expectedColumns": [
+        "adet"
+      ]
+    }
+  },
+  {
+    "id": "q-u9-not-exists-mentor-001",
+    "type": "write_sql",
+    "unit": "U9",
+    "lessonId": "U9-subquery",
+    "conceptTags": [
+      "not-exists",
+      "null",
+      "subquery"
+    ],
+    "difficulty": 4,
+    "section": "9.4",
+    "tr": {
+      "title": "NOT EXISTS bu tuzağa düşmez",
+      "prompt": "Aynı soruyu NOT IN yerine NOT EXISTS ile çöz: hiç kimsenin mentoru olmayan eğitmenleri getir. Sonuçta iki sütun olsun, bu sırayla: id ve last_name. id'ye göre artan sırala. Bu sefer NULL'ları elemene gerek yok.",
+      "hint1": "WHERE NOT EXISTS (SELECT 1 FROM instructors m WHERE m.mentor_id = i.id) — tabloyu iki takma adla kullan.",
+      "answerExplanation": "Yine 4 eğitmen, ama bu sefer NULL'ları elemeye gerek kalmadı. NOT EXISTS satır satır 'eşleşen var mı' diye bakar; mentor_id'si NULL olan satır zaten eşleşmez ve diğerlerini etkilemez. NOT IN'in aksine tüm sonucu zehirlemez, bu yüzden pratikte daha güvenli sayılır."
+    },
+    "assessment": {
+      "referenceSql": "SELECT i.id, i.last_name FROM instructors i WHERE NOT EXISTS (SELECT 1 FROM instructors m WHERE m.mentor_id = i.id) ORDER BY i.id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "last_name"
+      ]
+    }
+  },
+  {
+    "id": "q-u9-derived-avg-001",
+    "type": "write_sql",
+    "unit": "U9",
+    "lessonId": "U9-subquery",
+    "conceptTags": [
+      "derived-table",
+      "subquery",
+      "group-by"
+    ],
+    "difficulty": 4,
+    "section": "9.5",
+    "tr": {
+      "title": "Türetilmiş tablo: grupla, sonra süz",
+      "prompt": "Önce her dersin kayıt sayısını hesaplayan bir alt sorgu yaz, sonra dıştan sadece 3 veya daha fazla kaydı olanları seç. Alt sorguyu FROM içinde kullan ve ona t adını ver. Sonuçta iki sütun olsun, bu sırayla: course_id ve adet. course_id'ye göre artan sırala.",
+      "hint1": "FROM (SELECT course_id, COUNT(*) AS adet FROM enrollments GROUP BY course_id) t WHERE t.adet >= 3",
+      "answerExplanation": "FROM içindeki alt sorgu bir TABLO gibi davranır ve mutlaka bir takma ad ister. Önce grupla, sonra sonucu süz: HAVING ile aynı işi yapar ama adımları görünür kılar; karmaşık sorgularda okunurluğu artırır."
+    },
+    "assessment": {
+      "referenceSql": "SELECT t.course_id, t.adet FROM (SELECT course_id, COUNT(*) AS adet FROM enrollments GROUP BY course_id) t WHERE t.adet >= 3 ORDER BY t.course_id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "course_id",
+        "adet"
+      ]
+    }
+  },
+  {
+    "id": "q-u9-union-all-001",
+    "type": "write_sql",
+    "unit": "U9",
+    "lessonId": "U9-subquery",
+    "conceptTags": [
+      "union",
+      "set-ops"
+    ],
+    "difficulty": 3,
+    "section": "9.5",
+    "tr": {
+      "title": "UNION ALL tekrarları korur",
+      "prompt": "students tablosundaki first_name değerleri ile instructors tablosundaki first_name değerlerini TEK listede birleştir; tekrarlar KORUNSUN. Sonuç tek sütun olsun, adı ad olsun. ad'a göre artan sırala.",
+      "hint1": "UNION ALL kullan (UNION değil): SELECT first_name AS ad FROM students UNION ALL SELECT first_name FROM instructors ORDER BY ad;",
+      "answerExplanation": "UNION tekrarları eler, UNION ALL korur. Eleme işlemi maliyetlidir; tekrarların olmadığını biliyorsan ya da tekrarlar anlamlıysa UNION ALL hem daha hızlı hem daha doğrudur."
+    },
+    "assessment": {
+      "referenceSql": "SELECT first_name AS ad FROM students UNION ALL SELECT first_name FROM instructors ORDER BY ad ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "ad"
+      ]
+    }
   }
 ]

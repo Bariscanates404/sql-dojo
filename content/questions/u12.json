@@ -589,5 +589,96 @@
         "raflar"
       ]
     }
+  },
+  {
+    "id": "q-u12-fk-columns-001",
+    "type": "write_sql",
+    "unit": "U12",
+    "lessonId": "U12-ddl",
+    "conceptTags": [
+      "foreign-key",
+      "constraint",
+      "introspection"
+    ],
+    "difficulty": 3,
+    "section": "12.3",
+    "tr": {
+      "title": "Yabancı anahtarları listele",
+      "prompt": "Veritabanındaki FOREIGN KEY kısıtlarının adlarını getir. information_schema.table_constraints görünümünü kullan, constraint_type = 'FOREIGN KEY' ile süz. Sonuç tek sütun olsun: constraint_name. Ada göre artan sırala.",
+      "hint1": "SELECT constraint_name FROM information_schema.table_constraints WHERE constraint_type = 'FOREIGN KEY' ORDER BY constraint_name;",
+      "answerExplanation": "Her yabancı anahtar veritabanında adı olan bir KISITTIR. Bir tabloyu silmeye çalıştığında aldığın hata mesajında tam olarak bu adlar geçer; bu yüzden onları okuyabilmek hata ayıklamayı çok kolaylaştırır."
+    },
+    "assessment": {
+      "referenceSql": "SELECT constraint_name FROM information_schema.table_constraints WHERE constraint_type = 'FOREIGN KEY' ORDER BY constraint_name ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "constraint_name"
+      ],
+      "allowedLiterals": [
+        "FOREIGN KEY"
+      ]
+    }
+  },
+  {
+    "id": "q-u12-pk-columns-001",
+    "type": "write_sql",
+    "unit": "U12",
+    "lessonId": "U12-ddl",
+    "conceptTags": [
+      "primary-key",
+      "constraint",
+      "introspection"
+    ],
+    "difficulty": 3,
+    "section": "12.3",
+    "tr": {
+      "title": "Birincil anahtarları listele",
+      "prompt": "Veritabanındaki PRIMARY KEY kısıtlarının adlarını getir. information_schema.table_constraints kullan, constraint_type = 'PRIMARY KEY' ile süz. Sonuç tek sütun olsun: constraint_name. Ada göre artan sırala.",
+      "hint1": "constraint_type = 'PRIMARY KEY' ile süz.",
+      "answerExplanation": "Her tablonun birincil anahtarı ayrı bir kısıt olarak kayıtlıdır. PK, NOT NULL ve UNIQUE'i birlikte garanti eder; bir satırı tek başına tanımlayan sütun (ya da sütunlar) budur."
+    },
+    "assessment": {
+      "referenceSql": "SELECT constraint_name FROM information_schema.table_constraints WHERE constraint_type = 'PRIMARY KEY' ORDER BY constraint_name ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "constraint_name"
+      ],
+      "allowedLiterals": [
+        "PRIMARY KEY"
+      ]
+    }
+  },
+  {
+    "id": "q-u12-alter-alter-type-001",
+    "type": "write_sql",
+    "unit": "U12",
+    "lessonId": "U12-ddl",
+    "conceptTags": [
+      "alter",
+      "types"
+    ],
+    "difficulty": 3,
+    "section": "12.4",
+    "tr": {
+      "title": "ALTER: bir sütunun tipini değiştir",
+      "prompt": "clubs tablosundaki founded_year sütununun tipini text yap. (Sayıyken metne dönecek.) Değişikliği bir tablo oluşturarak değil, var olan tabloyu değiştirerek yap.",
+      "hint1": "ALTER TABLE clubs ALTER COLUMN founded_year TYPE text;",
+      "answerExplanation": "Tip değiştirmek yapıya dokunan ciddi bir işlemdir: veritabanı her satırdaki değeri yeni tipe çevirmeye çalışır, çeviremezse komutu reddeder. Sayıdan metne geçmek kolaydır ama tersi çoğu zaman kayıpla ya da hatayla sonuçlanır."
+    },
+    "assessment": {
+      "referenceSql": "ALTER TABLE clubs ALTER COLUMN founded_year TYPE text;",
+      "verifySql": "SELECT column_name, data_type FROM information_schema.columns WHERE table_name = 'clubs' ORDER BY ordinal_position;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "column_name",
+        "data_type"
+      ],
+      "allowedLiterals": [
+        "clubs"
+      ]
+    }
   }
 ]

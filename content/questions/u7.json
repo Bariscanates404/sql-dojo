@@ -497,5 +497,173 @@
     ],
     "correctIndex": 2,
     "section": "7.4"
+  },
+  {
+    "id": "q-u7-one-to-many-count-001",
+    "type": "write_sql",
+    "unit": "U7",
+    "lessonId": "U7-join2",
+    "conceptTags": [
+      "one-to-many",
+      "relations",
+      "group-by"
+    ],
+    "difficulty": 2,
+    "section": "7.1",
+    "tr": {
+      "title": "Bir-çok: bölüm başına ders sayısı",
+      "prompt": "Her bölümün kaç dersi olduğunu getir. courses tablosunu kullan. Sonuçta iki sütun olsun, bu sırayla: department_id ve ders_sayisi. department_id'ye göre artan sırala.",
+      "hint1": "GROUP BY department_id ile grupla, COUNT(*) ile say.",
+      "answerExplanation": "Bir bölümün çok dersi vardır ama bir dersin tek bölümü. Bu 'bir-çok' ilişkidir ve yabancı anahtar HER ZAMAN 'çok' tarafında durur: department_id, courses tablosunda."
+    },
+    "assessment": {
+      "referenceSql": "SELECT department_id, COUNT(*) AS ders_sayisi FROM courses GROUP BY department_id ORDER BY department_id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "department_id",
+        "ders_sayisi"
+      ]
+    }
+  },
+  {
+    "id": "q-u7-many-to-many-rows-001",
+    "type": "write_sql",
+    "unit": "U7",
+    "lessonId": "U7-join2",
+    "conceptTags": [
+      "many-to-many",
+      "junction",
+      "count"
+    ],
+    "difficulty": 2,
+    "section": "7.1",
+    "tr": {
+      "title": "Çok-çok: ara tabloyu tanı",
+      "prompt": "club_memberships tablosunda üç değeri tek sorguda getir, bu sırayla: satır sayısı (satir), farklı öğrenci sayısı (ogrenci) ve farklı kulüp sayısı (kulup).",
+      "hint1": "COUNT(*), COUNT(DISTINCT student_id), COUNT(DISTINCT club_id)",
+      "answerExplanation": "10 satır, 8 öğrenci, 4 kulüp. Bu bir ARA TABLODUR: iki tarafı da tekrar edebilir, çünkü bir öğrenci çok kulübe, bir kulüp çok öğrenciye bağlanır. Çok-çok ilişki tek bir yabancı anahtarla kurulamaz, araya böyle bir tablo şart."
+    },
+    "assessment": {
+      "referenceSql": "SELECT COUNT(*) AS satir, COUNT(DISTINCT student_id) AS ogrenci, COUNT(DISTINCT club_id) AS kulup FROM club_memberships;",
+      "compareMode": "multiset",
+      "expectedColumns": [
+        "satir",
+        "ogrenci",
+        "kulup"
+      ]
+    }
+  },
+  {
+    "id": "q-u7-one-to-many-side-001",
+    "type": "write_sql",
+    "unit": "U7",
+    "lessonId": "U7-join2",
+    "conceptTags": [
+      "one-to-many",
+      "relations"
+    ],
+    "difficulty": 2,
+    "section": "7.1",
+    "tr": {
+      "title": "Bir-çok: sipariş başına satır sayısı",
+      "prompt": "Her siparişin kaç satırdan (kaç farklı üründen) oluştuğunu getir. order_items tablosunu kullan. Sonuçta iki sütun olsun, bu sırayla: order_id ve satir_sayisi. order_id'ye göre artan sırala.",
+      "hint1": "GROUP BY order_id ile grupla, COUNT(*) ile say.",
+      "answerExplanation": "Bir siparişin çok satırı vardır, bir satır tek siparişe aittir: klasik bir-çok. order_id yabancı anahtarı 'çok' tarafında, yani order_items'ta duruyor."
+    },
+    "assessment": {
+      "referenceSql": "SELECT order_id, COUNT(*) AS satir_sayisi FROM order_items GROUP BY order_id ORDER BY order_id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "order_id",
+        "satir_sayisi"
+      ]
+    }
+  },
+  {
+    "id": "q-u7-relation-direction-001",
+    "type": "write_sql",
+    "unit": "U7",
+    "lessonId": "U7-join2",
+    "conceptTags": [
+      "many-to-many",
+      "junction",
+      "group-by"
+    ],
+    "difficulty": 3,
+    "section": "7.1",
+    "tr": {
+      "title": "Çok-çok iki yönlü okunur",
+      "prompt": "Her kulübün kaç üyesi olduğunu getir. club_memberships tablosunu kullan. Sonuçta iki sütun olsun, bu sırayla: club_id ve uye_sayisi. club_id'ye göre artan sırala. (Bir önceki soruda öğrenci başına bakmıştık; aynı tablo, ters yön.)",
+      "hint1": "GROUP BY club_id ile grupla.",
+      "answerExplanation": "Aynı ara tabloyu iki yönden de okuyabilirsin: 'öğrenci başına kaç kulüp' ve 'kulüp başına kaç öğrenci'. Çok-çok ilişkinin simetrisi budur; hangi tarafa GROUP BY yaparsan o taraf sonucun grain'i olur."
+    },
+    "assessment": {
+      "referenceSql": "SELECT club_id, COUNT(*) AS uye_sayisi FROM club_memberships GROUP BY club_id ORDER BY club_id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "club_id",
+        "uye_sayisi"
+      ]
+    }
+  },
+  {
+    "id": "q-u7-self-join-same-dept-001",
+    "type": "write_sql",
+    "unit": "U7",
+    "lessonId": "U7-join2",
+    "conceptTags": [
+      "self-join",
+      "join"
+    ],
+    "difficulty": 4,
+    "section": "7.3",
+    "tr": {
+      "title": "Self join: aynı bölümdeki öğrenci çiftleri",
+      "prompt": "Aynı bölümde okuyan öğrenci çiftlerini getir. students tablosunu KENDİSİYLE birleştir; aynı kişiyi kendisiyle eşleştirme ve her çifti bir kez göster (küçük id solda olsun). Sonuçta üç sütun olsun, bu sırayla: ogrenci1, ogrenci2 ve department_id. a.id sonra b.id'ye göre artan sırala.",
+      "hint1": "FROM students a JOIN students b ON a.department_id = b.department_id AND a.id < b.id",
+      "answerExplanation": "Self join, bir tabloyu iki farklı takma adla iki kez kullanmaktır. a.id < b.id koşulu iki işi birden yapar: kişiyi kendisiyle eşleştirmeyi (a.id = b.id) engeller ve her çiftin ters kopyasını eler, böylece her çift bir kez görünür."
+    },
+    "assessment": {
+      "referenceSql": "SELECT a.first_name AS ogrenci1, b.first_name AS ogrenci2, a.department_id FROM students a JOIN students b ON a.department_id = b.department_id AND a.id < b.id ORDER BY a.id ASC, b.id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "ogrenci1",
+        "ogrenci2",
+        "department_id"
+      ]
+    }
+  },
+  {
+    "id": "q-u7-self-join-cheaper-001",
+    "type": "write_sql",
+    "unit": "U7",
+    "lessonId": "U7-join2",
+    "conceptTags": [
+      "self-join",
+      "join",
+      "comparison"
+    ],
+    "difficulty": 4,
+    "section": "7.3",
+    "tr": {
+      "title": "Self join: aynı kategoride daha ucuz olan ürün",
+      "prompt": "Aynı kategorideki ürün çiftlerinden, soldaki sağdakinden UCUZ olanları getir. products tablosunu kendisiyle birleştir. Sonuçta üç sütun olsun, bu sırayla: ucuz, pahali ve category. p1.id sonra p2.id'ye göre artan sırala.",
+      "hint1": "FROM products p1 JOIN products p2 ON p1.category = p2.category AND p1.price < p2.price",
+      "answerExplanation": "Self join'in ON koşulu eşitlik olmak zorunda değil; karşılaştırma da olabilir. Burada 'aynı kategoride ol' ve 'daha ucuz ol' koşullarını birlikte kullandık. Bir satırı aynı tablodaki başka bir satırla kıyaslamanın yolu budur."
+    },
+    "assessment": {
+      "referenceSql": "SELECT p1.name AS ucuz, p2.name AS pahali, p1.category FROM products p1 JOIN products p2 ON p1.category = p2.category AND p1.price < p2.price ORDER BY p1.id ASC, p2.id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "ucuz",
+        "pahali",
+        "category"
+      ]
+    }
   }
 ]

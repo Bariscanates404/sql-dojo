@@ -428,5 +428,141 @@
     ],
     "correctIndex": 1,
     "section": "4.2"
+  },
+  {
+    "id": "q-u4-minmax-price-001",
+    "type": "write_sql",
+    "unit": "U4",
+    "lessonId": "U4-aggregate",
+    "conceptTags": [
+      "min",
+      "max"
+    ],
+    "difficulty": 1,
+    "section": "4.3",
+    "tr": {
+      "title": "En ucuz ve en pahalı birlikte",
+      "prompt": "products tablosundan en düşük ve en yüksek fiyatı TEK sorguda getir. Sonuçta iki sütun olsun, bu sırayla: en_ucuz ve en_pahali.",
+      "hint1": "MIN(price) AS en_ucuz, MAX(price) AS en_pahali",
+      "answerExplanation": "Bir SELECT içinde birden çok aggregate yazabilirsin; hepsi aynı satır kümesi üzerinde çalışır ve tek satırlık bir sonuç üretir."
+    },
+    "assessment": {
+      "referenceSql": "SELECT MIN(price) AS en_ucuz, MAX(price) AS en_pahali FROM products;",
+      "compareMode": "multiset",
+      "expectedColumns": [
+        "en_ucuz",
+        "en_pahali"
+      ]
+    }
+  },
+  {
+    "id": "q-u4-max-text-001",
+    "type": "write_sql",
+    "unit": "U4",
+    "lessonId": "U4-aggregate",
+    "conceptTags": [
+      "min",
+      "max",
+      "string"
+    ],
+    "difficulty": 2,
+    "section": "4.3",
+    "tr": {
+      "title": "MIN/MAX sadece sayılarda çalışmaz",
+      "prompt": "clubs tablosundan alfabetik olarak EN SONDA gelen kulüp adını getir. Sonuç tek sütun olsun, adı son_kulup olsun.",
+      "hint1": "MAX metinlerde de çalışır: MAX(name)",
+      "answerExplanation": "MIN ve MAX sıralanabilen her tipte çalışır: sayı, metin, tarih. Metinde MAX alfabetik olarak en sondaki değeri verir. 'En büyük' demek, o tipin sıralamasında en sonda demektir."
+    },
+    "assessment": {
+      "referenceSql": "SELECT MAX(name) AS son_kulup FROM clubs;",
+      "compareMode": "multiset",
+      "expectedColumns": [
+        "son_kulup"
+      ]
+    }
+  },
+  {
+    "id": "q-u4-where-then-max-001",
+    "type": "write_sql",
+    "unit": "U4",
+    "lessonId": "U4-aggregate",
+    "conceptTags": [
+      "max",
+      "where"
+    ],
+    "difficulty": 2,
+    "section": "4.4",
+    "tr": {
+      "title": "Önce süz, sonra en büyüğü bul",
+      "prompt": "products tablosunda SADECE 'İçecek' kategorisindeki ürünlerin en yüksek fiyatını getir. Sonuç tek sütun olsun, adı en_pahali_icecek olsun.",
+      "hint1": "WHERE ile süz, sonra MAX al: WHERE category = 'İçecek'",
+      "answerExplanation": "WHERE aggregate'ten ÖNCE çalışır: önce satırlar elenir, sonra kalanların üzerinde MAX hesaplanır. Sıralama böyle olduğu için 'sadece içeceklerin en pahalısı' sorusunu cevaplayabiliyorsun."
+    },
+    "assessment": {
+      "referenceSql": "SELECT MAX(price) AS en_pahali_icecek FROM products WHERE category = 'İçecek';",
+      "compareMode": "multiset",
+      "expectedColumns": [
+        "en_pahali_icecek"
+      ],
+      "allowedLiterals": [
+        "İçecek"
+      ]
+    }
+  },
+  {
+    "id": "q-u4-count-avg-together-001",
+    "type": "write_sql",
+    "unit": "U4",
+    "lessonId": "U4-aggregate",
+    "conceptTags": [
+      "count",
+      "avg",
+      "where"
+    ],
+    "difficulty": 3,
+    "section": "4.4",
+    "tr": {
+      "title": "Üç aggregate, tek süzgeç",
+      "prompt": "enrollments tablosunda SADECE notu girilmiş kayıtları (grade NULL olmayan) dikkate alarak üç değeri tek sorguda getir, bu sırayla: kayıt sayısı (adet), ortalama not (ort), en yüksek not (en_yuksek).",
+      "hint1": "WHERE grade IS NOT NULL ile süz; COUNT(*), AVG(grade), MAX(grade) yaz.",
+      "answerExplanation": "Aynı süzgeçten geçen satır kümesi üzerinde istediğin kadar aggregate hesaplayabilirsin. WHERE hepsinden önce çalıştığı için üçü de aynı 16 kayda bakar."
+    },
+    "assessment": {
+      "referenceSql": "SELECT COUNT(*) AS adet, AVG(grade) AS ort, MAX(grade) AS en_yuksek FROM enrollments WHERE grade IS NOT NULL;",
+      "compareMode": "multiset",
+      "expectedColumns": [
+        "adet",
+        "ort",
+        "en_yuksek"
+      ]
+    }
+  },
+  {
+    "id": "q-u4-sum-filtered-001",
+    "type": "write_sql",
+    "unit": "U4",
+    "lessonId": "U4-aggregate",
+    "conceptTags": [
+      "sum",
+      "where"
+    ],
+    "difficulty": 2,
+    "section": "4.4",
+    "tr": {
+      "title": "Süzülmüş toplam: sadece içeceklerin fiyat toplamı",
+      "prompt": "products tablosunda kategorisi 'İçecek' olan ürünlerin fiyatlarının toplamını getir. Sonuç tek sütun olsun, adı icecek_toplam olsun.",
+      "hint1": "SUM(price) ile topla, WHERE category = 'İçecek' ile süz.",
+      "answerExplanation": "SUM koşuldan geçen satırları toplar. Süzgeci kaldırırsan 8 ürünün hepsi toplanır; hangi soruyu sorduğunu WHERE belirler."
+    },
+    "assessment": {
+      "referenceSql": "SELECT SUM(price) AS icecek_toplam FROM products WHERE category = 'İçecek';",
+      "compareMode": "multiset",
+      "expectedColumns": [
+        "icecek_toplam"
+      ],
+      "allowedLiterals": [
+        "İçecek"
+      ]
+    }
   }
 ]

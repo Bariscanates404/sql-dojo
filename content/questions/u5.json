@@ -607,5 +607,287 @@
         "kayit_sayisi"
       ]
     }
+  },
+  {
+    "id": "q-u5-grain-orders-001",
+    "type": "write_sql",
+    "unit": "U5",
+    "lessonId": "U5-groupby",
+    "conceptTags": [
+      "grain",
+      "count"
+    ],
+    "difficulty": 2,
+    "section": "5.1",
+    "tr": {
+      "title": "Grain: sipariş mi, sipariş satırı mı?",
+      "prompt": "İki sayıyı TEK sorguda getir: order_items tablosundaki satır sayısı (satir_sayisi) ve o tablodaki farklı sipariş sayısı (siparis_sayisi). İkisi arasındaki farka dikkat et.",
+      "hint1": "COUNT(*) ile satırları, COUNT(DISTINCT order_id) ile siparişleri say.",
+      "answerExplanation": "16 satır ama 10 sipariş var. Çünkü order_items'ta bir satır bir SİPARİŞ değil, bir sipariş SATIRIDIR (bir üründen bir sipariş içinde). Bir siparişte üç ürün varsa üç satır olur. Grain'i yanlış okumak, ileride SUM'ın şişmesinin ana sebebidir."
+    },
+    "assessment": {
+      "referenceSql": "SELECT COUNT(*) AS satir_sayisi, COUNT(DISTINCT order_id) AS siparis_sayisi FROM order_items;",
+      "compareMode": "multiset",
+      "expectedColumns": [
+        "satir_sayisi",
+        "siparis_sayisi"
+      ]
+    }
+  },
+  {
+    "id": "q-u5-grain-memberships-001",
+    "type": "write_sql",
+    "unit": "U5",
+    "lessonId": "U5-groupby",
+    "conceptTags": [
+      "grain",
+      "count",
+      "distinct"
+    ],
+    "difficulty": 2,
+    "section": "5.1",
+    "tr": {
+      "title": "Grain: üyelik mi, öğrenci mi?",
+      "prompt": "club_memberships tablosunda kaç farklı ÖĞRENCİ olduğunu getir (bir öğrenci birden çok kulübe üye olabilir, tekrarları sayma). Sonuç tek sütun olsun, adı ogrenci_sayisi olsun.",
+      "hint1": "COUNT(DISTINCT student_id) tekrarları eler.",
+      "answerExplanation": "8 farklı öğrenci var, oysa tabloda 10 satır var. Bir satır bir ÜYELİKTİR, bir öğrenci değil. 'Kaç üyelik' ile 'kaç öğrenci' farklı sorulardır ve farklı sayılar verir."
+    },
+    "assessment": {
+      "referenceSql": "SELECT COUNT(DISTINCT student_id) AS ogrenci_sayisi FROM club_memberships;",
+      "compareMode": "multiset",
+      "expectedColumns": [
+        "ogrenci_sayisi"
+      ],
+      "requiredConcepts": [
+        "distinct"
+      ]
+    }
+  },
+  {
+    "id": "q-u5-multi-agg-001",
+    "type": "write_sql",
+    "unit": "U5",
+    "lessonId": "U5-groupby",
+    "conceptTags": [
+      "group-by",
+      "count",
+      "avg"
+    ],
+    "difficulty": 2,
+    "section": "5.3",
+    "tr": {
+      "title": "Bir grupta birden çok hesap",
+      "prompt": "products tablosunda her kategori için üç değeri getir, bu sırayla: category, ürün sayısı (adet) ve ortalama fiyat (ort_fiyat). category'ye göre artan sırala.",
+      "hint1": "GROUP BY category ile grupla; COUNT(*) ve AVG(price) yaz.",
+      "answerExplanation": "Bir GROUP BY içinde istediğin kadar aggregate hesaplayabilirsin; hepsi aynı grup üzerinde çalışır. Böylece her kategori için hem sayıyı hem ortalamayı tek sorguda alırsın."
+    },
+    "assessment": {
+      "referenceSql": "SELECT category, COUNT(*) AS adet, AVG(price) AS ort_fiyat FROM products GROUP BY category ORDER BY category ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "category",
+        "adet",
+        "ort_fiyat"
+      ]
+    }
+  },
+  {
+    "id": "q-u5-count-star-vs-col-001",
+    "type": "write_sql",
+    "unit": "U5",
+    "lessonId": "U5-groupby",
+    "conceptTags": [
+      "group-by",
+      "count",
+      "null"
+    ],
+    "difficulty": 3,
+    "section": "5.3",
+    "tr": {
+      "title": "COUNT(*) ile COUNT(sütun) yan yana",
+      "prompt": "enrollments tablosunda her ders için üç değeri getir, bu sırayla: course_id, toplam kayıt sayısı (toplam) ve NOTU GİRİLMİŞ kayıt sayısı (notlu). course_id'ye göre artan sırala. İki sayının farkına dikkat et.",
+      "hint1": "COUNT(*) tüm satırları, COUNT(grade) ise grade'i NULL OLMAYAN satırları sayar.",
+      "answerExplanation": "COUNT(*) satır sayar, COUNT(sütun) o sütunda DEĞER OLAN satırları sayar. Aradaki fark tam olarak NULL sayısıdır. Bu iki fonksiyonu karıştırmak, raporlarda en sık görülen sessiz hatalardan biridir."
+    },
+    "assessment": {
+      "referenceSql": "SELECT course_id, COUNT(*) AS toplam, COUNT(grade) AS notlu FROM enrollments GROUP BY course_id ORDER BY course_id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "course_id",
+        "toplam",
+        "notlu"
+      ]
+    }
+  },
+  {
+    "id": "q-u5-group-two-keys-001",
+    "type": "write_sql",
+    "unit": "U5",
+    "lessonId": "U5-groupby",
+    "conceptTags": [
+      "group-by",
+      "multi-key"
+    ],
+    "difficulty": 3,
+    "section": "5.3",
+    "tr": {
+      "title": "İki anahtarla grupla",
+      "prompt": "club_memberships tablosunda her kulüp ve rol ikilisi için üye sayısını getir. Sonuçta üç sütun olsun, bu sırayla: club_id, role ve adet. club_id sonra role'e göre artan sırala.",
+      "hint1": "GROUP BY club_id, role ile iki sütuna göre grupla.",
+      "answerExplanation": "GROUP BY'a birden çok sütun verirsen gruplar bu sütunların KOMBİNASYONUNA göre oluşur. Sonucun grain'i artık 'bir kulüp' değil, 'bir kulüp-rol ikilisi'."
+    },
+    "assessment": {
+      "referenceSql": "SELECT club_id, role, COUNT(*) AS adet FROM club_memberships GROUP BY club_id, role ORDER BY club_id ASC, role ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "club_id",
+        "role",
+        "adet"
+      ]
+    }
+  },
+  {
+    "id": "q-u5-having-sum-001",
+    "type": "write_sql",
+    "unit": "U5",
+    "lessonId": "U5-groupby",
+    "conceptTags": [
+      "having",
+      "group-by",
+      "sum"
+    ],
+    "difficulty": 3,
+    "section": "5.4",
+    "tr": {
+      "title": "HAVING ile toplama göre süz",
+      "prompt": "products tablosunda fiyat toplamı 60'tan BÜYÜK olan kategorileri getir. Sonuçta iki sütun olsun, bu sırayla: category ve toplam. category'ye göre artan sırala.",
+      "hint1": "GROUP BY category ile grupla, HAVING SUM(price) > 60 ile grupları süz.",
+      "answerExplanation": "HAVING gruplar oluştuktan SONRA çalışır ve grup üzerinde hesaplanan değere bakabilir. WHERE bunu yapamaz, çünkü WHERE gruplar oluşmadan önce tek tek satırlara bakar."
+    },
+    "assessment": {
+      "referenceSql": "SELECT category, SUM(price) AS toplam FROM products GROUP BY category HAVING SUM(price) > 60 ORDER BY category ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "category",
+        "toplam"
+      ]
+    }
+  },
+  {
+    "id": "q-u5-having-vs-where-001",
+    "type": "write_sql",
+    "unit": "U5",
+    "lessonId": "U5-groupby",
+    "conceptTags": [
+      "having",
+      "where",
+      "group-by"
+    ],
+    "difficulty": 4,
+    "section": "5.4",
+    "tr": {
+      "title": "İkisi birlikte: WHERE satırı, HAVING grubu süzer",
+      "prompt": "products tablosunda SADECE fiyatı 15'ten büyük ürünleri dikkate al; bu ürünlerden her kategori için sayıyı hesapla; sonra YALNIZCA 2 veya daha fazla ürünü kalan kategorileri getir. Sonuçta iki sütun olsun, bu sırayla: category ve adet. category'ye göre artan sırala.",
+      "hint1": "WHERE price > 15 satırları eler, HAVING COUNT(*) >= 2 grupları eler. İkisi aynı sorguda olur.",
+      "answerExplanation": "Sıra şudur: WHERE (satırları ele) → GROUP BY (grupla) → HAVING (grupları ele). İkisi rakip değil, farklı aşamalarda çalışan iki süzgeçtir. Bu sırayı bilmek, 'neden WHERE'de COUNT kullanamıyorum' sorusunun da cevabıdır."
+    },
+    "assessment": {
+      "referenceSql": "SELECT category, COUNT(*) AS adet FROM products WHERE price > 15 GROUP BY category HAVING COUNT(*) >= 2 ORDER BY category ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "category",
+        "adet"
+      ]
+    }
+  },
+  {
+    "id": "q-u5-order-of-ops-001",
+    "type": "write_sql",
+    "unit": "U5",
+    "lessonId": "U5-groupby",
+    "conceptTags": [
+      "query-order",
+      "group-by",
+      "order-by"
+    ],
+    "difficulty": 3,
+    "section": "5.5",
+    "tr": {
+      "title": "Çalışma sırası: ORDER BY en sonda",
+      "prompt": "enrollments tablosunda her ders için kayıt sayısını getir ve EN ÇOK kayıtlı dersten başlayarak sırala. Sonuçta iki sütun olsun, bu sırayla: course_id ve adet. Eşit sayıda olanlar course_id'ye göre artan sıralansın.",
+      "hint1": "ORDER BY adet DESC, course_id ASC — takma adı ORDER BY içinde kullanabilirsin.",
+      "answerExplanation": "ORDER BY en son çalışır, o yüzden SELECT'te verdiğin takma adı (adet) kullanabilir. WHERE bunu yapamaz çünkü SELECT'ten önce çalışır. Çalışma sırası: FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY."
+    },
+    "assessment": {
+      "referenceSql": "SELECT course_id, COUNT(*) AS adet FROM enrollments GROUP BY course_id ORDER BY adet DESC, course_id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "course_id",
+        "adet"
+      ]
+    }
+  },
+  {
+    "id": "q-u5-order-limit-group-001",
+    "type": "write_sql",
+    "unit": "U5",
+    "lessonId": "U5-groupby",
+    "conceptTags": [
+      "query-order",
+      "group-by",
+      "limit"
+    ],
+    "difficulty": 4,
+    "section": "5.5",
+    "tr": {
+      "title": "Çalışma sırası: LIMIT en en sonda",
+      "prompt": "enrollments tablosunda en çok kayıt alan İLK 3 dersi getir. Sonuçta iki sütun olsun, bu sırayla: course_id ve adet. Eşitlikte course_id'ye göre artan sırala.",
+      "hint1": "Gruplayıp sırala, sonra LIMIT 3 ekle. LIMIT her şeyden sonra çalışır.",
+      "answerExplanation": "LIMIT en son aşamadır: gruplar oluşur, sıralanır, EN SONUNDA ilk 3'ü alınır. Bu yüzden LIMIT'in anlamlı olması için ORDER BY şarttır; sırasız bir sonuçtan 'ilk 3' almak rastgele 3 almak demektir."
+    },
+    "assessment": {
+      "referenceSql": "SELECT course_id, COUNT(*) AS adet FROM enrollments GROUP BY course_id ORDER BY adet DESC, course_id ASC LIMIT 3;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "course_id",
+        "adet"
+      ]
+    }
+  },
+  {
+    "id": "q-u5-where-cannot-agg-001",
+    "type": "write_sql",
+    "unit": "U5",
+    "lessonId": "U5-groupby",
+    "conceptTags": [
+      "query-order",
+      "having",
+      "group-by"
+    ],
+    "difficulty": 4,
+    "section": "5.5",
+    "tr": {
+      "title": "Hata avı: WHERE içinde COUNT olmaz",
+      "prompt": "Editördeki sorgu çalışmıyor: 'birden fazla kaydı olan dersler' bulunmak isteniyor ama koşul yanlış yere yazılmış. Düzelt. Sonuçta iki sütun olsun, bu sırayla: course_id ve adet; course_id'ye göre artan sırala.",
+      "hint1": "COUNT bir GRUP üzerinde hesaplanır; grupları süzen anahtar kelime WHERE değildir.",
+      "answerExplanation": "WHERE, gruplar daha oluşmadan tek tek satırlara bakar; o aşamada COUNT diye bir şey henüz yoktur. Grup üzerindeki koşul HAVING'e yazılır. Doğrusu: ... GROUP BY course_id HAVING COUNT(*) > 1 ..."
+    },
+    "starterSql": "SELECT course_id, COUNT(*) AS adet\nFROM enrollments\nWHERE COUNT(*) > 1\nGROUP BY course_id\nORDER BY course_id ASC;",
+    "assessment": {
+      "referenceSql": "SELECT course_id, COUNT(*) AS adet FROM enrollments GROUP BY course_id HAVING COUNT(*) > 1 ORDER BY course_id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "course_id",
+        "adet"
+      ]
+    }
   }
 ]

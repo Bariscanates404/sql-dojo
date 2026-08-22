@@ -329,5 +329,254 @@
       ]
     },
     "section": "M.4"
+  },
+  {
+    "id": "q-um-entity-rows-001",
+    "type": "write_sql",
+    "unit": "UM",
+    "lessonId": "UM-veri-modelleme",
+    "conceptTags": [
+      "entity",
+      "modelling"
+    ],
+    "difficulty": 1,
+    "section": "M.1",
+    "tr": {
+      "title": "Varlık: bir tabloda bir satır bir şeydir",
+      "prompt": "instructors tablosunda kaç VARLIK (eğitmen) olduğunu getir. Sonuç tek sütun olsun, adı egitmen_sayisi olsun.",
+      "hint1": "COUNT(*) ile say.",
+      "answerExplanation": "6 eğitmen. Modellemede tablo bir VARLIK TÜRÜNÜ (eğitmen), satır o türden bir örneği (Demir hoca), sütun ise o örneğin bir NİTELİĞİNİ (adı, unvanı) temsil eder. Bu üçlü, ilişkisel modelin tamamıdır."
+    },
+    "assessment": {
+      "referenceSql": "SELECT COUNT(*) AS egitmen_sayisi FROM instructors;",
+      "compareMode": "multiset",
+      "expectedColumns": [
+        "egitmen_sayisi"
+      ]
+    }
+  },
+  {
+    "id": "q-um-attribute-list-001",
+    "type": "write_sql",
+    "unit": "UM",
+    "lessonId": "UM-veri-modelleme",
+    "conceptTags": [
+      "attribute",
+      "modelling",
+      "introspection"
+    ],
+    "difficulty": 2,
+    "section": "M.1",
+    "tr": {
+      "title": "Nitelik: bir varlığın hangi özellikleri tutuluyor?",
+      "prompt": "instructors tablosunun sütun adlarını getir; yani bir eğitmenin hangi nitelikleri saklanıyor. information_schema.columns kullan, table_name = 'instructors' ile süz, ordinal_position'a göre sırala. Sonuç tek sütun olsun: column_name.",
+      "hint1": "SELECT column_name FROM information_schema.columns WHERE table_name = 'instructors' ORDER BY ordinal_position;",
+      "answerExplanation": "Her sütun bir niteliktir. Modelleme yaparken sorulacak ilk soru şudur: bu varlığın hangi özelliklerini saklamam gerekiyor? Gereksiz nitelik saklamak da, gerekli olanı unutmak da ilerideki sorunların kaynağıdır."
+    },
+    "assessment": {
+      "referenceSql": "SELECT column_name FROM information_schema.columns WHERE table_name = 'instructors' ORDER BY ordinal_position;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "column_name"
+      ],
+      "allowedLiterals": [
+        "instructors"
+      ]
+    }
+  },
+  {
+    "id": "q-um-entity-count-tables-001",
+    "type": "write_sql",
+    "unit": "UM",
+    "lessonId": "UM-veri-modelleme",
+    "conceptTags": [
+      "entity",
+      "modelling",
+      "introspection"
+    ],
+    "difficulty": 2,
+    "section": "M.1",
+    "tr": {
+      "title": "Bu modelde kaç varlık türü var?",
+      "prompt": "Veritabanındaki tablo sayısını getir; her tablo bir varlık türüne (ya da bir ilişkiye) karşılık gelir. information_schema.tables kullan, table_schema = 'public' ile süz. Sonuç tek sütun olsun, adı tablo_sayisi olsun.",
+      "hint1": "SELECT COUNT(*) AS tablo_sayisi FROM information_schema.tables WHERE table_schema = 'public';",
+      "answerExplanation": "12 tablo. Hepsi 'varlık' değildir: bazıları (club_memberships, enrollments, order_items) iki varlığı bağlayan ARA TABLOLARDIR. Bir modele bakarken 'bu tablo bir şeyi mi yoksa bir ilişkiyi mi temsil ediyor' diye sormak, modeli okumanın anahtarıdır."
+    },
+    "assessment": {
+      "referenceSql": "SELECT COUNT(*) AS tablo_sayisi FROM information_schema.tables WHERE table_schema = 'public';",
+      "compareMode": "multiset",
+      "expectedColumns": [
+        "tablo_sayisi"
+      ]
+    }
+  },
+  {
+    "id": "q-um-relation-fk-001",
+    "type": "write_sql",
+    "unit": "UM",
+    "lessonId": "UM-veri-modelleme",
+    "conceptTags": [
+      "relation",
+      "foreign-key",
+      "modelling"
+    ],
+    "difficulty": 3,
+    "section": "M.1",
+    "tr": {
+      "title": "İlişki: hangi sütun neye bağlanıyor?",
+      "prompt": "courses tablosunun sütun adlarını ve boş bırakılabilirliğini getir. Sonuçta iki sütun olsun, bu sırayla: column_name ve is_nullable. ordinal_position'a göre sırala. Sonuca bakınca hangi sütunların BAŞKA tabloya işaret ettiğini (department_id, instructor_id) fark edeceksin.",
+      "hint1": "information_schema.columns'tan column_name ve is_nullable seç, table_name = 'courses' ile süz.",
+      "answerExplanation": "Adı '_id' ile biten sütunlar genellikle bir ilişkiyi taşır: department_id bölüme, instructor_id eğitmene bağlar. instructor_id'nin boş bırakılabilir olması, 'eğitmeni henüz atanmamış ders olabilir' kuralının modele yazılmış hâlidir."
+    },
+    "assessment": {
+      "referenceSql": "SELECT column_name, is_nullable FROM information_schema.columns WHERE table_name = 'courses' ORDER BY ordinal_position;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "column_name",
+        "is_nullable"
+      ],
+      "allowedLiterals": [
+        "courses"
+      ]
+    }
+  },
+  {
+    "id": "q-um-redundancy-check-001",
+    "type": "write_sql",
+    "unit": "UM",
+    "lessonId": "UM-veri-modelleme",
+    "conceptTags": [
+      "redundancy",
+      "normalization"
+    ],
+    "difficulty": 3,
+    "section": "M.2",
+    "tr": {
+      "title": "Tekrarı ölç: bölüm adı kaç kez yazılırdı?",
+      "prompt": "Her bölümde kaç öğrenci olduğunu getir. Sonuçta iki sütun olsun, bu sırayla: department_id ve ogrenci_sayisi. department_id'ye göre artan sırala. Bu sayı, bölüm adını öğrenci tablosuna yazsaydık o adın kaç kez TEKRARLANACAĞINI gösterir.",
+      "hint1": "GROUP BY department_id ile grupla, COUNT(*) ile say.",
+      "answerExplanation": "Bölüm adını students tablosuna yazsaydık, 4 öğrencisi olan bölümün adı 4 kez tekrar ederdi. Adı düzeltmek gerektiğinde 4 satırı birden güncellemek zorunda kalırdın ve birini unutursan veri çelişkili hale gelirdi. Normalleştirme tam olarak bu tekrarı ortadan kaldırır."
+    },
+    "assessment": {
+      "referenceSql": "SELECT department_id, COUNT(*) AS ogrenci_sayisi FROM students GROUP BY department_id ORDER BY department_id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "department_id",
+        "ogrenci_sayisi"
+      ]
+    }
+  },
+  {
+    "id": "q-um-normalized-lookup-001",
+    "type": "write_sql",
+    "unit": "UM",
+    "lessonId": "UM-veri-modelleme",
+    "conceptTags": [
+      "normalization",
+      "join"
+    ],
+    "difficulty": 3,
+    "section": "M.2",
+    "tr": {
+      "title": "Normalleştirmenin bedeli: adı JOIN ile getir",
+      "prompt": "Her öğrencinin adını ve BÖLÜM ADINI getir. Bölüm adı students tablosunda tutulmadığı için departments tablosuna bağlanman gerekiyor. Sonuçta iki sütun olsun, bu sırayla: ogrenci (first_name) ve bolum (departments.name). students.id'ye göre artan sırala.",
+      "hint1": "JOIN departments d ON d.id = s.department_id",
+      "answerExplanation": "Bölüm adı tek bir yerde tutuluyor; okumak için JOIN gerekiyor. Normalleştirmenin takası budur: tekrar ve çelişki riski gider, karşılığında sorgular biraz daha uzar. Neredeyse her zaman kârlı bir takastır."
+    },
+    "assessment": {
+      "referenceSql": "SELECT s.first_name AS ogrenci, d.name AS bolum FROM students s JOIN departments d ON d.id = s.department_id ORDER BY s.id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "ogrenci",
+        "bolum"
+      ]
+    }
+  },
+  {
+    "id": "q-um-anomaly-orphan-001",
+    "type": "write_sql",
+    "unit": "UM",
+    "lessonId": "UM-veri-modelleme",
+    "conceptTags": [
+      "normalization",
+      "integrity",
+      "null"
+    ],
+    "difficulty": 3,
+    "section": "M.2",
+    "tr": {
+      "title": "Bütünlük: bağlantısı olmayan satır var mı?",
+      "prompt": "courses tablosunda instructor_id değeri NULL olan ders sayısını getir. Sonuç tek sütun olsun, adı egitmensiz olsun. Bu, modelin 'eğitmen atanması zorunlu değil' dediğinin kanıtıdır.",
+      "hint1": "COUNT(*) ile say, WHERE instructor_id IS NULL ile süz.",
+      "answerExplanation": "1 ders. Model, instructor_id'yi NOT NULL yapmadığı için bu duruma izin veriyor. Eğer kural 'her dersin eğitmeni olmalı' olsaydı, sütunu NOT NULL yapmak bu satırın oluşmasını en baştan engellerdi. Kısıtlar, iş kurallarının veritabanına yazılmış hâlidir."
+    },
+    "assessment": {
+      "referenceSql": "SELECT COUNT(*) AS egitmensiz FROM courses WHERE instructor_id IS NULL;",
+      "compareMode": "multiset",
+      "expectedColumns": [
+        "egitmensiz"
+      ],
+      "requiredConcepts": [
+        "is-null"
+      ]
+    }
+  },
+  {
+    "id": "q-um-composite-key-001",
+    "type": "write_sql",
+    "unit": "UM",
+    "lessonId": "UM-veri-modelleme",
+    "conceptTags": [
+      "composite-key",
+      "keys"
+    ],
+    "difficulty": 4,
+    "section": "M.4",
+    "tr": {
+      "title": "Bileşik anahtar: tek sütun yetmez",
+      "prompt": "enrollments tablosunda satır sayısını, farklı student_id sayısını ve farklı (student_id, course_id) ikilisi sayısını tek sorguda getir, bu sırayla: satir, farkli_ogrenci, farkli_ikili. Hangisinin satır sayısına eşit olduğuna dikkat et.",
+      "hint1": "COUNT(*), COUNT(DISTINCT student_id) ve COUNT(DISTINCT (student_id, course_id)) yazabilirsin.",
+      "answerExplanation": "20 satır, 13 farklı öğrenci, 20 farklı ikili. Tek başına student_id satırı benzersiz tanımlayamaz (bir öğrenci çok derse yazılır) ama student_id + course_id ikilisi tanımlar. Bileşik anahtar tam olarak budur: kimliği tek sütun değil, sütunların BİRLİKTELİĞİ verir."
+    },
+    "assessment": {
+      "referenceSql": "SELECT COUNT(*) AS satir, COUNT(DISTINCT student_id) AS farkli_ogrenci, COUNT(DISTINCT (student_id, course_id)) AS farkli_ikili FROM enrollments;",
+      "compareMode": "multiset",
+      "expectedColumns": [
+        "satir",
+        "farkli_ogrenci",
+        "farkli_ikili"
+      ]
+    }
+  },
+  {
+    "id": "q-um-surrogate-key-001",
+    "type": "write_sql",
+    "unit": "UM",
+    "lessonId": "UM-veri-modelleme",
+    "conceptTags": [
+      "surrogate-key",
+      "natural-key",
+      "keys"
+    ],
+    "difficulty": 3,
+    "section": "M.4",
+    "tr": {
+      "title": "Doğal anahtar aday mı? Ders kodunu sına",
+      "prompt": "courses tablosunda satır sayısı ile farklı code sayısını tek sorguda getir, bu sırayla: satir ve farkli_kod. İkisi eşitse code doğal anahtar olabilir demektir.",
+      "hint1": "COUNT(*) ve COUNT(DISTINCT code) yan yana.",
+      "answerExplanation": "İkisi de 8; yani ders kodu benzersiz ve doğal anahtar ADAYI. Yine de tablo ayrı bir id taşıyor: yapay (surrogate) anahtar. Sebep, doğal anahtarların zamanla değişebilmesidir; ders kodu güncellenirse ona bağlı bütün tabloları güncellemek gerekirdi."
+    },
+    "assessment": {
+      "referenceSql": "SELECT COUNT(*) AS satir, COUNT(DISTINCT code) AS farkli_kod FROM courses;",
+      "compareMode": "multiset",
+      "expectedColumns": [
+        "satir",
+        "farkli_kod"
+      ]
+    }
   }
 ]

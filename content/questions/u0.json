@@ -265,5 +265,280 @@
       ]
     },
     "section": "0.2"
+  },
+  {
+    "id": "q-u0-count-rows-001",
+    "type": "write_sql",
+    "unit": "U0",
+    "lessonId": "U0-temeller",
+    "conceptTags": [
+      "basics",
+      "row",
+      "count"
+    ],
+    "difficulty": 1,
+    "section": "0.1",
+    "tr": {
+      "title": "Kaç satır var?",
+      "prompt": "departments tablosunda kaç satır olduğunu getir. Sonuç tek sütun olsun, adı satir_sayisi olsun. Bir satır burada bir BÖLÜM demektir.",
+      "hint1": "COUNT(*) tüm satırları sayar. AS ile sütuna ad ver.",
+      "answerExplanation": "5 bölüm var. Tabloda bir satır bir varlığı temsil eder; departments'ta bu bir bölümdür. 'Bir satır ne demek' sorusu, ileride GROUP BY ve JOIN'de sürekli karşına çıkacak."
+    },
+    "assessment": {
+      "referenceSql": "SELECT COUNT(*) AS satir_sayisi FROM departments;",
+      "compareMode": "multiset",
+      "expectedColumns": [
+        "satir_sayisi"
+      ]
+    }
+  },
+  {
+    "id": "q-u0-list-columns-001",
+    "type": "write_sql",
+    "unit": "U0",
+    "lessonId": "U0-temeller",
+    "conceptTags": [
+      "basics",
+      "column"
+    ],
+    "difficulty": 1,
+    "section": "0.1",
+    "tr": {
+      "title": "Bir tablonun sütunlarını gör",
+      "prompt": "departments tablosunun sütun adlarını getir. information_schema.columns görünümünü kullan, table_name = 'departments' koşuluyla süz, ordinal_position'a göre sırala. Sonuç tek sütun olsun: column_name.",
+      "hint1": "SELECT column_name FROM information_schema.columns WHERE table_name = 'departments' ORDER BY ordinal_position;",
+      "answerExplanation": "id, name, faculty. Sütun bir özelliği, satır bir varlığı temsil eder. Veritabanı kendi yapısını da tablolarda tutar; information_schema tam olarak budur."
+    },
+    "assessment": {
+      "referenceSql": "SELECT column_name FROM information_schema.columns WHERE table_name = 'departments' ORDER BY ordinal_position;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "column_name"
+      ],
+      "allowedLiterals": [
+        "departments"
+      ]
+    }
+  },
+  {
+    "id": "q-u0-one-row-001",
+    "type": "write_sql",
+    "unit": "U0",
+    "lessonId": "U0-temeller",
+    "conceptTags": [
+      "basics",
+      "row",
+      "where"
+    ],
+    "difficulty": 1,
+    "section": "0.1",
+    "tr": {
+      "title": "Tek bir satırı getir",
+      "prompt": "departments tablosundan id'si 1 olan bölümün id, name ve faculty bilgisini getir. Tek satır dönmeli.",
+      "hint1": "WHERE id = 1 ile o satırı seç.",
+      "answerExplanation": "Bir satır, bir bölümün TÜM bilgilerini bir arada tutar. id o satırın kimliğidir; onunla tek bir satıra ulaşırsın."
+    },
+    "assessment": {
+      "referenceSql": "SELECT id, name, faculty FROM departments WHERE id = 1;",
+      "compareMode": "multiset",
+      "expectedColumns": [
+        "id",
+        "name",
+        "faculty"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    }
+  },
+  {
+    "id": "q-u0-select-clubs-names-001",
+    "type": "write_sql",
+    "unit": "U0",
+    "lessonId": "U0-temeller",
+    "conceptTags": [
+      "basics",
+      "select"
+    ],
+    "difficulty": 1,
+    "section": "0.2",
+    "tr": {
+      "title": "İlk sorgun: kulüp adları",
+      "prompt": "clubs tablosundan sadece name sütununu getir. Başka sütun olmasın.",
+      "hint1": "SELECT name FROM clubs;",
+      "answerExplanation": "SELECT hangi sütunları istediğini, FROM hangi tablodan istediğini söyler. En temel SQL cümlesi bu ikisidir."
+    },
+    "assessment": {
+      "referenceSql": "SELECT name FROM clubs;",
+      "compareMode": "multiset",
+      "expectedColumns": [
+        "name"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    }
+  },
+  {
+    "id": "q-u0-star-vs-cols-001",
+    "type": "write_sql",
+    "unit": "U0",
+    "lessonId": "U0-temeller",
+    "conceptTags": [
+      "basics",
+      "select-columns"
+    ],
+    "difficulty": 1,
+    "section": "0.3",
+    "tr": {
+      "title": "Yıldız yerine ihtiyacın olanı seç",
+      "prompt": "instructors tablosundan sadece ihtiyacın olan iki sütunu getir: first_name ve last_name. SELECT * KULLANMA; sadece bu ikisini yaz.",
+      "hint1": "Sütun adlarını virgülle ayır: SELECT first_name, last_name FROM instructors;",
+      "answerExplanation": "SELECT * her sütunu getirir; çoğu zaman fazlasını taşır ve tablo değişince sorgunun anlamı sessizce kayar. İhtiyacın olanı adıyla istemek hem hızlı hem güvenlidir."
+    },
+    "assessment": {
+      "referenceSql": "SELECT first_name, last_name FROM instructors;",
+      "compareMode": "multiset",
+      "expectedColumns": [
+        "first_name",
+        "last_name"
+      ],
+      "forbiddenPatterns": [
+        "select_star"
+      ]
+    }
+  },
+  {
+    "id": "q-u0-star-column-count-001",
+    "type": "write_sql",
+    "unit": "U0",
+    "lessonId": "U0-temeller",
+    "conceptTags": [
+      "basics",
+      "select-columns"
+    ],
+    "difficulty": 2,
+    "section": "0.3",
+    "tr": {
+      "title": "SELECT * kaç sütun getirirdi?",
+      "prompt": "students tablosunun kaç sütunu olduğunu getir; yani SELECT * yazsaydın kaç sütun gelecekti. information_schema.columns kullan, table_name = 'students' ile süz. Sonuç tek sütun olsun, adı sutun_sayisi olsun.",
+      "hint1": "COUNT(*) ile say, WHERE table_name = 'students' ile süz.",
+      "answerExplanation": "9 sütun. SELECT * yazsaydın 9 sütunun hepsi gelirdi, oysa çoğu sorguda 2-3 tanesi yeter. Üstelik tabloya yarın yeni sütun eklenirse SELECT * onu da sessizce getirmeye başlar."
+    },
+    "assessment": {
+      "referenceSql": "SELECT COUNT(*) AS sutun_sayisi FROM information_schema.columns WHERE table_name = 'students';",
+      "compareMode": "multiset",
+      "expectedColumns": [
+        "sutun_sayisi"
+      ],
+      "allowedLiterals": [
+        "students"
+      ]
+    }
+  },
+  {
+    "id": "q-u0-select-twice-001",
+    "type": "write_sql",
+    "unit": "U0",
+    "lessonId": "U0-temeller",
+    "conceptTags": [
+      "basics",
+      "result-set"
+    ],
+    "difficulty": 1,
+    "section": "0.4",
+    "tr": {
+      "title": "SELECT tabloyu değiştirmez",
+      "prompt": "clubs tablosundaki satır sayısını getir. Sonuç tek sütun olsun, adı kulup_sayisi olsun. Bu sorguyu istediğin kadar çalıştır; sayı hep aynı kalacak, çünkü SELECT veriye dokunmaz.",
+      "hint1": "SELECT COUNT(*) AS kulup_sayisi FROM clubs;",
+      "answerExplanation": "5 döner ve kaç kez çalıştırırsan çalıştır 5 kalır. SELECT tabloyu okur, bir SONUÇ KÜMESİ üretir ve tabloyu olduğu gibi bırakır. Deneme yapmak bu yüzden bedavadır."
+    },
+    "assessment": {
+      "referenceSql": "SELECT COUNT(*) AS kulup_sayisi FROM clubs;",
+      "compareMode": "multiset",
+      "expectedColumns": [
+        "kulup_sayisi"
+      ]
+    }
+  },
+  {
+    "id": "q-u0-result-set-shape-001",
+    "type": "write_sql",
+    "unit": "U0",
+    "lessonId": "U0-temeller",
+    "conceptTags": [
+      "basics",
+      "result-set"
+    ],
+    "difficulty": 2,
+    "section": "0.4",
+    "tr": {
+      "title": "Sonuç kümesi tabloya benzer ama tablo değildir",
+      "prompt": "products tablosundan name ve price sütunlarını getir, ama sonuçta price sütununun adı fiyat olarak görünsün. Tablodaki gerçek sütun adı değişmeyecek; değişen sadece SONUCUN görünümü.",
+      "hint1": "AS ile sonuçtaki sütuna yeni ad verebilirsin: price AS fiyat",
+      "answerExplanation": "AS sadece sonuç kümesindeki başlığı değiştirir; products tablosunda sütunun adı hâlâ price'tır. Sonuç kümesi tabloya benzer ama geçicidir ve tablonun kendisi değildir."
+    },
+    "assessment": {
+      "referenceSql": "SELECT name, price AS fiyat FROM products;",
+      "compareMode": "multiset",
+      "expectedColumns": [
+        "name",
+        "fiyat"
+      ]
+    }
+  },
+  {
+    "id": "q-u0-result-set-empty-001",
+    "type": "write_sql",
+    "unit": "U0",
+    "lessonId": "U0-temeller",
+    "conceptTags": [
+      "basics",
+      "result-set",
+      "where"
+    ],
+    "difficulty": 2,
+    "section": "0.4",
+    "tr": {
+      "title": "Sonuç kümesi kaç satırlı olduğunu sayabilirsin",
+      "prompt": "products tablosunda fiyatı 1000'den büyük kaç ürün olduğunu getir. Sonuç tek sütun olsun, adı adet olsun. (Sonucun 0 olması hata değildir; sonuç kümesi boş da olabilir.)",
+      "hint1": "COUNT(*) ile say, WHERE price > 1000 ile süz.",
+      "answerExplanation": "0 döner, çünkü o kadar pahalı ürün yok. Dikkat: sorgu HATA VERMEDİ, sadece hiçbir satır koşulu geçmedi. Boş sonuç, yanlış sorgu demek değildir; ama yanlış sorgu da boş sonuç verebilir, o yüzden sonucu her zaman düşünerek oku."
+    },
+    "assessment": {
+      "referenceSql": "SELECT COUNT(*) AS adet FROM products WHERE price > 1000;",
+      "compareMode": "multiset",
+      "expectedColumns": [
+        "adet"
+      ]
+    }
+  },
+  {
+    "id": "q-u0-order-doesnt-change-table-001",
+    "type": "write_sql",
+    "unit": "U0",
+    "lessonId": "U0-temeller",
+    "conceptTags": [
+      "basics",
+      "result-set",
+      "order-by"
+    ],
+    "difficulty": 2,
+    "section": "0.4",
+    "tr": {
+      "title": "Sıralamak tabloyu yeniden dizmez",
+      "prompt": "clubs tablosundan name sütununu alfabetik sırayla getir. Bu, tablodaki satırların yerini DEĞİŞTİRMEZ; sadece bu sonucun nasıl görüneceğini belirler.",
+      "hint1": "ORDER BY name ile alfabetik sırala.",
+      "answerExplanation": "ORDER BY sonucun sırasını belirler, tablonun içindeki düzeni değil. Aynı tabloya bir sonraki sorguda başka bir sıralama uygulayabilirsin; tablo her zaman olduğu gibi durur."
+    },
+    "assessment": {
+      "referenceSql": "SELECT name FROM clubs ORDER BY name ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "name"
+      ]
+    }
   }
 ]

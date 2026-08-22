@@ -620,5 +620,95 @@
         "price"
       ]
     }
+  },
+  {
+    "id": "q-u11-delete-all-rows-001",
+    "type": "write_sql",
+    "unit": "U11",
+    "lessonId": "U11-dml",
+    "conceptTags": [
+      "delete",
+      "danger"
+    ],
+    "difficulty": 2,
+    "section": "11.3",
+    "tr": {
+      "title": "WHERE'siz DELETE: hepsini sil",
+      "prompt": "club_memberships tablosundaki TÜM üyelikleri sil. Bu sefer WHERE yazmayacaksın; WHERE'siz DELETE'in ne yaptığını gözünle gör. (Değişiklik otomatik geri alınır.)",
+      "hint1": "DELETE FROM club_memberships;",
+      "answerExplanation": "10 üyeliğin hepsi gitti. WHERE'siz DELETE 'hepsini sil' demektir ve komut hata vermez, tam istenen şeyi yapar. Bu ünitenin ve ÜG'nin ana dersi: çalışan komut, doğru komut demek değildir."
+    },
+    "assessment": {
+      "referenceSql": "DELETE FROM club_memberships;",
+      "verifySql": "SELECT COUNT(*) AS kalan FROM club_memberships;",
+      "compareMode": "multiset",
+      "expectedColumns": [
+        "kalan"
+      ]
+    }
+  },
+  {
+    "id": "q-u11-tx-partial-001",
+    "type": "write_sql",
+    "unit": "U11",
+    "lessonId": "U11-dml",
+    "conceptTags": [
+      "transaction",
+      "rollback",
+      "atomicity"
+    ],
+    "difficulty": 4,
+    "section": "11.4",
+    "tr": {
+      "title": "Atomiklik: yarım iş diye bir şey yok",
+      "prompt": "Bir transaction aç, içinde önce bir kulüp ekle (id 6, 'Tiyatro', 2024) sonra bir kulübü sil (id 3, Satranç), sonra ROLLBACK yap. Sonuçta 5 kulüp olmalı ve Satranç hâlâ yerinde olmalı: ikisi de geri alınacak.",
+      "hint1": "BEGIN; INSERT INTO clubs ...; DELETE FROM clubs WHERE id = 3; ROLLBACK;",
+      "answerExplanation": "ROLLBACK transaction içindeki HER ŞEYİ geri alır; 'ekleme oldu ama silme olmadı' gibi yarım bir durum oluşmaz. Atomiklik budur ve para transferinde 'para hesaptan çıktı ama diğerine girmedi' felaketini önleyen şeydir."
+    },
+    "assessment": {
+      "referenceSql": "BEGIN; INSERT INTO clubs (id, name, founded_year) VALUES (6, 'Tiyatro', 2024); DELETE FROM clubs WHERE id = 3; ROLLBACK;",
+      "verifySql": "SELECT id, name FROM clubs ORDER BY id;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "name"
+      ],
+      "allowedLiterals": [
+        "Tiyatro"
+      ]
+    }
+  },
+  {
+    "id": "q-u11-tx-commit-partial-001",
+    "type": "write_sql",
+    "unit": "U11",
+    "lessonId": "U11-dml",
+    "conceptTags": [
+      "transaction",
+      "commit",
+      "atomicity"
+    ],
+    "difficulty": 4,
+    "section": "11.4",
+    "tr": {
+      "title": "Atomiklik: COMMIT ikisini birden kalıcı yapar",
+      "prompt": "Bir öncekiyle aynı transaction'ı yaz (id 6 'Tiyatro' ekle, id 3 Satranç'ı sil) ama sonunda COMMIT kullan. Sonuçta yine 5 kulüp olmalı: biri gitti, biri geldi. İkisi de kalıcı.",
+      "hint1": "Sadece son satır değişiyor: ROLLBACK yerine COMMIT.",
+      "answerExplanation": "COMMIT de ROLLBACK gibi 'ya hep ya hiç' çalışır, sadece yönü ters: ikisi birden kalıcı olur. Transaction'ın verdiği güvence 'hepsi olur ya da hiçbiri olmaz'dır; arada bir yerde takılı kalmaz."
+    },
+    "assessment": {
+      "referenceSql": "BEGIN; INSERT INTO clubs (id, name, founded_year) VALUES (6, 'Tiyatro', 2024); DELETE FROM clubs WHERE id = 3; COMMIT;",
+      "verifySql": "SELECT id, name FROM clubs ORDER BY id;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "name"
+      ],
+      "allowedLiterals": [
+        "Tiyatro"
+      ]
+    }
   }
 ]

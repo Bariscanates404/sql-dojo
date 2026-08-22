@@ -24,6 +24,7 @@ await db.exec(seedSql);
 // execSandboxed ile aynı mantık: ayrı instance, her koşumdan önce yeniden tohum.
 const sandbox = new PGlite();
 async function runMutating(a) {
+  await sandbox.exec('ROLLBACK;').catch(() => {});
   await sandbox.exec('DROP SCHEMA IF EXISTS public CASCADE; CREATE SCHEMA public;');
   await sandbox.exec(seedSql);
   await sandbox.exec(a.referenceSql);

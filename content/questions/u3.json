@@ -801,5 +801,114 @@
     ],
     "correctIndex": 3,
     "section": "3.2"
+  },
+  {
+    "id": "q-u3-date-month-001",
+    "type": "write_sql",
+    "unit": "U3",
+    "lessonId": "U3-ifadeler",
+    "conceptTags": [
+      "date",
+      "computed-column"
+    ],
+    "difficulty": 2,
+    "section": "3.3",
+    "tr": {
+      "title": "Tarihten ay çıkar",
+      "prompt": "students tablosundan id ve doğum AYINI getir. İkinci sütunun adı dogum_ayi olsun. birth_date sütunundan ayı çıkar. id'ye göre artan sırala.",
+      "hint1": "EXTRACT(MONTH FROM birth_date) ile ayı alırsın.",
+      "answerExplanation": "EXTRACT bir tarihten istediğin parçayı (YEAR, MONTH, DAY) sayı olarak çeker. Tarih tek bir değerdir ama içinde birden çok bilgi taşır."
+    },
+    "assessment": {
+      "referenceSql": "SELECT id, EXTRACT(MONTH FROM birth_date) AS dogum_ayi FROM students ORDER BY id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "dogum_ayi"
+      ]
+    }
+  },
+  {
+    "id": "q-u3-date-age-001",
+    "type": "write_sql",
+    "unit": "U3",
+    "lessonId": "U3-ifadeler",
+    "conceptTags": [
+      "date",
+      "arithmetic"
+    ],
+    "difficulty": 3,
+    "section": "3.3",
+    "tr": {
+      "title": "İki tarih arasındaki yıl farkı",
+      "prompt": "students tablosundan id ve öğrencinin 2026 yılı itibarıyla kaç yaşında olacağını getir. İkinci sütunun adı yas olsun. Hesap: 2026 eksi doğum yılı. id'ye göre artan sırala.",
+      "hint1": "2026 - EXTRACT(YEAR FROM birth_date) AS yas",
+      "answerExplanation": "Tarihten yılı çıkarıp aritmetik yapabilirsin. Bu kaba bir yaş hesabıdır (doğum günü geçti mi bakmaz) ama tarih parçalarıyla hesap yapmanın mantığını gösterir."
+    },
+    "assessment": {
+      "referenceSql": "SELECT id, 2026 - EXTRACT(YEAR FROM birth_date) AS yas FROM students ORDER BY id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "yas"
+      ]
+    }
+  },
+  {
+    "id": "q-u3-date-filter-001",
+    "type": "write_sql",
+    "unit": "U3",
+    "lessonId": "U3-ifadeler",
+    "conceptTags": [
+      "date",
+      "where"
+    ],
+    "difficulty": 2,
+    "section": "3.3",
+    "tr": {
+      "title": "Belirli bir yılda doğanlar",
+      "prompt": "students tablosundan 2004 yılında doğan öğrencileri getir. Sonuçta iki sütun olsun, bu sırayla: id ve first_name. id'ye göre artan sırala.",
+      "hint1": "EXTRACT(YEAR FROM birth_date) = 2004 koşulunu kullan.",
+      "answerExplanation": "Tarih üzerinde de filtreleme yapabilirsin. Yılı çıkarıp karşılaştırmak en okunur yoldur; alternatifi BETWEEN ile tarih aralığı vermektir."
+    },
+    "assessment": {
+      "referenceSql": "SELECT id, first_name FROM students WHERE EXTRACT(YEAR FROM birth_date) = 2004 ORDER BY id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "first_name"
+      ]
+    }
+  },
+  {
+    "id": "q-u3-date-order-001",
+    "type": "write_sql",
+    "unit": "U3",
+    "lessonId": "U3-ifadeler",
+    "conceptTags": [
+      "date",
+      "order-by"
+    ],
+    "difficulty": 1,
+    "section": "3.3",
+    "tr": {
+      "title": "Tarihe göre sırala: en yaşlıdan en gence",
+      "prompt": "students tablosundan id, first_name ve birth_date sütunlarını getir; en ERKEN doğandan en geç doğana doğru sırala.",
+      "hint1": "Tarihler de sıralanabilir: ORDER BY birth_date ASC",
+      "answerExplanation": "Tarih sütunları sayılar gibi sıralanır; artan sıralama en eski tarihi başa alır. Metin olarak saklansaydı bu sıralama bozulurdu, tipin önemi burada da görünüyor."
+    },
+    "assessment": {
+      "referenceSql": "SELECT id, first_name, birth_date FROM students ORDER BY birth_date ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "first_name",
+        "birth_date"
+      ]
+    }
   }
 ]
