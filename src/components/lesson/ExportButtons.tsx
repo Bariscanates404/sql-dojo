@@ -9,6 +9,7 @@ import { buildHomeworkDocument } from '@lib/export/homework';
 import { buildLessonDocument } from '@lib/export/lesson';
 import { lessonTitle } from '@lib/export/lesson-text';
 import { questionCountsBySection, selectQuestionsForSections, splitLesson } from '@lib/export/sections';
+import { HOMEWORK_PER_SECTION } from '@lib/export/select';
 import { loadQuestions } from '@lib/questions/load';
 import type { Question } from '@lib/questions/schema';
 import { cn } from '@utils/cn';
@@ -43,6 +44,15 @@ export function ExportButtons({ slug, markdown, unit }: ExportButtonsProps) {
   const selectedQuestions = useMemo(
     () => selectQuestionsForSections(unitQuestions ?? [], selected).questions,
     [unitQuestions, selected],
+  );
+
+  // Her seçili konudan HOMEWORK_PER_SECTION tane; o kadarı yoksa olan kadarı.
+  const homeworkTotal = useMemo(
+    () =>
+      parts.sections
+        .filter((x) => selected.includes(x.id))
+        .reduce((n, x) => n + Math.min(HOMEWORK_PER_SECTION, counts[x.id] ?? 0), 0),
+    [parts, selected, counts],
   );
 
   const allSelected = selected.length === parts.sections.length;
@@ -86,7 +96,9 @@ export function ExportButtons({ slug, markdown, unit }: ExportButtonsProps) {
       if (!selectedQuestions.length) throw new Error('Seçili konularda soru yok');
       const html = await buildHomeworkDocument({
         lessonTitle: lessonTitle(markdown, slug),
-        questions: selectedQuestions,
+        questions: unitQuestions ?? [],
+        sectionIds: orderedIds,
+        sectionTitles: Object.fromEntries(parts.sections.map((x) => [x.id, x.title])),
         tables,
         css,
         dateLabel: todayLabel(),
@@ -149,7 +161,7 @@ export function ExportButtons({ slug, markdown, unit }: ExportButtonsProps) {
           disabled={busy !== null || noneSelected || selectedQuestions.length === 0}
           className={cn(btn)}
         >
-          {busy === 'odev' ? 'Hazırlanıyor…' : `📝 Ödev kağıdı (${Math.min(5, selectedQuestions.length)} soru)`}
+          {busy === 'odev' ? 'Hazırlanıyor…' : `📝 Ödev kağıdı (${homeworkTotal} soru)`}
         </button>
       </div>
 

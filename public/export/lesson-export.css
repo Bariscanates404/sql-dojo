@@ -292,3 +292,18 @@ tbody tr:nth-child(even) { background: color-mix(in srgb, var(--surface) 55%, tr
 }
 
 @page { margin: 18mm 16mm; }
+
+/* Ödev kağıdında konu başlıkları (her alt ders kendi bloğu). */
+.hw-section {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin: 2rem 0 0.9rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 2px solid var(--border);
+  font-size: 1.05rem;
+  color: var(--primary);
+  break-after: avoid;
+}
+.hw-section-n { font-size: 0.75rem; font-weight: 400; color: var(--muted); white-space: nowrap; }

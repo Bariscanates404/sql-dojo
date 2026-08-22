@@ -4,7 +4,7 @@ import { DIFFICULTY_LABEL, type Question } from '../questions/schema.ts';
 import { buildDocument } from './document.ts';
 import { escapeHtml } from './escape.ts';
 import { markdownToHtml } from './render.ts';
-import { homeworkHint, selectHomeworkQuestions } from './select.ts';
+import { HOMEWORK_PER_SECTION, homeworkHint, selectHomeworkBySection } from './select.ts';
 
 // Ödev kağıdı: öğrenciye giden, cevapsız çalışma sayfası.
 //
@@ -19,8 +19,7 @@ import { homeworkHint, selectHomeworkQuestions } from './select.ts';
 
 const CHOICE_LETTERS = ['A', 'B', 'C', 'D', 'E', 'F'];
 
-async function renderQuestion(q: Question, index: number): Promise<string> {
-  const no = index + 1;
+async function renderQuestion(q: Question, no: number): Promise<string> {
   const meta = [DIFFICULTY_LABEL[q.difficulty], ...q.conceptTags].filter(Boolean).join(' · ');
   const prompt = await markdownToHtml(q.tr.prompt);
 
@@ -81,23 +80,49 @@ export interface HomeworkDocInput {
   dateLabel: string;
   /** Kağıda yazılacak konu başlıkları; öğrenci neyin ödevi olduğunu bilsin. */
   coveredLabel?: string;
+  /** Hangi alt derslerden soru seçilecek. Her biri için 5 soru hedeflenir. */
+  sectionIds?: string[];
+  /** Alt ders numarası -> başlık; kağıttaki bölüm başlıklarında kullanılır. */
+  sectionTitles?: Record<string, string>;
 }
 
 export async function buildHomeworkDocument(input: HomeworkDocInput): Promise<string> {
-  const selected = selectHomeworkQuestions(input.questions);
-  const rendered = await Promise.all(selected.map((q, i) => renderQuestion(q, i)));
-  const bodyHtml = [renderSchema(input.tables), ...rendered].filter(Boolean).join('\n');
+  const groups = selectHomeworkBySection(input.questions, input.sectionIds ?? []);
+  const total = groups.reduce((n, g) => n + g.questions.length, 0);
+
+  const blocks: string[] = [renderSchema(input.tables)];
+  let no = 0;
+  for (const g of groups) {
+    if (!g.questions.length) continue;
+    const title = input.sectionTitles?.[g.sectionId];
+    blocks.push(
+      `<h2 class="hw-section">${escapeHtml(g.sectionId)}${title ? ' · ' + escapeHtml(title) : ''}` +
+        `<span class="hw-section-n">${g.questions.length} soru</span></h2>`,
+    );
+    for (const q of g.questions) blocks.push(await renderQuestion(q, ++no));
+  }
+
+  // Hedefin altında kalan konular kağıtta AÇIKÇA yazılır: öğretmen eksik kağıdı
+  // görmeden dağıtmasın, sessizce kısa ödev vermeyelim.
+  const short = groups.filter((g) => g.available < HOMEWORK_PER_SECTION);
+  if (short.length) {
+    blocks.push(
+      `<p class="hw-meta">Not: ${short
+        .map((g) => `${escapeHtml(g.sectionId)} (${g.available})`)
+        .join(', ')} konusunda bankada ${HOMEWORK_PER_SECTION} soru yok, olan kadarı verildi.</p>`,
+    );
+  }
 
   return buildDocument({
     title: `${input.lessonTitle} · Ödev · SQL Dojo`,
     brand: 'SQL DOJO · ÖDEV KAĞIDI',
     heading: input.lessonTitle,
-    tagline: input.coveredLabel ? `${selected.length} soru · ${input.coveredLabel}` : `${selected.length} soru`,
+    tagline: input.coveredLabel ? `${total} soru · ${input.coveredLabel}` : `${total} soru`,
     nameField: true,
     note:
       'Soruları kağıt üzerinde çözebilirsin, bilgisayar şart değil. Sorgularını dikkatli yaz: ' +
       'hangi tablo, hangi sütunlar, hangi koşul. Takılırsan sorunun altındaki ipucuna bak.',
-    bodyHtml,
+    bodyHtml: blocks.filter(Boolean).join('\n'),
     css: input.css,
     footer: `SQL Dojo · ${input.lessonTitle} · ödev kağıdı · ${input.dateLabel}`,
   });

@@ -28,7 +28,7 @@ const ok = (cond, msg) => {
 // Yani bu kapı, tarayıcıda çalışan kodun ta kendisini sınıyor; ayrı bir kopyayı
 // sınayan kapı, kopya ayrıştığı gün yalan söylemeye başlar.
 const { rewriteEditorLinks, lessonTitle } = await import(path.join(root, 'src/lib/export/lesson-text.ts'));
-const { selectHomeworkQuestions, homeworkHint, HOMEWORK_QUESTION_COUNT } = await import(
+const { selectHomeworkBySection, homeworkHint, HOMEWORK_PER_SECTION } = await import(
   path.join(root, 'src/lib/export/select.ts')
 );
 const { exportFilename } = await import(path.join(root, 'src/lib/export/filename.ts'));
@@ -89,15 +89,28 @@ console.log('\n--- Ödev kağıdı: cevap sızıntısı ---');
 for (const meta of index) {
   const unit = meta.prefix;
   const pool = questions.filter((q) => q.unit === unit);
-  ok(pool.length >= HOMEWORK_QUESTION_COUNT, `${unit}: havuzda en az ${HOMEWORK_QUESTION_COUNT} soru var (${pool.length})`);
   if (!pool.length) continue;
 
-  const picked = selectHomeworkQuestions(pool);
-  ok(picked.length === Math.min(HOMEWORK_QUESTION_COUNT, pool.length), `${unit}: ${picked.length} soru seçildi`);
+  const raw0 = await readFile(path.join(root, 'content/lessons', meta.file), 'utf8');
+  const secs = splitLesson(raw0).sections;
+  const secIds = secs.map((x) => x.id);
+
+  // KURAL: her seçili konudan HOMEWORK_PER_SECTION soru (havuz yetiyorsa).
+  const groups = selectHomeworkBySection(pool, secIds);
+  for (const g of groups) {
+    const want = Math.min(HOMEWORK_PER_SECTION, g.available);
+    ok(g.questions.length === want, `${unit} ${g.sectionId}: ${g.questions.length}/${want} soru seçildi (havuz ${g.available})`);
+    ok(g.questions.every((q) => q.section === g.sectionId), `${unit} ${g.sectionId}: sadece bu konunun soruları`);
+  }
+  const picked = groups.flatMap((g) => g.questions);
+  const ids = picked.map((q) => q.id);
+  ok(new Set(ids).size === ids.length, `${unit}: aynı soru kağıtta iki kez YOK`);
 
   // Öğrenciye giden GERÇEK kağıt.
   const sheet = await buildHomeworkDocument({
-    lessonTitle: meta.title, questions: pool, tables, css, dateLabel: DATE,
+    lessonTitle: meta.title, questions: pool, sectionIds: secIds,
+    sectionTitles: Object.fromEntries(secs.map((x) => [x.id, x.title])),
+    tables, css, dateLabel: DATE,
   });
   const sheetText = sheet.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
 
@@ -121,16 +134,24 @@ for (const meta of index) {
     ok(sheetText.includes(q.starterSql.split('\n')[0].trim()), `${q.id}: başlangıç SQL'i kağıda basıldı`);
   }
 
+  for (const g of groups.filter((x) => x.questions.length)) {
+    ok(sheet.includes(`>${g.sectionId}`), `${unit}: kağıtta "${g.sectionId}" konu başlığı var`);
+  }
+
   ok(/Ad Soyad:/.test(sheet), `${unit}: kağıtta "Ad Soyad" satırı var`);
   ok(/Tablolar \(yanında bulunsun\)/.test(sheet), `${unit}: çevrimdışı öğrenci için tablo şeması basılı`);
   ok(!/(src|href)\s*=\s*["']https?:/i.test(sheet), `${unit}: ödev kağıdında dışarıya giden adres yok`);
 
-  // Seçim deterministik olmalı: aynı havuz -> aynı sorular.
-  const again = selectHomeworkQuestions(pool);
+  // Seçim deterministik olmalı: aynı havuz + aynı konular -> aynı sorular.
+  const again = selectHomeworkBySection(pool, secIds).flatMap((g) => g.questions);
   ok(
-    again.map((q) => q.id).join(',') === picked.map((q) => q.id).join(','),
+    again.map((q) => q.id).join(',') === ids.join(','),
     `${unit}: seçim deterministik (öğretmen aynı kağıdı iki kez indirince aynı sorular)`,
   );
+
+  // Konu sırası kağıtta derste geçtiği sıra olmalı, seçim sırası değil.
+  const shuffled = selectHomeworkBySection(pool, [...secIds].reverse()).flatMap((g) => g.questions);
+  ok(shuffled.length === ids.length, `${unit}: konu sırası değişse de soru sayısı aynı`);
 }
 
 // --- 3) Dosya adı: sürüm etiketi zorunlu ----------------------------------
