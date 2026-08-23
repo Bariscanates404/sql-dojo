@@ -710,5 +710,41 @@
         "Tiyatro"
       ]
     }
+  },
+  {
+    "id": "q-u11-chal-tx-verify-001",
+    "type": "write_sql",
+    "unit": "U11",
+    "lessonId": "U11-dml",
+    "conceptTags": [
+      "transaction",
+      "update",
+      "delete",
+      "atomicity",
+      "where"
+    ],
+    "difficulty": 5,
+    "section": "11.4",
+    "tr": {
+      "title": "Meydan okuma: üç adımlı güvenli işlem",
+      "prompt": "Tek bir transaction içinde üç iş yap ve KALICI hale getir: (1) products tablosunda fiyatı 50'den büyük ürünlere %10 indirim uygula, (2) clubs tablosundan Satranç kulübünü (id 3) sil, (3) clubs tablosuna yeni bir kulüp ekle (id 6, 'Tiyatro', 2024). Sonunda COMMIT. (Kullanacağın tablolar: products, clubs.)",
+      "hint1": "BEGIN; sonra üç komut; sonra COMMIT; Her komutun sonunda noktalı virgül olsun.",
+      "hint2": "UPDATE products SET price = price * 0.90 WHERE price > 50; DELETE FROM clubs WHERE id = 3; INSERT INTO clubs ...",
+      "answerExplanation": "Transaction'ın gücü burada: üç işlemin üçü de ya olur ya hiçbiri olmaz. İki farklı tabloya dokunman da önemli, çünkü atomiklik tablo başına değil İŞLEM başına çalışır: biri başarısız olsa ikisi birden geri alınırdı. Gerçek hayatta çok adımlı işlemlerde COMMIT'ten önce SELECT ile kontrol etmek altın kuraldır; buradaki kum havuzu o alışkanlığı bedavaya denetiyor."
+    },
+    "assessment": {
+      "referenceSql": "BEGIN; UPDATE products SET price = price * 0.90 WHERE price > 50; DELETE FROM clubs WHERE id = 3; INSERT INTO clubs (id, name, founded_year) VALUES (6, 'Tiyatro', 2024); COMMIT;",
+      "verifySql": "SELECT 'urun' AS tur, name, ROUND(price,2)::text AS deger FROM products UNION ALL SELECT 'kulup', name, founded_year::text FROM clubs ORDER BY tur, name;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "tur",
+        "name",
+        "deger"
+      ],
+      "allowedLiterals": [
+        "Tiyatro"
+      ]
+    }
   }
 ]

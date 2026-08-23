@@ -487,5 +487,40 @@
         "with"
       ]
     }
+  },
+  {
+    "id": "q-u10-chal-share-001",
+    "type": "write_sql",
+    "unit": "U10",
+    "lessonId": "U10-cte",
+    "conceptTags": [
+      "cte",
+      "with",
+      "sum",
+      "multi-join",
+      "scalar-subquery"
+    ],
+    "difficulty": 5,
+    "section": "10.3",
+    "tr": {
+      "title": "Meydan okuma: kategori cirosu ve genel paydaki yüzdesi",
+      "prompt": "Önce 'ciro' adında bir CTE tanımla: her kategorinin toplam cirosunu hesaplasın (tutar = quantity * unit_price toplamı). Sonra bu CTE'den her kategorinin cirosunu VE genel ciro içindeki yüzdesini getir (1 ondalık). Sonuçta üç sütun olsun, bu sırayla: category, tutar, yuzde. tutar'a göre büyükten küçüğe sırala. (Kullanacağın tablolar: order_items, products.)",
+      "hint1": "CTE içinde order_items ile products'ı JOIN edip GROUP BY category yap. Dışarıda yüzdeyi hesaplarken genel toplama ihtiyacın var.",
+      "hint2": "Genel toplamı skaler alt sorguyla al: (SELECT SUM(tutar) FROM ciro)",
+      "answerExplanation": "Bu soru üç şeyi birleştiriyor: JOIN ile ada ulaşmak, CTE ile ara sonucu adlandırmak, ve genel toplamı skaler bir alt sorguyla getirip her satırla oranlamak. Aynı CTE'yi hem satırlar hem toplam için kullanabiliyorsun; CTE'nin en pratik faydalarından biri budur. 100.0 yazmak kritik: 100 yazsaydın tam sayı bölmesi yüzünden çoğu yüzde 0 çıkardı (Ü3'teki tuzak burada geri geliyor)."
+    },
+    "assessment": {
+      "referenceSql": "WITH ciro AS (SELECT p.category, SUM(oi.quantity * oi.unit_price) AS tutar FROM order_items oi JOIN products p ON p.id = oi.product_id GROUP BY p.category) SELECT category, tutar, ROUND(100.0 * tutar / (SELECT SUM(tutar) FROM ciro), 1) AS yuzde FROM ciro ORDER BY tutar DESC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "category",
+        "tutar",
+        "yuzde"
+      ],
+      "requiredConcepts": [
+        "with"
+      ]
+    }
   }
 ]

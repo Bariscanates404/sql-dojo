@@ -800,5 +800,39 @@
         "uyesiz"
       ]
     }
+  },
+  {
+    "id": "q-u6-chal-anti-both-001",
+    "type": "write_sql",
+    "unit": "U6",
+    "lessonId": "U6-join",
+    "conceptTags": [
+      "left-join",
+      "anti-join",
+      "is-null",
+      "or"
+    ],
+    "difficulty": 5,
+    "section": "6.5",
+    "tr": {
+      "title": "Meydan okuma: iki yönden birden eşleşmeyenler",
+      "prompt": "Hiç kulübe üye OLMAYAN ya da hiç etkinliğe katılmamış öğrencileri bul. students tablosunu club_memberships ve event_attendance ile LEFT JOIN yap; iki taraftan HERHANGİ BİRİ eşleşmiyorsa öğrenci sonuçta olsun. Sonuçta iki sütun olsun, bu sırayla: id ve first_name. Aynı öğrenci bir kez görünsün, id'ye göre artan sırala. (Kullanacağın tablolar: students, club_memberships, event_attendance.)",
+      "hint1": "İki LEFT JOIN kur, sonra WHERE'de iki IS NULL koşulunu OR ile bağla. Aynı öğrenci birden çok satırda çıkabileceği için DISTINCT gerekir.",
+      "hint2": "WHERE cm.student_id IS NULL OR ea.student_id IS NULL",
+      "answerExplanation": "Üç şeyi birden yapıyorsun: LEFT JOIN'in eşleşmeyeni koruma özelliği, IS NULL ile eşleşmeyeni yakalama (anti-join), ve OR ile iki ayrı koşulu birleştirme. DISTINCT şart: LEFT JOIN'ler satırları çoğaltıyor, çünkü bir öğrencinin birden çok üyeliği ve katılımı olabilir. DISTINCT yazmazsan aynı isim birkaç kez görünür."
+    },
+    "assessment": {
+      "referenceSql": "SELECT DISTINCT s.id, s.first_name FROM students s LEFT JOIN club_memberships cm ON cm.student_id = s.id LEFT JOIN event_attendance ea ON ea.student_id = s.id WHERE cm.student_id IS NULL OR ea.student_id IS NULL ORDER BY s.id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "first_name"
+      ],
+      "requiredConcepts": [
+        "is-null",
+        "distinct"
+      ]
+    }
   }
 ]

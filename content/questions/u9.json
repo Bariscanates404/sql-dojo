@@ -746,5 +746,62 @@
         "ad"
       ]
     }
+  },
+  {
+    "id": "q-u9-chal-not-exists-two-001",
+    "type": "write_sql",
+    "unit": "U9",
+    "lessonId": "U9-subquery",
+    "conceptTags": [
+      "not-exists",
+      "subquery",
+      "or"
+    ],
+    "difficulty": 5,
+    "section": "9.3",
+    "tr": {
+      "title": "Meydan okuma: iki NOT EXISTS bir arada",
+      "prompt": "Hiç siparişi OLMAYAN ya da hiç kulübe üye OLMAYAN öğrencileri getir. İki ayrı NOT EXISTS alt sorgusu kur ve OR ile bağla. Sonuçta iki sütun olsun, bu sırayla: id ve first_name. id'ye göre artan sırala. (Kullanacağın tablolar: students, orders, club_memberships.)",
+      "hint1": "Her NOT EXISTS kendi tablosuna bakar ve dış satıra bağlanır: WHERE o.student_id = s.id",
+      "hint2": "NOT EXISTS (SELECT 1 FROM orders o WHERE o.student_id = s.id) OR NOT EXISTS (SELECT 1 FROM club_memberships m WHERE m.student_id = s.id)",
+      "answerExplanation": "Aynı sonucu LEFT JOIN + IS NULL ile de bulabilirdin ama bu haliyle çok daha okunur: her koşul kendi cümlesinde duruyor ve DISTINCT'e gerek kalmıyor, çünkü EXISTS satır çoğaltmaz, sadece var mı yok mu diye bakar. İki yaklaşımı kıyasla; hangisinin niyeti daha net anlattığına karar ver."
+    },
+    "assessment": {
+      "referenceSql": "SELECT s.id, s.first_name FROM students s WHERE NOT EXISTS (SELECT 1 FROM orders o WHERE o.student_id = s.id) OR NOT EXISTS (SELECT 1 FROM club_memberships m WHERE m.student_id = s.id) ORDER BY s.id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "first_name"
+      ]
+    }
+  },
+  {
+    "id": "q-u9-chal-set-ops-001",
+    "type": "write_sql",
+    "unit": "U9",
+    "lessonId": "U9-subquery",
+    "conceptTags": [
+      "set-ops",
+      "except",
+      "subquery"
+    ],
+    "difficulty": 5,
+    "section": "9.5",
+    "tr": {
+      "title": "Meydan okuma: kulüpte olup siparişi olmayanlar",
+      "prompt": "En az bir kulübe üye OLAN ama hiç siparişi OLMAYAN öğrencilerin id'lerini getir. Küme işlemi kullan: kulüp üyelerinin listesinden sipariş verenlerin listesini ÇIKAR. Sonuç tek sütun olsun, adı id olsun, artan sırala. (Kullanacağın tablolar: club_memberships, orders.)",
+      "hint1": "EXCEPT iki sorgunun sonucundan ikinciyi çıkarır: SELECT ... EXCEPT SELECT ...",
+      "hint2": "SELECT student_id FROM club_memberships EXCEPT SELECT student_id FROM orders",
+      "answerExplanation": "EXCEPT, 'birinci listede olup ikincide olmayanlar' demektir ve NOT IN'in NULL tuzağına düşmez, NOT EXISTS kadar da uzun değildir. Aynı soruyu üç farklı yolla çözebilirsin (NOT IN, NOT EXISTS, EXCEPT); hangisini seçeceğin okunurluk ve NULL güvenliği meselesidir. Küme işlemlerinde sütun sayısı ve tipleri iki tarafta da aynı olmalıdır."
+    },
+    "assessment": {
+      "referenceSql": "SELECT student_id AS id FROM club_memberships EXCEPT SELECT student_id FROM orders ORDER BY id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id"
+      ]
+    }
   }
 ]

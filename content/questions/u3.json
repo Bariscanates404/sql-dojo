@@ -910,5 +910,43 @@
         "birth_date"
       ]
     }
+  },
+  {
+    "id": "q-u3-chal-case-coalesce-001",
+    "type": "write_sql",
+    "unit": "U3",
+    "lessonId": "U3-ifadeler",
+    "conceptTags": [
+      "case",
+      "coalesce",
+      "null",
+      "string-func",
+      "arithmetic"
+    ],
+    "difficulty": 5,
+    "section": "3.5",
+    "tr": {
+      "title": "Meydan okuma: tek sorguda dört araç",
+      "prompt": "students tablosundan her öğrenci için bir özet satırı üret. Sonuçta üç sütun olsun, bu sırayla: id, etiket, burs_durumu. etiket = adın ilk harfi + '. ' + soyad (örnek: 'A. Yılmaz'). burs_durumu = bursu NULL ise 'Bilinmiyor', 0 ise 'Yok', 3000'den büyükse 'Yüksek', değilse 'Normal'. id'ye göre artan sırala. (Kullanacağın tablo: students.)",
+      "hint1": "Etiket için LEFT ve || birlikte kullanılır. Durum için CASE WHEN zinciri gerekir ve NULL kontrolü EN BAŞTA olmalı.",
+      "hint2": "CASE WHEN scholarship_amount IS NULL THEN 'Bilinmiyor' WHEN ... END",
+      "answerExplanation": "Dört aracı aynı anda kullandın: LEFT ile metin kesme, || ile birleştirme, CASE ile koşullu değer, ve NULL'ı ayrı ele alma. Sıra kritik: NULL kontrolünü başa koymazsan, NULL hiçbir karşılaştırmayı geçemediği için sessizce ELSE'e düşer ve 'Normal' yazarsın. NULL asla '=' ya da '>' ile yakalanmaz, sadece IS NULL ile."
+    },
+    "assessment": {
+      "referenceSql": "SELECT id, LEFT(first_name, 1) || '. ' || last_name AS etiket, CASE WHEN scholarship_amount IS NULL THEN 'Bilinmiyor' WHEN scholarship_amount = 0 THEN 'Yok' WHEN scholarship_amount > 3000 THEN 'Yüksek' ELSE 'Normal' END AS burs_durumu FROM students ORDER BY id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "etiket",
+        "burs_durumu"
+      ],
+      "allowedLiterals": [
+        "Bilinmiyor",
+        "Yok",
+        "Yüksek",
+        "Normal"
+      ]
+    }
   }
 ]

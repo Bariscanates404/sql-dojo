@@ -1040,5 +1040,41 @@
         "ogrenci_sayisi"
       ]
     }
+  },
+  {
+    "id": "q-ug-savepoint-hands-001",
+    "type": "write_sql",
+    "unit": "UG",
+    "lessonId": "UG-guvenlik",
+    "conceptTags": [
+      "transaction",
+      "savepoint",
+      "rollback"
+    ],
+    "difficulty": 4,
+    "section": "G.3",
+    "tr": {
+      "title": "SAVEPOINT: sadece son adımı geri al",
+      "prompt": "Bir transaction içinde iki iş yapacaksın ama sadece İKİNCİSİNİ geri alacaksın. Sırayla: (1) BEGIN, (2) clubs tablosundan id'si 3 olan kulübü sil, (3) sp1 adında bir SAVEPOINT koy, (4) clubs tablosuna yeni kulüp ekle (id 6, 'Tiyatro', 2024), (5) sp1'e geri dön, (6) COMMIT. Sonuçta Satranç silinmiş, Tiyatro ise HİÇ eklenmemiş olmalı: 4 kulüp. (Kullanacağın tablo: clubs.)",
+      "hint1": "İşaret koymak: SAVEPOINT sp1; O noktaya dönmek: ROLLBACK TO SAVEPOINT sp1;",
+      "hint2": "Düz ROLLBACK yazma; o ikisini birden geri alır ve Satranç geri gelir.",
+      "answerExplanation": "ROLLBACK TO SAVEPOINT sadece işaretten SONRASINI geri alır; öncesi korunur ve COMMIT ile kalıcı olur. Düz ROLLBACK yazsaydın 5 kulüple kalırdın, çünkü o transaction'ın tamamını siler. Uzun veri düzeltmelerinde bu fark hayati: 50 kaydı düzeltip 51'de hata yaptığında ara işaret varsa sadece son adımı atarsın."
+    },
+    "assessment": {
+      "referenceSql": "BEGIN; DELETE FROM clubs WHERE id = 3; SAVEPOINT sp1; INSERT INTO clubs (id, name, founded_year) VALUES (6, 'Tiyatro', 2024); ROLLBACK TO SAVEPOINT sp1; COMMIT;",
+      "verifySql": "SELECT id, name FROM clubs ORDER BY id;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "name"
+      ],
+      "allowedLiterals": [
+        "Tiyatro"
+      ],
+      "requiredConcepts": [
+        "savepoint"
+      ]
+    }
   }
 ]

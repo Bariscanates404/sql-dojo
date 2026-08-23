@@ -530,5 +530,76 @@
         "lag"
       ]
     }
+  },
+  {
+    "id": "q-u13-chal-top-per-dept-001",
+    "type": "write_sql",
+    "unit": "U13",
+    "lessonId": "U13-window",
+    "conceptTags": [
+      "window",
+      "row-number",
+      "cte",
+      "multi-join",
+      "group-by"
+    ],
+    "difficulty": 5,
+    "section": "13.2",
+    "tr": {
+      "title": "Meydan okuma: her bölümün en yüksek ortalamalı dersi",
+      "prompt": "Her bölüm için, o bölümdeki EN YÜKSEK ortalama nota sahip dersi getir. Notu girilmemiş kayıtları dikkate alma, ortalamayı 2 ondalığa yuvarla. Eşitlik olursa ders adı alfabetik önce gelen kazansın. Sonuçta üç sütun olsun, bu sırayla: department_id, ders, ort. department_id'ye göre artan sırala. (Kullanacağın tablolar: enrollments, courses.)",
+      "hint1": "İki adım: önce bir CTE ile bölüm+ders bazında ortalamayı hesapla; sonra ROW_NUMBER() OVER (PARTITION BY department_id ORDER BY ort DESC) ile her bölümde sırala ve 1'inciyi al.",
+      "hint2": "İkinci bir CTE'de sıra numarasını üret, dıştan WHERE rn = 1 ile süz.",
+      "answerExplanation": "'Her grubun en iyisi' sorusu SQL'in klasiklerindendir ve GROUP BY tek başına çözemez: MAX(ort) sana en yüksek değeri verir ama HANGİ dersin olduğunu söylemez. Çözüm, satırları koruyan bir window function ile her grup içinde numaralandırıp 1'inciyi almaktır. PARTITION BY grubu, ORDER BY ise grup içindeki sırayı belirler."
+    },
+    "assessment": {
+      "referenceSql": "WITH ort AS (SELECT c.department_id, c.name AS ders, ROUND(AVG(e.grade), 2) AS ort FROM enrollments e JOIN courses c ON c.id = e.course_id WHERE e.grade IS NOT NULL GROUP BY c.department_id, c.name), sirali AS (SELECT department_id, ders, ort, ROW_NUMBER() OVER (PARTITION BY department_id ORDER BY ort DESC, ders ASC) AS rn FROM ort) SELECT department_id, ders, ort FROM sirali WHERE rn = 1 ORDER BY department_id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "department_id",
+        "ders",
+        "ort"
+      ],
+      "requiredConcepts": [
+        "row-number",
+        "with"
+      ]
+    }
+  },
+  {
+    "id": "q-u13-chal-above-dept-avg-001",
+    "type": "write_sql",
+    "unit": "U13",
+    "lessonId": "U13-window",
+    "conceptTags": [
+      "window",
+      "partition-by",
+      "cte",
+      "group-by",
+      "comparison"
+    ],
+    "difficulty": 5,
+    "section": "13.1",
+    "tr": {
+      "title": "Meydan okuma: bölüm ortalamasının üstündeki öğrenciler",
+      "prompt": "Not ortalaması KENDİ bölümünün ortalamasından yüksek olan öğrencileri getir. Notu girilmemiş kayıtları dikkate alma, ortalamaları 2 ondalığa yuvarla. Sonuçta üç sütun olsun, bu sırayla: id, first_name, ort. id'ye göre artan sırala. (Kullanacağın tablolar: students, enrollments.)",
+      "hint1": "Önce her öğrencinin ortalamasını hesapla (bölüm bilgisini de taşı). Sonra AVG(ort) OVER (PARTITION BY department_id) ile her satırın yanına kendi bölümünün ortalamasını yaz ve ikisini karşılaştır.",
+      "hint2": "Pencere hesabını WHERE içinde doğrudan kullanamazsın; önce bir alt sorgu/CTE ile sütun haline getir, sonra dıştan süz.",
+      "answerExplanation": "Buradaki asıl ders şu: window function'lar SELECT aşamasında hesaplanır, WHERE ise ondan ÖNCE çalışır. Bu yüzden 'WHERE ort > AVG(ort) OVER (...)' yazamazsın; önce pencere sonucunu bir sütuna dönüştürüp bir katman dışarıdan süzmen gerekir. Bu katmanlama, ileri SQL'in en sık kullanılan kalıplarından biridir."
+    },
+    "assessment": {
+      "referenceSql": "SELECT id, first_name, ort FROM (SELECT s.id, s.first_name, ROUND(AVG(e.grade), 2) AS ort, AVG(AVG(e.grade)) OVER (PARTITION BY s.department_id) AS bolum_ort FROM students s JOIN enrollments e ON e.student_id = s.id WHERE e.grade IS NOT NULL GROUP BY s.id, s.first_name, s.department_id) t WHERE ort > bolum_ort ORDER BY id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "first_name",
+        "ort"
+      ],
+      "requiredConcepts": [
+        "partition-by"
+      ]
+    }
   }
 ]

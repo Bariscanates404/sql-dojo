@@ -889,5 +889,37 @@
         "adet"
       ]
     }
+  },
+  {
+    "id": "q-u5-chal-grain-having-001",
+    "type": "write_sql",
+    "unit": "U5",
+    "lessonId": "U5-groupby",
+    "conceptTags": [
+      "group-by",
+      "having",
+      "where",
+      "null",
+      "grain"
+    ],
+    "difficulty": 5,
+    "section": "5.5",
+    "tr": {
+      "title": "Meydan okuma: notu girilmiş kayıtlardan seçici ders raporu",
+      "prompt": "enrollments tablosunda SADECE notu girilmiş kayıtları (grade NULL olmayan) dikkate al. Her ders için kayıt sayısını ve 2 ondalıklı ortalamayı hesapla. Sonra YALNIZCA en az 2 kaydı olan VE ortalaması 60'ın üzerinde olan dersleri tut. Sonuçta üç sütun olsun, bu sırayla: course_id, adet, ort. Ortalamaya göre büyükten küçüğe, eşitlikte course_id'ye göre artan sırala. (Kullanacağın tablo: enrollments.)",
+      "hint1": "Sıra: WHERE ile satırları ele, GROUP BY ile grupla, HAVING ile grupları ele, ORDER BY ile sırala. HAVING içinde iki koşulu AND ile bağlayabilirsin.",
+      "hint2": "HAVING COUNT(*) >= 2 AND AVG(grade) > 60",
+      "answerExplanation": "Bu soru dört aşamayı da tek sorguda kullandırıyor: WHERE satır süzer (NULL notlar düşer), GROUP BY grain'i 'bir kayıt'tan 'bir ders'e çevirir, HAVING grup üzerinde hesaplanan değere bakar, ORDER BY en sonda sıralar. WHERE ile HAVING'i karıştırırsan ya hata alırsın ya da yanlış sayı çıkar: WHERE, COUNT'u göremez çünkü gruplar henüz oluşmamıştır."
+    },
+    "assessment": {
+      "referenceSql": "SELECT course_id, COUNT(*) AS adet, ROUND(AVG(grade), 2) AS ort FROM enrollments WHERE grade IS NOT NULL GROUP BY course_id HAVING COUNT(*) >= 2 AND AVG(grade) > 60 ORDER BY ort DESC, course_id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "course_id",
+        "adet",
+        "ort"
+      ]
+    }
   }
 ]

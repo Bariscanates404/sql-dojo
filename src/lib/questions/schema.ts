@@ -50,7 +50,9 @@ export const questionSchema = z
     // kapalıdır ve arayüz bunu SÖYLER (sessizce tüm üniteyi göndermez).
     section: z.string().optional(),
     conceptTags: z.array(z.string()).default([]),
-    difficulty: z.number().int().min(1).max(4),
+    // 5 = meydan okuma: tek bir kavramı değil, o noktaya kadar öğrenilen
+    // kavramları BİRLİKTE kullanmayı isteyen uzun soru.
+    difficulty: z.number().int().min(1).max(5),
     tr: localeText,
     // Editöre önceden dolan SQL. İki soru biçimini mümkün kılar ve tek düze
     // "sıfırdan sorgu yaz" akışını kırar:
@@ -85,6 +87,7 @@ export const DIFFICULTY_LABEL: Record<number, string> = {
   2: 'D2 · Transfer',
   3: 'D3 · Birleştirme',
   4: 'D4 · Tuzaklı',
+  5: 'D5 · Meydan okuma',
 };
 
 /**
@@ -97,4 +100,5 @@ export const DIFFICULTY_DESC: Record<number, string> = {
   2: 'Aynı kalıp, başka tablo ya da sütun. Öğrendiğini yeni bir yere taşıyabiliyor musun?',
   3: 'İki ya da üç kavramı bir arada kullanmak (örneğin JOIN + GROUP BY). Parçaları birleştirebiliyor musun?',
   4: 'Bilinen bir yanılgıyı hedefler (NULL, çift sayma, WHERE unutmak). Tuzağı görebiliyor musun?',
+  5: 'Uzun ve çok adımlı. O noktaya kadar öğrendiğin kavramları BİRLİKTE kullanman gerekir; tek bir konuyu değil, hepsini birden yoklar.',
 };

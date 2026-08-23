@@ -17,8 +17,9 @@
     "qa:errors": "node scripts/errors-smoke.mjs",
     "qa:lessons": "node scripts/lesson-results-check.mjs",
     "qa:export": "node --experimental-strip-types scripts/export-smoke.mjs",
-    "check": "npm run sync:content && npm run type-check && npm run lint && npm run db:smoke && npm run qa:strip && npm run qa:bank && npm run qa:errors && npm run qa:export",
-    "prepare": "husky || true"
+    "check": "npm run sync:content && npm run type-check && npm run lint && npm run db:smoke && npm run qa:strip && npm run qa:bank && npm run qa:errors && npm run qa:teach && npm run qa:export",
+    "prepare": "husky || true",
+    "qa:teach": "node scripts/teach-order-check.mjs"
   },
   "dependencies": {
     "@codemirror/lang-sql": "^6.8.0",

@@ -746,5 +746,75 @@
         "toplam"
       ]
     }
+  },
+  {
+    "id": "q-u8-chal-club-report-001",
+    "type": "write_sql",
+    "unit": "U8",
+    "lessonId": "U8-join-aggregate",
+    "conceptTags": [
+      "left-join",
+      "count",
+      "distinct",
+      "multi-join"
+    ],
+    "difficulty": 5,
+    "section": "8.2",
+    "tr": {
+      "title": "Meydan okuma: kulüp karnesi (sıfırlar dahil, şişmesiz)",
+      "prompt": "Her kulüp için üye sayısını VE etkinlik sayısını tek sorguda getir. Üyesi ya da etkinliği olmayan kulüpler 0 ile görünsün. Sonuçta dört sütun olsun, bu sırayla: id, name, uye, etkinlik. id'ye göre artan sırala. DİKKAT: iki LEFT JOIN'i yan yana koyunca satırlar çoğalır; sayılar şişmemeli. (Kullanacağın tablolar: clubs, club_memberships, events.)",
+      "hint1": "İki LEFT JOIN kur ve say. Ama COUNT(*) yerine COUNT(DISTINCT ...) kullan, yoksa iki JOIN birbirini çarpar.",
+      "hint2": "COUNT(DISTINCT m.student_id) ve COUNT(DISTINCT ev.id)",
+      "answerExplanation": "Bu, Ü8'in iki tuzağını aynı anda kurar. Birincisi LEFT JOIN + COUNT: sıfırı doğru göstermek için satır değil sütun saymak gerekir. İkincisi çift sayma: 4 üyesi ve 2 etkinliği olan kulüp için JOIN 4x2=8 satır üretir, COUNT(*) 8 der. DISTINCT ikisini de düzeltir. Satranç 0/0 çıkmalı; çıkmıyorsa LEFT değil INNER kullanmışsındır."
+    },
+    "assessment": {
+      "referenceSql": "SELECT c.id, c.name, COUNT(DISTINCT m.student_id) AS uye, COUNT(DISTINCT ev.id) AS etkinlik FROM clubs c LEFT JOIN club_memberships m ON m.club_id = c.id LEFT JOIN events ev ON ev.club_id = c.id GROUP BY c.id, c.name ORDER BY c.id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "name",
+        "uye",
+        "etkinlik"
+      ],
+      "requiredConcepts": [
+        "distinct"
+      ]
+    }
+  },
+  {
+    "id": "q-u8-chal-student-spend-001",
+    "type": "write_sql",
+    "unit": "U8",
+    "lessonId": "U8-join-aggregate",
+    "conceptTags": [
+      "multi-join",
+      "group-by",
+      "sum",
+      "having",
+      "where"
+    ],
+    "difficulty": 5,
+    "section": "8.4",
+    "tr": {
+      "title": "Meydan okuma: çok harcayan öğrenciler (sadece tamamlanan siparişler)",
+      "prompt": "SADECE durumu 'completed' olan siparişleri dikkate alarak her öğrencinin toplam harcamasını hesapla (tutar = quantity * unit_price). Sonra yalnızca toplamı 100'den büyük olanları getir. Sonuçta üç sütun olsun, bu sırayla: id, first_name, toplam. toplam'a göre büyükten küçüğe, eşitlikte id'ye göre artan sırala. (Kullanacağın tablolar: students, orders, order_items.)",
+      "hint1": "Üç tabloyu zincirle: students -> orders -> order_items. WHERE ile durumu süz, GROUP BY ile öğrenciye indir, HAVING ile toplamı süz.",
+      "hint2": "HAVING SUM(oi.quantity * oi.unit_price) > 100",
+      "answerExplanation": "Üç tablolu zincir + iki farklı süzgeç. WHERE sipariş durumuna bakar (satır seviyesinde), HAVING toplama bakar (grup seviyesinde); ikisi farklı aşamalarda çalıştığı için ikisini de kullanabiliyorsun. Tutarın order_items'ta hesaplanması önemli: fiyat orada, sipariş tablosunda değil."
+    },
+    "assessment": {
+      "referenceSql": "SELECT s.id, s.first_name, SUM(oi.quantity * oi.unit_price) AS toplam FROM students s JOIN orders o ON o.student_id = s.id JOIN order_items oi ON oi.order_id = o.id WHERE o.status = 'completed' GROUP BY s.id, s.first_name HAVING SUM(oi.quantity * oi.unit_price) > 100 ORDER BY toplam DESC, s.id ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "id",
+        "first_name",
+        "toplam"
+      ],
+      "allowedLiterals": [
+        "completed"
+      ]
+    }
   }
 ]

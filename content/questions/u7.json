@@ -665,5 +665,39 @@
         "category"
       ]
     }
+  },
+  {
+    "id": "q-u7-chal-fanout-fix-001",
+    "type": "write_sql",
+    "unit": "U7",
+    "lessonId": "U7-join2",
+    "conceptTags": [
+      "fan-out",
+      "distinct",
+      "multi-join",
+      "group-by"
+    ],
+    "difficulty": 5,
+    "section": "7.4",
+    "tr": {
+      "title": "Meydan okuma: çoğalmayı gör ve düzelt",
+      "prompt": "Her öğrenci için İKİ sayıyı birden getir: kaç FARKLI kulübe üye olduğu ve kaç FARKLI derse kaydolduğu. Sadece en az bir kulübe üye olanlar görünsün. Sonuçta üç sütun olsun, bu sırayla: first_name, kulup, ders. first_name'e göre artan sırala. DİKKAT: iki JOIN'i yan yana koymak sayıları şişirir. (Kullanacağın tablolar: students, club_memberships, enrollments.)",
+      "hint1": "İki JOIN kur ama sayarken DISTINCT kullan: 2 kulüp ve 3 ders varsa JOIN 6 satır üretir.",
+      "hint2": "COUNT(DISTINCT m.club_id) ve COUNT(DISTINCT e.course_id)",
+      "answerExplanation": "Bu, satır çoğalmasının (fan-out) en saf hali: iki bağımsız çok-çok ilişkiyi aynı sorguya koyunca satırlar birbiriyle çarpılır. COUNT(*) her iki sayıyı da 6 gösterirdi. DISTINCT, çarpımı geri alır çünkü aynı club_id ve aynı course_id defalarca tekrarlanır. Kural: bir JOIN'den sonra sayacaksan, neyi saydığını DISTINCT ile netleştir."
+    },
+    "assessment": {
+      "referenceSql": "SELECT s.first_name, COUNT(DISTINCT m.club_id) AS kulup, COUNT(DISTINCT e.course_id) AS ders FROM students s JOIN club_memberships m ON m.student_id = s.id LEFT JOIN enrollments e ON e.student_id = s.id GROUP BY s.id, s.first_name ORDER BY s.first_name ASC;",
+      "orderMatters": true,
+      "compareMode": "ordered_multiset",
+      "expectedColumns": [
+        "first_name",
+        "kulup",
+        "ders"
+      ],
+      "requiredConcepts": [
+        "distinct"
+      ]
+    }
   }
 ]

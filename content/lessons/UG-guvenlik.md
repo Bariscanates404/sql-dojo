@@ -663,6 +663,49 @@ ROLLBACK;                           -- fikrim değişti / yanlış oldu: geri al
 SELECT * FROM clubs;                -- Satranç geri geldi, 5 kulüp
 ```
 
+#### Ya sadece SON adımı geri almak istersen? SAVEPOINT
+
+`ROLLBACK` sert bir araçtır: transaction içinde ne yaptıysan **hepsini** siler. Ama uzun bir
+işlemde bazen sadece son adım yanlış gider ve öncekileri korumak istersin. `SAVEPOINT` tam
+bunun içindir: transaction'ın içine **ara kayıt noktaları** koyarsın.
+
+| Komut | Ne yapar |
+|-------|----------|
+| `SAVEPOINT ad;` | Bu noktaya bir işaret koyar |
+| `ROLLBACK TO SAVEPOINT ad;` | Sadece o işaretten SONRASINI geri alır, öncesi kalır |
+| `RELEASE SAVEPOINT ad;` | İşareti siler (artık o noktaya dönemezsin) |
+
+Adım adım izleyelim. `clubs` tablosunda 5 kulüp var:
+
+```sql
+BEGIN;
+DELETE FROM clubs WHERE id = 3;                                  -- 1. adım: Satranç gitti
+SAVEPOINT sp1;                                                    -- buraya işaret koy
+INSERT INTO clubs (id, name, founded_year) VALUES (6,'Tiyatro',2024);  -- 2. adım
+ROLLBACK TO SAVEPOINT sp1;                                        -- sadece 2. adımı geri al
+COMMIT;                                                           -- 1. adım kalıcı olur
+```
+
+Her adımda tablo şöyle:
+
+| Adım | clubs tablosu |
+|------|---------------|
+| başlangıç | Robotik, Müzik, **Satranç**, Fotoğrafçılık, Girişimcilik |
+| 1. adım (DELETE) | Robotik, Müzik, Fotoğrafçılık, Girişimcilik |
+| 2. adım (INSERT) | Robotik, Müzik, Fotoğrafçılık, Girişimcilik, **Tiyatro** |
+| `ROLLBACK TO sp1` | Robotik, Müzik, Fotoğrafçılık, Girişimcilik |
+| `COMMIT` | Robotik, Müzik, Fotoğrafçılık, Girişimcilik *(kalıcı)* |
+
+- Gözlem: `ROLLBACK TO sp1` sadece Tiyatro'yu geri aldı; Satranç'ın silinmesi **korundu** ve
+  `COMMIT` ile kalıcı oldu.
+- Karşılaştır: aynı adımların sonunda düz `ROLLBACK;` yazsaydın **ikisi de** geri alınırdı ve
+  Satranç geri gelirdi (5 kulüp). Fark tam olarak budur.
+
+Ne zaman işine yarar? Uzun bir veri düzeltme işleminde: 50 kaydı düzelttin, 51.'de hata yaptın.
+`ROLLBACK` desen 50'sini de kaybedersin; `SAVEPOINT` koymuş olsaydın sadece son adımı atardın.
+
+> Mini slogan: **`ROLLBACK` her şeyi siler, `ROLLBACK TO SAVEPOINT` yalnızca işaretten sonrasını.**
+
 > Mini slogan: **BEGIN ile başla, ROLLBACK ile geri al, COMMIT ile sabitle. ROLLBACK sadece COMMIT'ten önce kurtarır.**
 
 ### Çözümlü örnekler
