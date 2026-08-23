@@ -9,7 +9,7 @@ import { toSqlError, type SqlError } from '@lib/db/errors';
 import { ensureSeed, execSandboxed, execSql, type DisplayResult } from '@lib/db/pglite';
 import { gradeQuestion, type GradeResult } from '@lib/questions/grade';
 import { SchemaPanel } from '@/components/db/SchemaPanel';
-import { DIFFICULTY_LABEL, type Question } from '@lib/questions/schema';
+import { DIFFICULTY_DESC, DIFFICULTY_LABEL, type Question } from '@lib/questions/schema';
 import { cn } from '@utils/cn';
 
 interface Props {
@@ -85,11 +85,18 @@ export function QuestionCard({ question: q, onGraded, onNext }: Props) {
     <div className="flex flex-col gap-4">
       <div className="flex flex-wrap items-center gap-2 text-xs">
         <span className="rounded-lg bg-foreground/5 px-2 py-1 font-mono">{q.unit}</span>
-        <span className="rounded-lg bg-foreground/5 px-2 py-1">{DIFFICULTY_LABEL[q.difficulty]}</span>
+        <span
+          className="cursor-help rounded-lg bg-foreground/5 px-2 py-1"
+          title={DIFFICULTY_DESC[q.difficulty]}
+        >
+          {DIFFICULTY_LABEL[q.difficulty]}
+        </span>
         {q.conceptTags.slice(0, 4).map((t) => (
           <span key={t} className="rounded-lg bg-primary/10 px-2 py-1 text-primary">{t}</span>
         ))}
       </div>
+
+      <p className="-mt-2 text-xs text-muted">{DIFFICULTY_DESC[q.difficulty]}</p>
 
       <div>
         <h2 className="text-lg font-semibold">{q.tr.title}</h2>

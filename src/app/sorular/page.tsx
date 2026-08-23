@@ -7,7 +7,7 @@ import { Button } from '@ui/Button';
 import { Card } from '@ui/Card';
 import { loadQuestions } from '@lib/questions/load';
 import { filterQuestions, pickNext, type QFilters } from '@lib/questions/select';
-import { DIFFICULTY_LABEL, type Question, UNITS } from '@lib/questions/schema';
+import { DIFFICULTY_DESC, DIFFICULTY_LABEL, type Question, UNITS } from '@lib/questions/schema';
 import { useQuestionProgressStore } from '@stores/questionProgressStore';
 import { cn } from '@utils/cn';
 
@@ -124,11 +124,25 @@ export default function SorularPage() {
         </div>
         <div>
           <div className="mb-1 text-sm font-semibold">Zorluk</div>
-          <div className="flex flex-wrap gap-2">
+          {/* Etiketler tek başına anlaşılmıyordu ("Transfer ne demek?"). Seviye
+              zorluk değil DÜŞÜNME TÜRÜ anlatır, o yüzden açıklama görünür yerde. */}
+          <p className="mb-2 text-xs text-muted">
+            Seviyeler zorluktan çok <strong>ne tür düşünme</strong> istediğini anlatır:
+          </p>
+          <div className="flex flex-col gap-1.5">
             {availDiff.map((d) => (
-              <Chip key={d} active={difficulties.includes(d)} onClick={() => toggle(difficulties, d, setDifficulties)}>
-                {DIFFICULTY_LABEL[d]}
-              </Chip>
+              <label key={d} className="flex cursor-pointer items-start gap-2 text-sm">
+                <input
+                  type="checkbox"
+                  checked={difficulties.includes(d)}
+                  onChange={() => toggle(difficulties, d, setDifficulties)}
+                  className="mt-1 accent-[var(--primary)]"
+                />
+                <span>
+                  <strong>{DIFFICULTY_LABEL[d]}</strong>{' '}
+                  <span className="text-muted">{DIFFICULTY_DESC[d]}</span>
+                </span>
+              </label>
             ))}
           </div>
         </div>

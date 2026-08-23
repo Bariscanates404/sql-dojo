@@ -40,6 +40,36 @@ Bazen bir değeri başka tipe çevirmek isteriz, buna **cast** denir. İki yazı
 
 > Mini slogan: **Tip, bir sütunla ne yapabileceğini belirler: sayıyla hesap, yazıyla metin işi, tarihle zaman işi.**
 
+#### Sayıyı yuvarlamak: ROUND
+
+Bölme ve ortalama gibi işlemler uzun ondalıklar üretir: `30.6250000000000000` gibi. Bunu
+insanın okuyacağı hale getiren fonksiyon `ROUND`.
+
+| Yazılış | Ne yapar | Örnek | Sonuç |
+|---------|----------|-------|-------|
+| `ROUND(x)` | en yakın tam sayıya yuvarlar | `ROUND(25.4567)` | `25` |
+| `ROUND(x, n)` | n ondalık basamağa yuvarlar | `ROUND(25.4567, 2)` | `25.46` |
+
+```sql
+SELECT name, price, ROUND(price * 1.18, 2) AS kdvli
+FROM products
+WHERE id IN (1, 3)
+ORDER BY id;
+```
+- Sonuç:
+
+| name         | price | kdvli |
+|--------------|-------|-------|
+| Filtre Kahve | 25.00 | 29.50 |
+| Su           | 10.00 | 11.80 |
+
+- Ne anlıyoruz? Hesap tam değeriyle yapıldı, sonra gösterim için 2 basamağa yuvarlandı.
+  Dikkat: `ROUND` **sonucu** yuvarlar, tablodaki veriyi değiştirmez.
+- Ortalamalarda çok işine yarayacak: `AVG(price)` sana `30.6250000000000000` verir,
+  `ROUND(AVG(price), 2)` ise `30.63`. Ü4'ten itibaren bunu sürekli kullanacaksın.
+
+> Mini slogan: **`ROUND(x, n)` sayıyı n basamağa yuvarlar; veriyi değil, görünen sonucu düzeltir.**
+
 ### Çözümlü örnekler
 
 **Örnek 1 (cast ile tam sayıya yuvarlama benzeri kırpma)**
@@ -122,10 +152,48 @@ Metinler üzerinde çalışan kullanışlı fonksiyonlar:
 - `LENGTH(x)`: karakter sayısı (boşluklar dahil).
 - `TRIM(x)`: baştaki ve sondaki boşlukları kırpar.
 - `x || y`: iki metni birleştirir (yapıştırır).
+- `LEFT(x, n)`: metnin **soldan** ilk n karakterini alır.
+- `RIGHT(x, n)`: metnin **sağdan** son n karakterini alır.
+- `SUBSTRING(x FROM b FOR n)`: b'inci karakterden başlayarak n karakter alır.
 
 ```sql
 SELECT first_name || ' ' || last_name AS tam_ad FROM students;
 ```
+
+#### Metnin bir parçasını almak: LEFT, RIGHT, SUBSTRING
+
+Bazen metnin tamamı değil, bir parçası gerekir: adın baş harfi, kodun son iki hanesi,
+telefonun alan kodu. Üç fonksiyon bu işi yapar ve mantıkları aynı: **nereden başla, kaç
+karakter al.**
+
+| Fonksiyon | Ne yapar | Örnek | Sonuç |
+|-----------|----------|-------|-------|
+| `LEFT(x, n)` | soldan n karakter | `LEFT('Ayşe', 1)` | `A` |
+| `RIGHT(x, n)` | sağdan n karakter | `RIGHT('Ayşe', 2)` | `şe` |
+| `SUBSTRING(x FROM b FOR n)` | b'den itibaren n karakter | `SUBSTRING('Ayşe' FROM 2 FOR 3)` | `yşe` |
+
+```sql
+SELECT first_name,
+       LEFT(first_name, 1)  AS bas_harf,
+       RIGHT(first_name, 2) AS son_iki
+FROM students
+WHERE id IN (1, 2, 3)
+ORDER BY id;
+```
+- Sonuç:
+
+| first_name | bas_harf | son_iki |
+|------------|----------|---------|
+| Ayşe       | A        | şe |
+| Mehmet     | M        | et |
+| Zeynep     | Z        | ep |
+
+- Ne anlıyoruz? `LEFT(first_name, 1)` her satır için o adın ilk harfini verdi. Tabloya yeni
+  bir sütun EKLENMEDİ; bu, sadece bu sonuçta görünen hesaplanmış bir sütun.
+- Nerede işine yarar? Baş harften kısaltma üretmek ("A. Yılmaz"), listeyi harfe göre gruplamak,
+  kod/numara alanının belli bir parçasını ayıklamak.
+
+> Mini slogan: **`LEFT` soldan, `RIGHT` sağdan, `SUBSTRING` istediğin yerden keser.**
 
 Önemli NULL halkası: **birleştirmede parçalardan biri NULL ise sonuç NULL olur.** Çünkü
 "bilinmeyen bir parçayı içeren metin" de bilinmezdir. Bu yüzden NULL olabilen sütunları

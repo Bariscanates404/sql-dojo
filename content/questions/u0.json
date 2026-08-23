@@ -277,7 +277,7 @@
       "count"
     ],
     "difficulty": 1,
-    "section": "0.1",
+    "section": "0.2",
     "tr": {
       "title": "Kaç satır var?",
       "prompt": "departments tablosunda kaç satır olduğunu getir. Sonuç tek sütun olsun, adı satir_sayisi olsun. Bir satır burada bir BÖLÜM demektir.",
@@ -302,7 +302,7 @@
       "column"
     ],
     "difficulty": 1,
-    "section": "0.1",
+    "section": "0.2",
     "tr": {
       "title": "Bir tablonun sütunlarını gör",
       "prompt": "departments tablosunun sütun adlarını getir. information_schema.columns görünümünü kullan, table_name = 'departments' koşuluyla süz, ordinal_position'a göre sırala. Sonuç tek sütun olsun: column_name.",
@@ -332,7 +332,7 @@
       "where"
     ],
     "difficulty": 1,
-    "section": "0.1",
+    "section": "0.2",
     "tr": {
       "title": "Tek bir satırı getir",
       "prompt": "departments tablosundan id'si 1 olan bölümün id, name ve faculty bilgisini getir. Tek satır dönmeli.",
@@ -540,5 +540,82 @@
         "name"
       ]
     }
+  },
+  {
+    "id": "q-u0-mc-table-meaning-001",
+    "type": "multiple_choice",
+    "unit": "U0",
+    "lessonId": "U0-temeller",
+    "conceptTags": [
+      "basics",
+      "table"
+    ],
+    "difficulty": 1,
+    "section": "0.1",
+    "tr": {
+      "title": "Tablo neyi tutar?",
+      "prompt": "Bir veritabanı tablosu için en doğru tanım hangisidir?",
+      "hint1": "Bir tabloya bakınca hep aynı TÜRDEN şeyleri görürsün: hep öğrenci, hep ürün.",
+      "answerExplanation": "Doğru cevap D. Tablo, belirli bir konunun verisini düzenli biçimde tutan bir ızgaradır: students tablosunda hep öğrenciler, products tablosunda hep ürünler vardır. A yanlış çünkü tablo tek bir kaydı değil, aynı türden BÜTÜN kayıtları tutar. B yanlış çünkü tablo bir sorgu değil, verinin kendisidir. C yanlış çünkü sütunlar tablonun bir parçasıdır, tablonun tanımı değil."
+    },
+    "choices": [
+      "Tek bir kaydın tüm bilgisi",
+      "Veritabanına sorulan bir soru",
+      "Yalnızca sütun adlarının listesi",
+      "Aynı türden kayıtların düzenli durduğu ızgara"
+    ],
+    "correctIndex": 3
+  },
+  {
+    "id": "q-u0-mc-row-vs-column-001",
+    "type": "multiple_choice",
+    "unit": "U0",
+    "lessonId": "U0-temeller",
+    "conceptTags": [
+      "basics",
+      "row",
+      "column"
+    ],
+    "difficulty": 1,
+    "section": "0.1",
+    "tr": {
+      "title": "Satır mı, sütun mu?",
+      "prompt": "students tablosunda 'Ayşe Yılmaz'ın tüm bilgileri' neye karşılık gelir?",
+      "hint1": "Bir kişinin BÜTÜN bilgileri yan yana durur.",
+      "answerExplanation": "Doğru cevap A. Bir satır, bir varlığın (burada bir öğrencinin) tüm niteliklerini bir arada tutar: adı, soyadı, şehri, e-postası hep aynı satırdadır. Sütun ise tek bir niteliğin TÜM öğrencilerdeki hali olurdu (örneğin bütün şehirler). C ve D tabloyu ya da veritabanını tarif eder, tek kişiyi değil."
+    },
+    "choices": [
+      "Bir satır",
+      "Bir sütun",
+      "Bir tablo",
+      "Bir veritabanı"
+    ],
+    "correctIndex": 0
+  },
+  {
+    "id": "q-u0-mc-column-type-001",
+    "type": "multiple_choice",
+    "unit": "U0",
+    "lessonId": "U0-temeller",
+    "conceptTags": [
+      "basics",
+      "column",
+      "types"
+    ],
+    "difficulty": 2,
+    "section": "0.1",
+    "tr": {
+      "title": "Sütunun tipi ne işe yarar?",
+      "prompt": "students tablosundaki birth_date sütununun tipi 'date'. Bu bilgi ne sağlar?",
+      "hint1": "Aynı '2004' yazısı metin olsaydı ile tarih olsaydı, sıralamada aynı davranır mıydı?",
+      "answerExplanation": "Doğru cevap B. Tip, o sütuna hangi değerlerin girebileceğini ve o değerlerin nasıl davranacağını belirler: tarih sütunu takvim sırasına göre sıralanır, tarih hesabı yapılabilir, geçersiz bir tarih girilemez. Aynı bilgi metin olarak saklansaydı '10 Ocak' ile '2 Şubat' yanlış sıralanırdı. A yanlış çünkü tip görünümle değil davranışla ilgilidir; C ve D tipin işi değildir."
+    },
+    "choices": [
+      "Sütunun ekranda nasıl görüneceğini belirler",
+      "Hangi değerlerin girebileceğini ve nasıl davranacağını belirler",
+      "Sütunun tablodaki sırasını belirler",
+      "Sütunun benzersiz olmasını sağlar"
+    ],
+    "correctIndex": 1
   }
 ]

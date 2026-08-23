@@ -86,3 +86,15 @@ export const DIFFICULTY_LABEL: Record<number, string> = {
   3: 'D3 · Birleştirme',
   4: 'D4 · Tuzaklı',
 };
+
+/**
+ * Seviyeler zorluk değil, DÜŞÜNME TÜRÜ anlatır: soru senden ne yapmanı istiyor?
+ * Etiketi tek başına gören öğretmen de öğrenci de "bu ne demek" diye soruyordu,
+ * o yüzden açıklama etiketin yanında yaşıyor.
+ */
+export const DIFFICULTY_DESC: Record<number, string> = {
+  1: 'Dersteki örneğin neredeyse aynısı. Kalıbı olduğu gibi uygulayabiliyor musun?',
+  2: 'Aynı kalıp, başka tablo ya da sütun. Öğrendiğini yeni bir yere taşıyabiliyor musun?',
+  3: 'İki ya da üç kavramı bir arada kullanmak (örneğin JOIN + GROUP BY). Parçaları birleştirebiliyor musun?',
+  4: 'Bilinen bir yanılgıyı hedefler (NULL, çift sayma, WHERE unutmak). Tuzağı görebiliyor musun?',
+};

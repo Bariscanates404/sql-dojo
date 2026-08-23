@@ -212,6 +212,75 @@ SELECT * student;
 
 ---
 
+#### SELECT'i daha kullanışlı yapan üç küçük ekleme
+
+> **Ön tanıtım.** Üçünün de kendi ünitesi var (`ORDER BY` → Ü1.5, `WHERE` → Ü2, `COUNT` → Ü4) ve orada derinlemesine işleyeceğiz. Burada sadece **tanıyacak kadar** öğreniyoruz, çünkü bu ünitenin sorularında karşına çıkacaklar; görmediğin bir şeyi sormak istemem.
+
+
+Şimdiye kadar `SELECT ... FROM ...` yazdın: "şu tablodan şu sütunları getir". Üç küçük ekleme
+bu cümleyi çok daha kullanışlı yapar.
+
+| Ekleme | Ne yapar | Nereye yazılır |
+|--------|----------|----------------|
+| `ORDER BY sütun` | sonucu o sütuna göre sıralar | cümlenin **sonuna** |
+| `WHERE koşul` | sadece koşula uyan satırları getirir | `FROM`'dan **sonra** |
+| `COUNT(*)` | satırları sayar, tek bir sayı döndürür | `SELECT`'in **içine** |
+
+**1) `ORDER BY`: sonucu sırala**
+
+```sql
+SELECT name FROM clubs ORDER BY name;
+```
+- Sonuç:
+
+| name |
+|------|
+| Fotoğrafçılık |
+| Girişimcilik |
+| Müzik |
+| Robotik |
+| Satranç |
+
+- Ne anlıyoruz? Kulüpler alfabetik geldi. Unutma (0.4'te gördük): bu **tablonun** sırasını
+  değiştirmez, sadece bu sonucun nasıl görüneceğini belirler.
+
+**2) `WHERE`: satırları süz**
+
+```sql
+SELECT id, name, faculty FROM departments WHERE id = 1;
+```
+- Sonuç:
+
+| id | name | faculty |
+|----|------|---------|
+| 1 | Bilgisayar Mühendisliği | Mühendislik |
+
+- Ne anlıyoruz? 5 bölümden sadece koşula uyan 1 tanesi geldi. `WHERE` her satıra tek tek bakar
+  ve koşul doğruysa satırı sonuca alır. Metin değerleri tek tırnak içinde yazılır
+  (`WHERE name = 'Bilgisayar Mühendisliği'`), sayılarda tırnak yoktur.
+
+**3) `COUNT(*)`: kaç satır var?**
+
+```sql
+SELECT COUNT(*) AS satir_sayisi FROM students;
+```
+- Sonuç:
+
+| satir_sayisi |
+|--------------|
+| 14 |
+
+- Ne anlıyoruz? 14 satır, yani 14 öğrenci. Dikkat: sonuç **tek bir satır ve tek bir sütun**.
+  `COUNT(*)` satırları getirmez, onları sayar ve sana tek bir sayı verir.
+
+##### Bu üçünde sık yapılan hatalar
+- `ORDER BY`'ı cümlenin ortasına yazmak. En sona gelir.
+- `WHERE`'de metni tırnaksız yazmak (`WHERE name = Robotik`). Metin tek tırnak ister.
+- `COUNT(*)` ile birlikte normal sütun istemek (`SELECT name, COUNT(*) ...`). Bu Ü5'in konusu
+  ve şimdilik hata verir; `COUNT(*)`'ı tek başına kullan.
+
+---
+
 ## Ders 0.3 — SELECT * ne zaman iyi, ne zaman kötü?
 
 ### 🧑‍🏫 Öğretmen için
