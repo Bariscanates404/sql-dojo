@@ -94,6 +94,26 @@ console.log('\n--- İzolasyon: DML soruları ana veritabanını bozdu mu ---');
   console.log(`  ✓ ana veritabanı bozulmadı (${Object.entries(counts).map(([k, v]) => k + '=' + v).join(', ')})`);
 }
 
+// Bankadaki her seviyenin ETIKETI olmali ve arayuz seviye listesini bankadan
+// turetmeli. Gomulu bir liste yuzunden D5 sorulari bankada oldugu halde filtre
+// ekraninda hic gorunmuyordu; bu kilit o sinifi kapatir.
+console.log('\n--- Seviye etiketleri ve arayuz turetimi ---');
+{
+  const src = await readFile(path.join(root, 'src/lib/questions/schema.ts'), 'utf8');
+  const labels = new Set([...src.matchAll(/^\s*(\d+):\s*'D\d/gm)].map((m) => Number(m[1])));
+  const used = [...new Set(bank.map((q) => q.difficulty))].sort((a, b) => a - b);
+  for (const d of used) assert(labels.has(d), `D${d} kullanilıyor ama DIFFICULTY_LABEL'da yok`);
+  console.log(`  ✓ kullanilan seviyeler [${used.join(', ')}] etiketli`);
+
+  const page = await readFile(path.join(root, 'src/app/sorular/page.tsx'), 'utf8');
+  const hardcoded = /availDiff\s*=\s*useMemo\(\s*\(\)\s*=>\s*\[\s*\d/.test(page.replace(/\n/g, ' '));
+  // assert basarisizsa ✓ satirini BASMA: kapinin ayni anda hem ✗ hem ✓ yazmasi,
+  // ciktiya bakan insani yaniltir.
+  if (assert(!hardcoded, 'sorular sayfasi seviye listesini ELLE yaziyor; bankadan turetmeli')) {
+    console.log('  ✓ arayuz seviye listesini bankadan turetiyor');
+  }
+}
+
 const mcTotal = mcPositionCounts.reduce((sum, n) => sum + (n ?? 0), 0);
 if (mcTotal > 0) {
   const counts = Array.from({ length: mcChoiceCount }, (_, i) => mcPositionCounts[i] ?? 0);

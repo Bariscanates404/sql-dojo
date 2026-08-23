@@ -51,7 +51,12 @@ export default function SorularPage() {
   const pool = useMemo(() => filterQuestions(all, filters), [all, filters]);
 
   const availUnits = useMemo(() => UNITS.filter((u) => all.some((q) => q.unit === u)), [all]);
-  const availDiff = useMemo(() => [1, 2, 3, 4].filter((d) => all.some((q) => q.difficulty === d)), [all]);
+  // Seviye listesi BANKADAN türetilir, elle yazılmaz. Gömülü [1,2,3,4] yüzünden
+  // D5 (meydan okuma) soruları bankada olduğu halde filtrede hiç görünmüyordu.
+  const availDiff = useMemo(
+    () => [...new Set(all.map((q) => q.difficulty))].sort((a, b) => a - b),
+    [all],
+  );
   const availTypes = useMemo(() => [...new Set(all.map((q) => q.type))], [all]);
 
   const toggle = <T,>(list: T[], v: T, set: (x: T[]) => void) =>
