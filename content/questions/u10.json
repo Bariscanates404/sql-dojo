@@ -10,7 +10,7 @@
     "difficulty": 2,
     "tr": {
       "title": "Temel CTE (WITH)",
-      "prompt": "WITH kullanarak önce 'pahali' adında bir CTE tanımla: fiyatı 50'den büyük ürünlerin name ve price'ı. Sonra bu CTE'den name ve price'ı seç. Sonuçta iki sütun olsun, bu sırayla: name ve price. Sonucu price'a göre büyükten küçüğe; eşitlikte name'e göre artan sırala.",
+      "prompt": "WITH kullanarak önce 'pahali' adında bir CTE tanımla: fiyatı 50'den büyük ürünlerin name ve price'ı. Sonra bu CTE'den name ve price'ı seç. Sonuçta iki sütun olsun, bu sırayla: name ve price. Sonucu price'a göre büyükten küçüğe; eşitlikte name'e göre artan sırala. (Kullanacağın tablo: products.)",
       "hint1": "WITH pahali AS (SELECT name, price FROM products WHERE price > 50) SELECT name, price FROM pahali ...",
       "hint2": "CTE, sorgunun başında geçici bir adlandırılmış sonuç kümesi tanımlamandır.",
       "answerExplanation": "WITH ... AS (...) ile sorguya bir ad veririz (pahali) ve sonra ondan normal bir tablo gibi seçeriz. Karmaşık sorguları okunur parçalara böler."
@@ -45,7 +45,7 @@
     "difficulty": 3,
     "tr": {
       "title": "CTE ile hesapla, sonra süz",
-      "prompt": "WITH ile önce her öğrencinin ders sayısını hesaplayan bir CTE tanımla (student_id ve ders_sayisi). Sonra bu CTE'den yalnız ders_sayisi 2 veya daha fazla olanları seç. Sonuçta iki sütun olsun, bu sırayla: student_id ve ders_sayisi. Sonucu student_id'ye göre artan sırala.",
+      "prompt": "WITH ile önce her öğrencinin ders sayısını hesaplayan bir CTE tanımla (student_id ve ders_sayisi). Sonra bu CTE'den yalnız ders_sayisi 2 veya daha fazla olanları seç. Sonuçta iki sütun olsun, bu sırayla: student_id ve ders_sayisi. Sonucu student_id'ye göre artan sırala. (Kullanacağın tablo: enrollments.)",
       "hint1": "WITH t AS (SELECT student_id, COUNT(*) AS ders_sayisi FROM enrollments GROUP BY student_id) SELECT ... FROM t WHERE ders_sayisi >= 2.",
       "answerExplanation": "CTE'de gruplayıp sayarız; dış sorguda CTE'nin sonucunu normal tablo gibi WHERE ile süzeriz. Bu, Ü9'daki türetilmiş tablonun daha okunur halidir."
     },
@@ -114,7 +114,7 @@
     "difficulty": 4,
     "tr": {
       "title": "Zincirleme CTE (biri diğerini kullanır)",
-      "prompt": "İki CTE zinciri kur: (1) 'kayit' CTE'si her öğrencinin ders sayısını hesaplasın (student_id, ders_sayisi); (2) 'cok' CTE'si 'kayit'tan yalnız ders_sayisi 2 ve üzeri olanları seçsin. Sonra 'cok'tan seç. Sonuçta iki sütun olsun, bu sırayla: student_id ve ders_sayisi. Sonucu student_id'ye göre artan sırala.",
+      "prompt": "İki CTE zinciri kur: (1) 'kayit' CTE'si her öğrencinin ders sayısını hesaplasın (student_id, ders_sayisi); (2) 'cok' CTE'si 'kayit'tan yalnız ders_sayisi 2 ve üzeri olanları seçsin. Sonra 'cok'tan seç. Sonuçta iki sütun olsun, bu sırayla: student_id ve ders_sayisi. Sonucu student_id'ye göre artan sırala. (Kullanacağın tablo: enrollments.)",
       "hint1": "WITH kayit AS (...), cok AS (SELECT student_id, ders_sayisi FROM kayit WHERE ders_sayisi >= 2) SELECT ... FROM cok ...",
       "answerExplanation": "Tek WITH altında virgülle birden çok CTE tanımlanır; sonra gelen CTE, önce geleni kullanabilir (zincir). Karmaşık mantığı adım adım, okunur kurarsın."
     },
@@ -186,7 +186,7 @@
     "difficulty": 3,
     "tr": {
       "title": "CTE ile kategori ortalamaları süz",
-      "prompt": "WITH ile önce her kategorinin ortalama fiyatını hesapla (category, ort = ROUND(AVG(price),2)); sonra bu CTE'den yalnız ortalaması 40'tan büyük kategorileri getir. Sonuçta iki sütun olsun, bu sırayla: category ve ort. Sonucu category'ye göre artan sırala.",
+      "prompt": "WITH ile önce her kategorinin ortalama fiyatını hesapla (category, ort = ROUND(AVG(price),2)); sonra bu CTE'den yalnız ortalaması 40'tan büyük kategorileri getir. Sonuçta iki sütun olsun, bu sırayla: category ve ort. Sonucu category'ye göre artan sırala. (Kullanacağın tablo: products.)",
       "hint1": "WITH cat AS (SELECT category, ROUND(AVG(price),2) AS ort FROM products GROUP BY category) SELECT category, ort FROM cat WHERE ort > 40 ...",
       "answerExplanation": "CTE'de kategori ortalamalarını hesaplar, dış sorguda hesaplanmış ortalamaya göre süzeriz (HAVING'e okunur bir alternatif)."
     },
@@ -221,7 +221,7 @@
     "difficulty": 4,
     "tr": {
       "title": "CTE'yi iki kez kullanmak",
-      "prompt": "WITH ile önce her ürünün cirosunu hesapla (product_id, toplam = SUM(quantity*unit_price)). Sonra, cirosu TÜM ürünlerin ortalama cirosundan BÜYÜK olan ürünleri getir. Ortalamayı aynı CTE'den bir scalar subquery ile al. Sonuçta iki sütun olsun, bu sırayla: product_id ve toplam (2 ondalık). Sonucu toplam'a göre büyükten küçüğe; eşitlikte product_id'ye göre artan sırala.",
+      "prompt": "WITH ile önce her ürünün cirosunu hesapla (product_id, toplam = SUM(quantity*unit_price)). Sonra, cirosu TÜM ürünlerin ortalama cirosundan BÜYÜK olan ürünleri getir. Ortalamayı aynı CTE'den bir scalar subquery ile al. Sonuçta iki sütun olsun, bu sırayla: product_id ve toplam (2 ondalık). Sonucu toplam'a göre büyükten küçüğe; eşitlikte product_id'ye göre artan sırala. (Kullanacağın tablo: order_items.)",
       "hint1": "WITH ciro AS (SELECT product_id, SUM(quantity*unit_price) AS toplam FROM order_items GROUP BY product_id) SELECT product_id, ROUND(toplam,2) AS toplam FROM ciro WHERE toplam > (SELECT AVG(toplam) FROM ciro) ...",
       "answerExplanation": "Bir CTE'yi hem ana FROM'da hem de scalar subquery içinde tekrar tekrar kullanabilirsin; aynı hesabı iki kez yazmak yerine bir kez tanımlar, çok yerde kullanırsın."
     },
@@ -288,7 +288,7 @@
     "difficulty": 4,
     "tr": {
       "title": "CTE ile en yüksek ortalamalı 3 ders",
-      "prompt": "WITH ile önce her dersin ortalama notunu hesapla (yalnız notu girilmiş kayıtları kullan: WHERE grade IS NOT NULL; sütunlar course_id, ort_not = ROUND(AVG(grade),2)). Sonra ortalaması en yüksek 3 dersi getir. Sonuçta iki sütun olsun, bu sırayla: course_id ve ort_not. Sonucu ort_not'a göre büyükten küçüğe; eşitlikte course_id'ye göre artan sırala ve yalnız ilk 3 satırı getir.",
+      "prompt": "WITH ile önce her dersin ortalama notunu hesapla (yalnız notu girilmiş kayıtları kullan: WHERE grade IS NOT NULL; sütunlar course_id, ort_not = ROUND(AVG(grade),2)). Sonra ortalaması en yüksek 3 dersi getir. Sonuçta iki sütun olsun, bu sırayla: course_id ve ort_not. Sonucu ort_not'a göre büyükten küçüğe; eşitlikte course_id'ye göre artan sırala ve yalnız ilk 3 satırı getir. (Kullanacağın tablo: enrollments.)",
       "hint1": "WITH ort AS (SELECT course_id, ROUND(AVG(grade),2) AS ort_not FROM enrollments WHERE grade IS NOT NULL GROUP BY course_id) SELECT ... FROM ort ORDER BY ort_not DESC, course_id ASC LIMIT 3.",
       "answerExplanation": "CTE'de ders ortalamalarını hesaplar, dış sorguda sıralayıp ilk 3'ü alırız. Hesabı CTE'ye koymak, dış sorguyu (sıralama+limit) sade bırakır."
     },
@@ -349,7 +349,7 @@
     "section": "10.1",
     "tr": {
       "title": "CTE: ucuz ürünlere isim ver",
-      "prompt": "WITH kullanarak 'ucuz' adında bir CTE tanımla: fiyatı 25'ten küçük ürünlerin name ve price sütunlarını içersin. Sonra bu CTE'den tüm satırları getir. Sonuçta iki sütun olsun, bu sırayla: name ve price. price'a göre artan sırala.",
+      "prompt": "WITH kullanarak 'ucuz' adında bir CTE tanımla: fiyatı 25'ten küçük ürünlerin name ve price sütunlarını içersin. Sonra bu CTE'den tüm satırları getir. Sonuçta iki sütun olsun, bu sırayla: name ve price. price'a göre artan sırala. (Kullanacağın tablo: products.)",
       "hint1": "WITH ucuz AS (SELECT name, price FROM products WHERE price < 25) SELECT * FROM ucuz ORDER BY price;",
       "answerExplanation": "CTE, bir ara sonuca isim vermektir. Sorguyu adımlara böler ve okunur hale getirir. Alt sorgudan farkı yok denecek kadar azdır; asıl kazanç, karmaşık sorguyu insanın takip edebileceği parçalara ayırmaktır."
     },
@@ -380,7 +380,7 @@
     "section": "10.2",
     "tr": {
       "title": "Zincirleme CTE: iki adımda çöz",
-      "prompt": "İki CTE tanımla: birincisi (sayim) her dersin kayıt sayısını hesaplasın; ikincisi (kalabalik) sayim'den 3 ve üzeri olanları seçsin. Sonra kalabalik'ten tüm satırları getir. Sonuçta iki sütun olsun, bu sırayla: course_id ve adet. course_id'ye göre artan sırala.",
+      "prompt": "İki CTE tanımla: birincisi (sayim) her dersin kayıt sayısını hesaplasın; ikincisi (kalabalik) sayim'den 3 ve üzeri olanları seçsin. Sonra kalabalik'ten tüm satırları getir. Sonuçta iki sütun olsun, bu sırayla: course_id ve adet. course_id'ye göre artan sırala. (Kullanacağın tablo: enrollments.)",
       "hint1": "WITH sayim AS (...), kalabalik AS (SELECT * FROM sayim WHERE adet >= 3) SELECT ... FROM kalabalik",
       "answerExplanation": "İkinci CTE birincisini kullanabilir; virgülle ayırarak istediğin kadar zincirleyebilirsin. Her adım kendi başına okunabilir olduğu için karmaşık raporlar böyle kurulur ve hata ayıklaması kolaylaşır."
     },
@@ -473,7 +473,7 @@
     "section": "10.3",
     "tr": {
       "title": "CTE ile şişmeyen toplam",
-      "prompt": "Önce 'siparis_tutar' adında bir CTE tanımla: her siparişin toplam tutarını (order_id, tutar) hesaplasın; tutar = quantity * unit_price toplamı. Sonra bu CTE'den TÜM siparişlerin genel toplamını getir. Sonuç tek sütun olsun, adı genel_toplam olsun.",
+      "prompt": "Önce 'siparis_tutar' adında bir CTE tanımla: her siparişin toplam tutarını (order_id, tutar) hesaplasın; tutar = quantity * unit_price toplamı. Sonra bu CTE'den TÜM siparişlerin genel toplamını getir. Sonuç tek sütun olsun, adı genel_toplam olsun. (Kullanacağın tablo: order_items.)",
       "hint1": "WITH siparis_tutar AS (SELECT order_id, SUM(quantity * unit_price) AS tutar FROM order_items GROUP BY order_id) SELECT SUM(tutar) AS genel_toplam FROM siparis_tutar;",
       "answerExplanation": "Önce sipariş seviyesinde topla, sonra o toplamları topla. İki adıma bölmek burada sadece okunurluk değil, doğruluk meselesidir: doğrudan JOIN'leyip SUM alsaydın çoğalan satırlar yüzünden toplam şişerdi. CTE, hangi grain'de topladığını gözle görünür kılar."
     },

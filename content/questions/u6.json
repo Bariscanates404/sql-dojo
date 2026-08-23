@@ -789,7 +789,7 @@
     "section": "6.5",
     "tr": {
       "title": "Kaç tane eşleşmeyen var?",
-      "prompt": "Hiç kulübe üye olmayan öğrencilerin SAYISINI getir. Sonuç tek sütun olsun, adı uyesiz olsun. Yine LEFT JOIN + IS NULL desenini kullan.",
+      "prompt": "Hiç kulübe üye olmayan öğrencilerin SAYISINI getir. Sonuç tek sütun olsun, adı uyesiz olsun. Yine LEFT JOIN + IS NULL desenini kullan. (Kullanacağın tablolar: students, club_memberships.)",
       "hint1": "Aynı anti-join'i kur, sonra COUNT(*) ile say.",
       "answerExplanation": "Anti-join'in sonucunu saymak da sık kullanılır: 'kaç müşteri hiç alışveriş yapmamış', 'kaç öğrenci hiç kayıt olmamış'. Desen aynı, sadece satırları listelemek yerine sayıyorsun."
     },

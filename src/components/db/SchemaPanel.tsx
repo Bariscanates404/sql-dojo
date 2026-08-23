@@ -12,6 +12,8 @@ import { cn } from '@utils/cn';
 // Buraya elle bir tablo listesi yazma: seed değişince sessizce yalan söyler.
 
 interface SchemaPanelProps {
+  /** İlgili tablo bulunamadığında panelin kendini kapatmasını isteyen çağıran. */
+  onNoMatch?: (noMatch: boolean) => void;
   /** Değişince şema yeniden okunur (örn. seed değişimi). */
   refreshKey?: string;
   /** Tablo adına tıklanınca çağrılır. Verilmezse adlar düz metin. */
@@ -21,7 +23,7 @@ interface SchemaPanelProps {
   className?: string;
 }
 
-export function SchemaPanel({ refreshKey, onPick, relevantTo, className }: SchemaPanelProps) {
+export function SchemaPanel({ refreshKey, onPick, relevantTo, className, onNoMatch }: SchemaPanelProps) {
   const [tables, setTables] = useState<TableInfo[] | null>(null);
   const [showAll, setShowAll] = useState(false);
 
@@ -44,6 +46,12 @@ export function SchemaPanel({ refreshKey, onPick, relevantTo, className }: Schem
     const hit = tables.filter((t) => hay.includes(t.table.toLowerCase()));
     return hit.length ? hit.map((t) => t.table) : null;
   }, [tables, relevantTo]);
+
+  // Soru belirli bir tabloya bağlı değilse (yeni tablo kurma, şema sorgulama)
+  // 12 tablonun hepsini açmak saf gürültü; çağıran paneli kapalı başlatabilsin.
+  useEffect(() => {
+    if (tables && relevantTo) onNoMatch?.(relevant === null);
+  }, [tables, relevant, relevantTo, onNoMatch]);
 
   if (tables === null) return <p className={cn('text-xs text-muted', className)}>Tablolar yükleniyor…</p>;
   if (!tables.length) return <p className={cn('text-xs text-muted', className)}>Tablo bulunamadı.</p>;

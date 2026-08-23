@@ -184,7 +184,7 @@
     "difficulty": 2,
     "tr": {
       "title": "Bir view'ın saracağı sorgu",
-      "prompt": "'tamamlanan_siparisler' adlı bir view oluşturacaksın, ama önce view'ın içine koyacağın SELECT'i yazıp doğrula. (View OLUŞTURMA; sadece SELECT'i yaz.) İstenen: status'u 'completed' olan siparişlerin id ve student_id'si. Sonuçta iki sütun olsun, bu sırayla: id ve student_id. Sonucu id'ye göre artan sırala.",
+      "prompt": "'tamamlanan_siparisler' adlı bir view oluşturacaksın, ama önce view'ın içine koyacağın SELECT'i yazıp doğrula. (View OLUŞTURMA; sadece SELECT'i yaz.) İstenen: status'u 'completed' olan siparişlerin id ve student_id'si. Sonuçta iki sütun olsun, bu sırayla: id ve student_id. Sonucu id'ye göre artan sırala. (Kullanacağın tablo: orders.)",
       "hint1": "View'ın gövdesi normal bir SELECT'tir: SELECT id, student_id FROM orders WHERE status = 'completed' ORDER BY id.",
       "answerExplanation": "Bir view, içine koyacağın SELECT'in kaydedilmiş halidir. Önce SELECT'i yazıp doğru çalıştığını görmek, sonra onu CREATE VIEW ... AS ile sarmalamak iyi bir alışkanlıktır."
     },
@@ -255,7 +255,7 @@
     "difficulty": 2,
     "tr": {
       "title": "Pahalı ürünler view'ının sorgusu",
-      "prompt": "'pahali_urunler' view'ı için gövde sorgusunu yaz (view OLUŞTURMA): fiyatı 50'den büyük ürünlerin name ve price'ı. Sonuçta iki sütun olsun, bu sırayla: name ve price. Sonucu price'a göre büyükten küçüğe; eşitlikte name'e göre artan sırala.",
+      "prompt": "'pahali_urunler' view'ı için gövde sorgusunu yaz (view OLUŞTURMA): fiyatı 50'den büyük ürünlerin name ve price'ı. Sonuçta iki sütun olsun, bu sırayla: name ve price. Sonucu price'a göre büyükten küçüğe; eşitlikte name'e göre artan sırala. (Kullanacağın tablo: products.)",
       "hint1": "SELECT name, price FROM products WHERE price > 50 ORDER BY price DESC, name.",
       "answerExplanation": "Bu SELECT, 'pahali_urunler' view'ının gövdesi olur. View oluşturulunca, her SELECT'te bu sorgu güncel veriyle çalışır."
     },

@@ -186,7 +186,7 @@
     "difficulty": 2,
     "tr": {
       "title": "UPDATE'in etkisini önce gör",
-      "prompt": "Tüm ürünlerin fiyatını %10 ARTIRACAKSIN (UPDATE ... SET price = price * 1.1). Güncellemeyi YAPMA; önce etkiyi bir SELECT ile önizle: her ürünün name'i, mevcut price'ı ve %10 artmış halini (2 ondalık) yeni_fiyat adıyla getir. Sonuçta üç sütun olsun, bu sırayla: name, price, yeni_fiyat. Sonucu name'e göre artan sırala.",
+      "prompt": "Tüm ürünlerin fiyatını %10 ARTIRACAKSIN (UPDATE ... SET price = price * 1.1). Güncellemeyi YAPMA; önce etkiyi bir SELECT ile önizle: her ürünün name'i, mevcut price'ı ve %10 artmış halini (2 ondalık) yeni_fiyat adıyla getir. Sonuçta üç sütun olsun, bu sırayla: name, price, yeni_fiyat. Sonucu name'e göre artan sırala. (Kullanacağın tablo: products.)",
       "hint1": "SELECT name, price, ROUND(price * 1.1, 2) AS yeni_fiyat FROM products ORDER BY name;",
       "answerExplanation": "UPDATE'ten önce aynı ifadeyi SELECT ile çalıştırıp yeni değerleri görmek, yanlış bir hesabı tabloya yazmadan yakalamanın güvenli yoludur."
     },
@@ -219,7 +219,7 @@
     "difficulty": 2,
     "tr": {
       "title": "Silmeden önce say",
-      "prompt": "status'u 'cancelled' olan siparişleri SİLECEKSİN. Silme YAPMA; önce kaç siparişin etkileneceğini say. Sonuç tek sütun olsun, adı silinecek olsun.",
+      "prompt": "status'u 'cancelled' olan siparişleri SİLECEKSİN. Silme YAPMA; önce kaç siparişin etkileneceğini say. Sonuç tek sütun olsun, adı silinecek olsun. (Kullanacağın tablo: orders.)",
       "hint1": "SELECT COUNT(*) AS silinecek FROM orders WHERE status = 'cancelled';",
       "answerExplanation": "DELETE öncesi aynı WHERE ile sayım yapmak, beklenenden fazla satır silmeyi fark etmenin güvenli yoludur."
     },
@@ -251,7 +251,7 @@
     "difficulty": 2,
     "tr": {
       "title": "UPDATE'ten önce hedef satırları gör",
-      "prompt": "Fiyatı 50'den büyük ürünlere zam yapacaksın (UPDATE ... WHERE price > 50). Güncellemeyi YAPMA; önce hangi ürünlerin etkileneceğini gör: price'ı 50'den büyük ürünlerin name ve price'ını getir. Sonuçta iki sütun olsun, bu sırayla: name ve price. Sonucu price'a göre büyükten küçüğe; eşitlikte name'e göre artan sırala.",
+      "prompt": "Fiyatı 50'den büyük ürünlere zam yapacaksın (UPDATE ... WHERE price > 50). Güncellemeyi YAPMA; önce hangi ürünlerin etkileneceğini gör: price'ı 50'den büyük ürünlerin name ve price'ını getir. Sonuçta iki sütun olsun, bu sırayla: name ve price. Sonucu price'a göre büyükten küçüğe; eşitlikte name'e göre artan sırala. (Kullanacağın tablo: products.)",
       "hint1": "SELECT name, price FROM products WHERE price > 50 ORDER BY price DESC, name;",
       "answerExplanation": "UPDATE ile aynı WHERE'i önce SELECT'te kullanıp etkilenecek satırları görürsün; doğruysa UPDATE'i aynı WHERE ile çalıştırırsın."
     },
@@ -576,7 +576,7 @@
     "section": "11.4",
     "tr": {
       "title": "Ya hep ya hiç: iki güncelleme, sonra geri al",
-      "prompt": "Bir transaction aç, İÇİNDE iki ayrı güncelleme yap (id 1 olan ürünün fiyatını 99, id 2 olan ürünün fiyatını 88 yap), sonra ROLLBACK ile hepsini geri al. Sonuçta iki fiyat da eski hâlinde olmalı.",
+      "prompt": "Bir transaction aç, İÇİNDE iki ayrı güncelleme yap (id 1 olan ürünün fiyatını 99, id 2 olan ürünün fiyatını 88 yap), sonra ROLLBACK ile hepsini geri al. Sonuçta iki fiyat da eski hâlinde olmalı. (Kullanacağın tablo: products.)",
       "hint1": "BEGIN; sonra iki UPDATE; sonra ROLLBACK; Hepsi ayrı satır, her birinin sonunda noktalı virgül.",
       "answerExplanation": "Transaction 'ya hep ya hiç' demektir: ROLLBACK ikisini birden geri aldı, biri olup diğeri olmadı diye bir durum oluşmaz. Atomiklik budur ve para transferi gibi işlerde hayati önemdedir."
     },
@@ -605,7 +605,7 @@
     "section": "11.4",
     "tr": {
       "title": "Aynı iki güncelleme, bu sefer COMMIT",
-      "prompt": "Bir öncekiyle birebir aynı transaction'ı yaz (id 1 -> 99, id 2 -> 88), ama sonunda ROLLBACK yerine COMMIT kullan. Bu sefer iki fiyat da yeni değerinde kalmalı. Tek kelime farkın sonucu nasıl değiştirdiğine bak.",
+      "prompt": "Bir öncekiyle birebir aynı transaction'ı yaz (id 1 -> 99, id 2 -> 88), ama sonunda ROLLBACK yerine COMMIT kullan. Bu sefer iki fiyat da yeni değerinde kalmalı. Tek kelime farkın sonucu nasıl değiştirdiğine bak. (Kullanacağın tablo: products.)",
       "hint1": "Sadece son satır değişiyor: ROLLBACK yerine COMMIT.",
       "answerExplanation": "COMMIT değişiklikleri kalıcı yapar; artık ROLLBACK kurtarmaz. Bir önceki soruyla tek farkı son kelimeydi ve sonuç taban tabana zıt. Gerçek hayatta COMMIT demeden önce SELECT ile kontrol et."
     },
@@ -661,7 +661,7 @@
     "section": "11.4",
     "tr": {
       "title": "Atomiklik: yarım iş diye bir şey yok",
-      "prompt": "Bir transaction aç, içinde önce bir kulüp ekle (id 6, 'Tiyatro', 2024) sonra bir kulübü sil (id 3, Satranç), sonra ROLLBACK yap. Sonuçta 5 kulüp olmalı ve Satranç hâlâ yerinde olmalı: ikisi de geri alınacak.",
+      "prompt": "Bir transaction aç, içinde önce bir kulüp ekle (id 6, 'Tiyatro', 2024) sonra bir kulübü sil (id 3, Satranç), sonra ROLLBACK yap. Sonuçta 5 kulüp olmalı ve Satranç hâlâ yerinde olmalı: ikisi de geri alınacak. (Kullanacağın tablo: clubs.)",
       "hint1": "BEGIN; INSERT INTO clubs ...; DELETE FROM clubs WHERE id = 3; ROLLBACK;",
       "answerExplanation": "ROLLBACK transaction içindeki HER ŞEYİ geri alır; 'ekleme oldu ama silme olmadı' gibi yarım bir durum oluşmaz. Atomiklik budur ve para transferinde 'para hesaptan çıktı ama diğerine girmedi' felaketini önleyen şeydir."
     },
@@ -693,7 +693,7 @@
     "section": "11.4",
     "tr": {
       "title": "Atomiklik: COMMIT ikisini birden kalıcı yapar",
-      "prompt": "Bir öncekiyle aynı transaction'ı yaz (id 6 'Tiyatro' ekle, id 3 Satranç'ı sil) ama sonunda COMMIT kullan. Sonuçta yine 5 kulüp olmalı: biri gitti, biri geldi. İkisi de kalıcı.",
+      "prompt": "Bir öncekiyle aynı transaction'ı yaz (id 6 'Tiyatro' ekle, id 3 Satranç'ı sil) ama sonunda COMMIT kullan. Sonuçta yine 5 kulüp olmalı: biri gitti, biri geldi. İkisi de kalıcı. (Kullanacağın tablo: clubs.)",
       "hint1": "Sadece son satır değişiyor: ROLLBACK yerine COMMIT.",
       "answerExplanation": "COMMIT de ROLLBACK gibi 'ya hep ya hiç' çalışır, sadece yönü ters: ikisi birden kalıcı olur. Transaction'ın verdiği güvence 'hepsi olur ya da hiçbiri olmaz'dır; arada bir yerde takılı kalmaz."
     },

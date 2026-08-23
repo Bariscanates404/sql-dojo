@@ -455,7 +455,7 @@
     "section": "M.2",
     "tr": {
       "title": "Tekrarı ölç: bölüm adı kaç kez yazılırdı?",
-      "prompt": "Her bölümde kaç öğrenci olduğunu getir. Sonuçta iki sütun olsun, bu sırayla: department_id ve ogrenci_sayisi. department_id'ye göre artan sırala. Bu sayı, bölüm adını öğrenci tablosuna yazsaydık o adın kaç kez TEKRARLANACAĞINI gösterir.",
+      "prompt": "Her bölümde kaç öğrenci olduğunu getir. Sonuçta iki sütun olsun, bu sırayla: department_id ve ogrenci_sayisi. department_id'ye göre artan sırala. Bu sayı, bölüm adını öğrenci tablosuna yazsaydık o adın kaç kez TEKRARLANACAĞINI gösterir. (Kullanacağın tablo: students.)",
       "hint1": "GROUP BY department_id ile grupla, COUNT(*) ile say.",
       "answerExplanation": "Bölüm adını students tablosuna yazsaydık, 4 öğrencisi olan bölümün adı 4 kez tekrar ederdi. Adı düzeltmek gerektiğinde 4 satırı birden güncellemek zorunda kalırdın ve birini unutursan veri çelişkili hale gelirdi. Normalleştirme tam olarak bu tekrarı ortadan kaldırır."
     },

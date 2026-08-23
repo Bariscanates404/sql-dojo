@@ -33,6 +33,9 @@ const RESULT_LABEL: Record<GradeResult['result'], string> = {
 
 export function QuestionCard({ question: q, onGraded, onNext }: Props) {
   const [schemaOpen, setSchemaOpen] = useState(true);
+  // Panel, ilgili tablo bulunamayınca BİR KEZ kendini kapatır. Bayrak olmasaydı
+  // öğrenci paneli her açtığında anında yeniden kapanır, yani açamazdı.
+  const [autoCollapsed, setAutoCollapsed] = useState(false);
   // Bozuk sorgu / boşluk şablonu varsa editör dolu başlar (bkz. schema.starterSql).
   const [sql, setSql] = useState(q.starterSql ?? '');
   const [choiceIndex, setChoiceIndex] = useState<number | null>(null);
@@ -102,13 +105,22 @@ export function QuestionCard({ question: q, onGraded, onNext }: Props) {
               onClick={() => setSchemaOpen((o) => !o)}
               className="flex w-full items-center justify-between px-3 py-2 text-sm font-semibold"
             >
-              <span>🗂️ Bu sorunun tabloları</span>
+              <span>🗂️ {schemaOpen ? 'Bu sorunun tabloları' : 'Tabloları göster'}</span>
               <span className="text-xs text-muted">{schemaOpen ? 'gizle' : 'göster'}</span>
             </button>
             {schemaOpen && (
               <div className="border-t border-border px-3 py-2.5">
                 <SchemaPanel
-                  relevantTo={`${q.tr.title} ${q.tr.prompt}`}
+                  onNoMatch={(no) => {
+                    if (no && !autoCollapsed) {
+                      setAutoCollapsed(true);
+                      setSchemaOpen(false);
+                    }
+                  }}
+                  // Başlangıç SQL'i de öğrencinin GÖRDÜĞÜ metindir; hata avı sorularında
+                  // tablo adı yalnızca orada geçiyor ve o sorularda panel 12 tablonun
+                  // hepsini gösteriyordu. Cevabın SQL'ine bakmıyoruz, o ipucu olurdu.
+                  relevantTo={`${q.tr.title} ${q.tr.prompt} ${q.starterSql ?? ''}`}
                   onPick={(table) => setSql((cur) => (cur.trim() ? cur : `SELECT * FROM ${table} LIMIT 10;`))}
                 />
               </div>

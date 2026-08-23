@@ -291,7 +291,7 @@
     "difficulty": 3,
     "tr": {
       "title": "Önce süz, sonra grupla",
-      "prompt": "Sadece status'u 'completed' olan siparişleri dikkate alarak, HER student_id'nin kaç tamamlanmış siparişi olduğunu bul. Sonuçta iki sütun olsun, bu sırayla: student_id ve tamamlanan. Sonucu student_id'ye göre artan sırala.",
+      "prompt": "Sadece status'u 'completed' olan siparişleri dikkate alarak, HER student_id'nin kaç tamamlanmış siparişi olduğunu bul. Sonuçta iki sütun olsun, bu sırayla: student_id ve tamamlanan. Sonucu student_id'ye göre artan sırala. (Kullanacağın tablo: orders.)",
       "hint1": "Önce WHERE status = 'completed' ile süz, SONRA GROUP BY student_id.",
       "hint2": "SELECT student_id, COUNT(*) AS tamamlanan FROM orders WHERE status = 'completed' GROUP BY student_id ORDER BY student_id;",
       "answerExplanation": "Çalışma sırası: WHERE önce satırları süzer (yalnız completed kalır), SONRA GROUP BY öğrenciye göre gruplar, COUNT sayar. WHERE gruplamadan ÖNCE çalışır."

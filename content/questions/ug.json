@@ -435,7 +435,7 @@
     "difficulty": 1,
     "tr": {
       "title": "Silmeden önce gör: iptal siparişler",
-      "prompt": "status değeri 'cancelled' olan siparişleri SİLMEK istiyorsun, ama önce hangi satırların etkileneceğini görmek istiyorsun. Silme YAPMA; bunun yerine aynı koşulla bir SELECT yaz: iptal siparişlerin id ve student_id'sini getir. Sonucu id'ye göre artan sırala.",
+      "prompt": "status değeri 'cancelled' olan siparişleri SİLMEK istiyorsun, ama önce hangi satırların etkileneceğini görmek istiyorsun. Silme YAPMA; bunun yerine aynı koşulla bir SELECT yaz: iptal siparişlerin id ve student_id'sini getir. Sonucu id'ye göre artan sırala. (Kullanacağın tablo: orders.)",
       "hint1": "DELETE yerine SELECT yaz, WHERE aynı kalsın: WHERE status = 'cancelled'.",
       "answerExplanation": "Silmeden önce aynı WHERE ile SELECT yapmak en güvenli alışkanlıktır: kaç ve hangi satırın gideceğini görürsün. Sonuç doğruysa DELETE FROM orders WHERE status = 'cancelled'; çalıştırılır."
     },
@@ -469,7 +469,7 @@
     "difficulty": 2,
     "tr": {
       "title": "Güncellemeden önce say: bursu NULL olanlar",
-      "prompt": "Bursu NULL olan öğrencilerin bursunu 0 yapacaksın (UPDATE). Önce KAÇ öğrencinin etkileneceğini görmek için bir SELECT yaz: scholarship_amount değeri NULL olan öğrencilerin sayısını getir. Sonuç tek sütun olsun, adı etkilenecek olsun.",
+      "prompt": "Bursu NULL olan öğrencilerin bursunu 0 yapacaksın (UPDATE). Önce KAÇ öğrencinin etkileneceğini görmek için bir SELECT yaz: scholarship_amount değeri NULL olan öğrencilerin sayısını getir. Sonuç tek sütun olsun, adı etkilenecek olsun. (Kullanacağın tablo: students.)",
       "hint1": "COUNT(*) ve WHERE scholarship_amount IS NULL.",
       "answerExplanation": "Toplu UPDATE'ten önce 'kaç satır etkilenecek' diye saymak, beklenmedik büyük bir güncellemeyi yakalamanın güvenli yoludur."
     },
@@ -502,7 +502,7 @@
     "difficulty": 2,
     "tr": {
       "title": "Silmeden önce gör: iptal veya bekleyen",
-      "prompt": "status değeri 'cancelled' VEYA 'pending' olan siparişleri silmeyi düşünüyorsun. Silme YAPMA; önce bu siparişlerin id ve status'unu getiren bir SELECT yaz (IN listesi kullan). Sonucu id'ye göre artan sırala.",
+      "prompt": "status değeri 'cancelled' VEYA 'pending' olan siparişleri silmeyi düşünüyorsun. Silme YAPMA; önce bu siparişlerin id ve status'unu getiren bir SELECT yaz (IN listesi kullan). Sonucu id'ye göre artan sırala. (Kullanacağın tablo: orders.)",
       "hint1": "WHERE status IN ('cancelled', 'pending').",
       "answerExplanation": "IN ile birden çok durumu tek koşulda kontrol edersin; silmeden önce listeyi görmek hangi siparişlerin gideceğini netleştirir."
     },
@@ -537,7 +537,7 @@
     "difficulty": 1,
     "tr": {
       "title": "WHERE'i doğrula: tek öğrenci",
-      "prompt": "id'si 5 olan öğrencinin şehrini güncelleyeceksin. Önce WHERE koşulunun GERÇEKTEN tek satırı seçtiğini doğrulamak için bir SELECT yaz: id = 5 olan öğrencinin id ve first_name'ini getir.",
+      "prompt": "id'si 5 olan öğrencinin şehrini güncelleyeceksin. Önce WHERE koşulunun GERÇEKTEN tek satırı seçtiğini doğrulamak için bir SELECT yaz: id = 5 olan öğrencinin id ve first_name'ini getir. (Kullanacağın tablo: students.)",
       "hint1": "WHERE id = 5.",
       "answerExplanation": "UPDATE'ten önce aynı WHERE ile SELECT yapıp tam olarak doğru (ve tek) satırı seçtiğini doğrularsın. Bu, yanlış öğrenciyi güncellemeni önler."
     },
@@ -566,7 +566,7 @@
     "difficulty": 2,
     "tr": {
       "title": "Silmeden önce say: tamamlanmamış siparişler",
-      "prompt": "status değeri 'completed' OLMAYAN siparişleri silmeyi düşünüyorsun. Önce kaç siparişin etkileneceğini görmek için bir SELECT yaz: status'u 'completed' olmayan siparişlerin sayısını getir. Sonuç tek sütun olsun, adı silinecek_sayi olsun. (Bu tabloda status hep doludur.)",
+      "prompt": "status değeri 'completed' OLMAYAN siparişleri silmeyi düşünüyorsun. Önce kaç siparişin etkileneceğini görmek için bir SELECT yaz: status'u 'completed' olmayan siparişlerin sayısını getir. Sonuç tek sütun olsun, adı silinecek_sayi olsun. (Bu tabloda status hep doludur.) (Kullanacağın tablo: orders.)",
       "hint1": "COUNT(*) ve WHERE status <> 'completed'.",
       "answerExplanation": "<> 'completed' tamamlanmamışları (cancelled + pending) seçer. Önce sayarak silmenin boyutunu görürsün."
     },
@@ -601,7 +601,7 @@
     "difficulty": 2,
     "tr": {
       "title": "Güncellemeden önce gör: şehri NULL olanlar",
-      "prompt": "Şehri NULL olan öğrencilerin şehrini 'Bilinmiyor' yapacaksın (UPDATE). Önce hangi öğrencilerin etkileneceğini görmek için bir SELECT yaz: city değeri NULL olan öğrencilerin id ve first_name'ini getir. Sonucu id'ye göre artan sırala.",
+      "prompt": "Şehri NULL olan öğrencilerin şehrini 'Bilinmiyor' yapacaksın (UPDATE). Önce hangi öğrencilerin etkileneceğini görmek için bir SELECT yaz: city değeri NULL olan öğrencilerin id ve first_name'ini getir. Sonucu id'ye göre artan sırala. (Kullanacağın tablo: students.)",
       "hint1": "WHERE city IS NULL.",
       "answerExplanation": "Toplu güncelleme öncesi etkilenecek satırları IS NULL koşuluyla görmek, yanlış kapsamı önler."
     },
@@ -668,7 +668,7 @@
     "difficulty": 2,
     "tr": {
       "title": "İndirimden önce gör: pahalı ürünler",
-      "prompt": "Fiyatı 40'tan büyük ürünlere toplu indirim (UPDATE) uygulamayı düşünüyorsun. Silme/güncelleme YAPMA; önce hangi ürünlerin etkileneceğini görmek için bir SELECT yaz: price değeri 40'tan büyük ürünlerin name ve price'ını getir. Sonucu price'a göre büyükten küçüğe, eşit fiyatta name'e göre artan sırala.",
+      "prompt": "Fiyatı 40'tan büyük ürünlere toplu indirim (UPDATE) uygulamayı düşünüyorsun. Silme/güncelleme YAPMA; önce hangi ürünlerin etkileneceğini görmek için bir SELECT yaz: price değeri 40'tan büyük ürünlerin name ve price'ını getir. Sonucu price'a göre büyükten küçüğe, eşit fiyatta name'e göre artan sırala. (Kullanacağın tablo: products.)",
       "hint1": "WHERE price > 40.",
       "answerExplanation": "Toplu fiyat güncellemesinden önce etkilenecek ürünleri görmek, yanlış ürünlere indirim uygulamanı önler. Aynı WHERE'i sonra UPDATE'te kullanırsın."
     },

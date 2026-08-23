@@ -564,7 +564,7 @@
     "section": "8.2",
     "tr": {
       "title": "LEFT JOIN + COUNT: sıfırı doğru saymak",
-      "prompt": "Her kulübün üye sayısını getir; ÜYESİ OLMAYAN kulüpler de 0 ile görünsün. Sonuçta üç sütun olsun, bu sırayla: id, name ve uye_sayisi. id'ye göre artan sırala. Dikkat: COUNT(*) burada yanlış cevap verir.",
+      "prompt": "Her kulübün üye sayısını getir; ÜYESİ OLMAYAN kulüpler de 0 ile görünsün. Sonuçta üç sütun olsun, bu sırayla: id, name ve uye_sayisi. id'ye göre artan sırala. Dikkat: COUNT(*) burada yanlış cevap verir. (Kullanacağın tablolar: clubs, club_memberships.)",
       "hint1": "LEFT JOIN kur, sonra COUNT(cm.student_id) yaz. COUNT(*) satırı sayar, eşleşmeyen kulüpte de 1 satır vardır.",
       "answerExplanation": "LEFT JOIN'de eşleşmeyen kulüp için de bir satır üretilir ama sağ tarafı NULL'dır. COUNT(*) o satırı sayar ve 0 yerine 1 yazar. COUNT(sütun) ise NULL'ları saymaz, doğru cevabı verir. Bu, LEFT JOIN'in en klasik tuzağıdır."
     },
@@ -593,7 +593,7 @@
     "section": "8.2",
     "tr": {
       "title": "Aynı tuzak, başka tablo: etkinlik sayısı",
-      "prompt": "Her kulübün kaç etkinliği olduğunu getir; hiç etkinliği olmayan kulüpler 0 ile görünsün. Sonuçta üç sütun olsun, bu sırayla: id, name ve etkinlik_sayisi. id'ye göre artan sırala.",
+      "prompt": "Her kulübün kaç etkinliği olduğunu getir; hiç etkinliği olmayan kulüpler 0 ile görünsün. Sonuçta üç sütun olsun, bu sırayla: id, name ve etkinlik_sayisi. id'ye göre artan sırala. (Kullanacağın tablolar: clubs, events.)",
       "hint1": "LEFT JOIN events, sonra COUNT(ev.id). Yine COUNT(*) değil.",
       "answerExplanation": "Kural aynı: LEFT JOIN'den sonra 0 görmek istiyorsan sağ tablodan bir SÜTUNU say, satırı değil. Bu iki soruyu üst üste çözdüysen desen artık refleks olmalı."
     },

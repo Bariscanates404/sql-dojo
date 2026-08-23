@@ -114,7 +114,7 @@
     "difficulty": 3,
     "tr": {
       "title": "Tamamlanmış siparişi olan öğrenciler (EXISTS)",
-      "prompt": "En az bir TAMAMLANMIŞ ('completed') siparişi olan öğrencileri getir. Yöntem: EXISTS ile korelasyonlu alt sorgu kullan: her öğrenci için, o öğrenciye ait status='completed' bir sipariş VAR MI diye bak. Sonuçta iki sütun olsun, bu sırayla: id ve first_name. Sonucu id'ye göre artan sırala.",
+      "prompt": "En az bir TAMAMLANMIŞ ('completed') siparişi olan öğrencileri getir. Yöntem: EXISTS ile korelasyonlu alt sorgu kullan: her öğrenci için, o öğrenciye ait status='completed' bir sipariş VAR MI diye bak. Sonuçta iki sütun olsun, bu sırayla: id ve first_name. Sonucu id'ye göre artan sırala. (Kullanacağın tablolar: students, orders.)",
       "hint1": "WHERE EXISTS (SELECT 1 FROM orders o WHERE o.student_id = s.id AND o.status = 'completed').",
       "hint2": "EXISTS, alt sorgu en az bir satır döndürürse TRUE olur; içerideki o.student_id = s.id dış sorguya bağlar (korelasyon).",
       "answerExplanation": "EXISTS, 'şu koşula uyan en az bir satır var mı?' sorusudur. Korelasyonlu alt sorgu (o.student_id = s.id) her öğrenci için ayrı kontrol edilir; tamamlanmış siparişi olan öğrenci TRUE alır."
@@ -152,7 +152,7 @@
     "difficulty": 4,
     "tr": {
       "title": "Hiç siparişi olmayan öğrenciler (NOT EXISTS)",
-      "prompt": "Hiç siparişi OLMAYAN öğrencileri getir. Yöntem: NOT EXISTS ile korelasyonlu alt sorgu: her öğrenci için, o öğrenciye ait HİÇ sipariş yoksa onu seç. Sonuçta iki sütun olsun, bu sırayla: id ve first_name. Sonucu id'ye göre artan sırala.",
+      "prompt": "Hiç siparişi OLMAYAN öğrencileri getir. Yöntem: NOT EXISTS ile korelasyonlu alt sorgu: her öğrenci için, o öğrenciye ait HİÇ sipariş yoksa onu seç. Sonuçta iki sütun olsun, bu sırayla: id ve first_name. Sonucu id'ye göre artan sırala. (Kullanacağın tablolar: students, orders.)",
       "hint1": "WHERE NOT EXISTS (SELECT 1 FROM orders o WHERE o.student_id = s.id).",
       "answerExplanation": "NOT EXISTS, 'bu koşula uyan HİÇBİR satır yok' demektir; siparişi olmayan öğrencileri yakalar. NOT EXISTS, NOT IN'in NULL tuzağına düşmeden 'olmayanları bul' işinin en güvenli yoludur."
     },
@@ -253,7 +253,7 @@
     "difficulty": 4,
     "tr": {
       "title": "Tüm isimler tek listede (UNION)",
-      "prompt": "Öğrencilerin ve eğitmenlerin first_name'lerini TEK bir listede topla. Aynı isim iki kez yazılmasın (tekrarsız). Yöntem: iki SELECT'i UNION ile birleştir (UNION otomatik tekilleştirir). Sonuçta tek sütun olsun: first_name. Sonucu first_name'e göre artan sırala.",
+      "prompt": "Öğrencilerin ve eğitmenlerin first_name'lerini TEK bir listede topla. Aynı isim iki kez yazılmasın (tekrarsız). Yöntem: iki SELECT'i UNION ile birleştir (UNION otomatik tekilleştirir). Sonuçta tek sütun olsun: first_name. Sonucu first_name'e göre artan sırala. (Kullanacağın tablolar: students, instructors.)",
       "hint1": "SELECT first_name FROM students UNION SELECT first_name FROM instructors ORDER BY first_name.",
       "answerExplanation": "UNION iki sorgunun satırlarını alt alta birleştirir ve tekrarları kaldırır (tekilleştirir). Tekrarları KORUMAK isteseydin UNION ALL kullanırdın. ORDER BY birleşik sonucun tamamına uygulanır."
     },
@@ -511,7 +511,7 @@
     "section": "9.2",
     "tr": {
       "title": "IN çoğaltmaz: JOIN'den farkı",
-      "prompt": "En az bir kulübe üye olan öğrencilerin SAYISINI, IN alt sorgusu kullanarak getir. Sonuç tek sütun olsun, adı adet olsun.",
+      "prompt": "En az bir kulübe üye olan öğrencilerin SAYISINI, IN alt sorgusu kullanarak getir. Sonuç tek sütun olsun, adı adet olsun. (Kullanacağın tablolar: students, club_memberships.)",
       "hint1": "COUNT(*) ile say, WHERE id IN (SELECT student_id FROM club_memberships) ile süz.",
       "answerExplanation": "8 çıkar. JOIN kullansaydın 10 satır oluşurdu (çok üyeliği olanlar çoğalırdı) ve DISTINCT gerekirdi. IN çoğaltmaz, sadece süzer; 'sadece var mı diye bakacaksam' IN çoğu zaman daha güvenlidir."
     },
@@ -536,7 +536,7 @@
     "section": "9.3",
     "tr": {
       "title": "EXISTS: etkinliği olan kulüpler",
-      "prompt": "En az bir etkinliği olan kulüpleri EXISTS kullanarak getir. Sonuçta iki sütun olsun, bu sırayla: id ve name. id'ye göre artan sırala.",
+      "prompt": "En az bir etkinliği olan kulüpleri EXISTS kullanarak getir. Sonuçta iki sütun olsun, bu sırayla: id ve name. id'ye göre artan sırala. (Kullanacağın tablolar: clubs, events.)",
       "hint1": "WHERE EXISTS (SELECT 1 FROM events ev WHERE ev.club_id = c.id) — alt sorgu dış sorgunun satırına atıf yapar.",
       "answerExplanation": "EXISTS 'böyle bir satır var mı' diye sorar ve ilk eşleşmeyi bulunca durur; ne döndürdüğü önemsizdir, o yüzden SELECT 1 yazılır. IN'den farkı: alt sorgu dış satıra bağlıdır (correlated), yani her satır için ayrı çalışır."
     },
@@ -566,7 +566,7 @@
     "section": "9.3",
     "tr": {
       "title": "NOT EXISTS: hiç etkinliği olmayan kulüpler",
-      "prompt": "Hiç etkinliği olmayan kulüpleri NOT EXISTS kullanarak getir. Sonuçta iki sütun olsun, bu sırayla: id ve name. id'ye göre artan sırala.",
+      "prompt": "Hiç etkinliği olmayan kulüpleri NOT EXISTS kullanarak getir. Sonuçta iki sütun olsun, bu sırayla: id ve name. id'ye göre artan sırala. (Kullanacağın tablolar: clubs, events.)",
       "hint1": "WHERE NOT EXISTS (SELECT 1 FROM events ev WHERE ev.club_id = c.id)",
       "answerExplanation": "NOT EXISTS, EXISTS'in tersidir: 'böyle bir satır YOKSA al'. Ü6'daki LEFT JOIN + IS NULL deseniyle aynı sonucu verir; ikisi arasındaki seçim çoğu zaman okunurluk meselesidir."
     },
@@ -594,7 +594,7 @@
     "section": "9.3",
     "tr": {
       "title": "EXISTS + koşul: notu girilmiş kaydı olan öğrenciler",
-      "prompt": "En az bir dersten NOTU GİRİLMİŞ kaydı olan öğrencileri EXISTS ile getir. Sonuçta iki sütun olsun, bu sırayla: id ve first_name. id'ye göre artan sırala.",
+      "prompt": "En az bir dersten NOTU GİRİLMİŞ kaydı olan öğrencileri EXISTS ile getir. Sonuçta iki sütun olsun, bu sırayla: id ve first_name. id'ye göre artan sırala. (Kullanacağın tablolar: students, enrollments.)",
       "hint1": "EXISTS (SELECT 1 FROM enrollments e WHERE e.student_id = s.id AND e.grade IS NOT NULL)",
       "answerExplanation": "EXISTS'in alt sorgusuna ek koşul yazabilirsin; 'şu şartı sağlayan bir satırı var mı' sorusuna dönüşür. Bunu IN ile yapmak da mümkündür ama EXISTS niyeti daha net anlatır."
     },
@@ -679,7 +679,7 @@
     "section": "9.4",
     "tr": {
       "title": "NOT EXISTS bu tuzağa düşmez",
-      "prompt": "Aynı soruyu NOT IN yerine NOT EXISTS ile çöz: hiç kimsenin mentoru olmayan eğitmenleri getir. Sonuçta iki sütun olsun, bu sırayla: id ve last_name. id'ye göre artan sırala. Bu sefer NULL'ları elemene gerek yok.",
+      "prompt": "Aynı soruyu NOT IN yerine NOT EXISTS ile çöz: hiç kimsenin mentoru olmayan eğitmenleri getir. Sonuçta iki sütun olsun, bu sırayla: id ve last_name. id'ye göre artan sırala. Bu sefer NULL'ları elemene gerek yok. (Kullanacağın tablo: instructors.)",
       "hint1": "WHERE NOT EXISTS (SELECT 1 FROM instructors m WHERE m.mentor_id = i.id) — tabloyu iki takma adla kullan.",
       "answerExplanation": "Yine 4 eğitmen, ama bu sefer NULL'ları elemeye gerek kalmadı. NOT EXISTS satır satır 'eşleşen var mı' diye bakar; mentor_id'si NULL olan satır zaten eşleşmez ve diğerlerini etkilemez. NOT IN'in aksine tüm sonucu zehirlemez, bu yüzden pratikte daha güvenli sayılır."
     },
@@ -707,7 +707,7 @@
     "section": "9.5",
     "tr": {
       "title": "Türetilmiş tablo: grupla, sonra süz",
-      "prompt": "Önce her dersin kayıt sayısını hesaplayan bir alt sorgu yaz, sonra dıştan sadece 3 veya daha fazla kaydı olanları seç. Alt sorguyu FROM içinde kullan ve ona t adını ver. Sonuçta iki sütun olsun, bu sırayla: course_id ve adet. course_id'ye göre artan sırala.",
+      "prompt": "Önce her dersin kayıt sayısını hesaplayan bir alt sorgu yaz, sonra dıştan sadece 3 veya daha fazla kaydı olanları seç. Alt sorguyu FROM içinde kullan ve ona t adını ver. Sonuçta iki sütun olsun, bu sırayla: course_id ve adet. course_id'ye göre artan sırala. (Kullanacağın tablo: enrollments.)",
       "hint1": "FROM (SELECT course_id, COUNT(*) AS adet FROM enrollments GROUP BY course_id) t WHERE t.adet >= 3",
       "answerExplanation": "FROM içindeki alt sorgu bir TABLO gibi davranır ve mutlaka bir takma ad ister. Önce grupla, sonra sonucu süz: HAVING ile aynı işi yapar ama adımları görünür kılar; karmaşık sorgularda okunurluğu artırır."
     },
