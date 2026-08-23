@@ -129,6 +129,38 @@ FROM students;
 Bu yüzden "bilinmeyen burs"u 0 yapmak (Ü3 COALESCE) ortalamayı bozar: 0'lar ortalamaya girer ve düşürür.
 Bilinmeyeni olduğu gibi (NULL) bırakırsan AVG onu doğru şekilde dışlar.
 
+#### AVG'nin çıktısı çirkin gelir: ROUND ile temizle
+
+`AVG` böler, bölme de uzun ondalıklar üretir. Ham hâlini bir gör:
+
+```sql
+SELECT AVG(price) AS ham, ROUND(AVG(price), 2) AS yuvarlak FROM products;
+```
+- Sonuç:
+
+| ham | yuvarlak |
+|-----|----------|
+| 30.6250000000000000 | 30.63 |
+
+Aynı şey burslarda da olur:
+
+```sql
+SELECT AVG(scholarship_amount) AS ham, ROUND(AVG(scholarship_amount), 2) AS yuvarlak
+FROM students;
+```
+- Sonuç:
+
+| ham | yuvarlak |
+|-----|----------|
+| 3444.4444444444444444 | 3444.44 |
+
+- Ne anlıyoruz? `ROUND(x, 2)` sayıyı 2 ondalık basamağa yuvarlar (3.1'de görmüştük). Ortalamalarda
+  neredeyse her zaman gerekir, çünkü ham çıktı okunmaz. **Hesabı bozmaz, sadece gösterimi düzeltir.**
+- `SUM` genelde yuvarlamaya ihtiyaç duymaz (`SUM(price)` = 245.00), çünkü toplama bölme yapmaz.
+  Yuvarlama ihtiyacı bölmeden doğar: `AVG` ve oran hesapları.
+
+> Mini slogan: **`AVG` uzun ondalık verir; `ROUND(AVG(x), 2)` onu okunur hale getirir.**
+
 > Mini slogan: **AVG, NULL'ları yok sayar; toplamı yalnızca dolu değerlerin sayısına böler.**
 
 ### Çözümlü örnekler

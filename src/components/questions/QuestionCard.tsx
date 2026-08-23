@@ -18,6 +18,9 @@ interface Props {
   onNext: () => void;
 }
 
+/** Yanlış cevapta sonraki soruya otomatik geçmeden önce inceleme süresi. */
+const REVIEW_SECONDS = 5;
+
 const RESULT_STYLE: Record<GradeResult['result'], string> = {
   correct: 'border-ok/50 bg-ok/10',
   partial: 'border-accent/50 bg-accent/10',
@@ -45,10 +48,24 @@ export function QuestionCard({ question: q, onGraded, onNext }: Props) {
   const [hintsShown, setHintsShown] = useState(0);
   const [solutionShown, setSolutionShown] = useState(false);
   const [busy, setBusy] = useState(false);
+  // Yanlış cevaptan sonra araya giren inceleme adımı: öğrenci kendi yazdığını
+  // doğru cevabın yanında görmeden geçmesin. Hemen geçmek isterse ikinci tık yeter.
+  const [reviewing, setReviewing] = useState(false);
+  const [countdown, setCountdown] = useState(REVIEW_SECONDS);
 
   useEffect(() => {
     ensureSeed('campus').catch(() => {});
   }, []);
+
+  useEffect(() => {
+    if (!reviewing) return;
+    if (countdown <= 0) {
+      onNext();
+      return;
+    }
+    const t = setTimeout(() => setCountdown((c) => c - 1), 1000);
+    return () => clearTimeout(t);
+  }, [reviewing, countdown, onNext]);
 
   const isSql = q.type === 'write_sql';
   // verifySql dolu = soru veriyi değiştiriyor; hem Çalıştır hem Gönder
@@ -103,7 +120,33 @@ export function QuestionCard({ question: q, onGraded, onNext }: Props) {
         <p className="mt-1 whitespace-pre-wrap leading-relaxed text-foreground/90">{q.tr.prompt}</p>
       </div>
 
-      {isSql ? (
+      {reviewing ? (
+        /* İnceleme adımı: yanlış cevabı SİLMİYORUZ. Öğrenci kendi yazdığını
+           soluk halde görüp hemen altında doğru cevabı okuyor; ikisini yan yana
+           görmeden geçmek, hatayı öğrenmeden geçmek olur. */
+        <div className="flex flex-col gap-3">
+          <div className="rounded-xl border border-border bg-surface/60 p-3">
+            <p className="mb-1.5 text-xs font-semibold text-muted">Senin yazdığın</p>
+            <pre className="overflow-x-auto whitespace-pre-wrap rounded-lg border border-border bg-background/60 p-3 font-mono text-xs text-muted/70 line-through decoration-danger/40">
+              {isSql ? sql.trim() || '(boş)' : (q.choices?.[choiceIndex ?? -1] ?? '(seçim yok)')}
+            </pre>
+          </div>
+
+          <div className="rounded-xl border border-ok/40 bg-ok/5 p-3">
+            <p className="mb-1.5 text-xs font-semibold text-ok">✅ Doğru cevap</p>
+            <pre className="overflow-x-auto whitespace-pre-wrap rounded-lg border border-border bg-background p-3 font-mono text-xs">
+              {isSql
+                ? `-- Doğru cevap:\n${q.assessment?.referenceSql ?? ''}`
+                : `-- Doğru şık:\n-- ${q.choices?.[q.correctIndex ?? -1] ?? ''}`}
+            </pre>
+            <p className="mt-2 whitespace-pre-wrap text-sm text-foreground/90">{q.tr.answerExplanation}</p>
+          </div>
+
+          <p className="text-xs text-muted">
+            {countdown} saniye sonra sıradaki soruya geçilecek. Beklemek istemezsen düğmeye bas.
+          </p>
+        </div>
+      ) : isSql ? (
         <>
           {/* Sorgu yazarken sutun adlarini bilmek sart; ogrenci tabloyu ezberlemek
               zorunda kalmasin diye sema burada, sorunun hemen altinda duruyor. */}
@@ -243,7 +286,12 @@ export function QuestionCard({ question: q, onGraded, onNext }: Props) {
             <Row k="Nereye bak?" v={grade.whereToLook} />
           </dl>
           <div className="mt-3 flex gap-2">
-            <Button size="sm" onClick={onNext}>Sonraki soru →</Button>
+            <Button
+              size="sm"
+              onClick={() => (grade.result === 'correct' || reviewing ? onNext() : setReviewing(true))}
+            >
+              {reviewing ? `Şimdi geç → (${countdown})` : 'Sonraki soru →'}
+            </Button>
           </div>
         </div>
       )}
