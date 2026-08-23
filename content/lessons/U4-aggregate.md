@@ -235,7 +235,77 @@ SELECT MIN(birth_date) AS en_eski_dogum, MAX(birth_date) AS en_yeni_dogum FROM s
 - Ne anlıyoruz? Tarihte "MIN" en erken tarihtir, yani en yaşlı öğrenci. MIN/MAX'ın anlamı bağlama göre
   "yorumlanır".
 
+**Örnek 3 (metin, en çok karıştırılan)**
+- Ne istiyoruz? Alfabetik olarak ilk ve son öğrenci adı.
+- Sorgu:
+```sql
+SELECT MIN(first_name) AS ilk_ad, MAX(first_name) AS son_ad FROM students;
+```
+- Sonuç:
+
+| ilk_ad | son_ad |
+|--------|--------|
+| Ali    | Zeynep |
+
+- Ne anlıyoruz? Metinde "küçük" alfabetik olarak **önce gelen**, "büyük" ise **sonra gelen**
+  demektir. Sayı gibi düşün: A harfi küçük, Z harfi büyüktür.
+
+**En kolay hatırlama yolu:** `MAX(x)`, `ORDER BY x` yapsaydın **en sonda** göreceğin değerdir.
+`MIN(x)` ise en başta göreceğin. Aynı listeye bak:
+
+```sql
+SELECT first_name FROM students ORDER BY first_name;
+```
+- Sonuç (14 satırın ilk ve son birkaçı):
+
+| first_name |
+|------------|
+| **Ali** ← MIN bunu verir |
+| Ali |
+| Ayşe |
+| … |
+| Selin |
+| **Zeynep** ← MAX bunu verir |
+
+**⚠️ En sık yapılan yanlış: `MAX` "en uzun metin" DEĞİLDİR.**
+
+Çocukların çoğu `MAX(first_name)` deyince "en uzun ad" bekliyor. Değil. Karşılaştır:
+
+```sql
+SELECT MAX(first_name) AS max_ad, MAX(LENGTH(first_name)) AS en_uzun_harf_sayisi
+FROM students;
+```
+- Sonuç:
+
+| max_ad | en_uzun_harf_sayisi |
+|--------|---------------------|
+| Zeynep | 6 |
+
+- Ne anlıyoruz? `MAX(first_name)` alfabetik son olan **"Zeynep"** adını verdi. `MAX(LENGTH(...))`
+  ise en uzun adın kaç harf olduğunu (6) verdi. İkisi farklı sorular: biri **hangi ad**, diğeri
+  **kaç harf**. Bu örnekte tesadüfen ikisi de Zeynep'e denk geliyor, ama "Mehmet" de 6 harfli;
+  yani uzunluk sıralaması ile alfabetik sıralama aynı şey değil.
+
+**Örnek 4 (metinde NULL yok sayılır)**
+- Sorgu:
+```sql
+SELECT MIN(city) AS ilk_sehir, MAX(city) AS son_sehir,
+       COUNT(city) AS sehri_bilinen, COUNT(*) AS toplam_ogrenci
+FROM students;
+```
+- Sonuç:
+
+| ilk_sehir | son_sehir | sehri_bilinen | toplam_ogrenci |
+|-----------|-----------|---------------|----------------|
+| Ankara    | İzmir     | 11            | 14 |
+
+- Ne anlıyoruz? 14 öğrenci var ama şehri bilinen 11 tanesi. `MIN`/`MAX` o 3 NULL'ı görmezden
+  geldi; NULL "bilinmiyor" demek olduğu için ne en küçük ne en büyük olabilir. Bu, `AVG`'nin
+  NULL davranışıyla (4.2) aynı mantık.
+
 ### Sık hatalar & uyarılar
+- **`MAX(metin)`'i "en uzun metin" sanmak.** Alfabetik son demektir; uzunlukla ilgisi yoktur.
+  En uzunu istiyorsan `MAX(LENGTH(sütun))` yazarsın.
 - MIN(birth_date)'i "en genç" sanmak. En erken tarih = en yaşlı kişidir. Anlamı bağlamla düşün.
 - MIN/MAX ile satırın diğer bilgilerini (örn. en yüksek burslunun ADI) aynı sorguda almaya çalışmak.
   Bu, aggregate'in sınırı; "en yüksek burslu kim" için farklı yöntem gerekir (ORDER BY + LIMIT, ya da
