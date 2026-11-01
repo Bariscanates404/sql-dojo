@@ -14,6 +14,34 @@ _An interactive SQL learning app running a real Postgres (PGlite) entirely in yo
 
 ---
 
+## At a glance
+
+**What it is.** An interactive SQL learning web app that runs a real Postgres (PGlite) in the browser: 17 lessons, a campus sample database, a global scratchpad and an auto-checked question bank.
+
+**Why it exists.** To teach SQL from zero with no setup or server: write a query, run it, see the result instantly (see "Ne yapar" below).
+
+**Contents.**
+
+| Path | What it is |
+|---|---|
+| `content/` | Source of truth: `lessons/` (markdown), `questions/` (question bank), `seed/` (campus seed SQL) |
+| `src/` | Next.js app (`app`, `components`, `lib`, `features`) |
+| `scripts/` | Content sync and smoke/QA checks (`db-smoke`, `questions-smoke`, `lesson-results-check`, `teach-order-check`, ...) |
+| `docs/` | Plan, curriculum, question-bank plan, deploy notes, research, screenshots |
+| `public/` | Static assets; `public/content/` is a generated copy (gitignored) |
+| `.github/`, `.husky/` | CI workflow and pre-commit hook (type-check, lint, `qa:bank`) |
+| `LICENSE` | MIT |
+
+**How to run.** See "Calistirma" below: `npm install`, `npm run dev` (http://localhost:5176), `npm run check` for the full quality gate.
+
+**Tech stack.** Next.js 16, React 19, TypeScript, Tailwind v4, PGlite, CodeMirror 6, Zustand, Zod.
+
+**Status.** Active: last commit 2026-08-23, 29 commits since 2026-06-08. Supabase accounts and progress sync are listed as next steps in "Durum" below.
+
+**Related repos.** None evident.
+
+---
+
 ## Ne yapar
 
 - 🐘 **Gerçek Postgres, tarayıcıda.** Sorgular [PGlite](https://github.com/electric-sql/pglite) (WASM Postgres) üzerinde çalışır. Kurulum yok, backend yok, anında sonuç.
@@ -81,3 +109,42 @@ Kaynak doğruluk `content/` altındadır (17 ders `content/lessons/*.md`, seed `
 ## Lisans
 
 [MIT](LICENSE) © Barış Can Ateş
+
+---
+
+## Project Interface (standardized 2026-08-28)
+
+**Purpose.** An interactive SQL learning app running a real Postgres (PGlite)
+entirely in the browser. No setup, no server: write a query, run it, see the
+result instantly. Sister project to `html-dojo`.
+
+**Canonical path.** `/Users/bariscanates/projects/sql-dojo`
+**Recovery identity.** From `recovered-projects-20260828-v1` (`working/sql-dojo`),
+SHA-256 verified across 146 files. HEAD
+`f988278d3b0c8af8a42d7c3032d9bc7111e045ef`, branch `main`, fsck clean.
+Classification: PROVEN_REMOTE_ONLY.
+
+### Commands
+| Command | Effect |
+|---|---|
+| `help` / `doctor` / `status` | Info and checks, run no app code |
+| `setup` | `npm ci` from the lockfile. Needs network. |
+| `start` | `http://127.0.0.1:5176`; `next start` if a production build (`.next/BUILD_ID`) exists, else `next dev` |
+| `stop` / `restart` / `logs` | Manage only this script's process |
+| `test` | `npm run check` (lesson, content and QA validation) |
+
+### Environment variables (names only)
+None declared; no `.env.example` in the repository.
+
+### Important directories
+`app/`, `content/`, `public/`. `logs/`, `.run/` are git-ignored.
+
+### Offline and network requirements
+`setup` needs the npm registry. After that the app is fully local: PGlite runs
+Postgres inside the browser, so no database server and no network are needed.
+
+### Known gaps
+- Port 5176 is the repo's own configured port; `start` refuses to run when a
+  foreign process holds it and never kills one.
+- No production build is committed. `start` serves dev mode until `npm run build`
+  has been run once; `.next/dev/` alone is only the dev cache, not a build.
